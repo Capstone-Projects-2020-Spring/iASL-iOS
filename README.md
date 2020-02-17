@@ -89,4 +89,3 @@ the .tflite and .txt files are downloaded to the Model folder, the next time you
 build the application. You will have to add the references to these files in the
 bundle separately in that case.
 
-(this is a test.)
