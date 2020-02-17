@@ -1,3 +1,4 @@
+![.github/workflows/main.yml](https://github.com/Capstone-Projects-2020-Spring/iASL-iOS/workflows/.github/workflows/main.yml/badge.svg)
 # TensorFlow Lite image classification iOS example application
 
 ## Overview
