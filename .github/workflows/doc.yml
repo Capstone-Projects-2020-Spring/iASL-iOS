@@ -2,7 +2,7 @@ name: PublishDocumentation
 
 on: 
   release:
-    types: [published]
+    types: [push]
 
 jobs:
   deploy_docs:
