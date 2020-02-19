@@ -2,7 +2,7 @@ name: Document Code
 
 on: 
   release:
-    types: [push]
+    types: [published]
 
 jobs:
   deploy_docs:
