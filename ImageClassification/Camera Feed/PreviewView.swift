@@ -52,14 +52,14 @@ class PreviewView: UIView {
       }
     }
   }
-
+///An object that displays a single image in our interface.
   lazy private var imageView: UIImageView = {
     let imageView = UIImageView()
     imageView.contentMode = .scaleAspectFill
     imageView.translatesAutoresizingMaskIntoConstraints = false
     return imageView
   }()
-
+///An object that manages image data.
   var image: UIImage? {
     get {
       return imageView.image
@@ -68,14 +68,14 @@ class PreviewView: UIView {
       imageView.image = newValue
     }
   }
-
+///A Core Animation layer that displays the video as it’s captured.
   var previewLayer: AVCaptureVideoPreviewLayer {
     guard let layer = layer as? AVCaptureVideoPreviewLayer else {
       fatalError("Layer expected is of type VideoPreviewLayer")
     }
     return layer
   }
-
+///An object that manages capture activity and coordinates the flow of data from input devices to capture outputs.
   var session: AVCaptureSession? {
     get {
       return previewLayer.session
