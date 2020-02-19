@@ -20,7 +20,7 @@ import AVFoundation
  but will use a still image copied from clipboard if `shouldUseClipboardImage` is set to true.
  */
 class PreviewView: UIView {
-
+///Use a still image copied from clipboard for testing in Simulator.
   var shouldUseClipboardImage: Bool = false {
     didSet {
       if shouldUseClipboardImage {
