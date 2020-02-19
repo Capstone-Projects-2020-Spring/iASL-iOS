@@ -1,8 +1,6 @@
 name: Document Code
 
-on: 
-  release:
-    types: [published]
+on: push
 
 jobs:
   deploy_docs:
