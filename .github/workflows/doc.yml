@@ -1,0 +1,19 @@
+name: Document Code
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: macos
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run a one-line script
+      run: echo Hello, world!
+    - name: Run a multi-line script
+      run: |
+        echo Add other actions to build,
+        echo test, and deploy your project.
+          - name: Publish Jazzy Docs
+            uses: Steven0351/publish-jazzy-docs@v1.1.1
