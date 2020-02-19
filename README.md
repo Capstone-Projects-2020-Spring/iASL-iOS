@@ -1,4 +1,4 @@
-![.github/workflows/main.yml](https://github.com/Capstone-Projects-2020-Spring/iASL-iOS/workflows/.github/workflows/main.yml/badge.svg)
+![Integration Testing](https://github.com/Capstone-Projects-2020-Spring/iASL-iOS/workflows/Integration%20Testing/badge.svg)
 # TensorFlow Lite image classification iOS example application
 
 ## Overview
@@ -89,4 +89,3 @@ the .tflite and .txt files are downloaded to the Model folder, the next time you
 build the application. You will have to add the references to these files in the
 bundle separately in that case.
 
-(this is a test.)
