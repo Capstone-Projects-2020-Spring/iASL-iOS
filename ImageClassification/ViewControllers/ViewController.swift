@@ -161,7 +161,8 @@ extension ViewController: CameraFeedManagerDelegate {
     let currentTimeMs = Date().timeIntervalSince1970 * 1000
     guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
     previousInferenceTimeMs = currentTimeMs
-
+    print("printing right before result")
+    print(pixelBuffer)
     // Pass the pixel buffer to TensorFlow Lite to perform inference.
     result = modelDataHandler?.runModel(onFrame: pixelBuffer)
 
