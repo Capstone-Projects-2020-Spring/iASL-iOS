@@ -1,17 +1,26 @@
 import UIKit
 
+/**
+ Object that handles how the channel runs.
+ */
 class ChannelManager: NSObject {
+    ///shared channel manager
     static let sharedManager = ChannelManager()
     
     //static let defaultChannelUniqueName = "general"
     //static let defaultChannelName = "General Channel"
     
+    ///sets delegate to menu view controller
     weak var delegate:MenuViewController?
     
+    ///list of channels
     var channelsList:TCHChannels?
+    ///ordered set of channels
     var channels:NSMutableOrderedSet?
+    ///general channel
     var generalChannel:TCHChannel!
     
+    ///initializes and sets channels
     override init() {
         super.init()
         channels = NSMutableOrderedSet()
@@ -19,6 +28,7 @@ class ChannelManager: NSObject {
     
     // MARK: - General channel
     
+    ///joins a chat room if completion is true
     func joinGeneralChatRoomWithCompletion(completion: @escaping (Bool) -> Void) {
         
         let uniqueName = ChannelManager.defaultChannelUniqueName
@@ -74,6 +84,7 @@ class ChannelManager: NSObject {
     
     // MARK: - Populate channels
     
+    ///adds and sorts a list of channels, populates them with channel content
     func populateChannels() {
         channels = NSMutableOrderedSet()
         
@@ -100,6 +111,12 @@ class ChannelManager: NSObject {
     
     // MARK: - Create channel
     
+    /**
+     Creates a channel with a specified name.
+     
+     - Parameter name: name of channel
+     - Parameter completion: whether or not the channel connection worked
+     */
     func createChannelWithName(name: String, completion: @escaping (Bool, TCHChannel?) -> Void) {
         if (name == ChannelManager.defaultChannelName) {
             completion(false, nil)

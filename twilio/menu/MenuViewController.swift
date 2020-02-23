@@ -1,14 +1,22 @@
 import UIKit
 
+///Handles the menu and its behavior.
 class MenuViewController: UIViewController {
+    
+    ///Segue identifier for opening a chat
     static let TWCOpenChannelSegue = "OpenChat"
+    ///sets refresh control
     static let TWCRefreshControlXOffset: CGFloat = 120
     
+    ///table view that holds the chat
     @IBOutlet weak var tableView: UITableView!
+    ///label that holds the username
     @IBOutlet weak var usernameLabel: UILabel!
     
+    ///variable that holds the refresh control
     var refreshControl: UIRefreshControl!
     
+    ///when the view controller first loads
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,10 +38,25 @@ class MenuViewController: UIViewController {
     
     // MARK: - Internal methods
     
+    /**
+     Loads the table view cells.
+     
+     - Parameter tableView: the table view to be read and populated with cells
+     
+     - Returns: table view cell
+     */
     func loadingCellForTableView(tableView: UITableView) -> UITableViewCell {
         return tableView.dequeueReusableCell(withIdentifier: "loadingCell")!
     }
     
+    /**
+     Sets the channel in each of the cells.
+     
+     - Parameter tableView: table view for chat
+     - Parameter atIndexPath: index of table view cells
+     
+     - Returns: table view cell
+     */
     func channelCellForTableView(tableView: UITableView, atIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let menuCell = tableView.dequeueReusableCell(withIdentifier: "channelCell", for: indexPath as IndexPath) as! MenuTableCell
         
@@ -43,16 +66,19 @@ class MenuViewController: UIViewController {
         return menuCell
     }
     
+    ///reloads the table view and sets the refresh control to stop
     func reloadChannelList() {
         tableView.reloadData()
         refreshControl.endRefreshing()
     }
     
+    ///starts refreshing again
     func refreshChannels() {
         refreshControl.beginRefreshing()
         reloadChannelList()
     }
     
+    ///unselects cell in the table view
     func deselectSelectedChannel() {
         let selectedRow = tableView.indexPathForSelectedRow
         if let row = selectedRow {
@@ -62,6 +88,7 @@ class MenuViewController: UIViewController {
     
     // MARK: - Channel
     
+    ///creates a dialogue box for the user to respond to
     func createNewChannelDialog() {
         InputDialogController.showWithTitle(title: "New Channel",
                                             message: "Enter a name for this channel",
@@ -75,6 +102,7 @@ class MenuViewController: UIViewController {
     
     // MARK: Logout
     
+    ///adds an alert action for the user to log out
     func promptLogout() {
         let alert = UIAlertController(title: nil, message: "You are about to Logout", preferredStyle: .alert)
         
@@ -88,6 +116,7 @@ class MenuViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    ///logs the user out
     func logOut() {
         MessagingManager.sharedManager().logout()
         MessagingManager.sharedManager().presentRootViewController()
@@ -95,16 +124,24 @@ class MenuViewController: UIViewController {
     
     // MARK: - Actions
     
+    ///handles what happens when the user presses the log out button
     @IBAction func logoutButtonTouched(_ sender: UIButton) {
         promptLogout()
     }
     
+    ///handles what happens when the user presses the new channel button
     @IBAction func newChannelButtonTouched(_ sender: UIButton) {
         createNewChannelDialog()
     }
     
     // MARK: - Navigation
     
+    /**
+     Gets the view controller ready to switch to another view controller
+     
+     - Parameter segue: new storyboard that will be loaded next
+     - Parameter sender: where the segue call came from
+     */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == MenuViewController.TWCOpenChannelSegue {
             let indexPath = sender as! NSIndexPath
@@ -119,6 +156,7 @@ class MenuViewController: UIViewController {
     
     // MARK: - Style
     
+    ///changes the background color preference 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }

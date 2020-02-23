@@ -1,6 +1,7 @@
 import UIKit
-import SlackTextViewController
+//import SlackTextViewController
 
+///Handles the main chat
 class MainChatViewController: UIViewController {
     //static let TWCChatCellIdentifier = "ChatTableCell"
     //static let TWCChatStatusCellIdentifier = "ChatStatusTableCell"
@@ -26,12 +27,17 @@ class MainChatViewController: UIViewController {
 //        }
 //    }
     
+    ///a set of messages
     var messages:Set<TCHMessage> = Set<TCHMessage>()
+    ///list of sorted messages
     var sortedMessages:[TCHMessage]!
     
+    ///button for revealing content
     @IBOutlet weak var revealButtonItem: UIBarButtonItem!
+    ///button to be pressed for actions to be initiated
     @IBOutlet weak var actionButtonItem: UIBarButtonItem!
     
+    ///once view controller loads, it sets up the main chat
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -78,6 +84,7 @@ class MainChatViewController: UIViewController {
         }
     }
     
+    ///lays out subviews of text input bar
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -88,19 +95,30 @@ class MainChatViewController: UIViewController {
         
     }
     
+    ///scrolls to bottom when top view disappears
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         scrollToBottom()
     }
     
+    ///returns the number of sections for the table view
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
+    ///returns the length of the table view
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: NSInteger) -> Int {
         return messages.count
     }
     
+    /**
+     Sets up the table view for the chat. This is where messages are held, in cells.
+     
+     - Parameter tableView: table view to be set with messages
+     - Parameter cellForRowAt: index of the particular cell
+     
+     - Returns: a table view cell
+     */
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell:UITableViewCell
         
@@ -117,6 +135,15 @@ class MainChatViewController: UIViewController {
         return cell
     }
     
+    /**
+     This gets a particular cell for a chat and sets the user to that chat.
+     
+     - Parameter tabelView: table view for the cells to go
+     - Parameter forIndexPath: index path of the partiucar cell
+     - Parameter message: message of the cell
+     
+     - Returns: a table view cell with the message, timestamp for the message, and the user set
+     */
     func getChatCellForTableView(tableView: UITableView, forIndexPath indexPath:IndexPath, message: TCHMessage) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MainChatViewController.TWCChatCellIdentifier, for:indexPath as IndexPath)
         
@@ -129,6 +156,15 @@ class MainChatViewController: UIViewController {
         return chatCell
     }
     
+    /**
+     Gets the cell and determines the status for a particular cell.
+     
+     - Parameter tableView: table view for the cells to go
+     - Parameter forIndexPath: index path of a certain cell
+     - Parameter message: status of the member
+     
+     - Returns: a cell with the label set with the user's status
+     */
     func getStatusCellForTableView(tableView: UITableView, forIndexPath indexPath:IndexPath, message: StatusMessage) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MainChatViewController.TWCChatStatusCellIdentifier, for:indexPath as IndexPath)
         
@@ -138,6 +174,7 @@ class MainChatViewController: UIViewController {
         return cell
     }
     
+    ///Lets the user join a channel and loads the channels messages
     func joinChannel() {
         setViewOnHold(onHold: true)
         
@@ -152,12 +189,13 @@ class MainChatViewController: UIViewController {
         setViewOnHold(onHold: false)
     }
     
-    // Disable user input and show activity indicator
+    ///Disable user input and show activity indicator
     func setViewOnHold(onHold: Bool) {
         self.isTextInputbarHidden = onHold;
         UIApplication.shared.isNetworkActivityIndicatorVisible = onHold;
     }
     
+    ///sends a message when pressed
     override func didPressRightButton(_ sender: Any!) {
         textView.refreshFirstResponder()
         sendMessage(inputMessage: textView.text)
@@ -166,11 +204,21 @@ class MainChatViewController: UIViewController {
     
     // MARK: - Chat Service
     
+    /**
+     Handles sending a message.
+     
+     - Parameter inputMessage: String of the message content
+     */
     func sendMessage(inputMessage: String) {
         let messageOptions = TCHMessageOptions().withBody(inputMessage)
         channel.messages?.sendMessage(with: messageOptions, completion: nil)
     }
     
+    /**
+     Adds messages to table view.
+     
+     - Parameter newMessages: a list of messages to be added
+     */
     func addMessages(newMessages:Set<TCHMessage>) {
         messages =  messages.union(newMessages)
         sortMessages()
@@ -182,12 +230,14 @@ class MainChatViewController: UIViewController {
         }
     }
     
+    ///sorts messages by time
     func sortMessages() {
         sortedMessages = messages.sorted { (a, b) -> Bool in
             (a.timestamp ?? "") > (b.timestamp ?? "")
         }
     }
     
+    ///loads all messages
     func loadMessages() {
         messages.removeAll()
         if channel.synchronizationStatus == .all {
@@ -197,6 +247,7 @@ class MainChatViewController: UIViewController {
         }
     }
     
+    ///scrolls to bottom of chat
     func scrollToBottom() {
         if messages.count > 0 {
             let indexPath = IndexPath(row: 0, section: 0)
@@ -204,6 +255,7 @@ class MainChatViewController: UIViewController {
         }
     }
     
+    ///leaves channel when user logs out of channel, switches over to new view controller
     func leaveChannel() {
         channel.leave { result in
             if (result.isSuccessful()) {
@@ -216,10 +268,12 @@ class MainChatViewController: UIViewController {
     
     // MARK: - Actions
     
+    ///when pressed, leaves channel for user
     @IBAction func actionButtonTouched(_ sender: UIBarButtonItem) {
         leaveChannel()
     }
     
+    ///reveals a new view controller
     @IBAction func revealButtonTouched(_ sender: AnyObject) {
         revealViewController().revealToggle(animated: true)
     }
