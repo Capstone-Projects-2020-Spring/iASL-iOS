@@ -15,7 +15,6 @@
 
 import UIKit
 import Accelerate
-
 extension CVPixelBuffer {
 
   /**
@@ -35,7 +34,7 @@ extension CVPixelBuffer {
 
     let thumbnailSize = min(imageWidth, imageHeight)
     CVPixelBufferLockBaseAddress(self, CVPixelBufferLockFlags(rawValue: 0))
-
+///this is a variable
     var originX = 0
     var originY = 0
 
