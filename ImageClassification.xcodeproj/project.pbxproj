@@ -8,20 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2F8F42FAF8F1249277BA57B8 /* Pods_ImageClassification.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76AE2E947B2172049010B9BA /* Pods_ImageClassification.framework */; };
-		604630AE2402322C0085F612 /* ChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630AD2402322C0085F612 /* ChannelManager.swift */; };
-		604630B2240232360085F612 /* MainChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630AF240232360085F612 /* MainChatViewController.swift */; };
-		604630B3240232360085F612 /* StatusMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630B0240232360085F612 /* StatusMessage.swift */; };
-		604630B4240232360085F612 /* ChatTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630B1240232360085F612 /* ChatTableCell.swift */; };
-		604630B62402323D0085F612 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630B52402323D0085F612 /* LoginViewController.swift */; };
-		604630B9240232440085F612 /* MenuTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630B7240232440085F612 /* MenuTableCell.swift */; };
-		604630BA240232440085F612 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630B8240232440085F612 /* MenuViewController.swift */; };
-		604630BC240232490085F612 /* MessagingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630BB240232490085F612 /* MessagingManager.swift */; };
-		604630BE2402324E0085F612 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630BD2402324E0085F612 /* SessionManager.swift */; };
-		604630C4240232560085F612 /* TokenRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630BF240232560085F612 /* TokenRequestHandler.swift */; };
-		604630C5240232560085F612 /* AlertDialogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630C0240232560085F612 /* AlertDialogController.swift */; };
-		604630C6240232560085F612 /* DateTodayFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630C1240232560085F612 /* DateTodayFormatter.swift */; };
-		604630C7240232560085F612 /* TextFieldFormHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630C2240232560085F612 /* TextFieldFormHandler.swift */; };
-		604630C8240232560085F612 /* InputDialogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630C3240232560085F612 /* InputDialogController.swift */; };
 		6765C7E623FB35F60083A5C5 /* ImageClassificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6765C7E523FB35F60083A5C5 /* ImageClassificationTests.swift */; };
 		AA16E5A22180843800D9E153 /* InfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA16E5A12180843700D9E153 /* InfoCell.swift */; };
 		AA5B0EEA217E5E300026FF23 /* InferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5B0EE9217E5E300026FF23 /* InferenceViewController.swift */; };
@@ -473,29 +459,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				604630B62402323D0085F612 /* LoginViewController.swift in Sources */,
-				604630B2240232360085F612 /* MainChatViewController.swift in Sources */,
-				604630C4240232560085F612 /* TokenRequestHandler.swift in Sources */,
-				604630BE2402324E0085F612 /* SessionManager.swift in Sources */,
 				AAE79E952135237A00E7AC1F /* ViewController.swift in Sources */,
-				604630B4240232360085F612 /* ChatTableCell.swift in Sources */,
-				604630AE2402322C0085F612 /* ChannelManager.swift in Sources */,
 				AA5B0EEC217E70000026FF23 /* CurvedView.swift in Sources */,
 				AAE79E9A2135268800E7AC1F /* PreviewView.swift in Sources */,
-				604630BA240232440085F612 /* MenuViewController.swift in Sources */,
 				AAE79E9B2135268800E7AC1F /* CameraFeedManager.swift in Sources */,
 				AAAB096E218981FA0015A1F2 /* CVPixelBufferExtension.swift in Sources */,
-				604630C7240232560085F612 /* TextFieldFormHandler.swift in Sources */,
 				AA16E5A22180843800D9E153 /* InfoCell.swift in Sources */,
 				AABFCBB2213FE0B100C0A67B /* ModelDataHandler.swift in Sources */,
-				604630C8240232560085F612 /* InputDialogController.swift in Sources */,
-				604630BC240232490085F612 /* MessagingManager.swift in Sources */,
 				AA5B0EEA217E5E300026FF23 /* InferenceViewController.swift in Sources */,
 				AAE79E5A213521DA00E7AC1F /* AppDelegate.swift in Sources */,
-				604630B9240232440085F612 /* MenuTableCell.swift in Sources */,
-				604630C6240232560085F612 /* DateTodayFormatter.swift in Sources */,
-				604630C5240232560085F612 /* AlertDialogController.swift in Sources */,
-				604630B3240232360085F612 /* StatusMessage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
