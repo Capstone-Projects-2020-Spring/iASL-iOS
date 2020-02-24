@@ -7,4 +7,7 @@ target 'ImageClassification' do
 
   # Pods for ImageClassification
    pod 'TensorFlowLiteSwift'
+   pod 'Firebase'
+   pod 'Firebase/Database'
+   pod 'Firebase/Analytics'
 end
