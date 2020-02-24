@@ -9,5 +9,9 @@ target 'ImageClassification' do
    pod 'TensorFlowLiteSwift'
    pod 'Firebase'
    pod 'Firebase/Database'
-   pod 'Firebase/Analytics'
+    # Add the Firebase pod for Google Analytics
+    pod 'Firebase/Analytics'
+
+    # Add the pod for Firebase Cloud Messaging
+    pod 'Firebase/Messaging'
 end
