@@ -14,6 +14,7 @@
 
 import AVFoundation
 import UIKit
+import Speech
 
 class ViewController: UIViewController {
 
@@ -357,5 +358,58 @@ extension ViewController {
     bottomSheetViewBottomSpace.constant = bottomSpace
     view.setNeedsLayout()
   }
+    
+    
+    /**
+            Requests the user for permission to record from the microphone and transcribe the text.
+     */
+    func requestTranscribePermissions() {
+        SFSpeechRecognizer.requestAuthorization { [unowned self] authStatus in
+            DispatchQueue.main.async {
+                if authStatus == .authorized {
+                    print("Good to go!")
+                } else {
+                    print("Transcription permission was declined.")
+                }
+            }
+        }
+    }
+    
+    /**
+        Transcribes the audio recorded from the microphone into text, using built in SFSpeechRecognizer. The recognizer is given a task to transcribe an audio file from a URL. Then the recognized text is spit out as a string which can be used later. The function takes in a URL as a parameter to be transcribed.
+     */
+    func transcribeAudio(url: URL) {
+        // create a new recognizer and point it at our audio
+        let recognizer = SFSpeechRecognizer()
+        let request = SFSpeechURLRecognitionRequest(url: url)
+
+        // start recognition!
+        recognizer?.recognitionTask(with: request) { [unowned self] (result, error) in
+            // abort if we didn't get any transcription back
+            guard let result = result else {
+                print("There was an error: \(error!)")
+                return
+            }
+
+            // if we got the final transcription back, print it
+            if result.isFinal {
+                // pull out the best transcription...
+                print(result.bestTranscription.formattedString)
+            }
+        }
+    }
+    
+    
+    /**
+        Synthesizes the text to speech, the function takes a string parameter where the text to be spoken out will be passed. Therefore when the function is called, just call put the desired text in the param.
+     */
+    func synthesizeText(text:String){
+        let utterance = AVSpeechUtterance(string: text)
+        utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
+        utterance.rate = 0.1
+
+        let synthesizer = AVSpeechSynthesizer()
+        synthesizer.speak(utterance)
+    }
 
 }
