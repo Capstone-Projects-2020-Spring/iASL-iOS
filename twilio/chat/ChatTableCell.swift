@@ -28,8 +28,9 @@ class ChatTableCell: UITableViewCell {
     
     ///sets the values on the view controller
     override func awakeFromNib() {
-        userLabel = viewWithTag(ChatTableCell.TWCUserLabelTag) as? UILabel
-        messageLabel = viewWithTag(ChatTableCell.TWCMessageLabelTag) as? UILabel
-        dateLabel = viewWithTag(ChatTableCell.TWCDateLabelTag) as? UILabel
+		// FIXME: not implemented!
+		//userLabel = viewWithTag(ChatTableCell.TWCUserLabelTag) as? UILabel
+       // messageLabel = viewWithTag(ChatTableCell.TWCMessageLabelTag) as? UILabel
+        //dateLabel = viewWithTag(ChatTableCell.TWCDateLabelTag) as? UILabel
     }
 }

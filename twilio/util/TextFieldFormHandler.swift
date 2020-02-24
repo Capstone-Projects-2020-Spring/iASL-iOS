@@ -64,7 +64,7 @@ public class TextFieldFormHandler: NSObject {
     }
     
     func initializeObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(TextFieldFormHandler.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+//		NotificationCenter.default.addObserver(self, selector: #selector(TextFieldFormHandler.keyboardWillShow(notification:)), name: NSNotification.Name.UIResponder.keyboardWillShowNotification, object: nil)
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(TextFieldFormHandler.backgroundTap(sender:)))
         self.topContainer.addGestureRecognizer(tapRecognizer)
     }
@@ -102,7 +102,7 @@ public class TextFieldFormHandler: NSObject {
         shiftScreenYPosition(position: 0, duration: 0.2, curve: .easeInOut)
     }
     
-    func shiftScreenYPosition(position: CGFloat, duration: TimeInterval, curve: UIViewAnimationCurve) {
+	func shiftScreenYPosition(position: CGFloat, duration: TimeInterval, curve: UIView.AnimationCurve) {
         UIView.beginAnimations("moveView", context: nil)
         UIView.setAnimationCurve(curve)
         UIView.setAnimationDuration(duration)
@@ -111,14 +111,14 @@ public class TextFieldFormHandler: NSObject {
         UIView.commitAnimations()
     }
     
-    func backgroundTap(sender: UITapGestureRecognizer) {
+	@objc func backgroundTap(sender: UITapGestureRecognizer) {
         topContainer.endEditing(true)
         moveScreenDown()
     }
     
-    func keyboardWillShow(notification: NSNotification) {
+	@objc func keyboardWillShow(notification: NSNotification) {
         if (keyboardSize == 0) {
-            if let keyboardRect = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+			if let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
                 keyboardSize = min(keyboardRect.height, keyboardRect.width)
             }
         }

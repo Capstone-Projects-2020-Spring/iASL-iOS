@@ -61,8 +61,8 @@ class MenuViewController: UIViewController {
         let menuCell = tableView.dequeueReusableCell(withIdentifier: "channelCell", for: indexPath as IndexPath) as! MenuTableCell
         
         let channel = ChannelManager.sharedManager.channels![indexPath.row] as! AnyObject
-        
-        menuCell.channelName = channel.friendlyName ?? "[Unknown channel name]"
+		// FIXME: Need implementation
+//        menuCell.channelName = channel.friendlyName ?? "[Unknown channel name]"
         return menuCell
     }
     
@@ -73,7 +73,7 @@ class MenuViewController: UIViewController {
     }
     
     ///starts refreshing again
-    func refreshChannels() {
+	@objc func refreshChannels() {
         refreshControl.beginRefreshing()
         reloadChannelList()
     }
@@ -143,6 +143,8 @@ class MenuViewController: UIViewController {
      - Parameter sender: where the segue call came from
      */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		// FIXME: Need implementation
+		/*
         if segue.identifier == MenuViewController.TWCOpenChannelSegue {
             let indexPath = sender as! NSIndexPath
             let channelDescriptor = ChannelManager.sharedManager.channels![indexPath.row] as! TCHChannelDescriptor
@@ -152,6 +154,7 @@ class MenuViewController: UIViewController {
                 (navigationController.visibleViewController as! MainChatViewController).channel = channel
             }
         }
+*/
     }
     
     // MARK: - Style
@@ -186,14 +189,18 @@ extension MenuViewController : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+		// FIXME: Need implementation
+		/*
         if let channel = ChannelManager.sharedManager.channels?.object(at: indexPath.row) as? TCHChannel {
-            return channel != ChannelManager.sharedManager.generalChannel
+			return channel != ChannelManager.sharedManager.generalChannel
         }
+		*/
         return false
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle,
+	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle,
                    forRowAt indexPath: IndexPath) {
+		/*
         if editingStyle != .delete {
             return
         }
@@ -208,6 +215,7 @@ extension MenuViewController : UITableViewDataSource {
             }
         }
     }
+*/
 }
 
 //// MARK: - UITableViewDelegate
@@ -231,3 +239,4 @@ extension MenuViewController : UITableViewDataSource {
 //        tableView.reloadData()
 //    }
 //}
+}

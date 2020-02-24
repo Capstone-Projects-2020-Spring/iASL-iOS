@@ -1,0 +1,16 @@
+${PODS_ROOT}/Target Support Files/Pods-ImageClassification/Pods-ImageClassification-resources.sh
+${PODS_ROOT}/TwilioSDK/Resources/disconnect.wav
+${PODS_ROOT}/TwilioSDK/Resources/dtmf_0.wav
+${PODS_ROOT}/TwilioSDK/Resources/dtmf_1.wav
+${PODS_ROOT}/TwilioSDK/Resources/dtmf_2.wav
+${PODS_ROOT}/TwilioSDK/Resources/dtmf_3.wav
+${PODS_ROOT}/TwilioSDK/Resources/dtmf_4.wav
+${PODS_ROOT}/TwilioSDK/Resources/dtmf_5.wav
+${PODS_ROOT}/TwilioSDK/Resources/dtmf_6.wav
+${PODS_ROOT}/TwilioSDK/Resources/dtmf_7.wav
+${PODS_ROOT}/TwilioSDK/Resources/dtmf_8.wav
+${PODS_ROOT}/TwilioSDK/Resources/dtmf_9.wav
+${PODS_ROOT}/TwilioSDK/Resources/dtmf_hash.wav
+${PODS_ROOT}/TwilioSDK/Resources/dtmf_star.wav
+${PODS_ROOT}/TwilioSDK/Resources/incoming.wav
+${PODS_ROOT}/TwilioSDK/Resources/outgoing.wav

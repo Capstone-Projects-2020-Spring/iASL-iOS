@@ -22,7 +22,7 @@ class AlertDialogController: NSObject {
         
         let defaultAction = UIAlertAction(title: "OK", style: .cancel) { (_) -> Void in
             if let block = completion {
-                block()
+               // block()
             }
         }
         

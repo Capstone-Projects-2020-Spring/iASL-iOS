@@ -1,20 +1,24 @@
 PODS:
-  - TensorFlowLiteC (2.0.0)
-  - TensorFlowLiteSwift (2.0.0):
-    - TensorFlowLiteC (= 2.0.0)
+  - TensorFlowLiteC (2.1.0)
+  - TensorFlowLiteSwift (2.1.0):
+    - TensorFlowLiteC (= 2.1.0)
+  - TwilioChatClient (2.6.6)
 
 DEPENDENCIES:
   - TensorFlowLiteSwift
+  - TwilioChatClient (~> 2.6.4)
 
 SPEC REPOS:
   trunk:
     - TensorFlowLiteC
     - TensorFlowLiteSwift
+    - TwilioChatClient
 
 SPEC CHECKSUMS:
-  TensorFlowLiteC: d22a94f77938edb2dfcb9674937f9548a3fcdb23
-  TensorFlowLiteSwift: dcd91bd74091f8e3e1b9b28a7d789f635dc26bea
+  TensorFlowLiteC: 215603d4426d93810eace5947e317389554a4b66
+  TensorFlowLiteSwift: 9d8137f18d5ac30ca89bba4fbe118e0949ac5743
+  TwilioChatClient: 23168c2df8e306da1cedcad1d60ba69862235358
 
-PODFILE CHECKSUM: 89f7867e5c2130babaa8402a0826ea3555a14089
+PODFILE CHECKSUM: 3b86e7497431b92fce86b6dc2ede6a0a6363a817
 
 COCOAPODS: 1.8.4

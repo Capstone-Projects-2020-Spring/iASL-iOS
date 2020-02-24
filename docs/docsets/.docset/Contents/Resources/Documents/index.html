@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a title="  Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="index.html"> Docs</a> (100% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="index.html"> Reference</a>
+        <img id="carat" src="img/carat.png" />
+          Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            
+            <p><img src="https://github.com/Capstone-Projects-2020-Spring/iASL-iOS/workflows/Integration%20Testing/badge.svg" alt="Integration Testing"></p>
+<h1 id='tensorflow-lite-image-classification-ios-example-application' class='heading'>TensorFlow Lite image classification iOS example application</h1>
+<h2 id='overview' class='heading'>Overview</h2>
+
+<p>This is an example application for <a href="https://tensorflow.org/lite">TensorFlow Lite</a>
+on iOS. It uses <a href="https://www.tensorflow.org/lite/models/image_classification/overview">Image classification</a>
+to continuously classify whatever it sees from the device&rsquo;s back camera, using
+a quantized MobileNet model. The application must be run on device.</p>
+
+<p>These instructions walk you through building and
+running the demo on an iOS device. For an explanation of the source, see
+<a href="https://github.com/tensorflow/examples/blob/master/lite/examples/image_classification/ios/EXPLORE_THE_CODE.md">TensorFlow Lite iOS image classification example</a>.</p>
+
+<!-- TODO(b/124116863): Add app screenshot. -->
+<h3 id='model' class='heading'>Model</h3>
+
+<p>For details of the model used, visit <a href="https://www.tensorflow.org/lite/models/image_classification/overview">Image classification</a>.</p>
+
+<p>The model will be downloaded as part of the build process.</p>
+<h3 id='ios-app-details' class='heading'>iOS app details</h3>
+
+<p>The app is written entirely in Swift and uses the TensorFlow Lite
+<a href="https://github.com/tensorflow/tensorflow/tree/master/tensorflow/lite/experimental/swift">Swift library</a>
+for performing image classification.</p>
+
+<p>Note: Objective-C developers should use the TensorFlow Lite
+<a href="https://github.com/tensorflow/tensorflow/tree/master/tensorflow/lite/experimental/objc">Objective-C library</a>.</p>
+<h2 id='requirements' class='heading'>Requirements</h2>
+
+<ul>
+<li><p>Device with iOS 12.0 or above</p></li>
+<li><p>Xcode 10.0 or above</p></li>
+<li><p>Valid Apple Developer ID</p></li>
+<li><p>Xcode command-line tools (run <code>xcode-select --install</code>)</p></li>
+<li><p><a href="https://cocoapods.org/">CocoaPods</a> (run <code>bash sudo gem install cocoapods</code>)</p></li>
+</ul>
+
+<p>If this is a new install, you will need to run the Xcode application once to
+agree to the license before continuing.</p>
+
+<p>Note: The demo app requires a camera and must be executed on a real iOS device.
+You can build it and run with the iPhone Simulator, but the app will raise a
+<code>Camera not found</code> exception.</p>
+<h2 id='build-and-run' class='heading'>Build and run</h2>
+
+<ol>
+<li><p>Clone this GitHub repository to your workstation. <code>bash git clone
+https://github.com/tensorflow/examples.git</code></p></li>
+<li><p>Install the pod to generate the workspace file: <code>bash cd
+examples/lite/examples/image_classification/ios pod install</code></p></li>
+</ol>
+
+<p>Note: If you have installed this pod before and that command doesn&rsquo;t work, try
+<code>pod update</code>.</p>
+
+<p>At the end of this step you should have a directory called
+<code>ImageClassification.xcworkspace</code>.</p>
+
+<ol>
+<li>Open the project in Xcode with the following command: <code>bash open
+ImageClassification.xcworkspace</code></li>
+</ol>
+
+<p>This launches Xcode and opens the <code>ImageClassification</code> project.</p>
+
+<ol>
+<li><p>Select the <code>ImageClassification</code> project in the left hand navigation to open
+the project configuration. In the <strong>Signing</strong> section of the <strong>General</strong>
+tab, select your development team from the dropdown.</p></li>
+<li><p>In order to build the project, you must modify the <strong>Bundle Identifier</strong> in
+the <strong>Identity</strong> section so that it is unique across all Xcode projects. To
+create a unique identifier, try adding your initials and a number to the end
+of the string.</p></li>
+<li><p>With an iOS device connected, build and run the app in Xcode.</p></li>
+</ol>
+
+<p>You&rsquo;ll have to grant permissions for the app to use the device&rsquo;s camera. Point
+the camera at various objects and enjoy seeing how the model classifies things!</p>
+<h2 id='model-references' class='heading'>Model references</h2>
+
+<p><em>Do not delete the empty references</em> to the .tflite and .txt files after you
+clone the repo and open the project. These references will be fulfilled once the
+model and label files are downloaded when the application is built and run for
+the first time. If you delete the references to them, you can still find that
+the .tflite and .txt files are downloaded to the Model folder, the next time you
+build the application. You will have to add the references to these files in the
+bundle separately in that case.</p>
+
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2020-02-23)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

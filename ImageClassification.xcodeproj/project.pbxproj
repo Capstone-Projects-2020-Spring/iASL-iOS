@@ -3,12 +3,26 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		2F8F42FAF8F1249277BA57B8 /* Pods_ImageClassification.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76AE2E947B2172049010B9BA /* Pods_ImageClassification.framework */; };
 		6765C7E623FB35F60083A5C5 /* ImageClassificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6765C7E523FB35F60083A5C5 /* ImageClassificationTests.swift */; };
+		67683764240366B300189229 /* AlertDialogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630C0240232560085F612 /* AlertDialogController.swift */; };
+		67683766240366CD00189229 /* InputDialogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630C3240232560085F612 /* InputDialogController.swift */; };
+		67683767240366D000189229 /* TextFieldFormHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630C2240232560085F612 /* TextFieldFormHandler.swift */; };
+		67683768240366D300189229 /* TokenRequestHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630BF240232560085F612 /* TokenRequestHandler.swift */; };
+		67683769240366D700189229 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630BD2402324E0085F612 /* SessionManager.swift */; };
+		6768376A240366DC00189229 /* MessagingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630BB240232490085F612 /* MessagingManager.swift */; };
+		6768376B240366DF00189229 /* MenuTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630B7240232440085F612 /* MenuTableCell.swift */; };
+		6768376C240366E200189229 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630B8240232440085F612 /* MenuViewController.swift */; };
+		6768376D240366E500189229 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630B52402323D0085F612 /* LoginViewController.swift */; };
+		6768376E240366E900189229 /* ChatTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630B1240232360085F612 /* ChatTableCell.swift */; };
+		6768376F240366EC00189229 /* MainChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630AF240232360085F612 /* MainChatViewController.swift */; };
+		67683770240366EF00189229 /* StatusMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630B0240232360085F612 /* StatusMessage.swift */; };
+		67683771240366F300189229 /* ChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604630AD2402322C0085F612 /* ChannelManager.swift */; };
+		6768377424036C8D00189229 /* HelperClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6768377324036C8D00189229 /* HelperClasses.swift */; };
 		AA16E5A22180843800D9E153 /* InfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA16E5A12180843700D9E153 /* InfoCell.swift */; };
 		AA5B0EEA217E5E300026FF23 /* InferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5B0EE9217E5E300026FF23 /* InferenceViewController.swift */; };
 		AA5B0EEC217E70000026FF23 /* CurvedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5B0EEB217E70000026FF23 /* CurvedView.swift */; };
@@ -54,6 +68,7 @@
 		6765C7E323FB35F60083A5C5 /* ImageClassificationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageClassificationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6765C7E523FB35F60083A5C5 /* ImageClassificationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageClassificationTests.swift; sourceTree = "<group>"; };
 		6765C7E723FB35F60083A5C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6768377324036C8D00189229 /* HelperClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelperClasses.swift; sourceTree = "<group>"; };
 		6F6D81459D9BDFCDF5716B5C /* Pods-ImageClassification.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageClassification.release.xcconfig"; path = "Target Support Files/Pods-ImageClassification/Pods-ImageClassification.release.xcconfig"; sourceTree = "<group>"; };
 		76AE2E947B2172049010B9BA /* Pods_ImageClassification.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImageClassification.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA16E5A12180843700D9E153 /* InfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoCell.swift; sourceTree = "<group>"; };
@@ -105,6 +120,7 @@
 		604630A5240231D50085F612 /* twilio */ = {
 			isa = PBXGroup;
 			children = (
+				6768377224036ADA00189229 /* helpers */,
 				604630AC2402321E0085F612 /* util */,
 				604630AB240232140085F612 /* session */,
 				604630AA2402320E0085F612 /* messaging */,
@@ -113,7 +129,8 @@
 				604630A7240231F50085F612 /* chat */,
 				604630A6240231EE0085F612 /* channels */,
 			);
-			path = twilio;
+			name = twilio;
+			path = ../twilio;
 			sourceTree = "<group>";
 		};
 		604630A6240231EE0085F612 /* channels */ = {
@@ -129,6 +146,7 @@
 			children = (
 				604630B1240232360085F612 /* ChatTableCell.swift */,
 				604630AF240232360085F612 /* MainChatViewController.swift */,
+				6768377324036C8D00189229 /* HelperClasses.swift */,
 				604630B0240232360085F612 /* StatusMessage.swift */,
 			);
 			path = chat;
@@ -186,6 +204,13 @@
 				6765C7E723FB35F60083A5C5 /* Info.plist */,
 			);
 			path = ImageClassificationTests;
+			sourceTree = "<group>";
+		};
+		6768377224036ADA00189229 /* helpers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = helpers;
 			sourceTree = "<group>";
 		};
 		8A66D810CC188BF511866FE7 /* Frameworks */ = {
@@ -249,7 +274,6 @@
 		AAE79E4D213521DA00E7AC1F = {
 			isa = PBXGroup;
 			children = (
-				604630A5240231D50085F612 /* twilio */,
 				AAE79E58213521DA00E7AC1F /* ImageClassification */,
 				6765C7E423FB35F60083A5C5 /* ImageClassificationTests */,
 				AAE79E57213521DA00E7AC1F /* Products */,
@@ -270,6 +294,7 @@
 		AAE79E58213521DA00E7AC1F /* ImageClassification */ = {
 			isa = PBXGroup;
 			children = (
+				604630A5240231D50085F612 /* twilio */,
 				AAAB096C218981A30015A1F2 /* Extensions */,
 				AA16E5A02180843700D9E153 /* Cells */,
 				AA24751A2170A054000B6A31 /* Views */,
@@ -333,6 +358,7 @@
 				AAE79E52213521DA00E7AC1F /* Sources */,
 				AAE79E53213521DA00E7AC1F /* Frameworks */,
 				AAE79E54213521DA00E7AC1F /* Resources */,
+				F2BF18EA7B782FCD8CB32622 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -444,6 +470,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		F2BF18EA7B782FCD8CB32622 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ImageClassification/Pods-ImageClassification-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ImageClassification/Pods-ImageClassification-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ImageClassification/Pods-ImageClassification-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -459,15 +502,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6768376D240366E500189229 /* LoginViewController.swift in Sources */,
+				67683767240366D000189229 /* TextFieldFormHandler.swift in Sources */,
+				67683770240366EF00189229 /* StatusMessage.swift in Sources */,
+				67683768240366D300189229 /* TokenRequestHandler.swift in Sources */,
 				AAE79E952135237A00E7AC1F /* ViewController.swift in Sources */,
+				6768376A240366DC00189229 /* MessagingManager.swift in Sources */,
 				AA5B0EEC217E70000026FF23 /* CurvedView.swift in Sources */,
+				6768376E240366E900189229 /* ChatTableCell.swift in Sources */,
 				AAE79E9A2135268800E7AC1F /* PreviewView.swift in Sources */,
 				AAE79E9B2135268800E7AC1F /* CameraFeedManager.swift in Sources */,
+				67683769240366D700189229 /* SessionManager.swift in Sources */,
+				67683771240366F300189229 /* ChannelManager.swift in Sources */,
+				67683766240366CD00189229 /* InputDialogController.swift in Sources */,
+				6768377424036C8D00189229 /* HelperClasses.swift in Sources */,
 				AAAB096E218981FA0015A1F2 /* CVPixelBufferExtension.swift in Sources */,
 				AA16E5A22180843800D9E153 /* InfoCell.swift in Sources */,
+				6768376C240366E200189229 /* MenuViewController.swift in Sources */,
+				6768376B240366DF00189229 /* MenuTableCell.swift in Sources */,
 				AABFCBB2213FE0B100C0A67B /* ModelDataHandler.swift in Sources */,
 				AA5B0EEA217E5E300026FF23 /* InferenceViewController.swift in Sources */,
+				67683764240366B300189229 /* AlertDialogController.swift in Sources */,
 				AAE79E5A213521DA00E7AC1F /* AppDelegate.swift in Sources */,
+				6768376F240366EC00189229 /* MainChatViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

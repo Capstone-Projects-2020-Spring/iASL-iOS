@@ -7,4 +7,6 @@ target 'ImageClassification' do
 
   # Pods for ImageClassification
    pod 'TensorFlowLiteSwift'
+   pod 'TwilioChatClient', '~> 2.6.4'
 end
+

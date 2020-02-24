@@ -35,6 +35,8 @@ class InputDialogController: NSObject {
      */
     func showWithTitle(title: String, message: String, placeholder: String,
                        presenter: UIViewController, handler: @escaping (String) -> Void) {
+		// FIXME: Need implementation
+		/*
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
         let defaultAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
@@ -60,7 +62,8 @@ class InputDialogController: NSObject {
         alert.addAction(defaultAction)
         alert.addAction(saveAction)
         presenter.present(alert, animated: true, completion: nil)
-    }
+*/
+}
     
     /**
      Handler for text field being changeed by user input.

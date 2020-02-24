@@ -1,8 +1,8 @@
 import UIKit
 //import SlackTextViewController
-
+import TwilioChatClient
 ///Handles the main chat
-class MainChatViewController: UIViewController {
+class MainChatViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
     //static let TWCChatCellIdentifier = "ChatTableCell"
     //static let TWCChatStatusCellIdentifier = "ChatStatusTableCell"
     
@@ -40,7 +40,8 @@ class MainChatViewController: UIViewController {
     ///once view controller loads, it sets up the main chat
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+		// FIXME: Need implementation
+ /*
         if (revealViewController() != nil) {
             revealButtonItem.target = revealViewController()
             revealButtonItem.action = #selector(SWRevealViewController.revealToggle(_:))
@@ -82,6 +83,7 @@ class MainChatViewController: UIViewController {
         if channel == nil {
             channel = ChannelManager.sharedManager.generalChannel
         }
+*/
     }
     
     ///lays out subviews of text input bar
@@ -89,10 +91,12 @@ class MainChatViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         // required for iOS 11
+		// FIXME: Need implementation
+		/*
         textInputbar.bringSubview(toFront: textInputbar.textView)
         textInputbar.bringSubview(toFront: textInputbar.leftButton)
         textInputbar.bringSubview(toFront: textInputbar.rightButton)
-        
+        */
     }
     
     ///scrolls to bottom when top view disappears
@@ -102,12 +106,12 @@ class MainChatViewController: UIViewController {
     }
     
     ///returns the number of sections for the table view
-    override func numberOfSections(in tableView: UITableView) -> Int {
+     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
     ///returns the length of the table view
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: NSInteger) -> Int {
+     func tableView(_ tableView: UITableView, numberOfRowsInSection section: NSInteger) -> Int {
         return messages.count
     }
     
@@ -119,7 +123,7 @@ class MainChatViewController: UIViewController {
      
      - Returns: a table view cell
      */
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell:UITableViewCell
         
         let message = sortedMessages[indexPath.row]
@@ -145,15 +149,16 @@ class MainChatViewController: UIViewController {
      - Returns: a table view cell with the message, timestamp for the message, and the user set
      */
     func getChatCellForTableView(tableView: UITableView, forIndexPath indexPath:IndexPath, message: TCHMessage) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: MainChatViewController.TWCChatCellIdentifier, for:indexPath as IndexPath)
-        
+		// FIXME: Need customCell
+//        let cell = tableView.dequeueReusableCell(withIdentifier: MainChatViewController.TWCChatCellIdentifier, for:indexPath as IndexPath)
+        /*
         let chatCell: ChatTableCell = cell as! ChatTableCell
         let date = NSDate.dateWithISO8601String(dateString: message.timestamp ?? "")
         let timestamp = DateTodayFormatter().stringFromDate(date: date)
         
         chatCell.setUser(user: message.author ?? "[Unknown author]", message: message.body, date: timestamp ?? "[Unknown date]")
-        
-        return chatCell
+        */
+		return UITableViewCell(frame: .zero)
     }
     
     /**
@@ -166,16 +171,22 @@ class MainChatViewController: UIViewController {
      - Returns: a cell with the label set with the user's status
      */
     func getStatusCellForTableView(tableView: UITableView, forIndexPath indexPath:IndexPath, message: StatusMessage) -> UITableViewCell {
+		// FIXME: Need implementation
+		/*
         let cell = tableView.dequeueReusableCell(withIdentifier: MainChatViewController.TWCChatStatusCellIdentifier, for:indexPath as IndexPath)
         
         let label = cell.viewWithTag(MainChatViewController.TWCLabelTag) as! UILabel
         let memberStatus = (message.status! == .Joined) ? "joined" : "left"
         label.text = "User \(message.member.identity ?? "[Unknown user]") has \(memberStatus)"
         return cell
+*/
+		return UITableViewCell(frame: .zero)
     }
     
     ///Lets the user join a channel and loads the channels messages
     func joinChannel() {
+		// FIXME: Need implementation
+		/*
         setViewOnHold(onHold: true)
         
         if channel.status != .joined {
@@ -187,19 +198,26 @@ class MainChatViewController: UIViewController {
         
         loadMessages()
         setViewOnHold(onHold: false)
+*/
     }
     
     ///Disable user input and show activity indicator
     func setViewOnHold(onHold: Bool) {
-        self.isTextInputbarHidden = onHold;
+		// FIXME: Need implementation
+       /*
+		self.isTextInputbarHidden = onHold;
         UIApplication.shared.isNetworkActivityIndicatorVisible = onHold;
+*/
     }
     
     ///sends a message when pressed
-    override func didPressRightButton(_ sender: Any!) {
-        textView.refreshFirstResponder()
+	func didPressRightButton(_ sender: Any!) {
+       // FIXME: Need implementation
+		/*
+		textView.refreshFirstResponder()
         sendMessage(inputMessage: textView.text)
         super.didPressRightButton(sender)
+*/
     }
     
     // MARK: - Chat Service
@@ -210,8 +228,9 @@ class MainChatViewController: UIViewController {
      - Parameter inputMessage: String of the message content
      */
     func sendMessage(inputMessage: String) {
-        let messageOptions = TCHMessageOptions().withBody(inputMessage)
-        channel.messages?.sendMessage(with: messageOptions, completion: nil)
+		// FIXME: Need implementation
+       /* let messageOptions = TCHMessageOptions().withBody(inputMessage)
+        channel.messages?.sendMessage(with: messageOptions, completion: nil)*/
     }
     
     /**
@@ -223,7 +242,8 @@ class MainChatViewController: UIViewController {
         messages =  messages.union(newMessages)
         sortMessages()
         DispatchQueue.main.async {
-            self.tableView!.reloadData()
+			// FIXME: Need implementation
+//            self.tableView!.reloadData()
             if self.messages.count > 0 {
                 self.scrollToBottom()
             }
@@ -232,31 +252,42 @@ class MainChatViewController: UIViewController {
     
     ///sorts messages by time
     func sortMessages() {
-        sortedMessages = messages.sorted { (a, b) -> Bool in
+	   // FIXME: Need implementation
+		/*
+		sortedMessages = messages.sorted { (a, b) -> Bool in
             (a.timestamp ?? "") > (b.timestamp ?? "")
         }
+*/
     }
     
     ///loads all messages
     func loadMessages() {
+		// FIXME: Need implementation
+		/*
         messages.removeAll()
         if channel.synchronizationStatus == .all {
             channel.messages?.getLastWithCount(100) { (result, items) in
                 self.addMessages(newMessages: Set(items!))
             }
         }
+*/
     }
     
     ///scrolls to bottom of chat
     func scrollToBottom() {
+		// FIXME: Need implementation
+		/*
         if messages.count > 0 {
             let indexPath = IndexPath(row: 0, section: 0)
             tableView!.scrollToRow(at: indexPath, at: .bottom, animated: true)
         }
+*/
     }
     
     ///leaves channel when user logs out of channel, switches over to new view controller
     func leaveChannel() {
+		// FIXME: Need implementation
+		/*
         channel.leave { result in
             if (result.isSuccessful()) {
                 let menuViewController = self.revealViewController().rearViewController as! MenuViewController
@@ -264,6 +295,7 @@ class MainChatViewController: UIViewController {
                 self.revealViewController().rearViewController.performSegue(withIdentifier: MainChatViewController.TWCOpenGeneralChannelSegue, sender: nil)
             }
         }
+*/
     }
     
     // MARK: - Actions
@@ -275,7 +307,8 @@ class MainChatViewController: UIViewController {
     
     ///reveals a new view controller
     @IBAction func revealButtonTouched(_ sender: AnyObject) {
-        revealViewController().revealToggle(animated: true)
+		// FIXME: Need implementation
+       // revealViewController().revealToggle(animated: true)
     }
 }
 

@@ -1,5 +1,5 @@
 import UIKit
-
+import TwilioChatClient
 /**
  Handles the behavior and logic of the messaging features.
  */
@@ -213,23 +213,25 @@ class MessagingManager: NSObject {
 }
 
 // MARK: - TwilioChatClientDelegate
+// FIXME: chatclients not set up
 extension MessagingManager : TwilioChatClientDelegate {
     func chatClient(_ client: TwilioChatClient, channelAdded channel: TCHChannel) {
-        self.delegate?.chatClient(client, channelAdded: channel)
+//        self.delegate?.chatClient(client, channelAdded: channel)
     }
     
     func chatClient(_ client: TwilioChatClient, channel: TCHChannel, updated: TCHChannelUpdate) {
-        self.delegate?.chatClient(client, channel: channel, updated: updated)
+//        self.delegate?.chatClient(client, channel: channel, updated: updated)
     }
     
     func chatClient(_ client: TwilioChatClient, channelDeleted channel: TCHChannel) {
-        self.delegate?.chatClient(client, channelDeleted: channel)
+//        self.delegate?.chatClient(client, channelDeleted: channel)
     }
     
     func chatClient(_ client: TwilioChatClient, synchronizationStatusUpdated status: TCHClientSynchronizationStatus) {
         if status == TCHClientSynchronizationStatus.completed {
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
-            ChannelManager.sharedManager.channelsList = client.channelsList()
+			// FIXME: Need implementation
+//            ChannelManager.sharedManager.channelsList = client.channelsList()
             ChannelManager.sharedManager.populateChannels()
             loadGeneralChatRoomWithCompletion { success, error in
                 if success {
@@ -237,7 +239,7 @@ extension MessagingManager : TwilioChatClientDelegate {
                 }
             }
         }
-        self.delegate?.chatClient(client, synchronizationStatusUpdated: status)
+//        self.delegate?.chatClient(client, synchronizationStatusUpdated: status)
     }
 }
 

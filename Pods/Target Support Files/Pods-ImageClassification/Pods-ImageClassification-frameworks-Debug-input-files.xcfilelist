@@ -1,0 +1,3 @@
+${PODS_ROOT}/Target Support Files/Pods-ImageClassification/Pods-ImageClassification-frameworks.sh
+${PODS_ROOT}/TwilioChatClient/TwilioChatClient.framework
+${PODS_ROOT}/TwilioChatClient/TwilioChatClient.framework.dSYM

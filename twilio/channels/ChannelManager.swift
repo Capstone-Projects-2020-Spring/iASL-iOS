@@ -30,8 +30,9 @@ class ChannelManager: NSObject {
     
     ///joins a chat room if completion is true
     func joinGeneralChatRoomWithCompletion(completion: @escaping (Bool) -> Void) {
-        
-        let uniqueName = ChannelManager.defaultChannelUniqueName
+		// FIXME: Need implementation
+
+     /*   let uniqueName = ChannelManager.defaultChannelUniqueName
         if let channelsList = self.channelsList {
             channelsList.channel(withSidOrUniqueName: uniqueName) { result, channel in
                 self.generalChannel = channel
@@ -50,6 +51,7 @@ class ChannelManager: NSObject {
                 }
             }
         }
+		*/
     }
     
 //    func joinGeneralChatRoomWithUniqueName(name: String?, completion: @escaping (Bool) -> Void) {
@@ -87,10 +89,13 @@ class ChannelManager: NSObject {
     ///adds and sorts a list of channels, populates them with channel content
     func populateChannels() {
         channels = NSMutableOrderedSet()
-        
-        channelsList?.userChannelDescriptors { result, paginator in
+		// FIXME: Need implementation
+
+       /* channelsList?.userChannelDescriptors { result, paginator in
             self.channels?.addObjects(from: paginator!.items())
             self.sortChannels()
+*/
+		/*
         }
         
         channelsList?.publicChannelDescriptors { result, paginator in
@@ -101,6 +106,7 @@ class ChannelManager: NSObject {
         if self.delegate != nil {
             self.delegate!.reloadChannelList()
         }
+*/
     }
     
 //    func sortChannels() {
@@ -118,6 +124,7 @@ class ChannelManager: NSObject {
      - Parameter completion: whether or not the channel connection worked
      */
     func createChannelWithName(name: String, completion: @escaping (Bool, TCHChannel?) -> Void) {
+		/*
         if (name == ChannelManager.defaultChannelName) {
             completion(false, nil)
             return
@@ -133,6 +140,7 @@ class ChannelManager: NSObject {
             completion((result.isSuccessful()), channel)
         }
     }
+*/
 }
 
 // MARK: - TwilioChatClientDelegate
@@ -164,3 +172,4 @@ class ChannelManager: NSObject {
 //    func chatClient(_ client: TwilioChatClient, synchronizationStatusUpdated status: TCHClientSynchronizationStatus) {
 //    }
 //}
+}
