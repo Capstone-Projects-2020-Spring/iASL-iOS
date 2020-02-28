@@ -49,39 +49,14 @@
                                     <constraint firstItem="mga-a8-Bfe" firstAttribute="top" secondItem="ddd-K8-X1g" secondAttribute="top" id="q1w-Ft-eGg"/>
                                 </constraints>
                             </view>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Camera Unavailable" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uPJ-nc-1Tt">
-                                <rect key="frame" x="20" y="281" width="335" height="25"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="25" id="1ZG-uB-8vo"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j6w-zW-1a4">
-                                <rect key="frame" x="122.5" y="314" width="130" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="nfj-XO-QE3"/>
-                                    <constraint firstAttribute="width" constant="130" id="oGs-oD-Dks"/>
-                                </constraints>
-                                <state key="normal" title="Resume Session"/>
-                                <connections>
-                                    <action selector="onClickResumeButton:" destination="7aX-iP-Lxp" eventType="touchUpInside" id="Tqc-dh-pm3"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="ddd-K8-X1g" secondAttribute="bottom" id="0yl-Zb-EVZ"/>
-                            <constraint firstItem="j6w-zW-1a4" firstAttribute="top" secondItem="uPJ-nc-1Tt" secondAttribute="bottom" constant="8" id="25h-co-xEa"/>
-                            <constraint firstItem="j6w-zW-1a4" firstAttribute="centerX" secondItem="uPJ-nc-1Tt" secondAttribute="centerX" id="2NJ-ah-RbB"/>
                             <constraint firstItem="lZs-Kh-vPx" firstAttribute="top" secondItem="Ijl-bc-mDl" secondAttribute="top" constant="-20" id="AXY-MW-RIS"/>
-                            <constraint firstItem="uPJ-nc-1Tt" firstAttribute="centerY" secondItem="Ijl-bc-mDl" secondAttribute="centerY" constant="-40" id="EbJ-3L-1Xy"/>
                             <constraint firstItem="Ijl-bc-mDl" firstAttribute="trailing" secondItem="lZs-Kh-vPx" secondAttribute="trailing" id="GuN-L7-8gu"/>
                             <constraint firstItem="lZs-Kh-vPx" firstAttribute="leading" secondItem="Ijl-bc-mDl" secondAttribute="leading" id="Igg-Hr-MT8"/>
                             <constraint firstItem="Ijl-bc-mDl" firstAttribute="bottom" secondItem="lZs-Kh-vPx" secondAttribute="bottom" id="XAo-78-Zow"/>
-                            <constraint firstItem="uPJ-nc-1Tt" firstAttribute="leading" secondItem="Ijl-bc-mDl" secondAttribute="leading" constant="20" id="ZM3-r2-dKc"/>
-                            <constraint firstItem="Ijl-bc-mDl" firstAttribute="trailing" secondItem="uPJ-nc-1Tt" secondAttribute="trailing" constant="20" id="app-nt-mDz"/>
                             <constraint firstAttribute="trailing" secondItem="ddd-K8-X1g" secondAttribute="trailing" id="ax4-7h-oga"/>
                             <constraint firstItem="ddd-K8-X1g" firstAttribute="leading" secondItem="pbw-Hb-35N" secondAttribute="leading" id="rmj-y1-88M"/>
                         </constraints>
@@ -91,9 +66,7 @@
                         <outlet property="bottomSheetStateImageView" destination="mga-a8-Bfe" id="W8k-ir-pYB"/>
                         <outlet property="bottomSheetView" destination="ddd-K8-X1g" id="WY6-8z-eIc"/>
                         <outlet property="bottomSheetViewBottomSpace" destination="0yl-Zb-EVZ" id="BcA-AX-QG1"/>
-                        <outlet property="cameraUnavailableLabel" destination="uPJ-nc-1Tt" id="xlw-29-JPB"/>
                         <outlet property="previewView" destination="lZs-Kh-vPx" id="4Ms-eq-S68"/>
-                        <outlet property="resumeButton" destination="j6w-zW-1a4" id="LHb-hP-Y6k"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JUu-fJ-Imh" sceneMemberID="firstResponder"/>

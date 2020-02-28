@@ -22,8 +22,8 @@ class ViewController: UIViewController {
     let topBar = UIView()
   // MARK: Storyboards Connections
   @IBOutlet weak var previewView: PreviewView!
-  @IBOutlet weak var cameraUnavailableLabel: UILabel!
-  @IBOutlet weak var resumeButton: UIButton!
+    let cameraUnavailableLabel = UILabel()
+    let resumeButton = UIButton()
   @IBOutlet weak var bottomSheetView: CurvedView!
 
   @IBOutlet weak var bottomSheetViewBottomSpace: NSLayoutConstraint!
@@ -58,8 +58,11 @@ class ViewController: UIViewController {
   // MARK: View Handling Methods
   override func viewDidLoad() {
     super.viewDidLoad()
+    previewViewSetup()
     topBarSetup()
     logoLabelSetup()
+    cameraUnavailableLabelSetup()
+    resumeButtonSetup()
     guard modelDataHandler != nil else {
       fatalError("Model set up failed")
     }
@@ -400,6 +403,30 @@ extension ViewController {
         topBar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         topBar.heightAnchor.constraint(equalToConstant: 90).isActive = true
         topBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+    }
+    
+    func cameraUnavailableLabelSetup(){
+        view.addSubview(cameraUnavailableLabel)
+        cameraUnavailableLabel.translatesAutoresizingMaskIntoConstraints = false
+        cameraUnavailableLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        cameraUnavailableLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        cameraUnavailableLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        cameraUnavailableLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        cameraUnavailableLabel.text = "Camera Unavailable"
+        cameraUnavailableLabel.textAlignment = .center
+        cameraUnavailableLabel.font = UIFont.boldSystemFont(ofSize: 30)
+        cameraUnavailableLabel.textColor = .white
+        cameraUnavailableLabel.isHidden = true
+    }
+    
+    func resumeButtonSetup() {
+        view.addSubview(resumeButton)
+        resumeButton.translatesAutoresizingMaskIntoConstraints = false
+        resumeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        resumeButton.topAnchor.constraint(equalTo: cameraUnavailableLabel.bottomAnchor,constant: 20).isActive = true
+        resumeButton.setTitle("Resume Session", for: .normal)
+        resumeButton.setTitleColor(.yellow, for: .normal)
+        resumeButton.isHidden = true
     }
 
 }
