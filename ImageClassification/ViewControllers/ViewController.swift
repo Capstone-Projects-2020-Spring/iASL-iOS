@@ -50,19 +50,36 @@ class ViewController: UIViewController {
 
   // Handles the presenting of results on the screen
   private var inferenceViewController: InferenceViewController?
-
+    
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if #available(iOS 13.0, *){
+            if self.traitCollection.userInterfaceStyle == .dark {
+                logoLabel.textColor = .white
+                topBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            } else {
+                logoLabel.textColor = .black
+                topBar.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+            }
+        }
+        
+    }
     
     
     
     
-  // MARK: View Handling Methods
-  override func viewDidLoad() {
-    super.viewDidLoad()
+    // MARK: View Handling Methods
+    override func viewDidLoad() {
+        super.viewDidLoad()
     previewViewSetup()
     topBarSetup()
     logoLabelSetup()
     cameraUnavailableLabelSetup()
     resumeButtonSetup()
+
+    
     guard modelDataHandler != nil else {
       fatalError("Model set up failed")
     }
@@ -393,6 +410,7 @@ extension ViewController {
         logoLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
         logoLabel.text = "iASL"
         logoLabel.font = UIFont.systemFont(ofSize: 30)
+        logoLabel.textColor = .white
     }
     
     func topBarSetup(){
