@@ -35,7 +35,7 @@ typealias FileInfo = (name: String, extension: String)
 /// Information about the MobileNet model.
 enum MobileNet {
   static let modelInfo: FileInfo = (name: "model", extension: "tflite")
-  static let labelsInfo: FileInfo = (name: "labels", extension: "txt")
+  static let labelsInfo: FileInfo = (name: "modelLabel", extension: "txt")
 }
 
 /// This class handles all data preprocessing and makes calls to run inference on a given frame
@@ -143,7 +143,7 @@ class ModelDataHandler {
       // Run inference by invoking the `Interpreter`.
       let startDate = Date()
       try interpreter.invoke()
-      interval = Date().timeIntervalSince(startDate) * 1000
+      interval = Date().timeIntervalSince(startDate) * 1
 
       // Get the output `Tensor` to process the inference results.
       outputTensor = try interpreter.output(at: 0)
