@@ -17,6 +17,9 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    
+    let logoLabel = UILabel()
+    let topBar = UIView()
   // MARK: Storyboards Connections
   @IBOutlet weak var previewView: PreviewView!
   @IBOutlet weak var cameraUnavailableLabel: UILabel!
@@ -48,10 +51,15 @@ class ViewController: UIViewController {
   // Handles the presenting of results on the screen
   private var inferenceViewController: InferenceViewController?
 
+    
+    
+    
+    
   // MARK: View Handling Methods
   override func viewDidLoad() {
     super.viewDidLoad()
-
+    topBarSetup()
+    logoLabelSetup()
     guard modelDataHandler != nil else {
       fatalError("Model set up failed")
     }
@@ -67,6 +75,10 @@ class ViewController: UIViewController {
 
     addPanGesture()
   }
+    
+    
+    
+    
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
@@ -357,5 +369,37 @@ extension ViewController {
     bottomSheetViewBottomSpace.constant = bottomSpace
     view.setNeedsLayout()
   }
+    
+    
+    
+    func previewViewSetup(){
+        view.addSubview(previewView)
+        previewView.translatesAutoresizingMaskIntoConstraints = false
+        previewView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        previewView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        previewView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    }
+    
+    func logoLabelSetup(){
+        topBar.addSubview(logoLabel)
+        logoLabel.translatesAutoresizingMaskIntoConstraints = false
+        logoLabel.bottomAnchor.constraint(equalTo: topBar.bottomAnchor, constant: -10).isActive = true
+        logoLabel.leadingAnchor.constraint(equalTo: topBar.leadingAnchor, constant: 40).isActive = true
+        logoLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        logoLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        logoLabel.text = "iASL"
+        logoLabel.font = UIFont.systemFont(ofSize: 30)
+    }
+    
+    func topBarSetup(){
+        view.addSubview(topBar)
+        topBar.translatesAutoresizingMaskIntoConstraints = false
+        topBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        topBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        topBar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        topBar.heightAnchor.constraint(equalToConstant: 90).isActive = true
+        topBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+    }
 
 }

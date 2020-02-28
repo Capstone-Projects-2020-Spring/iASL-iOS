@@ -270,6 +270,7 @@
 		AAE79E58213521DA00E7AC1F /* ImageClassification */ = {
 			isa = PBXGroup;
 			children = (
+				AAE79E59213521DA00E7AC1F /* AppDelegate.swift */,
 				AAAB096C218981A30015A1F2 /* Extensions */,
 				AA16E5A02180843700D9E153 /* Cells */,
 				AA24751A2170A054000B6A31 /* Views */,
@@ -278,7 +279,6 @@
 				AAE79E972135268800E7AC1F /* Camera Feed */,
 				AA5FEB7A21355CCC00F9BD4B /* Model */,
 				AA5FEB7F21355D0300F9BD4B /* Storyboards */,
-				AAE79E59213521DA00E7AC1F /* AppDelegate.swift */,
 				AAE79E60213521DB00E7AC1F /* Assets.xcassets */,
 				AAE79E65213521DB00E7AC1F /* Info.plist */,
 			);
