@@ -1,4 +1,5 @@
 ![Integration Testing](https://github.com/Capstone-Projects-2020-Spring/iASL-iOS/workflows/Integration%20Testing/badge.svg)
+![Documentation](https://capstone-projects-2020-spring.github.io/iASL-iOS/badge.svg)
 # TensorFlow Lite image classification iOS example application
 
 ## Overview
