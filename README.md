@@ -1,6 +1,6 @@
+# iASL iOS Application
 ![Integration Testing](https://github.com/Capstone-Projects-2020-Spring/iASL-iOS/workflows/Integration%20Testing/badge.svg)
 ![Documentation](https://capstone-projects-2020-spring.github.io/iASL-iOS/badge.svg)
-# iASL iOS Application
 
 ## Overview
 This repository is for the iASL Android application. The app will use the iOS device's front-facing camera to record the user signing in ASL. It will then attempt to convert the ASL to text by using machine learning. The application will also support a speech-to-text feature to allow Deaf individuals to read what the other person is saying aloud.
@@ -89,3 +89,6 @@ bundle separately in that case.
 
 ## Code reference
 For documentation of iASL code, refer to [iASL Documentation](https://capstone-projects-2020-spring.github.io/iASL-iOS/).
+
+## Coding Rules (swiftlint)
+[Code Rules](https://github.com/Capstone-Projects-2020-Spring/iASL-iOS/blob/master/rule_docs/Rule%20Directory.md#rule-directory)
