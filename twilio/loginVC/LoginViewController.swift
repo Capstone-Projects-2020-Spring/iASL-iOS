@@ -16,7 +16,7 @@ class LoginViewController: UIViewController {
     ///class for handling the alert dialogue
     var alertDialogControllerClass = AlertDialogController.self
     ///sets the messaging manager to self
-    var MessagingClientClass = MessagingManager.self
+    var messagingClientClass = MessagingManager.self
     
     // MARK: - Initialization
     
@@ -76,9 +76,9 @@ class LoginViewController: UIViewController {
             view.isUserInteractionEnabled = false
             activityIndicator.startAnimating()
             
-            let MessagingManager = MessagingClientClass.sharedManager()
+            let messagingManager = MessagingClientClass.sharedManager()
             if let username = usernameTextField.text {
-                MessagingManager.loginWithUsername(username: username, completion: handleResponse)
+                messagingManager.loginWithUsername(username: username, completion: handleResponse)
             }
         }
     }

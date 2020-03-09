@@ -4,10 +4,11 @@ import UIKit
  Handles the behavior and logic of the messaging features.
  */
 class MessagingManager: NSObject {
-    
+    // MARK: FIXME identifier_name contains _
+    // swiftlint:disable identifier_name
     ///messaging manager
     static let _sharedManager = MessagingManager()
-    
+    // swiftlint:enable identifier_name
     ///twilio based client, part of API
     var client:TwilioChatClient?
     ///delegate for channel manager

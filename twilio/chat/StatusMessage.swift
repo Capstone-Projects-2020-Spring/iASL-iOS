@@ -3,8 +3,8 @@ import UIKit
 
 ///holds the status of the member
 enum TWCMemberStatus {
-    case Joined
-    case Left
+    case joined
+    case left
 }
 
 ///holds variables and metadata for status message
@@ -13,9 +13,11 @@ class StatusMessage: TCHMessage {
     var member: TCHMember! = nil
     ///members status
     var status: TWCMemberStatus! = nil
+	// MARK: FIXME identifier_name contains _
+    // swiftlint:disable identifier_name
     ///timestamp of message
     var _timestamp: String = ""
-    
+        // swiftlint:enable identifier_name
     ///gets or sets timestamp
     override var timestamp: String {
         get {

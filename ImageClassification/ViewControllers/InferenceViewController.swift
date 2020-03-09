@@ -28,25 +28,25 @@ class InferenceViewController: UIViewController {
 
   // MARK: Sections and Information to display
   private enum InferenceSections: Int, CaseIterable {
-    case Results
-    case InferenceInfo
+    case results
+    case inferenceInfo
   }
 
   private enum InferenceInfo: Int, CaseIterable {
-    case Resolution
-    case Crop
-    case InferenceTime
+    case resolution
+    case crop
+    case inferenceTime
 
     func displayString() -> String {
 
       var toReturn = ""
 
       switch self {
-      case .Resolution:
+      case .resolution:
         toReturn = "Resolution"
-      case .Crop:
+      case .crop:
         toReturn = "Crop"
-      case .InferenceTime:
+      case .inferenceTime:
         toReturn = "Inference Time"
 
       }
@@ -127,9 +127,9 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
 
     var rowCount = 0
     switch inferenceSection {
-    case .Results:
+    case .results:
       rowCount = maxResults
-    case .InferenceInfo:
+    case .inferenceInfo:
       rowCount = InferenceInfo.allCases.count
     }
     return rowCount
@@ -144,14 +144,14 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     switch inferenceSection {
-    case .Results:
+    case .results:
       if indexPath.row == maxResults - 1 {
         height = separatorCellHeight + bottomSpacing
       }
       else {
         height = normalCellHeight
       }
-    case .InferenceInfo:
+    case .inferenceInfo:
       if indexPath.row == InferenceInfo.allCases.count - 1 {
         height = separatorCellHeight + bottomSpacing
       }
@@ -176,7 +176,7 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
     var color = infoTextColor
 
     switch inferenceSection {
-    case .Results:
+    case .results:
 
       let tuple = displayStringsForResults(atRow: indexPath.row)
       fieldName = tuple.0
@@ -191,7 +191,7 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
         color = lightTextInfoColor
       }
 
-    case .InferenceInfo:
+    case .inferenceInfo:
       let tuple = displayStringsForInferenceInfo(atRow: indexPath.row)
       fieldName = tuple.0
       info = tuple.1
@@ -254,11 +254,11 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
     fieldName = inferenceInfo.displayString()
 
     switch inferenceInfo {
-    case .Resolution:
+    case .resolution:
       info = "\(Int(resolution.width))x\(Int(resolution.height))"
-    case .Crop:
+    case .crop:
       info = "\(wantedInputWidth)x\(wantedInputHeight)"
-    case .InferenceTime:
+    case .inferenceTime:
       guard let finalResults = inferenceResult else {
         info = "0ms"
         break

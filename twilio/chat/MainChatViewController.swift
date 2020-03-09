@@ -232,8 +232,8 @@ class MainChatViewController: UIViewController {
     
     ///sorts messages by time
     func sortMessages() {
-        sortedMessages = messages.sorted { (a, b) -> Bool in
-            (a.timestamp ?? "") > (b.timestamp ?? "")
+        sortedMessages = messages.sorted { (messageA, messageB) -> Bool in
+            (messageA.timestamp ?? "") > (messageB.timestamp ?? "")
         }
     }
     

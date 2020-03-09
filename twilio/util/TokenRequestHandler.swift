@@ -9,7 +9,7 @@ class TokenRequestHandler {
             if let encodedKey = key.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed),
                 let encodedValue = value.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) {
                 if !data.isEmpty {
-                    data = data + "&"
+                    data += "&"
                 }
                 data += encodedKey + "=" + encodedValue;
             }

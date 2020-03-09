@@ -12,8 +12,10 @@ public class TextFieldFormHandler: NSObject {
     var keyboardSize: CGFloat = 0
     var animationOffset: CGFloat = 0
     var topContainer: UIView!
-    
+	// MARK: FIXME identifier_name contains _
+    // swiftlint:disable identifier_name
     var _lastTextField: UITextField?
+	// swiftlint:enable identifier_name
     var lastTextField: UITextField? {
         get {
             return _lastTextField
