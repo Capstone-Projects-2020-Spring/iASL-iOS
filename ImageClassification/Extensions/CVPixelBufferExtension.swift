@@ -41,8 +41,7 @@ extension CVPixelBuffer {
 
     if imageWidth > imageHeight {
       originX = (imageWidth - imageHeight) / 2
-    }
-    else {
+    } else {
       originY = (imageHeight - imageWidth) / 2
     }
 

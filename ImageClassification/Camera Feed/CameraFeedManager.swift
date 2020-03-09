@@ -129,7 +129,7 @@ class CameraFeedManager: NSObject {
   /**
    This method resumes an interrupted AVCaptureSession.
    */
-  func resumeInterruptedSession(withCompletion completion: @escaping (Bool) -> ()) {
+  func resumeInterruptedSession(withCompletion completion: @escaping (Bool) -> Void) {
 
     sessionQueue.async {
       self.startSession()
@@ -158,7 +158,7 @@ class CameraFeedManager: NSObject {
       self.cameraConfiguration = .success
     case .notDetermined:
       self.sessionQueue.suspend()
-      self.requestCameraAccess(completion: { (granted) in
+      self.requestCameraAccess(completion: { (_) in
         self.sessionQueue.resume()
       })
     case .denied:
@@ -175,18 +175,16 @@ class CameraFeedManager: NSObject {
   /**
    This method requests for camera permissions.
    */
-  private func requestCameraAccess(completion: @escaping (Bool) -> ()) {
+  private func requestCameraAccess(completion: @escaping (Bool) -> Void) {
     AVCaptureDevice.requestAccess(for: .video) { (granted) in
       if !granted {
         self.cameraConfiguration = .permissionDenied
-      }
-      else {
+      } else {
         self.cameraConfiguration = .success
       }
       completion(granted)
     }
   }
-
 
   /**
    This method handles all the steps to configure an AVCaptureSession.
@@ -232,12 +230,10 @@ class CameraFeedManager: NSObject {
       if session.canAddInput(videoDeviceInput) {
         session.addInput(videoDeviceInput)
         return true
-      }
-      else {
+      } else {
         return false
       }
-    }
-    catch {
+    } catch {
       fatalError("Cannot create video device input")
     }
   }
@@ -250,7 +246,7 @@ class CameraFeedManager: NSObject {
     let sampleBufferQueue = DispatchQueue(label: "sampleBufferQueue")
     videoDataOutput.setSampleBufferDelegate(self, queue: sampleBufferQueue)
     videoDataOutput.alwaysDiscardsLateVideoFrames = true
-    videoDataOutput.videoSettings = [ String(kCVPixelBufferPixelFormatTypeKey) : kCMPixelFormat_32BGRA]
+    videoDataOutput.videoSettings = [ String(kCVPixelBufferPixelFormatTypeKey): kCMPixelFormat_32BGRA]
 
     if session.canAddOutput(videoDataOutput) {
       session.addOutput(videoDataOutput)
@@ -321,7 +317,6 @@ class CameraFeedManager: NSObject {
     }
   }
 }
-
 
 /**
  AVCaptureVideoDataOutputSampleBufferDelegate

@@ -207,7 +207,7 @@ extension ViewController: CameraFeedManagerDelegate {
     let alertController = UIAlertController(title: "Camera Permissions Denied", message: "Camera permissions have been denied for this app. You can change this by going to Settings", preferredStyle: .alert)
 
     let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-    let settingsAction = UIAlertAction(title: "Settings", style: .default) { (action) in
+    let settingsAction = UIAlertAction(title: "Settings", style: .default) { (_) in
       UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
     }
     alertController.addAction(cancelAction)
@@ -239,7 +239,6 @@ extension ViewController {
     bottomSheetView.addGestureRecognizer(panGesture)
   }
 
-
   /** Change whether bottom sheet should be in expanded or collapsed state.
    */
   private func changeBottomViewState() {
@@ -251,8 +250,7 @@ extension ViewController {
     if bottomSheetViewBottomSpace.constant == inferenceVC.collapsedHeight - bottomSheetView.bounds.size.height {
 
       bottomSheetViewBottomSpace.constant = 0.0
-    }
-    else {
+    } else {
       bottomSheetViewBottomSpace.constant = inferenceVC.collapsedHeight - bottomSheetView.bounds.size.height
     }
     setImageBasedOnBottomViewState()
@@ -265,8 +263,7 @@ extension ViewController {
 
     if bottomSheetViewBottomSpace.constant == 0.0 {
       bottomSheetStateImageView.image = UIImage(named: "down_icon")
-    }
-    else {
+    } else {
       bottomSheetStateImageView.image = UIImage(named: "up_icon")
     }
   }
@@ -329,8 +326,7 @@ extension ViewController {
     var height: CGFloat = 0.0
     if initialBottomSpace == 0.0 {
       height = bottomSheetView.bounds.size.height
-    }
-    else {
+    } else {
       height = inferenceViewController!.collapsedHeight
     }
 
@@ -338,11 +334,9 @@ extension ViewController {
 
     if currentHeight - height <= collapseTransitionThreshold {
       bottomSpace = inferenceViewController!.collapsedHeight - bottomSheetView.bounds.size.height
-    }
-    else if currentHeight - height >= expandThransitionThreshold {
+    } else if currentHeight - height >= expandThransitionThreshold {
       bottomSpace = 0.0
-    }
-    else {
+    } else {
       bottomSpace = initialBottomSpace
     }
 
@@ -358,8 +352,7 @@ extension ViewController {
     bottomSheetViewBottomSpace.constant = bottomSpace
     view.setNeedsLayout()
   }
-    
-    
+
     /**
             Requests the user for permission to record from the microphone and transcribe the text.
      */
@@ -374,7 +367,7 @@ extension ViewController {
             }
         }
     }
-    
+
     /**
         Transcribes the audio recorded from the microphone into text, using built in SFSpeechRecognizer. The recognizer is given a task to transcribe an audio file from a URL. Then the recognized text is spit out as a string which can be used later. The function takes in a URL as a parameter to be transcribed.
      */
@@ -398,12 +391,11 @@ extension ViewController {
             }
         }
     }
-    
-    
+
     /**
         Synthesizes the text to speech, the function takes a string parameter where the text to be spoken out will be passed. Therefore when the function is called, just call put the desired text in the param.
      */
-    func synthesizeText(text:String){
+    func synthesizeText(text: String) {
         let utterance = AVSpeechUtterance(string: text)
         utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
         utterance.rate = 0.1

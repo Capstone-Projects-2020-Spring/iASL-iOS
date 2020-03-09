@@ -27,7 +27,7 @@ class StatusMessage: TCHMessage {
             _timestamp = newTimestamp
         }
     }
-    
+
     /**
      Initializes status message.
      
@@ -43,6 +43,5 @@ class StatusMessage: TCHMessage {
         timestamp = dateFormatter.string(from: NSDate() as Date)
         self.status = status
     }
-    
-    
+
 }
