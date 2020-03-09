@@ -128,9 +128,9 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
 
     var rowCount = 0
     switch inferenceSection {
-    case .Results:
+    case .results:
       rowCount = maxResults
-    case .InferenceInfo:
+    case .inferenceInfo:
       rowCount = InferenceInfo.allCases.count
     }
     return rowCount
@@ -145,18 +145,16 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     switch inferenceSection {
-    case .Results:
+    case .results:
       if indexPath.row == maxResults - 1 {
         height = separatorCellHeight + bottomSpacing
-      }
-      else {
+      } else {
         height = normalCellHeight
       }
-    case .InferenceInfo:
+    case .inferenceInfo:
       if indexPath.row == InferenceInfo.allCases.count - 1 {
         height = separatorCellHeight + bottomSpacing
-      }
-      else {
+      } else {
         height = normalCellHeight
       }
     }
@@ -177,7 +175,7 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
     var color = infoTextColor
 
     switch inferenceSection {
-    case .Results:
+    case .results:
 
       let tuple = displayStringsForResults(atRow: indexPath.row)
       fieldName = tuple.0
@@ -186,13 +184,12 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
       if indexPath.row == 0 {
         font = highlightedFont
         color = infoTextColor
-      }
-      else {
+      } else {
         font = infoFont
         color = lightTextInfoColor
       }
 
-    case .InferenceInfo:
+    case .inferenceInfo:
       let tuple = displayStringsForInferenceInfo(atRow: indexPath.row)
       fieldName = tuple.0
       info = tuple.1
@@ -219,8 +216,7 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
       if row == 1 {
         fieldName = "No Results"
         info = ""
-      }
-      else {
+      } else {
         fieldName = ""
         info = ""
       }
@@ -231,8 +227,7 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
       let inference = tempResult.inferences[row]
       fieldName = inference.label
       info =  String(format: "%.2f", inference.confidence * 100.0) + "%"
-    }
-    else {
+    } else {
       fieldName = ""
       info = ""
     }
@@ -255,11 +250,11 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
     fieldName = inferenceInfo.displayString()
 
     switch inferenceInfo {
-    case .Resolution:
+    case .resolution:
       info = "\(Int(resolution.width))x\(Int(resolution.height))"
-    case .Crop:
+    case .crop:
       info = "\(wantedInputWidth)x\(wantedInputHeight)"
-    case .InferenceTime:
+    case .inferenceTime:
       guard let finalResults = inferenceResult else {
         info = "0ms"
         break
@@ -270,7 +265,7 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
     return(fieldName, info)
   }
 
-    func threadStepperSetup(){
+    func threadStepperSetup() {
         threadStepper.translatesAutoresizingMaskIntoConstraints = false
 
     }

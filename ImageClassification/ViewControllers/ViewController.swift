@@ -55,11 +55,10 @@ class ViewController: UIViewController {
     // Handles the presenting of results on the screen
     private var inferenceViewController = InferenceViewController()
 
-
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
-        if #available(iOS 13.0, *){
+        if #available(iOS 13.0, *) {
 
             ///Code for darmode
             if self.traitCollection.userInterfaceStyle == .dark {
@@ -72,9 +71,6 @@ class ViewController: UIViewController {
         }
 
     }
-
-
-
 
     // MARK: View Handling Methods
     override func viewDidLoad() {
@@ -103,10 +99,6 @@ class ViewController: UIViewController {
         addPanGesture()
     }
 
-
-
-
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -124,12 +116,10 @@ class ViewController: UIViewController {
     }
     #endif
 
-
     ///This indicates the color of the status bar
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-
 
     func presentUnableToResumeSessionAlert() {
         let alert = UIAlertController(
@@ -141,7 +131,6 @@ class ViewController: UIViewController {
 
         self.present(alert, animated: true)
     }
-
 
     ///Prepare for Segue to next storyboard view controller.
     // MARK: Storyboard Segue Handlers
@@ -251,7 +240,7 @@ extension ViewController: CameraFeedManagerDelegate {
         let alertController = UIAlertController(title: "Camera Permissions Denied", message: "Camera permissions have been denied for this app. You can change this by going to Settings", preferredStyle: .alert)
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        let settingsAction = UIAlertAction(title: "Settings", style: .default) { (action) in
+        let settingsAction = UIAlertAction(title: "Settings", style: .default) { (_) in
             UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
         }
         alertController.addAction(cancelAction)
@@ -283,7 +272,6 @@ extension ViewController {
         bottomSheetView.addGestureRecognizer(panGesture)
     }
 
-
     /** Change whether bottom sheet should be in expanded or collapsed state.
      */
     private func changeBottomViewState() {
@@ -293,8 +281,7 @@ extension ViewController {
         if bottomSheetViewBottomSpace.constant == inferenceVC.collapsedHeight - bottomSheetView.bounds.size.height {
 
             bottomSheetViewBottomSpace.constant = 0.0
-        }
-        else {
+        } else {
             bottomSheetViewBottomSpace.constant = inferenceVC.collapsedHeight - bottomSheetView.bounds.size.height
         }
         setImageBasedOnBottomViewState()
@@ -307,8 +294,7 @@ extension ViewController {
 
         if bottomSheetViewBottomSpace.constant == 0.0 {
             bottomSheetStateImageView.image = UIImage(named: "down_icon")
-        }
-        else {
+        } else {
             bottomSheetStateImageView.image = UIImage(named: "up_icon")
         }
     }
@@ -371,8 +357,7 @@ extension ViewController {
         var height: CGFloat = 0.0
         if initialBottomSpace == 0.0 {
             height = bottomSheetView.bounds.size.height
-        }
-        else {
+        } else {
             height = inferenceViewController.collapsedHeight
         }
 
@@ -380,11 +365,9 @@ extension ViewController {
 
         if currentHeight - height <= collapseTransitionThreshold {
             bottomSpace = inferenceViewController.collapsedHeight - bottomSheetView.bounds.size.height
-        }
-        else if currentHeight - height >= expandThransitionThreshold {
+        } else if currentHeight - height >= expandThransitionThreshold {
             bottomSpace = 0.0
-        }
-        else {
+        } else {
             bottomSpace = initialBottomSpace
         }
 
@@ -401,9 +384,7 @@ extension ViewController {
         view.setNeedsLayout()
     }
 
-
-
-    func previewViewSetup(){
+    func previewViewSetup() {
         view.addSubview(previewView)
         previewView.translatesAutoresizingMaskIntoConstraints = false
         previewView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -412,7 +393,7 @@ extension ViewController {
         previewView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
 
-    func logoLabelSetup(){
+    func logoLabelSetup() {
         topBar.addSubview(logoLabel)
         logoLabel.translatesAutoresizingMaskIntoConstraints = false
         logoLabel.bottomAnchor.constraint(equalTo: topBar.bottomAnchor, constant: -10).isActive = true
@@ -424,7 +405,7 @@ extension ViewController {
         logoLabel.textColor = .white
     }
 
-    func topBarSetup(){
+    func topBarSetup() {
         view.addSubview(topBar)
         topBar.translatesAutoresizingMaskIntoConstraints = false
         topBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -434,7 +415,7 @@ extension ViewController {
         topBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
     }
 
-    func cameraUnavailableLabelSetup(){
+    func cameraUnavailableLabelSetup() {
         view.addSubview(cameraUnavailableLabel)
         cameraUnavailableLabel.translatesAutoresizingMaskIntoConstraints = false
         cameraUnavailableLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
@@ -452,13 +433,13 @@ extension ViewController {
         view.addSubview(resumeButton)
         resumeButton.translatesAutoresizingMaskIntoConstraints = false
         resumeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        resumeButton.topAnchor.constraint(equalTo: cameraUnavailableLabel.bottomAnchor,constant: 20).isActive = true
+        resumeButton.topAnchor.constraint(equalTo: cameraUnavailableLabel.bottomAnchor, constant: 20).isActive = true
         resumeButton.setTitle("Resume Session", for: .normal)
         resumeButton.setTitleColor(.yellow, for: .normal)
         resumeButton.isHidden = true
     }
 
-    func remoteChatButtonSetup(){
+    func remoteChatButtonSetup() {
         view.addSubview(remoteChatButton)
         remoteChatButton.translatesAutoresizingMaskIntoConstraints = false
         remoteChatButton.setTitle("Remote Chat", for: .normal)
@@ -466,15 +447,12 @@ extension ViewController {
         //remoteChatButton.topAnchor.constraint(equalTo: <#T##NSLayoutAnchor<NSLayoutYAxisAnchor>#>, constant: <#T##CGFloat#>)
     }
 
-    func notesButtonSetup(){
+    func notesButtonSetup() {
         topBar.addSubview(notesButton)
         notesButton.translatesAutoresizingMaskIntoConstraints = false
         notesButton.setTitle("Notes", for: .normal)
         notesButton.setTitleColor(.black, for: .normal)
     }
-
-
-
 
     /**
             Requests the user for permission to record from the microphone and transcribe the text.
@@ -515,11 +493,10 @@ extension ViewController {
         }
     }
 
-
     /**
         Synthesizes the text to speech, the function takes a string parameter where the text to be spoken out will be passed. Therefore when the function is called, just call put the desired text in the param.
      */
-    func synthesizeText(text:String){
+    func synthesizeText(text: String) {
         let utterance = AVSpeechUtterance(string: text)
         utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
         utterance.rate = 0.1
@@ -528,5 +505,3 @@ extension ViewController {
         synthesizer.speak(utterance)
     }
 }
-
-
