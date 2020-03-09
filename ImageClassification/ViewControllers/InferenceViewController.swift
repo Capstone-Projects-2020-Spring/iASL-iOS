@@ -115,153 +115,164 @@ class InferenceViewController: UIViewController {
 // MARK: UITableView Data Source
 extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
 
-	func numberOfSections(in tableView: UITableView) -> Int {
+  func numberOfSections(in tableView: UITableView) -> Int {
 
-		return InferenceSections.allCases.count
-	}
+    return InferenceSections.allCases.count
+  }
 
-	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-		guard let inferenceSection = InferenceSections(rawValue: section) else {
-			return 0
-		}
+    guard let inferenceSection = InferenceSections(rawValue: section) else {
+      return 0
+    }
 
-		var rowCount = 0
-		switch inferenceSection {
-		case .results:
-			rowCount = maxResults
-		case .inferenceInfo:
-			rowCount = InferenceInfo.allCases.count
-		}
-		return rowCount
-	}
+    var rowCount = 0
+    switch inferenceSection {
+    case .Results:
+      rowCount = maxResults
+    case .InferenceInfo:
+      rowCount = InferenceInfo.allCases.count
+    }
+    return rowCount
+  }
 
-	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
-		var height: CGFloat = 0.0
+    var height: CGFloat = 0.0
 
-		guard let inferenceSection = InferenceSections(rawValue: indexPath.section) else {
-			return height
-		}
+    guard let inferenceSection = InferenceSections(rawValue: indexPath.section) else {
+      return height
+    }
 
-		switch inferenceSection {
-		case .results:
-			if indexPath.row == maxResults - 1 {
-				height = separatorCellHeight + bottomSpacing
-			} else {
-				height = normalCellHeight
-			}
-		case .inferenceInfo:
-			if indexPath.row == InferenceInfo.allCases.count - 1 {
-				height = separatorCellHeight + bottomSpacing
-			} else {
-				height = normalCellHeight
-			}
-		}
-		return height
-	}
+    switch inferenceSection {
+    case .Results:
+      if indexPath.row == maxResults - 1 {
+        height = separatorCellHeight + bottomSpacing
+      }
+      else {
+        height = normalCellHeight
+      }
+    case .InferenceInfo:
+      if indexPath.row == InferenceInfo.allCases.count - 1 {
+        height = separatorCellHeight + bottomSpacing
+      }
+      else {
+        height = normalCellHeight
+      }
+    }
+    return height
+  }
 
-	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-		let cell = tableView.dequeueReusableCell(withIdentifier: "INFO_CELL") as! InfoCell
+    let cell = tableView.dequeueReusableCell(withIdentifier: "INFO_CELL") as! InfoCell
 
-		guard let inferenceSection = InferenceSections(rawValue: indexPath.section) else {
-			return cell
-		}
+    guard let inferenceSection = InferenceSections(rawValue: indexPath.section) else {
+      return cell
+    }
 
-		var fieldName = ""
-		var info = ""
-		var font = infoFont
-		var color = infoTextColor
+    var fieldName = ""
+    var info = ""
+    var font = infoFont
+    var color = infoTextColor
 
-		switch inferenceSection {
-		case .results:
+    switch inferenceSection {
+    case .Results:
 
-			let tuple = displayStringsForResults(atRow: indexPath.row)
-			fieldName = tuple.0
-			info = tuple.1
+      let tuple = displayStringsForResults(atRow: indexPath.row)
+      fieldName = tuple.0
+      info = tuple.1
 
-			if indexPath.row == 0 {
-				font = highlightedFont
-				color = infoTextColor
-			} else {
-				font = infoFont
-				color = lightTextInfoColor
-			}
+      if indexPath.row == 0 {
+        font = highlightedFont
+        color = infoTextColor
+      }
+      else {
+        font = infoFont
+        color = lightTextInfoColor
+      }
 
-		case .inferenceInfo:
-			let tuple = displayStringsForInferenceInfo(atRow: indexPath.row)
-			fieldName = tuple.0
-			info = tuple.1
+    case .InferenceInfo:
+      let tuple = displayStringsForInferenceInfo(atRow: indexPath.row)
+      fieldName = tuple.0
+      info = tuple.1
 
-		}
-		cell.fieldNameLabel.font = font
-		cell.fieldNameLabel.textColor = color
-		cell.fieldNameLabel.text = fieldName
-		cell.infoLabel.text = info
-		return cell
-	}
+    }
+    cell.fieldNameLabel.font = font
+    cell.fieldNameLabel.textColor = color
+    cell.fieldNameLabel.text = fieldName
+    cell.infoLabel.text = info
+    return cell
+  }
 
-	// MARK: Format Display of information in the bottom sheet
-	/**
-	This method formats the display of the inferences for the current frame.
-	*/
-	func displayStringsForResults(atRow row: Int) -> (String, String) {
+  // MARK: Format Display of information in the bottom sheet
+  /**
+   This method formats the display of the inferences for the current frame.
+   */
+  func displayStringsForResults(atRow row: Int) -> (String, String) {
 
-		var fieldName: String = ""
-		var info: String = ""
+    var fieldName: String = ""
+    var info: String = ""
 
-		guard let tempResult = inferenceResult, tempResult.inferences.count > 0 else {
+    guard let tempResult = inferenceResult, tempResult.inferences.count > 0 else {
 
-			if row == 1 {
-				fieldName = "No Results"
-				info = ""
-			} else {
-				fieldName = ""
-				info = ""
-			}
-			return (fieldName, info)
-		}
+      if row == 1 {
+        fieldName = "No Results"
+        info = ""
+      }
+      else {
+        fieldName = ""
+        info = ""
+      }
+      return (fieldName, info)
+    }
 
-		if row < tempResult.inferences.count {
-			let inference = tempResult.inferences[row]
-			fieldName = inference.label
-			info =  String(format: "%.2f", inference.confidence * 100.0) + "%"
-		} else {
-			fieldName = ""
-			info = ""
-		}
+    if row < tempResult.inferences.count {
+      let inference = tempResult.inferences[row]
+      fieldName = inference.label
+      info =  String(format: "%.2f", inference.confidence * 100.0) + "%"
+    }
+    else {
+      fieldName = ""
+      info = ""
+    }
 
-		return (fieldName, info)
-	}
+    return (fieldName, info)
+  }
 
-	/**
-	This method formats the display of additional information relating to the inferences.
-	*/
-	func displayStringsForInferenceInfo(atRow row: Int) -> (String, String) {
+  /**
+   This method formats the display of additional information relating to the inferences.
+   */
+  func displayStringsForInferenceInfo(atRow row: Int) -> (String, String) {
 
-		var fieldName: String = ""
-		var info: String = ""
+    var fieldName: String = ""
+    var info: String = ""
 
-		guard let inferenceInfo = InferenceInfo(rawValue: row) else {
-			return (fieldName, info)
-		}
+    guard let inferenceInfo = InferenceInfo(rawValue: row) else {
+      return (fieldName, info)
+    }
 
-		fieldName = inferenceInfo.displayString()
+    fieldName = inferenceInfo.displayString()
 
-		switch inferenceInfo {
-		case .resolution:
-			info = "\(Int(resolution.width))x\(Int(resolution.height))"
-		case .crop:
-			info = "\(wantedInputWidth)x\(wantedInputHeight)"
-		case .inferenceTime:
-			guard let finalResults = inferenceResult else {
-				info = "0ms"
-				break
-			}
-			info = String(format: "%.2fms", finalResults.inferenceTime)
-		}
+    switch inferenceInfo {
+    case .Resolution:
+      info = "\(Int(resolution.width))x\(Int(resolution.height))"
+    case .Crop:
+      info = "\(wantedInputWidth)x\(wantedInputHeight)"
+    case .InferenceTime:
+      guard let finalResults = inferenceResult else {
+        info = "0ms"
+        break
+      }
+      info = String(format: "%.2fms", finalResults.inferenceTime)
+    }
 
-		return(fieldName, info)
-	}
+    return(fieldName, info)
+  }
+
+    func threadStepperSetup(){
+        threadStepper.translatesAutoresizingMaskIntoConstraints = false
+
+    }
+
 }
