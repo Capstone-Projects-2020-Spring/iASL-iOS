@@ -474,18 +474,6 @@ extension ViewController {
     }
 
 
-    return bottomSpace
-  }
-
-  /**
-   This method layouts the change of the bottom space of bottom sheet with respect to the view managed by this controller.
-   */
-  func setBottomSheetLayout(withBottomSpace bottomSpace: CGFloat) {
-
-    view.setNeedsLayout()
-    bottomSheetViewBottomSpace.constant = bottomSpace
-    view.setNeedsLayout()
-  }
 
 
     /**
