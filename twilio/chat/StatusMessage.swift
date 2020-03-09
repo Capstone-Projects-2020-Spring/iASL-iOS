@@ -1,5 +1,4 @@
 import UIKit
-import UIKit
 
 ///holds the status of the member
 enum TWCMemberStatus {
