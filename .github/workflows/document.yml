@@ -15,4 +15,4 @@ jobs:
       uses: steven0351/publish-jazzy-docs@v1
       with:
         personal_access_token: ${{ secrets.ACCESS_TOKEN }}
-        args: "--min-acl private --theme jony"
+        args: "--github_url https://github.com/Capstone-Projects-2020-Spring/iASL-iOS github-file-prefix https://github.com/Capstone-Projects-2020-Spring/iASL-iOS --min-acl private --theme jony"
