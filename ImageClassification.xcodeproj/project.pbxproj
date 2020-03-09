@@ -318,6 +318,7 @@
 				6765C7DF23FB35F60083A5C5 /* Sources */,
 				6765C7E023FB35F60083A5C5 /* Frameworks */,
 				6765C7E123FB35F60083A5C5 /* Resources */,
+				67B588B1241699E2003B090C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -428,6 +429,23 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ImageClassification/Pods-ImageClassification-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		67B588B1241699E2003B090C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which ./Pods/SwiftLint/swiftlint >/dev/null; then\n  ./Pods/SwiftLint/swiftlint autocorrect\n  ./Pods/SwiftLint/swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		AA055D8B2162320A00B25948 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
