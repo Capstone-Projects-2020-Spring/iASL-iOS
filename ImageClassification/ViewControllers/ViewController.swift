@@ -63,9 +63,11 @@ class ViewController: UIViewController {
             ///Code for darmode
             if self.traitCollection.userInterfaceStyle == .dark {
                 logoLabel.textColor = .white
+                notesButton.setTitleColor(.white, for: .normal)
                 topBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
             } else { ///Code for light mode
                 logoLabel.textColor = .black
+                notesButton.setTitleColor(.black, for: .normal)
                 topBar.backgroundColor = UIColor.white.withAlphaComponent(0.5)
             }
         }
@@ -462,14 +464,26 @@ extension ViewController {
         remoteChatButton.translatesAutoresizingMaskIntoConstraints = false
         remoteChatButton.setTitle("Remote Chat", for: .normal)
         remoteChatButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        //remoteChatButton.topAnchor.constraint(equalTo: <#T##NSLayoutAnchor<NSLayoutYAxisAnchor>#>, constant: <#T##CGFloat#>)
+        //remoteChatButton.bottomAnchor.constraint(equalTo: <#T##NSLayoutAnchor<NSLayoutYAxisAnchor>#>)
     }
     
     func notesButtonSetup(){
         topBar.addSubview(notesButton)
         notesButton.translatesAutoresizingMaskIntoConstraints = false
         notesButton.setTitle("Notes", for: .normal)
-        notesButton.setTitleColor(.black, for: .normal)
+        notesButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        notesButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        notesButton.trailingAnchor.constraint(equalTo: topBar.trailingAnchor, constant: -20).isActive = true
+        notesButton.bottomAnchor.constraint(equalTo: topBar.bottomAnchor).isActive = true
+        notesButton.addTarget(self, action: #selector(notesButtonTapped), for: .touchUpInside)
     }
+    
+    @objc func notesButtonTapped() {
+        let vc = RemoteConversationVC()
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        present(vc, animated: true, completion: nil)
+    }
+    
     
 }
