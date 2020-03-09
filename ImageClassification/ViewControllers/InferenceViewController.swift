@@ -268,6 +268,12 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
 
     return(fieldName, info)
   }
+    
+    func threadStepperSetup(){
+        threadStepper.translatesAutoresizingMaskIntoConstraints = false
+        
+    }
+    
 }
 
 
