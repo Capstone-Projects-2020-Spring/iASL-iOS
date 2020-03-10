@@ -21,6 +21,9 @@ class ViewController: UIViewController {
     let liveChatButton = UIButton()
     let notesButton = UIButton()
     let buttonStack = UIStackView()
+    let liveButton = UIButton()
+    
+    let Notes = NotesVC()
     
     let logoLabel = UILabel()
     let topBar = UIView()
@@ -90,7 +93,7 @@ class ViewController: UIViewController {
         notesButtonSetup()
         remoteChatButtonSetup()
         resumeButtonSetup()
-        
+        liveButtonSetup()
         
         
         
@@ -466,29 +469,46 @@ extension ViewController {
     }
     
     func remoteChatButtonSetup(){
-        //view.addSubview(remoteChatButton)
         remoteChatButton.translatesAutoresizingMaskIntoConstraints = false
         remoteChatButton.setTitle("Remote Chat", for: .normal)
-        notesButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        notesButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        //remoteChatButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        //remoteChatButton.bottomAnchor.constraint(equalTo: <#T##NSLayoutAnchor<NSLayoutYAxisAnchor>#>)
+        remoteChatButton.addTarget(self, action: #selector(remoteChatButtonTapped), for: .touchUpInside)
     }
     
+    @objc func remoteChatButtonTapped(){
+        let vc = RemoteConversationVC()
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
+        remoteChatButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        remoteChatButton.setTitleColor(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1), for: .normal)
+        present(vc, animated: true, completion: nil)
+    }
+    
+    func liveButtonSetup(){
+        liveButton.translatesAutoresizingMaskIntoConstraints = false
+        liveButton.setTitle("Live", for: .normal)
+        liveButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        liveButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        liveButton.addTarget(self, action: #selector(liveButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc func liveButtonTapped(){
+        Notes.willMove(toParent: nil)
+        Notes.view.removeFromSuperview()
+        Notes.removeFromParent()
+        //dismiss(animated: true, completion: nil)
+    }
     
     func notesButtonSetup(){
-        //topBar.addSubview(notesButton)
         notesButton.translatesAutoresizingMaskIntoConstraints = false
         notesButton.setTitle("Notes", for: .normal)
-        notesButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        notesButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        //notesButton.trailingAnchor.constraint(equalTo: topBar.trailingAnchor, constant: -20).isActive = true
-        //notesButton.bottomAnchor.constraint(equalTo: topBar.bottomAnchor).isActive = true
         notesButton.addTarget(self, action: #selector(notesButtonTapped), for: .touchUpInside)
     }
     
+    
     @objc func notesButtonTapped() {
-        let vc = RemoteConversationVC()
+        notesButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        notesButton.setTitleColor(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1), for: .selected)
+        let vc = NotesVC()
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .crossDissolve
         present(vc, animated: true, completion: nil)
@@ -501,10 +521,15 @@ extension ViewController {
         buttonStack.trailingAnchor.constraint(equalTo: topBar.trailingAnchor, constant: -20).isActive = true
         buttonStack.bottomAnchor.constraint(equalTo: topBar.bottomAnchor).isActive = true
         buttonStack.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        buttonStack.addArrangedSubview(notesButton)
+        
         buttonStack.addArrangedSubview(remoteChatButton)
+        buttonStack.addArrangedSubview(liveButton)
+        buttonStack.addArrangedSubview(notesButton)
+        
         buttonStack.distribution = .fillEqually
-        //buttonStack.addArrangedSubview(<#T##view: UIView##UIView#>)
+        
     }
+    
+    
     
 }
