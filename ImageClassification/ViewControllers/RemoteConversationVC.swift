@@ -10,16 +10,12 @@ import UIKit
 
 class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    
+    var people = ["Ian","Leo","Liam","Viet","Tarek","Aidan","Shakeel"]
 
-    let previewView = PreviewView()
-    let composedMessage = UITextView()
     let topBar = UIView()
     let topLabel = UILabel()
     let backButton = UIButton()
     let tableView = UITableView()
-    
-    private lazy var cameraCapture = CameraFeedManager(previewView: previewView)
     
     
     override func viewDidLoad() {
@@ -29,9 +25,8 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         backButtonSetup()
         topLabelSetup()
         tableViewSetup()
-        // Do any additional setup after loading the view.
-        previewViewSetup()
-        composedMessageSetup()
+
+        //composedMessageSetup()
     }
     
     
@@ -42,13 +37,21 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
 extension RemoteConversationVC {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return people.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
-        cell?.textLabel?.text = "asdf"
+        cell?.textLabel?.text = people[indexPath.row]
         return cell!
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = ChatVC()
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        vc.topLabel.text = people[indexPath.row]
+        present(vc, animated: true, completion: nil)
     }
     
     
@@ -63,27 +66,7 @@ extension RemoteConversationVC {
         tableView.delegate = self
         tableView.dataSource = self
     }
-    func previewViewSetup() {
-        view.addSubview(previewView)
-        previewView.translatesAutoresizingMaskIntoConstraints = false
-        previewView.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        previewView.heightAnchor.constraint(equalToConstant: 150).isActive = true
-        previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        previewView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
-        previewView.backgroundColor = .black
-    }
 
-    func composedMessageSetup() {
-        view.addSubview(composedMessage)
-        composedMessage.translatesAutoresizingMaskIntoConstraints = false
-        composedMessage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5).isActive = true
-        composedMessage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
-        composedMessage.trailingAnchor.constraint(equalTo: previewView.leadingAnchor, constant: -5).isActive = true
-        composedMessage.heightAnchor.constraint(equalToConstant: 150).isActive = true
-        composedMessage.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
-        composedMessage.layer.borderWidth = 1
-        composedMessage.layer.cornerRadius = 10
-    }
     
     func topBarSetup(){
         view.addSubview(topBar)
@@ -101,7 +84,7 @@ extension RemoteConversationVC {
         backButton.leadingAnchor.constraint(equalTo: topBar.leadingAnchor, constant: 20).isActive = true
         backButton.bottomAnchor.constraint(equalTo: topBar.bottomAnchor, constant: -10).isActive = true
         backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        backButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         backButton.backgroundColor = .red
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
