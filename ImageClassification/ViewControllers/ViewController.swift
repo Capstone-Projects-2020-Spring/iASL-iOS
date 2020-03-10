@@ -20,6 +20,7 @@ class ViewController: UIViewController {
     let remoteChatButton = UIButton()
     let liveChatButton = UIButton()
     let notesButton = UIButton()
+    let buttonStack = UIStackView()
     
     let logoLabel = UILabel()
     let topBar = UIView()
@@ -81,12 +82,17 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //previewViewSetup()
+        
         topBarSetup()
-        logoLabelSetup()
+        //logoLabelSetup()
         cameraUnavailableLabelSetup()
+        buttonStackSetup()
+        notesButtonSetup()
+        remoteChatButtonSetup()
         resumeButtonSetup()
         
-        notesButtonSetup()
+        
+        
         
         guard modelDataHandler != nil else {
             fatalError("Model set up failed")
@@ -460,21 +466,24 @@ extension ViewController {
     }
     
     func remoteChatButtonSetup(){
-        view.addSubview(remoteChatButton)
+        //view.addSubview(remoteChatButton)
         remoteChatButton.translatesAutoresizingMaskIntoConstraints = false
         remoteChatButton.setTitle("Remote Chat", for: .normal)
-        remoteChatButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        notesButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        notesButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        //remoteChatButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         //remoteChatButton.bottomAnchor.constraint(equalTo: <#T##NSLayoutAnchor<NSLayoutYAxisAnchor>#>)
     }
     
+    
     func notesButtonSetup(){
-        topBar.addSubview(notesButton)
+        //topBar.addSubview(notesButton)
         notesButton.translatesAutoresizingMaskIntoConstraints = false
         notesButton.setTitle("Notes", for: .normal)
         notesButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         notesButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        notesButton.trailingAnchor.constraint(equalTo: topBar.trailingAnchor, constant: -20).isActive = true
-        notesButton.bottomAnchor.constraint(equalTo: topBar.bottomAnchor).isActive = true
+        //notesButton.trailingAnchor.constraint(equalTo: topBar.trailingAnchor, constant: -20).isActive = true
+        //notesButton.bottomAnchor.constraint(equalTo: topBar.bottomAnchor).isActive = true
         notesButton.addTarget(self, action: #selector(notesButtonTapped), for: .touchUpInside)
     }
     
@@ -485,5 +494,17 @@ extension ViewController {
         present(vc, animated: true, completion: nil)
     }
     
+    func buttonStackSetup(){
+        topBar.addSubview(buttonStack)
+        buttonStack.translatesAutoresizingMaskIntoConstraints = false
+        buttonStack.leadingAnchor.constraint(equalTo: topBar.leadingAnchor, constant: 20).isActive = true
+        buttonStack.trailingAnchor.constraint(equalTo: topBar.trailingAnchor, constant: -20).isActive = true
+        buttonStack.bottomAnchor.constraint(equalTo: topBar.bottomAnchor).isActive = true
+        buttonStack.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        buttonStack.addArrangedSubview(notesButton)
+        buttonStack.addArrangedSubview(remoteChatButton)
+        buttonStack.distribution = .fillEqually
+        //buttonStack.addArrangedSubview(<#T##view: UIView##UIView#>)
+    }
     
 }
