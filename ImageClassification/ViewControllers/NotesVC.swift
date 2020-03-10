@@ -25,6 +25,7 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         backButtonSetup()
         topLabelSetup()
         tableViewSetup()
+        createNoteButtonSetup()
     }
     
 
@@ -86,9 +87,10 @@ extension NotesVC {
     }
     
     func createNoteButtonSetup() {
+        
         topBar.addSubview(createNoteButton)
         createNoteButton.translatesAutoresizingMaskIntoConstraints = false
-        createNoteButton.leadingAnchor.constraint(equalTo: topBar.leadingAnchor, constant: 20).isActive = true
+        createNoteButton.trailingAnchor.constraint(equalTo: topBar.trailingAnchor, constant: -20).isActive = true
         createNoteButton.bottomAnchor.constraint(equalTo: topBar.bottomAnchor, constant: -10).isActive = true
         createNoteButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         createNoteButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
@@ -100,6 +102,7 @@ extension NotesVC {
         let vc = CreateNoteVC()
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .fullScreen
+        vc.noteTitle.text = "New Note"
         present(vc, animated: true, completion: nil)
     }
     

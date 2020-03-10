@@ -12,13 +12,15 @@ class CreateNoteVC: UIViewController {
 
     let backButton = UIButton()
     let textView = UITextView()
-    let noteTitle = UITextView()
+    let noteTitle = UITextField()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        textViewSetup()
         backButtonSetup()
+        noteTitleSetup()
+        textViewSetup()
+        
         
     }
     
@@ -56,10 +58,11 @@ extension CreateNoteVC {
     func textViewSetup(){
         view.addSubview(textView)
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        textView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        textView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        textView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
         textView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        textView.topAnchor.constraint(equalTo: noteTitle.bottomAnchor, constant: 5).isActive = true
+        textView.font = UIFont.systemFont(ofSize: 20)
     }
     
 }
