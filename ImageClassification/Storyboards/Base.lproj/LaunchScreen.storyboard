@@ -16,16 +16,31 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="iASL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G7j-to-ZgZ">
+                                <rect key="frame" x="127" y="613" width="160" height="84"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="G7j-to-ZgZ" secondAttribute="height" multiplier="40:21" id="lSf-tA-FNE"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="70"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="highlightedColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iASL_Logo2" translatesAutoresizingMaskIntoConstraints="NO" id="rwE-Ax-VXf">
-                                <rect key="frame" x="57" y="298" width="299" height="300"/>
+                                <rect key="frame" x="40" y="308" width="335" height="297"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="rwE-Ax-VXf" secondAttribute="height" multiplier="335:297" id="Enb-T4-jq9"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="rwE-Ax-VXf" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="254" id="eL5-gP-q2c"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="rwE-Ax-VXf" secondAttribute="bottom" constant="264" id="r2J-zl-q6o"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="rwE-Ax-VXf" secondAttribute="trailing" constant="58" id="t07-jd-t4F"/>
-                            <constraint firstItem="rwE-Ax-VXf" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="57" id="ziD-RO-Oca"/>
+                            <constraint firstItem="G7j-to-ZgZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="127" id="Nf4-4h-d5M"/>
+                            <constraint firstItem="G7j-to-ZgZ" firstAttribute="top" secondItem="rwE-Ax-VXf" secondAttribute="bottom" constant="8" id="OZs-nI-Ecd"/>
+                            <constraint firstItem="rwE-Ax-VXf" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="40" id="QLy-A7-XO7"/>
+                            <constraint firstItem="G7j-to-ZgZ" firstAttribute="top" secondItem="rwE-Ax-VXf" secondAttribute="bottom" constant="8" id="XP9-s8-nPy"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="G7j-to-ZgZ" secondAttribute="trailing" constant="127" id="cKd-J3-7R6"/>
+                            <constraint firstItem="rwE-Ax-VXf" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="264" id="prc-wu-Src"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="rwE-Ax-VXf" secondAttribute="trailing" constant="39" id="sz3-dK-GRW"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

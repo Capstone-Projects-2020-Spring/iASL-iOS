@@ -22,6 +22,7 @@ class ViewController: UIViewController {
     let notesButton = UIButton()
     let buttonStack = UIStackView()
     let liveButton = UIButton()
+    let tabController = UITabBarController()
     
     let Notes = NotesVC()
     
@@ -114,7 +115,9 @@ class ViewController: UIViewController {
     }
     
     
-    
+    func tabBarControllerSetup(){
+        
+    }
     
     
     override func viewWillAppear(_ animated: Bool) {
@@ -485,7 +488,9 @@ extension ViewController {
     
     func liveButtonSetup(){
         liveButton.translatesAutoresizingMaskIntoConstraints = false
-        liveButton.setTitle("Live", for: .normal)
+        //liveButton.setTitle("Live", for: .normal)
+        liveButton.setImage(#imageLiteral(resourceName: "yo"), for: .normal)
+        liveButton.imageView?.contentMode = .scaleAspectFit
         liveButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         liveButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
         liveButton.addTarget(self, action: #selector(liveButtonTapped), for: .touchUpInside)

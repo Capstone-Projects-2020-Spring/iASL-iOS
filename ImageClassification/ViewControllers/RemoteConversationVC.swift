@@ -100,7 +100,7 @@ extension RemoteConversationVC {
         topLabel.bottomAnchor.constraint(equalTo: topBar.bottomAnchor, constant: -10).isActive = true
         topLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
         topLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        topLabel.text = "Remote Chat"
+        topLabel.text = "Chat"
         topLabel.font = UIFont.boldSystemFont(ofSize: 30)
         topLabel.textColor = .white
     }
