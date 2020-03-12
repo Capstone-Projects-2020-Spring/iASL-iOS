@@ -24,18 +24,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
   ) -> Bool {
-    self.window = UIWindow(frame: UIScreen.main.bounds)
-    
-    let navigationController = UINavigationController()
-    
-    let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-    let mainViewController = storyBoard.instantiateViewController(withIdentifier: "main")
-    //navigationController.pushViewController(mainViewController, animated: true)
-    
-    let mainView = //ViewController()//.instantiateViewController(storyboard)
-    navigationController.viewControllers = [mainViewController]
-    self.window!.rootViewController = navigationController
-    self.window?.makeKeyAndVisible()
+//    self.window = UIWindow(frame: UIScreen.main.bounds)
+//    
+//    let navigationController = UINavigationController()
+//    
+//    let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+//    let mainViewController = storyBoard.instantiateViewController(withIdentifier: "main")
+//    //navigationController.pushViewController(mainViewController, animated: true)
+//    
+//    let mainView = //ViewController()//.instantiateViewController(storyboard)
+//    navigationController.viewControllers = [mainViewController]
+//    self.window!.rootViewController = navigationController
+//    self.window?.makeKeyAndVisible()
     return true
   }
 }

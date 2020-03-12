@@ -473,7 +473,7 @@ extension ViewController {
     
     func remoteChatButtonSetup(){
         remoteChatButton.translatesAutoresizingMaskIntoConstraints = false
-        remoteChatButton.setTitle("Remote Chat", for: .normal)
+        remoteChatButton.setTitle("Chat", for: .normal)
         remoteChatButton.addTarget(self, action: #selector(remoteChatButtonTapped), for: .touchUpInside)
     }
     

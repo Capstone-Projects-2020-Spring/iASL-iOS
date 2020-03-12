@@ -88,20 +88,22 @@ extension NotesVC {
     
     func createNoteButtonSetup() {
         
-        topBar.addSubview(createNoteButton)
+        view.addSubview(createNoteButton)
         createNoteButton.translatesAutoresizingMaskIntoConstraints = false
-        createNoteButton.trailingAnchor.constraint(equalTo: topBar.trailingAnchor, constant: -20).isActive = true
-        createNoteButton.bottomAnchor.constraint(equalTo: topBar.bottomAnchor, constant: -10).isActive = true
-        createNoteButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        createNoteButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        createNoteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        createNoteButton.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        createNoteButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        createNoteButton.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        createNoteButton.setTitle("New Note", for: .normal)
+        createNoteButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         createNoteButton.backgroundColor = .blue
         createNoteButton.addTarget(self, action: #selector(createNoteButtonTapped), for: .touchUpInside)
     }
     
     @objc func createNoteButtonTapped(){
         let vc = CreateNoteVC()
-        vc.modalTransitionStyle = .crossDissolve
-        vc.modalPresentationStyle = .fullScreen
+        //vc.modalTransitionStyle = .crossDissolve
+        //vc.modalPresentationStyle = .fullScreen
         vc.noteTitle.text = "New Note"
         present(vc, animated: true, completion: nil)
     }
