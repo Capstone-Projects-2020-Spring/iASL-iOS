@@ -7,6 +7,14 @@ on:
     branches:
       - master
 jobs:
+  add_permalink:
+    runs-on: [ubuntu-latest]
+    steps:
+      - run: |
+          sed '$d' .jazzy.yaml > temp
+          cat temp > .jazzy.yaml
+          rm temp
+          echo "github_file_prefix: https://github.com/Capstone-Projects-2020-Spring/iASL-iOS/tree/${{ github.sha }}" >> .jazzy.yaml
   deploy_docs:
     runs-on: macos
     steps:
