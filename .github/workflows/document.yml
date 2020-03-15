@@ -10,6 +10,7 @@ jobs:
   add_permalink:
     runs-on: [ubuntu-latest]
     steps:
+      - uses: actions/checkout@v1
       - run: |
           echo $PATH
           sed '$d' .jazzy.yaml > temp
