@@ -14,4 +14,5 @@ target 'ImageClassification' do
 
     # Add the pod for Firebase Cloud Messaging
     pod 'Firebase/Messaging'
+    pod 'SwiftLint'
 end

@@ -207,7 +207,7 @@ extension ViewController: CameraFeedManagerDelegate {
     let alertController = UIAlertController(title: "Camera Permissions Denied", message: "Camera permissions have been denied for this app. You can change this by going to Settings", preferredStyle: .alert)
 
     let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-    let settingsAction = UIAlertAction(title: "Settings", style: .default) { (action) in
+    let settingsAction = UIAlertAction(title: "Settings", style: .default) { (_) in
       UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
     }
     alertController.addAction(cancelAction)
@@ -239,7 +239,6 @@ extension ViewController {
     bottomSheetView.addGestureRecognizer(panGesture)
   }
 
-
   /** Change whether bottom sheet should be in expanded or collapsed state.
    */
   private func changeBottomViewState() {
@@ -251,8 +250,7 @@ extension ViewController {
     if bottomSheetViewBottomSpace.constant == inferenceVC.collapsedHeight - bottomSheetView.bounds.size.height {
 
       bottomSheetViewBottomSpace.constant = 0.0
-    }
-    else {
+    } else {
       bottomSheetViewBottomSpace.constant = inferenceVC.collapsedHeight - bottomSheetView.bounds.size.height
     }
     setImageBasedOnBottomViewState()
@@ -265,8 +263,7 @@ extension ViewController {
 
     if bottomSheetViewBottomSpace.constant == 0.0 {
       bottomSheetStateImageView.image = UIImage(named: "down_icon")
-    }
-    else {
+    } else {
       bottomSheetStateImageView.image = UIImage(named: "up_icon")
     }
   }
@@ -329,8 +326,7 @@ extension ViewController {
     var height: CGFloat = 0.0
     if initialBottomSpace == 0.0 {
       height = bottomSheetView.bounds.size.height
-    }
-    else {
+    } else {
       height = inferenceViewController!.collapsedHeight
     }
 
@@ -338,11 +334,9 @@ extension ViewController {
 
     if currentHeight - height <= collapseTransitionThreshold {
       bottomSpace = inferenceViewController!.collapsedHeight - bottomSheetView.bounds.size.height
-    }
-    else if currentHeight - height >= expandThransitionThreshold {
+    } else if currentHeight - height >= expandThransitionThreshold {
       bottomSpace = 0.0
-    }
-    else {
+    } else {
       bottomSpace = initialBottomSpace
     }
 
