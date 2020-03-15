@@ -36,6 +36,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //    navigationController.viewControllers = [mainViewController]
 //    self.window!.rootViewController = navigationController
 //    self.window?.makeKeyAndVisible()
+    
+    
+    //changesw the root view controller
+    window = UIWindow(frame: UIScreen.main.bounds)
+    window?.rootViewController = LoginVC()
+    window?.makeKeyAndVisible()
+    
     return true
   }
 }
