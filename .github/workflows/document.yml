@@ -11,6 +11,8 @@ jobs:
     runs-on: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v1
+        with: 
+          personal_access_token: ${{ secrets.ACCESS_TOKEN }}
       - run: |
           echo $PATH
           sed '$d' .jazzy.yaml > temp
