@@ -11,7 +11,7 @@ jobs:
     runs-on: [ubuntu-latest]
     steps:
       - run: |
-          ls -laht
+          echo $PATH
           sed '$d' .jazzy.yaml > temp
           cat temp > .jazzy.yaml
           rm temp
