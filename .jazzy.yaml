@@ -1,7 +1,6 @@
 module: iASL
 author: Temple University Capstone Students Liam Miller, Ian Applebaum, Likhon Gomes
 github_url: https://github.com/Capstone-Projects-2020-Spring/iASL-iOS
-github_file_prefix: https://github.com/Capstone-Projects-2020-Spring/iASL-iOS/tree/${{ github.sha }}
 exclude:
 #   - "**/*-ObjC.swift"
 #   - "**/*Deprecations.swift"
