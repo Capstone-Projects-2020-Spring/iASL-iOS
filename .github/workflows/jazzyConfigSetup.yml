@@ -1,0 +1,33 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Add Permalink to Docs
+
+# Controls when the action will run. Triggers the workflow on push or pull request 
+# events but only for the master branch
+on:
+  pull_request:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  extract_branch:
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      - id: extract_branch
+
+  add_permalink:
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          echo $PATH
+          sed '$d' .jazzy.yaml > temp
+          cat temp > .jazzy.yaml
+          rm temp
+          echo "github_file_prefix: https://github.com/Capstone-Projects-2020-Spring/iASL-iOS/tree/${{ github.sha }}" >> .jazzy.yaml
+      - uses: stefanzweifel/git-auto-commit-action@v4.1.1
+        with:
+          commit_message: Apply jazzy config changes
+          branch: ${{ steps.extract_branch.outputs.branch }}
