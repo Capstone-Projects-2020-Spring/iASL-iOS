@@ -17,7 +17,7 @@
 set -ex
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-MODELS_URL="https://storage.googleapis.com/download.tensorflow.org/models/tflite/mobilenet_v1_224_android_quant_2017_11_08.zip"
+MODELS_URL="https://github.com/Capstone-Projects-2020-Spring/iASL-Backend/raw/master/output/p1_train/model.tflite.zip"
 DOWNLOADS_DIR=$(mktemp -d)
 
 cd $SCRIPT_DIR
@@ -46,7 +46,7 @@ download_and_extract() {
   rm -rf ${tempdir2} ${tempdir}
 }
 
-if [ -f ../ImageClassification/Model/mobilenet_quant_v1_224.tflite ]
+if [ -f ../ImageClassification/Model/model.tflite ]
 then
 echo "File exists. Exiting..."
 exit 0
