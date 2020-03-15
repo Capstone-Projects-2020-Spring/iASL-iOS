@@ -6,17 +6,26 @@
 //  Copyright © 2020 Y Media Labs. All rights reserved.
 //
 
+
+// TODO: Fix the issue where the keyboard covers the buttons when typing
+
 import Foundation
 import UIKit
 
+/**
+ This view controller is for the login screen that a user will see when they first open the app.
+ The user should be able to enter their name, email, and password if they have not registered before or
+ just their email and password if they are a returning user.
+ */
+
 class LoginVC: UIViewController {
     
+    ///boolean that determines if we are on the login screen or the register screen
     var isRegisterButton: Bool = true
     
+    
+    ///first function that is called
     override func viewDidLoad() {
-        
-        
-        
         let view = UIView()
         view.backgroundColor = .systemPink
         
@@ -38,23 +47,36 @@ class LoginVC: UIViewController {
     }
     
     //need to add some text fields inside the container view
+    
+    ///the textfield where the user can enter their name when they are registering
     let nameTextField: UITextField = {
         let tf = UITextField()
         tf.placeholder = "Name"
+        tf.attributedPlaceholder = NSAttributedString(string: tf.placeholder!, attributes: [NSAttributedString.Key.foregroundColor : UIColor.gray])
+        tf.textColor = .black
+        tf.tintColor = .systemPink
         tf.translatesAutoresizingMaskIntoConstraints = false
         return tf
     }()
     
+    ///the textfield where the user can enter their email when they are registering
     let emailTextField: UITextField = {
         let tf = UITextField()
         tf.placeholder = "Email Address"
+        tf.attributedPlaceholder = NSAttributedString(string: tf.placeholder!, attributes: [NSAttributedString.Key.foregroundColor : UIColor.gray])
+        tf.textColor = .black
+        tf.tintColor = .systemPink
         tf.translatesAutoresizingMaskIntoConstraints = false
         return tf
     }()
     
+    ///the textfield where the user can enter their password when they are registering
     let passwordTextField: UITextField = {
         let tf = UITextField()
         tf.placeholder = "Password"
+        tf.attributedPlaceholder = NSAttributedString(string: tf.placeholder!, attributes: [NSAttributedString.Key.foregroundColor : UIColor.gray])
+        tf.textColor = .black
+        tf.tintColor = .systemPink
         tf.translatesAutoresizingMaskIntoConstraints = false
         tf.isSecureTextEntry = true //makes the little dots appear for password
         return tf
@@ -62,6 +84,8 @@ class LoginVC: UIViewController {
     
     
     //need an input container view
+    
+    ///container that holds the three textviews
     let inputContainerView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.white
@@ -71,6 +95,7 @@ class LoginVC: UIViewController {
         return view
     }()
     
+    ///creates the orange lines between the name and the email
     let nameSeparatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .systemPink
@@ -78,6 +103,7 @@ class LoginVC: UIViewController {
         return view
     }()
     
+    ///creates the orange line between the email and the password
     let emailSeparatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .systemPink
@@ -85,8 +111,11 @@ class LoginVC: UIViewController {
         return view
     }()
     
+    ///creates a reference to the input container height anchor to be altered later
     var inputsContainerViewHeightAnchor: NSLayoutConstraint?
     
+    
+    ///sets up the constraints for the input container
     func setupInputContainerView() {
         //next do the anchors for the container views
         //centerx, centery, width, and height
@@ -114,10 +143,14 @@ class LoginVC: UIViewController {
         setupEmailSeparatorViewConstraints()
     }
     
+    ///creates a reference to the name text field
     var nameTextFieldHeightAnchor: NSLayoutConstraint?
+    ///creates a reference to the email text field
     var emailTextFieldHeightAnchor: NSLayoutConstraint?
+    ///creates a reference to the password text field
     var passwordTextFieldHeightAnchor: NSLayoutConstraint?
     
+    ///sets up the constraints of the name text field
     func setupNameTextFieldConstraints() {
         nameTextField.leftAnchor.constraint(equalTo: inputContainerView.leftAnchor, constant: 12).isActive = true
         nameTextField.topAnchor.constraint(equalTo: inputContainerView.topAnchor).isActive = true
@@ -128,6 +161,7 @@ class LoginVC: UIViewController {
         nameTextFieldHeightAnchor?.isActive = true
     }
     
+    ///sets up the constraints of the email text field
     func setupEmailTextFieldConstraints() {
         emailTextField.leftAnchor.constraint(equalTo: inputContainerView.leftAnchor, constant: 12).isActive = true
         emailTextField.topAnchor.constraint(equalTo: nameTextField.bottomAnchor).isActive = true
@@ -138,6 +172,7 @@ class LoginVC: UIViewController {
         emailTextFieldHeightAnchor?.isActive = true
     }
     
+    ///sets up the constraints of the password text field
     func setupPasswordTextFieldConstraints() {
         passwordTextField.leftAnchor.constraint(equalTo: inputContainerView.leftAnchor, constant: 12).isActive = true
         passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor).isActive = true
@@ -148,6 +183,7 @@ class LoginVC: UIViewController {
         passwordTextFieldHeightAnchor?.isActive = true
     }
     
+    ///sets up the constraints of the top orange separator
     func setupNameSeparatorViewConstraints() {
         nameSeparatorView.leftAnchor.constraint(equalTo: inputContainerView.leftAnchor).isActive = true
         nameSeparatorView.topAnchor.constraint(equalTo: nameTextField.bottomAnchor).isActive = true
@@ -155,6 +191,7 @@ class LoginVC: UIViewController {
         nameSeparatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
     }
     
+    ///sets up the constraints of the bottom orange separator
     func setupEmailSeparatorViewConstraints() {
         emailSeparatorView.leftAnchor.constraint(equalTo: inputContainerView.leftAnchor).isActive = true
         emailSeparatorView.topAnchor.constraint(equalTo: emailTextField.bottomAnchor).isActive = true
@@ -163,6 +200,7 @@ class LoginVC: UIViewController {
     }
     
     //need a camera container view
+    ///container for where I'd like the camera to go
     let cameraContainerView: UIView = {
         let cameraView = UIView()
         cameraView.backgroundColor = .white
@@ -172,6 +210,7 @@ class LoginVC: UIViewController {
         return cameraView
     }()
     
+    ///sets up the constraints of the camera view
     func setupCameraView() {
         cameraContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         cameraContainerView.bottomAnchor.constraint(equalTo: inputContainerView.topAnchor, constant: -12).isActive = true
@@ -180,6 +219,7 @@ class LoginVC: UIViewController {
     }
     
     //need a register/login button
+    ///the button that changes the view from register mode to login mode
     let toggleRegisterLoginButton: UIButton = {
         let toggleButton = UIButton(type: .system)
         toggleButton.backgroundColor = .white
@@ -191,6 +231,7 @@ class LoginVC: UIViewController {
         return toggleButton
     }()
     
+    ///handles the toggle button
     @objc func toggleRegisterLoginButtonPressed() {
         print("we pressed the toggle button")
         
@@ -222,6 +263,7 @@ class LoginVC: UIViewController {
 
     }
     
+    ///sets up the constraints of the toggle button
     func setupToggleRegisterLoginButton() {
         toggleRegisterLoginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         toggleRegisterLoginButton.topAnchor.constraint(equalTo: infoSubmitButton.bottomAnchor, constant: 12).isActive = true
@@ -232,6 +274,7 @@ class LoginVC: UIViewController {
     //need a segmented control for switching between login and register
     //for this, also need to change the size of the input container view
     //maybe just use a button for this? Have a register button and then below that use a
+    ///when this button is pressed, the information entered will be sent to firebase
     let infoSubmitButton: UIButton = {
         let regButton = UIButton(type: .system)
         regButton.backgroundColor = UIColor.white
@@ -242,6 +285,7 @@ class LoginVC: UIViewController {
         return regButton
     }()
 
+    ///sets up the constraints of the submit button
     func setupInfoSubmitButton() {
         infoSubmitButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         infoSubmitButton.topAnchor.constraint(equalTo: inputContainerView.bottomAnchor, constant: 12).isActive = true
