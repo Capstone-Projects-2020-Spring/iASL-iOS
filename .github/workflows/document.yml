@@ -16,6 +16,7 @@ jobs:
           sed '$d' .jazzy.yaml > temp
           cat temp > .jazzy.yaml
           rm temp
+          echo "github_file_prefix: https://github.com/Capstone-Projects-2020-Spring/iASL-iOS/tree/${{ github.sha }}" >> .jazzy.yaml
       - uses: stefanzweifel/git-auto-commit-action@v4.1.1
         with:
           commit_message: Apply jazzy config changes
