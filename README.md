@@ -1,32 +1,32 @@
+# iASL iOS Application
 ![Integration Testing](https://github.com/Capstone-Projects-2020-Spring/iASL-iOS/workflows/Integration%20Testing/badge.svg)
-# TensorFlow Lite image classification iOS example application
+![Documentation](https://capstone-projects-2020-spring.github.io/iASL-iOS/badge.svg)
 
 ## Overview
+This repository is for the iASL Android application. The app will use the iOS device's front-facing camera to record the user signing in ASL. It will then attempt to convert the ASL to text by using machine learning. The application will also support a speech-to-text feature to allow Deaf individuals to read what the other person is saying aloud.
 
-This is an example application for [TensorFlow Lite](https://tensorflow.org/lite)
-on iOS. It uses [Image classification](https://www.tensorflow.org/lite/models/image_classification/overview)
+Users will be able to save the ASL to text as a note. iASL also features an instant messaging feature. Users can sign in front of the camera, or speak into the microphone, and have the resulting text be sent to someone else.
+
+
+iASL uses [TensorFlow Lite](https://tensorflow.org/lite)
+on iOS. <!--It uses [Image classification](https://www.tensorflow.org/lite/models/image_classification/overview)
 to continuously classify whatever it sees from the device's back camera, using
-a quantized MobileNet model. The application must be run on device.
-
-These instructions walk you through building and
-running the demo on an iOS device. For an explanation of the source, see
-[TensorFlow Lite iOS image classification example](https://github.com/tensorflow/examples/blob/master/lite/examples/image_classification/ios/EXPLORE_THE_CODE.md).
+a quantized MobileNet model.  
+-->
+Go checkout [TensorFlow Lite Example App](https://github.com/tensorflow/examples/tree/master/lite/examples/image_classification/ios).
+The application must be run on device not simulator.
 
 <!-- TODO(b/124116863): Add app screenshot. -->
 
 ### Model
-For details of the model used, visit [Image classification](https://www.tensorflow.org/lite/models/image_classification/overview).
+The repository containing the machine learning model and backend for converting ASL to text can be found at: https://github.com/Capstone-Projects-2020-Spring/iASL-Backend
 
-The model will be downloaded as part of the build process.
 
 ### iOS app details
 
 The app is written entirely in Swift and uses the TensorFlow Lite
 [Swift library](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/lite/experimental/swift)
 for performing image classification.
-
-Note: Objective-C developers should use the TensorFlow Lite
-[Objective-C library](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/lite/experimental/objc).
 
 ## Requirements
 
@@ -40,8 +40,6 @@ Note: Objective-C developers should use the TensorFlow Lite
 
 *   [CocoaPods](https://cocoapods.org/) (run `bash sudo gem install cocoapods`)
 
-If this is a new install, you will need to run the Xcode application once to
-agree to the license before continuing.
 
 Note: The demo app requires a camera and must be executed on a real iOS device.
 You can build it and run with the iPhone Simulator, but the app will raise a
@@ -50,7 +48,7 @@ You can build it and run with the iPhone Simulator, but the app will raise a
 ## Build and run
 
 1.  Clone this GitHub repository to your workstation. `bash git clone
-    https://github.com/tensorflow/examples.git`
+    https://github.com/Capstone-Projects-2020-Spring/iASL-iOS.git`
 
 2.  Install the pod to generate the workspace file: `bash cd
     examples/lite/examples/image_classification/ios pod install`
@@ -89,3 +87,8 @@ the .tflite and .txt files are downloaded to the Model folder, the next time you
 build the application. You will have to add the references to these files in the
 bundle separately in that case.
 
+## Code reference
+For documentation of iASL code, refer to [iASL Documentation](https://capstone-projects-2020-spring.github.io/iASL-iOS/).
+
+## Coding Rules (swiftlint)
+[Code Rules](https://github.com/Capstone-Projects-2020-Spring/iASL-iOS/blob/master/rule_docs/Rule%20Directory.md#rule-directory)
