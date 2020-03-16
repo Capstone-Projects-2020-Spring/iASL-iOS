@@ -33,9 +33,8 @@ jobs:
   tar_docset:
     runs-on: [ubuntu-latest]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@gh-pages
       - run: |
-          git checkout gh-pages
           cd docsets
           tar --exclude='.DS_Store' -cvzf iASL.tgz iASL.docset
       - uses: stefanzweifel/git-auto-commit-action@v4.1.1
