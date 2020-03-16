@@ -19,4 +19,4 @@ jobs:
           commit_author: Ian Applebaum <ian.tyler@electricbluefish.com>
           commit_options: ''
           token: ${{ secrets.KEY_TOKEN }}
-          branch: ${{ github.head_ref }}
+          branch: -b ${{ github.head_ref }}
