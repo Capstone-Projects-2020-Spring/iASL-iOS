@@ -1,5 +1,5 @@
 name: Setup Jazzy Config
-on: [pull_request]
+on: [push]
 jobs:
    add_permalink:
     runs-on: [ubuntu-latest]
