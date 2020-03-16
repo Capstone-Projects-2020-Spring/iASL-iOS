@@ -30,15 +30,3 @@ jobs:
       uses: steven0351/publish-jazzy-docs@v1
       with:
         personal_access_token: ${{ secrets.ACCESS_TOKEN }}
-  tar_docset:
-    runs-on: [ubuntu-latest]
-    steps:
-      - uses: actions/checkout@gh-pages
-      - run: |
-          cd docsets
-          tar --exclude='.DS_Store' -cvzf iASL.tgz iASL.docset
-      - uses: stefanzweifel/git-auto-commit-action@v4.1.1
-        with:
-          commit_message: docset tar compressed
-          token: ${{ secrets.ACCESS_TOKEN }}
-          branch: ${{ github.head_ref }}
