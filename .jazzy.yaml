@@ -80,4 +80,5 @@ docset_icon: /Users/ianapplebaum/Documents/github/iASL-iOS/ImageClassification/A
 #     - RequestNetworkingCompletionCallback
 #     - RequestTransferMetrics
 #     - URLSessionProvider
-github_file_prefix: https://github.com/Capstone-Projects-2020-Spring/iASL-iOS/tree/ce049b1692b58448bc075554953c09b999aa1e6f
+#     - SessionTaskContainer
+github_file_prefix: https://github.com/Capstone-Projects-2020-Spring/iASL-iOS/tree/be9e4d6344057eb560e6f1c5ec9f7a47c6f41d3d
