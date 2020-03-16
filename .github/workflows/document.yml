@@ -20,6 +20,9 @@ jobs:
       - uses: stefanzweifel/git-auto-commit-action@v4.1.1
         with:
           commit_message: Apply jazzy config changes
+          commit_user_name: ApplebaumIan
+          commit_user_email: ian.tyler@electricbluefish.com
+          commit_author: Author <ian.tyler@electricbluefish.com>
           token: ${{ secrets.KEY_TOKEN }}
           branch: ${{ github.head_ref }}
   deploy_docs:
