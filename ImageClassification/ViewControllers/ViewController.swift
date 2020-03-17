@@ -27,6 +27,20 @@ class ViewController: UIViewController {
     let outputTextView = UITextView()
     let textViewHolder = UIView()
     
+    private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
+    
+    private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
+    
+    private var recognitionTask: SFSpeechRecognitionTask?
+    
+    private let audioEngine = AVAudioEngine()
+    
+    
+    
+    
+    
+    
+    
     let Notes = NotesVC()
     
     let logoLabel = UILabel()
