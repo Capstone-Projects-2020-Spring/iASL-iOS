@@ -51,7 +51,7 @@ extension RemoteConversationVC {
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .crossDissolve
         vc.topLabel.text = people[indexPath.row]
-        present(vc, animated: true, completion: nil)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     
@@ -90,7 +90,7 @@ extension RemoteConversationVC {
     }
     
     @objc func backButtonTapped(){
-        dismiss(animated: true, completion: nil)
+        navigationController?.popViewController(animated: true)
     }
     
     func topLabelSetup(){

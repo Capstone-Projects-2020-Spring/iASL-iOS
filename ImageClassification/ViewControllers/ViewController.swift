@@ -23,6 +23,8 @@ class ViewController: UIViewController {
     let buttonStack = UIStackView()
     let liveButton = UIButton()
     let tabController = UITabBarController()
+    let outputTextView = UITextView()
+    let textViewHolder = UIView()
     
     let Notes = NotesVC()
     
@@ -67,13 +69,9 @@ class ViewController: UIViewController {
             
             ///Code for darmode
             if self.traitCollection.userInterfaceStyle == .dark {
-                logoLabel.textColor = .white
-                notesButton.setTitleColor(.white, for: .normal)
-                topBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+                
             } else { ///Code for light mode
-                logoLabel.textColor = .black
-                notesButton.setTitleColor(.black, for: .normal)
-                topBar.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+                
             }
         }
         
@@ -95,7 +93,8 @@ class ViewController: UIViewController {
         remoteChatButtonSetup()
         resumeButtonSetup()
         liveButtonSetup()
-        
+        textViewHolderSetup()
+        outputTextViewSetup()
         
         
         guard modelDataHandler != nil else {
@@ -444,7 +443,7 @@ extension ViewController {
         topBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         topBar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         topBar.heightAnchor.constraint(equalToConstant: 90).isActive = true
-        topBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        //topBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
     }
     
     func cameraUnavailableLabelSetup(){
@@ -472,8 +471,15 @@ extension ViewController {
     }
     
     func remoteChatButtonSetup(){
+        view.addSubview(remoteChatButton)
         remoteChatButton.translatesAutoresizingMaskIntoConstraints = false
-        remoteChatButton.setTitle("Chat", for: .normal)
+        remoteChatButton.setImage(#imageLiteral(resourceName: "chatIcon"), for: .normal)
+        remoteChatButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        remoteChatButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        remoteChatButton.imageView?.contentMode = .scaleAspectFit
+        remoteChatButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        remoteChatButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
+        //remoteChatButton.setTitle("Chat", for: .normal)
         remoteChatButton.addTarget(self, action: #selector(remoteChatButtonTapped), for: .touchUpInside)
     }
     
@@ -483,30 +489,45 @@ extension ViewController {
         vc.modalPresentationStyle = .fullScreen
         remoteChatButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         remoteChatButton.setTitleColor(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1), for: .normal)
-        present(vc, animated: true, completion: nil)
+        //present(vc, animated: true, completion: nil)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func liveButtonSetup(){
+        view.addSubview(liveButton)
         liveButton.translatesAutoresizingMaskIntoConstraints = false
         //liveButton.setTitle("Live", for: .normal)
         liveButton.setImage(#imageLiteral(resourceName: "yo"), for: .normal)
+        liveButton.setImage(#imageLiteral(resourceName: "microphone"), for: .selected)
         liveButton.imageView?.contentMode = .scaleAspectFit
-        liveButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        liveButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        liveButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        liveButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        liveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        liveButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         liveButton.addTarget(self, action: #selector(liveButtonTapped), for: .touchUpInside)
     }
     
     @objc func liveButtonTapped(){
-        Notes.willMove(toParent: nil)
-        Notes.view.removeFromSuperview()
-        Notes.removeFromParent()
-        //dismiss(animated: true, completion: nil)
+        if liveButton.isSelected == true {
+            liveButton.isSelected = false
+        } else {
+            liveButton.isSelected = true
+        }
+        
     }
     
     func notesButtonSetup(){
+        view.addSubview(notesButton)
         notesButton.translatesAutoresizingMaskIntoConstraints = false
-        notesButton.setTitle("Notes", for: .normal)
+        notesButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        notesButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
+        notesButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        notesButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        notesButton.setImage(#imageLiteral(resourceName: "notesIcon"), for: .normal)
+        //notesButton.setTitle("Notes", for: .normal)
         notesButton.addTarget(self, action: #selector(notesButtonTapped), for: .touchUpInside)
+        
+        notesButton.imageView?.contentMode = .scaleAspectFit
     }
     
     
@@ -516,7 +537,7 @@ extension ViewController {
         let vc = NotesVC()
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .crossDissolve
-        present(vc, animated: true, completion: nil)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func buttonStackSetup(){
@@ -533,6 +554,31 @@ extension ViewController {
         
         buttonStack.distribution = .fillEqually
         
+    }
+    
+    func textViewHolderSetup() {
+        view.addSubview(textViewHolder)
+        textViewHolder.translatesAutoresizingMaskIntoConstraints = false
+        textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        textViewHolder.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        textViewHolder.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        textViewHolder.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5).isActive = true
+        textViewHolder.backgroundColor = #colorLiteral(red: 0.9596421632, green: 0.9596421632, blue: 0.9596421632, alpha: 1)
+        textViewHolder.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
+        textViewHolder.layer.cornerRadius = 20
+    }
+    
+    func outputTextViewSetup(){
+        view.addSubview(outputTextView)
+        outputTextView.translatesAutoresizingMaskIntoConstraints = false
+        outputTextView.bottomAnchor.constraint(equalTo: textViewHolder.bottomAnchor).isActive = true
+        outputTextView.leadingAnchor.constraint(equalTo: textViewHolder.leadingAnchor).isActive = true
+        outputTextView.trailingAnchor.constraint(equalTo: textViewHolder.trailingAnchor).isActive = true
+        outputTextView.topAnchor.constraint(equalTo: textViewHolder.topAnchor, constant: 20).isActive = true
+        outputTextView.isEditable = false
+        outputTextView.text = "The quick brown fox jumps over the lazy dog"
+        outputTextView.textColor = .gray
+        outputTextView.font = UIFont.boldSystemFont(ofSize: 30)
     }
     
     

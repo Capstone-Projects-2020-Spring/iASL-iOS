@@ -27,11 +27,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //    self.window = UIWindow(frame: UIScreen.main.bounds)
 //    
 //    let navigationController = UINavigationController()
-//    
+//    navigationController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
+//    navigationController.navigationBar.shadowImage = UIImage()
+//    navigationController.navigationBar.isTranslucent = true
 //    let storyBoard = UIStoryboard(name: "Main", bundle: nil)
 //    let mainViewController = storyBoard.instantiateViewController(withIdentifier: "main")
 //    //navigationController.pushViewController(mainViewController, animated: true)
-//    
+//    navigationController.isNavigationBarHidden = true
 //    let mainView = //ViewController()//.instantiateViewController(storyboard)
 //    navigationController.viewControllers = [mainViewController]
 //    self.window!.rootViewController = navigationController
