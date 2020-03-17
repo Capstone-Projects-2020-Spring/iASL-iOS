@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import UIKit
+import Speech
 
 let navigationController = UINavigationController()
 
@@ -24,8 +25,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
   ) -> Bool {
+    requestTranscribePermissions()
+    
 //    self.window = UIWindow(frame: UIScreen.main.bounds)
-//    
+//
 //    let navigationController = UINavigationController()
 //    navigationController.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
 //    navigationController.navigationBar.shadowImage = UIImage()
@@ -40,4 +43,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //    self.window?.makeKeyAndVisible()
     return true
   }
+    
+    func requestTranscribePermissions() {
+        SFSpeechRecognizer.requestAuthorization { [unowned self] authStatus in
+            DispatchQueue.main.async {
+                if authStatus == .authorized {
+                    print("Good to go!")
+                } else {
+                    print("Transcription permission was declined.")
+                }
+            }
+        }
+    }
 }

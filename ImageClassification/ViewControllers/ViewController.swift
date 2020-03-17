@@ -14,6 +14,7 @@
 
 import AVFoundation
 import UIKit
+import Speech
 
 class ViewController: UIViewController {
     
@@ -73,6 +74,21 @@ class ViewController: UIViewController {
             } else { ///Code for light mode
                 
             }
+        }
+        
+    }
+    
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        if UIDevice.current.orientation == UIDeviceOrientation.portraitUpsideDown {
+            liveButton.isSelected = true
+            notesButton.isHidden = true
+            remoteChatButton.isHidden = true
+        } else {
+            liveButton.isSelected = false
+            remoteChatButton.isHidden = false
+            notesButton.isHidden = false
+            
         }
         
     }
