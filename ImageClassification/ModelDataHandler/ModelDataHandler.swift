@@ -34,7 +34,7 @@ typealias FileInfo = (name: String, extension: String)
 
 /// Information about the MobileNet model.
 enum MobileNet {
-  static let modelInfo: FileInfo = (name: "mobilenet_quant_v1_224", extension: "tflite")
+  static let modelInfo: FileInfo = (name: "model", extension: "tflite")
   static let labelsInfo: FileInfo = (name: "labels", extension: "txt")
 }
 
@@ -54,9 +54,9 @@ class ModelDataHandler {
   // MARK: - Model Parameters
 
   let batchSize = 1
-  let inputChannels = 3
-  let inputWidth = 224
-  let inputHeight = 224
+  let inputChannels = 1
+  let inputWidth = 200
+  let inputHeight = 200
 
   // MARK: - Private Properties
 
@@ -142,7 +142,7 @@ class ModelDataHandler {
       // Run inference by invoking the `Interpreter`.
       let startDate = Date()
       try interpreter.invoke()
-      interval = Date().timeIntervalSince(startDate) * 1000
+      interval = Date().timeIntervalSince(startDate) * 1
 
       // Get the output `Tensor` to process the inference results.
       outputTensor = try interpreter.output(at: 0)
