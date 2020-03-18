@@ -99,6 +99,10 @@ class ViewController: UIViewController {
             liveButton.isSelected = true
             notesButton.isHidden = true
             remoteChatButton.isHidden = true
+            let vc = SpeechToTextVC()
+            vc.modalPresentationStyle = .fullScreen
+            vc.modalTransitionStyle = .crossDissolve
+            present(vc, animated: true, completion: {vc.recordButtonTapped()})
         } else {
             liveButton.isSelected = false
             remoteChatButton.isHidden = false
@@ -126,7 +130,7 @@ class ViewController: UIViewController {
         liveButtonSetup()
         textViewHolderSetup()
         outputTextViewSetup()
-        speak()
+        //speak()
         
         guard modelDataHandler != nil else {
             fatalError("Model set up failed")
@@ -540,6 +544,11 @@ extension ViewController {
     
     @objc func liveButtonTapped(){
         if liveButton.isSelected == true {
+            let vc = SpeechToTextVC()
+            vc.modalPresentationStyle = .fullScreen
+            vc.modalTransitionStyle = .crossDissolve
+            present(vc, animated: true, completion: nil)
+            
             liveButton.isSelected = false
         } else {
             liveButton.isSelected = true
