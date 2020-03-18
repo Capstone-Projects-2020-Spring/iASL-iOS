@@ -39,9 +39,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
     //changesw the root view controller
-    window = UIWindow(frame: UIScreen.main.bounds)
-    window?.rootViewController = LoginVC()
-    window?.makeKeyAndVisible()
+//    window = UIWindow(frame: UIScreen.main.bounds)
+//    window?.rootViewController = LoginVC()
+//    window?.makeKeyAndVisible()
     
     return true
   }
