@@ -4,7 +4,7 @@ import UIKit
  Formats dates that are used for organizing a chat and providing information for a user on when messages were sent.
  */
 class DateTodayFormatter {
-    
+
     /**
      Takes in a date of type NSDate and translatese it into a string.
      */
@@ -12,22 +12,21 @@ class DateTodayFormatter {
         guard let date = date else {
             return nil
         }
-        
+
         let messageDate = roundDateToDay(date: date)
         let todayDate = roundDateToDay(date: NSDate())
-        
+
         let formatter = DateFormatter()
-        
+
         if messageDate == todayDate {
             formatter.dateFormat = "'Today' - hh:mma"
-        }
-        else {
+        } else {
             formatter.dateFormat = "MMM. dd - hh:mma"
         }
-        
+
         return formatter.string(from: date as Date)
     }
-    
+
     /**
      Takes in a date of type NSDate and sends back another NSDate that has been rounded to the cloesest date.
      */
@@ -35,8 +34,8 @@ class DateTodayFormatter {
         let calendar  = Calendar.current
         let flags = Set<Calendar.Component>([.day, .month, .year])
         let components = calendar.dateComponents(flags, from: date as Date)
-        
-        return calendar.date(from:components)! as NSDate
+
+        return calendar.date(from: components)! as NSDate
     }
 }
 

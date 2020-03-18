@@ -4,33 +4,34 @@ import UIKit
  Handles the behavior and logic of the messaging features.
  */
 class MessagingManager: NSObject {
-    
+    // MARK: FIXME identifier_name contains _
+    // swiftlint:disable identifier_name
     ///messaging manager
     static let _sharedManager = MessagingManager()
-    
+    // swiftlint:enable identifier_name
     ///twilio based client, part of API
-    var client:TwilioChatClient?
+    var client: TwilioChatClient?
     ///delegate for channel manager
-    var delegate:ChannelManager?
+    weak var delegate: ChannelManager?
     ///boolean to determine if user is connected to channel
     var connected = false
-    
+
     //gets username of user
-    var userIdentity:String {
+    var userIdentity: String {
         return SessionManager.getUsername()
     }
-    
+
     ///determines if user is logged in
     var hasIdentity: Bool {
         return SessionManager.isLoggedIn()
     }
-    
+
     ///sets the delegate of the channel manager
     override init() {
         super.init()
         delegate = ChannelManager.sharedManager
     }
-    
+
     /**
      Gets the shared messaging manager.
      
@@ -39,18 +40,18 @@ class MessagingManager: NSObject {
     class func sharedManager() -> MessagingManager {
         return _sharedManager
     }
-    
+
     ///presents the main view controller of the messaging portion if the user is a user and is signed in
     func presentRootViewController() {
-        if (!hasIdentity) {
+        if !hasIdentity {
             presentViewControllerByName(viewController: "LoginViewController")
             return
         }
-        
-        if (!connected) {
+
+        if !connected {
             connectClientWithCompletion { success, error in
                 print("Delegate method will load views when sync is complete")
-                if (!success || error != nil) {
+                if !success || error != nil {
                     DispatchQueue.main.async {
                         self.presentViewControllerByName(viewController: "LoginViewController")
                     }
@@ -58,10 +59,10 @@ class MessagingManager: NSObject {
             }
             return
         }
-        
+
         presentViewControllerByName(viewController: "RevealViewController")
     }
-    
+
     /**
      Presents the main messaging veiw controller.
      
@@ -70,14 +71,14 @@ class MessagingManager: NSObject {
     func presentViewControllerByName(viewController: String) {
         presentViewController(controller: storyBoardWithName(name: "Main").instantiateViewController(withIdentifier: viewController))
     }
-    
+
     /**
      Presents the launch screen.
      */
     func presentLaunchScreen() {
         presentViewController(controller: storyBoardWithName(name: "LaunchScreen").instantiateInitialViewController()!)
     }
-    
+
     /**
      Presents a view controller in a window.
      
@@ -87,7 +88,7 @@ class MessagingManager: NSObject {
         let window = UIApplication.shared.delegate!.window!!
         window.rootViewController = controller
     }
-    
+
     /**
      Gets storyboard name.
      
@@ -95,12 +96,12 @@ class MessagingManager: NSObject {
      
      - Returns: a called storyboard with the name from the parameter.
      */
-    func storyBoardWithName(name:String) -> UIStoryboard {
-        return UIStoryboard(name:name, bundle: Bundle.main)
+    func storyBoardWithName(name: String) -> UIStoryboard {
+        return UIStoryboard(name: name, bundle: Bundle.main)
     }
-    
+
     // MARK: User and session management
-    
+
     /**
      Logs into the server with the given username.
      
@@ -112,7 +113,7 @@ class MessagingManager: NSObject {
         SessionManager.loginWithUsername(username: username)
         connectClientWithCompletion(completion: completion)
     }
-    
+
     ///Used to log out user of server.
     func logout() {
         SessionManager.logout()
@@ -122,9 +123,9 @@ class MessagingManager: NSObject {
         }
         self.connected = false
     }
-    
+
     // MARK: Twilio Client
-    
+
     /**
      Loads a chatroom for anyone to enter.
      
@@ -134,36 +135,34 @@ class MessagingManager: NSObject {
         ChannelManager.sharedManager.joinGeneralChatRoomWithCompletion { succeeded in
             if succeeded {
                 completion(succeeded, nil)
-            }
-            else {
+            } else {
                 let error = self.errorWithDescription(description: "Could not join General channel", code: 300)
                 completion(succeeded, error)
             }
         }
     }
-    
+
     /**
      Handles connection with chatroom.
      
      - Parameter completion. object for determining if chatroom connection was successful.
      */
     func connectClientWithCompletion(completion: @escaping (Bool, NSError?) -> Void) {
-        if (client != nil) {
+        if client != nil {
             logout()
         }
-        
+
         requestTokenWithCompletion { succeeded, token in
             if let token = token, succeeded {
                 self.initializeClientWithToken(token: token)
                 completion(succeeded, nil)
-            }
-            else {
-                let error = self.errorWithDescription(description: "Could not get access token", code:301)
+            } else {
+                let error = self.errorWithDescription(description: "Could not get access token", code: 301)
                 completion(succeeded, error)
             }
         }
     }
-    
+
     /**
      Creates a client with a token.
      
@@ -174,14 +173,14 @@ class MessagingManager: NSObject {
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
         }
         TwilioChatClient.chatClient(withToken: token, properties: nil, delegate: self) { [weak self] result, chatClient in
-            guard (result.isSuccessful()) else { return }
-            
+            guard result.isSuccessful() else { return }
+
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
             self?.connected = true
             self?.client = chatClient
         }
     }
-    
+
     /**
      Gets token for client.
      
@@ -189,15 +188,14 @@ class MessagingManager: NSObject {
      */
     func requestTokenWithCompletion(completion:@escaping (Bool, String?) -> Void) {
         if let device = UIDevice.current.identifierForVendor?.uuidString {
-            TokenRequestHandler.fetchToken(params: ["device": device, "identity":SessionManager.getUsername()]) {response,error in
+            TokenRequestHandler.fetchToken(params: ["device": device, "identity": SessionManager.getUsername()]) {response, _ in
                 var token: String?
                 token = response["token"] as? String
                 completion(token != nil, token)
             }
         }
     }
-    
-    
+
     /**
      Handles errors.
      
@@ -207,31 +205,31 @@ class MessagingManager: NSObject {
      - Returns: NSError type.
      */
     func errorWithDescription(description: String, code: Int) -> NSError {
-        let userInfo = [NSLocalizedDescriptionKey : description]
+        let userInfo = [NSLocalizedDescriptionKey: description]
         return NSError(domain: "app", code: code, userInfo: userInfo)
     }
 }
 
 // MARK: - TwilioChatClientDelegate
-extension MessagingManager : TwilioChatClientDelegate {
+extension MessagingManager: TwilioChatClientDelegate {
     func chatClient(_ client: TwilioChatClient, channelAdded channel: TCHChannel) {
         self.delegate?.chatClient(client, channelAdded: channel)
     }
-    
+
     func chatClient(_ client: TwilioChatClient, channel: TCHChannel, updated: TCHChannelUpdate) {
         self.delegate?.chatClient(client, channel: channel, updated: updated)
     }
-    
+
     func chatClient(_ client: TwilioChatClient, channelDeleted channel: TCHChannel) {
         self.delegate?.chatClient(client, channelDeleted: channel)
     }
-    
+
     func chatClient(_ client: TwilioChatClient, synchronizationStatusUpdated status: TCHClientSynchronizationStatus) {
         if status == TCHClientSynchronizationStatus.completed {
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
             ChannelManager.sharedManager.channelsList = client.channelsList()
             ChannelManager.sharedManager.populateChannels()
-            loadGeneralChatRoomWithCompletion { success, error in
+            loadGeneralChatRoomWithCompletion { success, _ in
                 if success {
                     self.presentRootViewController()
                 }
@@ -241,7 +239,7 @@ extension MessagingManager : TwilioChatClientDelegate {
     }
 }
 
-//// MARK: - TwilioAccessManagerDelegate
+// MARK: - TwilioAccessManagerDelegate
 //extension MessagingManager : TwilioAccessManagerDelegate {
 //    func accessManagerTokenWillExpire(_ accessManager: TwilioAccessManager) {
 //        requestTokenWithCompletion { succeeded, token in
