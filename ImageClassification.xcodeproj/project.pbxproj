@@ -10,7 +10,7 @@
 		2F8F42FAF8F1249277BA57B8 /* Pods_ImageClassification.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76AE2E947B2172049010B9BA /* Pods_ImageClassification.framework */; };
 		60EF4013241DB63700CA0C41 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EF4012241DB63700CA0C41 /* LoginVC.swift */; };
 		6765C7E623FB35F60083A5C5 /* ImageClassificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6765C7E523FB35F60083A5C5 /* ImageClassificationTests.swift */; };
-		6E23ACD52416BE8E00495F02 /* RemoteConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E23ACD42416BE8E00495F02 /* RemoteConversationVC.swift */; };
+		676DCBA82422BF5900DD76A7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 676DCBA62422BF5900DD76A7 /* GoogleService-Info.plist */; };
 		6E3469932421CD64009F1E7D /* SpeechToTextVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E3469922421CD64009F1E7D /* SpeechToTextVC.swift */; };
 		6E6D14CF24175AC800A185E9 /* CreateNoteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6D14CE24175AC800A185E9 /* CreateNoteVC.swift */; };
 		6E6D14D1241845D900A185E9 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6D14D0241845D900A185E9 /* ChatTableViewCell.swift */; };
@@ -62,8 +62,9 @@
 		6765C7E323FB35F60083A5C5 /* ImageClassificationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageClassificationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6765C7E523FB35F60083A5C5 /* ImageClassificationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageClassificationTests.swift; sourceTree = "<group>"; };
 		6765C7E723FB35F60083A5C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		676DCBA62422BF5900DD76A7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "ImageClassification/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		676DCBA72422BF5900DD76A7 /* iASL.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = iASL.entitlements; path = ImageClassification/iASL.entitlements; sourceTree = "<group>"; };
 		6E23ACD42416BE8E00495F02 /* RemoteConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConversationVC.swift; sourceTree = "<group>"; };
-		6E23ACD62416CB4000495F02 /* iASL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iASL.entitlements; sourceTree = "<group>"; };
 		6E3469922421CD64009F1E7D /* SpeechToTextVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechToTextVC.swift; sourceTree = "<group>"; };
 		6E6D14CE24175AC800A185E9 /* CreateNoteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNoteVC.swift; sourceTree = "<group>"; };
 		6E6D14D0241845D900A185E9 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
@@ -264,6 +265,8 @@
 		AAE79E4D213521DA00E7AC1F = {
 			isa = PBXGroup;
 			children = (
+				676DCBA62422BF5900DD76A7 /* GoogleService-Info.plist */,
+				676DCBA72422BF5900DD76A7 /* iASL.entitlements */,
 				604630A5240231D50085F612 /* twilio */,
 				AAE79E58213521DA00E7AC1F /* ImageClassification */,
 				6765C7E423FB35F60083A5C5 /* ImageClassificationTests */,
@@ -285,7 +288,6 @@
 		AAE79E58213521DA00E7AC1F /* ImageClassification */ = {
 			isa = PBXGroup;
 			children = (
-				6E6D0FFA240366E0000F47BE /* iASL.entitlements */,
 				AAAB096C218981A30015A1F2 /* Extensions */,
 				AA16E5A02180843700D9E153 /* Cells */,
 				AA24751A2170A054000B6A31 /* Views */,
@@ -297,7 +299,6 @@
 				AAE79E59213521DA00E7AC1F /* AppDelegate.swift */,
 				AAE79E60213521DB00E7AC1F /* Assets.xcassets */,
 				AAE79E65213521DB00E7AC1F /* Info.plist */,
-				6E6D0FFB24036D67000F47BE /* GoogleService-Info.plist */,
 			);
 			path = ImageClassification;
 			sourceTree = "<group>";
@@ -425,7 +426,7 @@
 				AA5FEB7E21355CCC00F9BD4B /* labels.txt in Resources */,
 				AAE79E5F213521DA00E7AC1F /* Main.storyboard in Resources */,
 				AA5FEB7D21355CCC00F9BD4B /* mobilenet_quant_v1_224.tflite in Resources */,
-				6E6D0FFC24036D67000F47BE /* GoogleService-Info.plist in Resources */,
+				676DCBA82422BF5900DD76A7 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
