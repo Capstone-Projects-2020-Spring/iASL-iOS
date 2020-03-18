@@ -35,13 +35,7 @@ class ViewController: UIViewController {
 
     private let audioEngine = AVAudioEngine()
 
-
-
-
-
-
-
-    let Notes = NotesVC()
+    let notes = NotesVC()
 
     let logoLabel = UILabel()
     let topBar = UIView()
@@ -91,7 +85,6 @@ class ViewController: UIViewController {
 
     }
 
-
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         if UIDevice.current.orientation == UIDeviceOrientation.portraitUpsideDown {
             liveButton.isSelected = true
@@ -109,9 +102,6 @@ class ViewController: UIViewController {
         }
 
     }
-
-
-
 
     // MARK: View Handling Methods
     override func viewDidLoad() {
@@ -146,11 +136,9 @@ class ViewController: UIViewController {
         addPanGesture()
     }
 
-
-    func tabBarControllerSetup(){
+    func tabBarControllerSetup() {
 
     }
-
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -505,7 +493,7 @@ extension ViewController {
         remoteChatButton.addTarget(self, action: #selector(remoteChatButtonTapped), for: .touchUpInside)
     }
 
-    @objc func remoteChatButtonTapped(){
+    @objc func remoteChatButtonTapped() {
 		// FIXME: Had to comment this out because it wont compile ~Ian
 		/*
         let vc = RemoteConversationVC()
@@ -518,7 +506,7 @@ extension ViewController {
 */
     }
 
-    func liveButtonSetup(){
+    func liveButtonSetup() {
         view.addSubview(liveButton)
         liveButton.translatesAutoresizingMaskIntoConstraints = false
         //liveButton.setTitle("Live", for: .normal)
@@ -532,7 +520,7 @@ extension ViewController {
         liveButton.addTarget(self, action: #selector(liveButtonTapped), for: .touchUpInside)
     }
 
-    @objc func liveButtonTapped(){
+    @objc func liveButtonTapped() {
         if liveButton.isSelected == true {
             let vc = SpeechToTextVC()
             vc.modalPresentationStyle = .fullScreen
@@ -546,7 +534,7 @@ extension ViewController {
 
     }
 
-    func notesButtonSetup(){
+    func notesButtonSetup() {
         view.addSubview(notesButton)
         notesButton.translatesAutoresizingMaskIntoConstraints = false
         notesButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
@@ -560,7 +548,6 @@ extension ViewController {
         notesButton.imageView?.contentMode = .scaleAspectFit
     }
 
-
     @objc func notesButtonTapped() {
         notesButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         notesButton.setTitleColor(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1), for: .selected)
@@ -570,7 +557,7 @@ extension ViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
 
-    func buttonStackSetup(){
+    func buttonStackSetup() {
         topBar.addSubview(buttonStack)
         buttonStack.translatesAutoresizingMaskIntoConstraints = false
         buttonStack.leadingAnchor.constraint(equalTo: topBar.leadingAnchor, constant: 20).isActive = true
@@ -594,11 +581,11 @@ extension ViewController {
         textViewHolder.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         textViewHolder.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5).isActive = true
         textViewHolder.backgroundColor = #colorLiteral(red: 0.9596421632, green: 0.9596421632, blue: 0.9596421632, alpha: 1)
-        textViewHolder.layer.maskedCorners = [.layerMinXMinYCorner,.layerMaxXMinYCorner]
+        textViewHolder.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         textViewHolder.layer.cornerRadius = 20
     }
 
-    func outputTextViewSetup(){
+    func outputTextViewSetup() {
         view.addSubview(outputTextView)
         outputTextView.translatesAutoresizingMaskIntoConstraints = false
         outputTextView.bottomAnchor.constraint(equalTo: textViewHolder.bottomAnchor).isActive = true
@@ -611,7 +598,7 @@ extension ViewController {
         outputTextView.font = UIFont.boldSystemFont(ofSize: 30)
     }
 
-    func speak(){
+    func speak() {
         let utterance = AVSpeechUtterance(string: outputTextView.text!)
         utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
         utterance.rate = 0.4

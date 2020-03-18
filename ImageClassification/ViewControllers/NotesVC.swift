@@ -10,14 +10,14 @@ import UIKit
 
 class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    var notes = ["Ian","Leo","Liam","Viet","Tarek","Aidan","Shakeel"]
-    
+    var notes = ["Ian", "Leo", "Liam", "Viet", "Tarek", "Aidan", "Shakeel"]
+
     let topBar = UIView()
     let topLabel = UILabel()
     let backButton = UIButton()
     let tableView = UITableView()
     let createNoteButton = UIButton()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -27,22 +27,21 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         tableViewSetup()
         createNoteButtonSetup()
     }
-    
 
 }
 
 extension NotesVC {
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return notes.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
         cell?.textLabel?.text = notes[indexPath.row]
         return cell!
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = CreateNoteVC()
         vc.modalPresentationStyle = .fullScreen
@@ -50,9 +49,8 @@ extension NotesVC {
         vc.noteTitle.text = notes[indexPath.row]
         present(vc, animated: true, completion: nil)
     }
-    
-    
-    func tableViewSetup(){
+
+    func tableViewSetup() {
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.topAnchor.constraint(equalTo: topBar.bottomAnchor).isActive = true
@@ -64,8 +62,7 @@ extension NotesVC {
         tableView.dataSource = self
     }
 
-    
-    func topBarSetup(){
+    func topBarSetup() {
         view.addSubview(topBar)
         topBar.translatesAutoresizingMaskIntoConstraints = false
         topBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -74,7 +71,7 @@ extension NotesVC {
         topBar.heightAnchor.constraint(equalToConstant: 90).isActive = true
         topBar.backgroundColor = .black
     }
-    
+
     func backButtonSetup() {
         topBar.addSubview(backButton)
         backButton.translatesAutoresizingMaskIntoConstraints = false
@@ -85,9 +82,9 @@ extension NotesVC {
         backButton.backgroundColor = .red
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
-    
+
     func createNoteButtonSetup() {
-        
+
         view.addSubview(createNoteButton)
         createNoteButton.translatesAutoresizingMaskIntoConstraints = false
         createNoteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
@@ -99,20 +96,20 @@ extension NotesVC {
         createNoteButton.backgroundColor = .blue
         createNoteButton.addTarget(self, action: #selector(createNoteButtonTapped), for: .touchUpInside)
     }
-    
-    @objc func createNoteButtonTapped(){
+
+    @objc func createNoteButtonTapped() {
         let vc = CreateNoteVC()
         //vc.modalTransitionStyle = .crossDissolve
         //vc.modalPresentationStyle = .fullScreen
         vc.noteTitle.text = "New Note"
         present(vc, animated: true, completion: nil)
     }
-    
-    @objc func backButtonTapped(){
+
+    @objc func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
-    
-    func topLabelSetup(){
+
+    func topLabelSetup() {
         topBar.addSubview(topLabel)
         topLabel.translatesAutoresizingMaskIntoConstraints = false
         topLabel.leadingAnchor.constraint(equalTo: backButton.trailingAnchor, constant: 20).isActive = true

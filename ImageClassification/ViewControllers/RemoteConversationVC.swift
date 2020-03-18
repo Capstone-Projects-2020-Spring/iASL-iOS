@@ -10,13 +10,12 @@ import UIKit
 
 class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    var people = ["Ian","Leo","Liam","Viet","Tarek","Aidan","Shakeel"]
+    var people = ["Ian", "Leo", "Liam", "Viet", "Tarek", "Aidan", "Shakeel"]
 
     let topBar = UIView()
     let topLabel = UILabel()
     let backButton = UIButton()
     let tableView = UITableView()
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,8 +48,7 @@ extension RemoteConversationVC {
         navigationController?.pushViewController(vc, animated: true)
     }
 
-
-    func tableViewSetup(){
+    func tableViewSetup() {
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.topAnchor.constraint(equalTo: topBar.bottomAnchor).isActive = true
@@ -62,8 +60,7 @@ extension RemoteConversationVC {
         tableView.dataSource = self
     }
 
-
-    func topBarSetup(){
+    func topBarSetup() {
         view.addSubview(topBar)
         topBar.translatesAutoresizingMaskIntoConstraints = false
         topBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -84,11 +81,11 @@ extension RemoteConversationVC {
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
 
-    @objc func backButtonTapped(){
+    @objc func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
 
-    func topLabelSetup(){
+    func topLabelSetup() {
         topBar.addSubview(topLabel)
         topLabel.translatesAutoresizingMaskIntoConstraints = false
         topLabel.leadingAnchor.constraint(equalTo: backButton.trailingAnchor, constant: 20).isActive = true

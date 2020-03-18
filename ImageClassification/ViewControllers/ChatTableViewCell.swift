@@ -12,7 +12,7 @@ class ChatTableViewCell: UITableViewCell {
 
     let sentMessageBox = UIView()
     let receivedMessageBox = UIView()
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -25,8 +25,8 @@ class ChatTableViewCell: UITableViewCell {
         sentMessageBoxSetup()
         // Configure the view for the selected state
     }
-    
-    func sentMessageBoxSetup(){
+
+    func sentMessageBoxSetup() {
         //backgroundColor = .blue
         addSubview(sentMessageBox)
         sentMessageBox.translatesAutoresizingMaskIntoConstraints = false

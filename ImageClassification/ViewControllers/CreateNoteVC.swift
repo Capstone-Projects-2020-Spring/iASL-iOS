@@ -13,23 +13,20 @@ class CreateNoteVC: UIViewController {
     let backButton = UIButton()
     let textView = UITextView()
     let noteTitle = UITextField()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         backButtonSetup()
         noteTitleSetup()
         textViewSetup()
-        
-        
-    }
-    
 
+    }
 
 }
 
 extension CreateNoteVC {
-    
+
     func backButtonSetup() {
         view.addSubview(backButton)
         backButton.translatesAutoresizingMaskIntoConstraints = false
@@ -40,22 +37,22 @@ extension CreateNoteVC {
         backButton.backgroundColor = .red
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
-    
+
     @objc func backButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
 
-    func noteTitleSetup(){
+    func noteTitleSetup() {
         view.addSubview(noteTitle)
         noteTitle.translatesAutoresizingMaskIntoConstraints = false
         noteTitle.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         noteTitle.leadingAnchor.constraint(equalTo: backButton.trailingAnchor, constant: 10).isActive = true
         noteTitle.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        noteTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -10).isActive = true
+        noteTitle.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
         noteTitle.font = UIFont.boldSystemFont(ofSize: 30)
     }
-    
-    func textViewSetup(){
+
+    func textViewSetup() {
         view.addSubview(textView)
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
@@ -64,5 +61,5 @@ extension CreateNoteVC {
         textView.topAnchor.constraint(equalTo: noteTitle.bottomAnchor, constant: 5).isActive = true
         textView.font = UIFont.systemFont(ofSize: 20)
     }
-    
+
 }
