@@ -13,6 +13,9 @@
 // limitations under the License.
 
 import UIKit
+import Speech
+import Firebase
+import FirebaseMessaging
 
 let navigationController = UINavigationController()
 
@@ -24,18 +27,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
   ) -> Bool {
-//    self.window = UIWindow(frame: UIScreen.main.bounds)
-//
-//    let navigationController = UINavigationController()
-//
-//    let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-//    let mainViewController = storyBoard.instantiateViewController(withIdentifier: "main")
-//    //navigationController.pushViewController(mainViewController, animated: true)
-//
-//    let mainView = //ViewController()//.instantiateViewController(storyboard)
-//    navigationController.viewControllers = [mainViewController]
-//    self.window!.rootViewController = navigationController
-//    self.window?.makeKeyAndVisible()
+    requestTranscribePermissions()
+
+    FirebaseApp.configure()
 
 
     //changesw the root view controller
@@ -43,6 +37,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //    window?.rootViewController = LoginVC()
 //    window?.makeKeyAndVisible()
 
+    application.registerForRemoteNotifications()
+
+    Messaging.messaging().delegate = self
+
     return true
   }
+
+    func requestTranscribePermissions() {
+        SFSpeechRecognizer.requestAuthorization { [unowned self] authStatus in
+            DispatchQueue.main.async {
+                if authStatus == .authorized {
+                    print("Good to go!")
+                } else {
+                    print("Transcription permission was declined.")
+                }
+            }
+        }
+    }
+
+
 }

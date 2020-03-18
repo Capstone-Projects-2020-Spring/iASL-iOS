@@ -109,7 +109,7 @@ extension NotesVC {
     }
     
     @objc func backButtonTapped(){
-        dismiss(animated: true, completion: nil)
+        navigationController?.popViewController(animated: true)
     }
     
     func topLabelSetup(){

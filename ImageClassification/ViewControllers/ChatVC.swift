@@ -111,7 +111,8 @@ extension ChatVC {
     }
     
     @objc func backButtonTapped(){
-        dismiss(animated: true, completion: nil)
+        print("sdf ")
+        navigationController?.popViewController(animated: true)
     }
     
     func topLabelSetup(){
