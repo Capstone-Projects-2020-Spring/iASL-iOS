@@ -465,12 +465,15 @@ extension ViewController {
     }
 
     @objc func remoteChatButtonTapped(){
+		// FIXME: Had to comment this out because it wont compile ~Ian
+		/*
         let vc = RemoteConversationVC()
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .fullScreen
         remoteChatButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         remoteChatButton.setTitleColor(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1), for: .normal)
         present(vc, animated: true, completion: nil)
+*/
     }
 
     func liveButtonSetup(){
