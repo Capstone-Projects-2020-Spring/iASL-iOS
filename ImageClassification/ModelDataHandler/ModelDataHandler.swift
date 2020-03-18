@@ -34,7 +34,7 @@ typealias FileInfo = (name: String, extension: String)
 
 /// Information about the MobileNet model.
 enum MobileNet {
-  static let modelInfo: FileInfo = (name: "mobilenet_quant_v1_224", extension: "tflite")
+  static let modelInfo: FileInfo = (name: "model", extension: "tflite")
   static let labelsInfo: FileInfo = (name: "labels", extension: "txt")
 }
 
@@ -55,8 +55,8 @@ class ModelDataHandler {
 
   let batchSize = 1
   let inputChannels = 3
-  let inputWidth = 224
-  let inputHeight = 224
+  let inputWidth = 200
+  let inputHeight = 200
 
   // MARK: - Private Properties
 
