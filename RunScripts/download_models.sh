@@ -17,7 +17,7 @@
 set -ex
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-MODELS_URL="https://github.com/Capstone-Projects-2020-Spring/iASL-Backend/raw/master/output/p1_train/model.tflite.zip"
+MODELS_URL="https://ianapplebaum.com/capstone/model.tflite.zip"
 DOWNLOADS_DIR=$(mktemp -d)
 
 cd $SCRIPT_DIR
