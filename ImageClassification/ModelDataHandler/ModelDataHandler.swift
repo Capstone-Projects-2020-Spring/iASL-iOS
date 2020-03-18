@@ -106,12 +106,11 @@ class ModelDataHandler {
 
   /// Performs image preprocessing, invokes the `Interpreter`, and processes the inference results.
   func runModel(onFrame pixelBuffer: CVPixelBuffer) -> Result? {
-    
+
     let sourcePixelFormat = CVPixelBufferGetPixelFormatType(pixelBuffer)
     assert(sourcePixelFormat == kCVPixelFormatType_32ARGB ||
              sourcePixelFormat == kCVPixelFormatType_32BGRA ||
                sourcePixelFormat == kCVPixelFormatType_32RGBA)
-
 
     let imageChannels = 4
     assert(imageChannels >= inputChannels)
@@ -230,23 +229,23 @@ class ModelDataHandler {
     guard let sourceData = CVPixelBufferGetBaseAddress(buffer) else {
       return nil
     }
-    
+
     let width = CVPixelBufferGetWidth(buffer)
     let height = CVPixelBufferGetHeight(buffer)
     let sourceBytesPerRow = CVPixelBufferGetBytesPerRow(buffer)
     let destinationChannelCount = 3
     let destinationBytesPerRow = destinationChannelCount * width
-    
+
     var sourceBuffer = vImage_Buffer(data: sourceData,
                                      height: vImagePixelCount(height),
                                      width: vImagePixelCount(width),
                                      rowBytes: sourceBytesPerRow)
-    
+
     guard let destinationData = malloc(height * destinationBytesPerRow) else {
       print("Error: out of memory")
       return nil
     }
-    
+
     defer {
         free(destinationData)
     }
@@ -258,7 +257,7 @@ class ModelDataHandler {
 
     let pixelBufferFormat = CVPixelBufferGetPixelFormatType(buffer)
 
-    switch (pixelBufferFormat) {
+    switch pixelBufferFormat {
     case kCVPixelFormatType_32BGRA:
         vImageConvert_BGRA8888toRGB888(&sourceBuffer, &destinationBuffer, UInt32(kvImageNoFlags))
     case kCVPixelFormatType_32ARGB:
@@ -276,10 +275,10 @@ class ModelDataHandler {
     }
 
     // Not quantized, convert to floats
-    let bytes = Array<UInt8>(unsafeData: byteData)!
+    let bytes = [UInt8](unsafeData: byteData)!
     var floats = [Float]()
-    for i in 0..<bytes.count {
-        floats.append(Float(bytes[i]) / 255.0)
+    for index in 0..<bytes.count {
+        floats.append(Float(bytes[index]) / 255.0)
     }
     return Data(copyingBufferOf: floats)
   }

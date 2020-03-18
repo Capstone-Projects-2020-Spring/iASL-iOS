@@ -6,52 +6,52 @@ import UIKit
 class ChannelManager: NSObject {
     ///shared channel manager
     static let sharedManager = ChannelManager()
-    
+
     //static let defaultChannelUniqueName = "general"
     //static let defaultChannelName = "General Channel"
-    
+
     ///sets delegate to menu view controller
-    weak var delegate:MenuViewController?
-    
+    weak var delegate: MenuViewController?
+
     ///list of channels
-    var channelsList:TCHChannels?
+    var channelsList: TCHChannels?
     ///ordered set of channels
-    var channels:NSMutableOrderedSet?
+    var channels: NSMutableOrderedSet?
     ///general channel
-    var generalChannel:TCHChannel!
-    
+    var generalChannel: TCHChannel!
+
     ///initializes and sets channels
     override init() {
         super.init()
         channels = NSMutableOrderedSet()
     }
-    
+
     // MARK: - General channel
-    
+
     ///joins a chat room if completion is true
     func joinGeneralChatRoomWithCompletion(completion: @escaping (Bool) -> Void) {
-        
+
         let uniqueName = ChannelManager.defaultChannelUniqueName
         if let channelsList = self.channelsList {
-            channelsList.channel(withSidOrUniqueName: uniqueName) { result, channel in
+            channelsList.channel(withSidOrUniqueName: uniqueName) { _, channel in
                 self.generalChannel = channel
-                
+
                 if self.generalChannel != nil {
                     self.joinGeneralChatRoomWithUniqueName(name: nil, completion: completion)
                 } else {
                     self.createGeneralChatRoomWithCompletion { succeeded in
-                        if (succeeded) {
+                        if succeeded {
                             self.joinGeneralChatRoomWithUniqueName(name: uniqueName, completion: completion)
                             return
                         }
-                        
+
                         completion(false)
                     }
                 }
             }
         }
     }
-    
+
 //    func joinGeneralChatRoomWithUniqueName(name: String?, completion: @escaping (Bool) -> Void) {
 //        generalChannel.join { result in
 //            if ((result.isSuccessful()) && name != nil) {
@@ -61,7 +61,7 @@ class ChannelManager: NSObject {
 //            completion((result.isSuccessful()))
 //        }
 //    }
-    
+
 //    func createGeneralChatRoomWithCompletion(completion: @escaping (Bool) -> Void) {
 //        let channelName = ChannelManager.defaultChannelName
 //        let options = [
@@ -75,42 +75,42 @@ class ChannelManager: NSObject {
 //            completion((result.isSuccessful()))
 //        }
 //    }
-    
+
 //    func setGeneralChatRoomUniqueNameWithCompletion(completion:@escaping (Bool) -> Void) {
 //        generalChannel.setUniqueName(ChannelManager.defaultChannelUniqueName) { result in
 //            completion((result.isSuccessful()))
 //        }
 //    }
-    
+
     // MARK: - Populate channels
-    
+
     ///adds and sorts a list of channels, populates them with channel content
     func populateChannels() {
         channels = NSMutableOrderedSet()
-        
-        channelsList?.userChannelDescriptors { result, paginator in
+
+        channelsList?.userChannelDescriptors { _, paginator in
             self.channels?.addObjects(from: paginator!.items())
             self.sortChannels()
         }
-        
-        channelsList?.publicChannelDescriptors { result, paginator in
+
+        channelsList?.publicChannelDescriptors { _, paginator in
             self.channels?.addObjects(from: paginator!.items())
             self.sortChannels()
         }
-        
+
         if self.delegate != nil {
             self.delegate!.reloadChannelList()
         }
     }
-    
+
 //    func sortChannels() {
 //        let sortSelector = #selector(NSString.localizedCaseInsensitiveCompare(_:))
 //        let descriptor = NSSortDescriptor(key: "friendlyName", ascending: true, selector: sortSelector)
 //        channels!.sort(using: [descriptor])
 //    }
-    
+
     // MARK: - Create channel
-    
+
     /**
      Creates a channel with a specified name.
      
@@ -118,16 +118,16 @@ class ChannelManager: NSObject {
      - Parameter completion: whether or not the channel connection worked
      */
     func createChannelWithName(name: String, completion: @escaping (Bool, TCHChannel?) -> Void) {
-        if (name == ChannelManager.defaultChannelName) {
+        if name == ChannelManager.defaultChannelName {
             completion(false, nil)
             return
         }
-        
+
         let channelOptions = [
             TCHChannelOptionFriendlyName: name,
             TCHChannelOptionType: TCHChannelType.public.rawValue
-        ] as [String : Any]
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true;
+        ] as [String: Any]
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
         self.channelsList?.createChannel(options: channelOptions) { result, channel in
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
             completion((result.isSuccessful()), channel)
