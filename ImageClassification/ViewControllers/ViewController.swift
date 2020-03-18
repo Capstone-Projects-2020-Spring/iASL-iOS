@@ -15,6 +15,7 @@
 import AVFoundation
 import UIKit
 import Speech
+import AVFoundation
 
 class ViewController: UIViewController {
     
@@ -125,7 +126,7 @@ class ViewController: UIViewController {
         liveButtonSetup()
         textViewHolderSetup()
         outputTextViewSetup()
-        
+        speak()
         
         guard modelDataHandler != nil else {
             fatalError("Model set up failed")
@@ -611,6 +612,13 @@ extension ViewController {
         outputTextView.font = UIFont.boldSystemFont(ofSize: 30)
     }
     
-    
+    func speak(){
+        let utterance = AVSpeechUtterance(string: outputTextView.text!)
+        utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
+        utterance.rate = 0.4
+
+        let synthesizer = AVSpeechSynthesizer()
+        synthesizer.speak(utterance)
+    }
     
 }
