@@ -6,7 +6,7 @@
 //  Copyright © 2020 Y Media Labs. All rights reserved.
 //
 
-// TODO: Fix the issue where the keyboard covers the buttons when typing
+// FIXME: Fix the issue where the keyboard covers the buttons when typing
 
 import Foundation
 import UIKit
@@ -17,7 +17,9 @@ import UIKit
  just their email and password if they are a returning user.
  */
 
-class LoginVC: UIViewController {
+// MARK: Added a UITextFieldDelegate here to the class
+
+class LoginVC: UIViewController, UITextFieldDelegate {
 
     ///boolean that determines if we are on the login screen or the register screen
     var isRegisterButton: Bool = true
@@ -26,7 +28,24 @@ class LoginVC: UIViewController {
     override func viewDidLoad() {
         let view = UIView()
         view.backgroundColor = .systemPink
-
+        
+        let removeKeyboardTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboardOnTap))
+        
+        
+        
+        //set the delegates for the keyboards
+        nameTextField.delegate = self
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+        
+        //Listening for keyboard hide/show events
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        
+        
+        //true means register button is sent
+        //false means login button is sent
         isRegisterButton = true
 
         //view.addSubview(label)
@@ -34,6 +53,8 @@ class LoginVC: UIViewController {
         view.addSubview(infoSubmitButton)
         view.addSubview(cameraContainerView)
         view.addSubview(toggleRegisterLoginButton)
+        
+        view.addGestureRecognizer(removeKeyboardTap)
 
         self.view = view
 
@@ -42,6 +63,62 @@ class LoginVC: UIViewController {
         setupInfoSubmitButton()
         setupCameraView()
         setupToggleRegisterLoginButton()
+        
+        //print(toggleRegisterLoginButton.frame.origin.y)
+    }
+    
+    ///This gets called when the register or login button is pressed
+    func hideKeyboard() {
+        //gives up the first repsonder if any of these are active
+        nameTextField.resignFirstResponder()
+        emailTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+    }
+    
+    ///when the user taps anywhere else on the screen, it hides the keyboard
+    @objc func hideKeyboardOnTap() {
+        //removes the keyboard
+        view.endEditing(true)
+    }
+    
+    ///This is for removing the keyboard notifications
+    deinit {
+        //Stop listening for keyboard hide/show events
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    }
+    
+    @objc func keyboardWillChange(notification: Notification) {
+        print("Keyboard will show \(notification.name.rawValue)")
+        
+        //get the size of the keyboard
+        guard let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+            print("Could not find the keyboard height")
+            return
+        }
+        
+        //gets the rects for the button and the top of the keyboard for math
+        let bottomLeftOfButton = toggleRegisterLoginButton.frame.origin.y + toggleRegisterLoginButton.frame.height
+        let topOfKeyboard = view.frame.height - keyboardRect.height
+        
+        //print("Top of Keyboard: \(topOfKeyboard)")
+        //print("Bottom of button: \(bottomLeftOfButton)")
+        
+        //difference between height of keyboard and bottom of button. view will change by this much
+        let difference = topOfKeyboard - bottomLeftOfButton
+        
+        //print("Difference: \(difference)")
+        
+        //For shifting the screen up and down
+        if notification.name == UIResponder.keyboardWillShowNotification || notification.name == UIResponder.keyboardWillChangeFrameNotification {
+            //move the screen up by the same size as the keyboard
+            view.frame.origin.y = difference - 10
+        } else {
+            view.frame.origin.y = 0
+        }
+        
+        
     }
 
     //need to add some text fields inside the container view
@@ -211,7 +288,7 @@ class LoginVC: UIViewController {
         cameraContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         cameraContainerView.bottomAnchor.constraint(equalTo: inputContainerView.topAnchor, constant: -12).isActive = true
         cameraContainerView.widthAnchor.constraint(equalTo: inputContainerView.widthAnchor, multiplier: 0.5).isActive = true
-        cameraContainerView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        cameraContainerView.heightAnchor.constraint(equalToConstant: 150).isActive = true
     }
 
     //need a register/login button
@@ -220,6 +297,7 @@ class LoginVC: UIViewController {
         let toggleButton = UIButton(type: .system)
         toggleButton.backgroundColor = .white
         toggleButton.setTitle("Already a user? Login", for: .normal)
+        toggleButton.setTitleColor(.systemPink, for: .normal)
         toggleButton.translatesAutoresizingMaskIntoConstraints = false
         toggleButton.layer.cornerRadius = 5
         toggleButton.layer.masksToBounds = true
@@ -230,6 +308,9 @@ class LoginVC: UIViewController {
     ///handles the toggle button
     @objc func toggleRegisterLoginButtonPressed() {
         print("we pressed the toggle button")
+        
+        //hide the keyboard
+        hideKeyboard()
 
         toggleRegisterLoginButton.setTitle(isRegisterButton ? "Not a user? Register" : "Already a user? Login", for: .normal)
         infoSubmitButton.setTitle(isRegisterButton ? "Login" : "Register", for: .normal)
@@ -269,14 +350,25 @@ class LoginVC: UIViewController {
     //maybe just use a button for this? Have a register button and then below that use a
     ///when this button is pressed, the information entered will be sent to firebase
     let infoSubmitButton: UIButton = {
-        let regButton = UIButton(type: .system)
-        regButton.backgroundColor = UIColor.white
-        regButton.setTitle("Register", for: .normal)
-        regButton.translatesAutoresizingMaskIntoConstraints = false
-        regButton.layer.cornerRadius = 5
-        regButton.layer.masksToBounds = true
-        return regButton
+        let submitButton = UIButton(type: .system)
+        submitButton.backgroundColor = UIColor.white
+        submitButton.setTitle("Register", for: .normal)
+        submitButton.setTitleColor(.systemPink, for: .normal)
+        submitButton.translatesAutoresizingMaskIntoConstraints = false
+        submitButton.layer.cornerRadius = 5
+        submitButton.layer.masksToBounds = true
+        submitButton.addTarget(self, action: #selector(infoSubmitButtonPressed), for: .touchUpInside)
+        return submitButton
     }()
+    
+    ///When this is pressed, the info should be sent to Firebase and the keyboard should disappear, and the view should disappear
+    @objc func infoSubmitButtonPressed() {
+        //for now, just make the keyboard disappear
+        print("info submit button pressed")
+        
+        //hide the keyboard
+        hideKeyboard()
+    }
 
     ///sets up the constraints of the submit button
     func setupInfoSubmitButton() {

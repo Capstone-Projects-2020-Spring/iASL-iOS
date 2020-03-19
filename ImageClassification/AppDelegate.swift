@@ -32,9 +32,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     FirebaseApp.configure()
 
     //changesw the root view controller
-//    window = UIWindow(frame: UIScreen.main.bounds)
-//    window?.rootViewController = LoginVC()
-//    window?.makeKeyAndVisible()
+    window = UIWindow(frame: UIScreen.main.bounds)
+    window?.rootViewController = LoginVC()
+    window?.makeKeyAndVisible()
 
     application.registerForRemoteNotifications()
 
