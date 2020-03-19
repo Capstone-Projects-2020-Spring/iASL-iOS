@@ -6,10 +6,13 @@
 //  Copyright © 2020 Y Media Labs. All rights reserved.
 //
 
-// FIXME: Fix the issue where the keyboard covers the buttons when typing
+// FIXME: Add a thing where the view will disappear when the user presses "login" or "register"
 
 import Foundation
 import UIKit
+import Firebase
+import FirebaseAuth
+import FirebaseFirestore
 
 /**
  This view controller is for the login screen that a user will see when they first open the app.
@@ -19,10 +22,15 @@ import UIKit
 
 // MARK: Added a UITextFieldDelegate here to the class
 
+// MARK: If there is a camera view, then the keyboard won't be there and thus, the view won't have to move
+//so just make it an imageview for now
+
 class LoginVC: UIViewController, UITextFieldDelegate {
 
     ///boolean that determines if we are on the login screen or the register screen
     var isRegisterButton: Bool = true
+    
+    let collectionUser: String = "users"
 
     ///first function that is called
     override func viewDidLoad() {
@@ -31,7 +39,10 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         
         let removeKeyboardTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboardOnTap))
         
-        
+        //create the firestore
+//        let db = Firestore.firestore()
+//        var ref: DocumentReference? = nil
+//        ref = db.collection(self.collectionUser).addDocument(data: <#T##[String : Any]#>)
         
         //set the delegates for the keyboards
         nameTextField.delegate = self
@@ -368,6 +379,70 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         
         //hide the keyboard
         hideKeyboard()
+        
+        //get email and password and name
+        guard let email = emailTextField.text, let password = passwordTextField.text, let name = nameTextField.text else {
+            print("Did not get email and password")
+            return
+        }
+        
+        //if isRegister = true, then its on the register screen
+        //else if isRegister = false, then its on the login screen
+        if isRegisterButton {
+            
+            Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
+                if err != nil {
+                    print(err!)
+                    return
+                }
+                
+                let db = Firestore.firestore()
+                //successfully added user to authentication
+                var ref: DocumentReference? = nil
+                
+                //check to see if uid exists
+                guard let uid = result?.user.uid else {
+                    return
+                }
+                
+                let dataToAdd: [String : Any] = ["name": name, "email": email, "uid": uid]
+                
+//                ref = db.collection(self.collectionUser).document(uid).setData(dataToAdd, merge: true, completion: { (error) in
+//                    if let error = error {
+//                        print(error)
+//                    }
+//
+//                    //successfully added user to database with UID specificiation for document
+//                    print("added user with UID document specification")
+//                })
+                
+                
+                //added user to database with UID as document
+                db.collection(self.collectionUser).document(uid).setData(dataToAdd, merge: true) { (error) in
+                    if let error = error {
+                        print(error)
+                    }
+                    
+                    //added user to collection with UID
+                    print("added user to database with UID")
+                }
+                
+//                //add user with data to collection
+//                ref = db.collection(self.collectionUser).addDocument(data: dataToAdd) {error in
+//                    if let error = error {
+//                        print(error)
+//                    }
+//
+//                    //successfully added user to database
+//                    print("added user to database")
+//                }
+                
+                
+            }
+        } else {
+            
+        }
+        
     }
 
     ///sets up the constraints of the submit button
@@ -378,4 +453,30 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         infoSubmitButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
 
+}
+
+extension LoginVC {
+    
+    ///checks if we have a valid email address in the login
+    func isValidEmail(email:String?) -> Bool {
+        
+        guard email != nil else { return false }
+        
+        let regEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+        
+        let pred = NSPredicate(format:"SELF MATCHES %@", regEx)
+        return pred.evaluate(with: email)
+    }
+    
+    ///checks if we have a valid password in the login
+    func isValidPassword(testStr:String?) -> Bool {
+        guard testStr != nil else { return false }
+     
+        // at least one uppercase,
+        // at least one digit
+        // at least one lowercase
+        // 8 characters total
+        let passwordTest = NSPredicate(format: "SELF MATCHES %@", "(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{8,}")
+        return passwordTest.evaluate(with: testStr)
+    }
 }

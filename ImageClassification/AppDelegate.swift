@@ -16,6 +16,7 @@ import UIKit
 import Speech
 import Firebase
 import FirebaseMessaging
+import FirebaseFirestore
 
 let navigationController = UINavigationController()
 
@@ -30,6 +31,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     requestTranscribePermissions()
 
     FirebaseApp.configure()
+    
+    //initializes the firestore firebase
+    //let db = Firestore.firestore()
 
     //changesw the root view controller
     window = UIWindow(frame: UIScreen.main.bounds)

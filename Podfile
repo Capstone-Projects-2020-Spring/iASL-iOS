@@ -11,6 +11,10 @@ target 'ImageClassification' do
    pod 'Firebase/Database'
     # Add the Firebase pod for Google Analytics
     pod 'Firebase/Analytics'
+    pod 'Firebase/Auth'
+    pod 'Firebase/Core'
+    pod 'Firebase/Firestore'
+    pod 'FirebaseFirestoreSwift'
 
     # Add the pod for Firebase Cloud Messaging
     pod 'Firebase/Messaging'
