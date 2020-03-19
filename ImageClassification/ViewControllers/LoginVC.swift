@@ -398,7 +398,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                 
                 let db = Firestore.firestore()
                 //successfully added user to authentication
-                var ref: DocumentReference? = nil
+                //var ref: DocumentReference? = nil
                 
                 //check to see if uid exists
                 guard let uid = result?.user.uid else {
@@ -406,16 +406,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                 }
                 
                 let dataToAdd: [String : Any] = ["name": name, "email": email, "uid": uid]
-                
-//                ref = db.collection(self.collectionUser).document(uid).setData(dataToAdd, merge: true, completion: { (error) in
-//                    if let error = error {
-//                        print(error)
-//                    }
-//
-//                    //successfully added user to database with UID specificiation for document
-//                    print("added user with UID document specification")
-//                })
-                
                 
                 //added user to database with UID as document
                 db.collection(self.collectionUser).document(uid).setData(dataToAdd, merge: true) { (error) in
@@ -441,7 +431,22 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             }
         } else {
             
+            //sign in with username and password
+            Auth.auth().signIn(withEmail: email, password: password) { (result, err) in
+                if err != nil {
+                    print(err!)
+                    return
+                }
+                
+                //successfully signed in
+                print("you signed in successfully")
+                
+            }
         }
+        
+        
+        //if login successful
+        //then exit the view controller
         
     }
 
