@@ -16,7 +16,7 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
     let topLabel = UILabel()
     let backButton = UIButton()
     let tableView = UITableView()
-    
+    let liveButton = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,5 +104,7 @@ extension RemoteConversationVC {
         topLabel.font = UIFont.boldSystemFont(ofSize: 30)
         topLabel.textColor = .white
     }
+    
+    
 
 }

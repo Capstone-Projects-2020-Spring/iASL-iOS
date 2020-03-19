@@ -102,7 +102,7 @@ class ViewController: UIViewController {
             let vc = SpeechToTextVC()
             vc.modalPresentationStyle = .fullScreen
             vc.modalTransitionStyle = .crossDissolve
-            present(vc, animated: true, completion: {vc.recordButtonTapped()})
+            present(vc, animated: true, completion: {vc.record()})
         } else {
             liveButton.isSelected = false
             remoteChatButton.isHidden = false
@@ -533,7 +533,6 @@ extension ViewController {
         liveButton.translatesAutoresizingMaskIntoConstraints = false
         //liveButton.setTitle("Live", for: .normal)
         liveButton.setImage(#imageLiteral(resourceName: "yo"), for: .normal)
-        liveButton.setImage(#imageLiteral(resourceName: "microphone"), for: .selected)
         liveButton.imageView?.contentMode = .scaleAspectFit
         liveButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         liveButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
@@ -543,16 +542,22 @@ extension ViewController {
     }
     
     @objc func liveButtonTapped(){
-        if liveButton.isSelected == true {
-            let vc = SpeechToTextVC()
-            vc.modalPresentationStyle = .fullScreen
-            vc.modalTransitionStyle = .crossDissolve
-            present(vc, animated: true, completion: nil)
-            
-            liveButton.isSelected = false
-        } else {
-            liveButton.isSelected = true
-        }
+//        if liveButton.isSelected == true {
+//            let vc = SpeechToTextVC()
+//            vc.modalPresentationStyle = .fullScreen
+//            vc.modalTransitionStyle = .crossDissolve
+//            present(vc, animated: true, completion: nil)
+//
+//            liveButton.isSelected = false
+//        } else {
+//
+//        }
+        
+        liveButton.isSelected = true
+        let vc = SpeechToTextVC()
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        present(vc, animated: true, completion: {vc.record()})
         
     }
     
