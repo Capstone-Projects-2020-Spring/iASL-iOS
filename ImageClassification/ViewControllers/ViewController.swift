@@ -260,15 +260,32 @@ extension ViewController: InferenceViewControllerDelegate {
 
 // MARK: CameraFeedManagerDelegate Methods
 extension ViewController: CameraFeedManagerDelegate {
-    
-    func didOutput(pixelBuffer: CVPixelBuffer) {
+
+	fileprivate func deleteCharacter() {
+		DispatchQueue.main.async {
+			var text = self.outputTextView.text
+			text?.removeLast()
+			self.outputTextView.text = text
+		}
+	}
+	
+	func didOutput(pixelBuffer: CVPixelBuffer) {
         let currentTimeMs = Date().timeIntervalSince1970 * 1000
         guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
         previousInferenceTimeMs = currentTimeMs
         
         // Pass the pixel buffer to TensorFlow Lite to perform inference.
         result = modelDataHandler?.runModel(onFrame: pixelBuffer)
-        
+		switch result?.inferences[0].label {
+		case "del":
+			deleteCharacter()
+		case "space":
+			print("space")
+		default:
+			DispatchQueue.main.async {
+				self.outputTextView.text += self.result!.inferences[0].label.description
+			}
+		}
         // Display results by handing off to the InferenceViewController.
         DispatchQueue.main.async {
             let resolution = CGSize(width: CVPixelBufferGetWidth(pixelBuffer), height: CVPixelBufferGetHeight(pixelBuffer))
