@@ -244,7 +244,15 @@ extension ViewController: InferenceViewControllerDelegate {
 // MARK: CameraFeedManagerDelegate Methods
 extension ViewController: CameraFeedManagerDelegate {
 
-    func didOutput(pixelBuffer: CVPixelBuffer) {
+	fileprivate func deleteCharacter() {
+		DispatchQueue.main.async {
+			var text = self.outputTextView.text
+			text?.removeLast()
+			self.outputTextView.text = text
+		}
+	}
+	
+	func didOutput(pixelBuffer: CVPixelBuffer) {
         let currentTimeMs = Date().timeIntervalSince1970 * 1000
         guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
         previousInferenceTimeMs = currentTimeMs
@@ -253,7 +261,7 @@ extension ViewController: CameraFeedManagerDelegate {
         result = modelDataHandler?.runModel(onFrame: pixelBuffer)
 		switch result?.inferences[0].label {
 		case "del":
-			print("delete")
+			deleteCharacter()
 		case "space":
 			print("space")
 		default:
