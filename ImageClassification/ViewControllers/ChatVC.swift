@@ -16,7 +16,7 @@ class ChatVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     let topLabel = UILabel()
     let backButton = UIButton()
     let tableView = UITableView()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -28,31 +28,28 @@ class ChatVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         // Do any additional setup after loading the view.
         previewViewSetup()
         composedMessageSetup()
-        
-    }
 
+    }
 
 }
 
 extension ChatVC {
-    
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 10
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! ChatTableViewCell
         cell.textLabel?.text = "asdf"
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
 
-    
-    func tableViewSetup(){
+    func tableViewSetup() {
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.topAnchor.constraint(equalTo: topBar.bottomAnchor).isActive = true
@@ -65,8 +62,7 @@ extension ChatVC {
         tableView.delegate = self
         tableView.dataSource = self
     }
-    
-        
+
     func previewViewSetup() {
         view.addSubview(previewView)
         previewView.translatesAutoresizingMaskIntoConstraints = false
@@ -88,8 +84,8 @@ extension ChatVC {
         composedMessage.layer.borderWidth = 1
         composedMessage.layer.cornerRadius = 10
     }
-    
-    func topBarSetup(){
+
+    func topBarSetup() {
         view.addSubview(topBar)
         topBar.translatesAutoresizingMaskIntoConstraints = false
         topBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -98,7 +94,7 @@ extension ChatVC {
         topBar.heightAnchor.constraint(equalToConstant: 90).isActive = true
         topBar.backgroundColor = .black
     }
-    
+
     func backButtonSetup() {
         topBar.addSubview(backButton)
         backButton.translatesAutoresizingMaskIntoConstraints = false
@@ -109,14 +105,14 @@ extension ChatVC {
         backButton.backgroundColor = .red
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
-    
-    @objc func backButtonTapped(){
+
+    @objc func backButtonTapped() {
         print("sdf ")
         dismiss(animated: true, completion: nil)
         //navigationController?.popViewController(animated: true)
     }
-    
-    func topLabelSetup(){
+
+    func topLabelSetup() {
         topBar.addSubview(topLabel)
         topLabel.translatesAutoresizingMaskIntoConstraints = false
         topLabel.leadingAnchor.constraint(equalTo: backButton.trailingAnchor, constant: 20).isActive = true

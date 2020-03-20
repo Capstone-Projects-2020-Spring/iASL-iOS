@@ -12,11 +12,7 @@ class SpeechToTextVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
-    }
-    
 
-    
+    }
+
 }

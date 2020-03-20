@@ -1,14 +1,13 @@
 import UIKit
 
-
 /**
  Handles dialogue boxes and allows user input.
  */
 class InputDialogController: NSObject {
-    
+
     ///Type of alert action that allows user to save information from dialogue box.
     var saveAction: UIAlertAction!
-    
+
     /**
      Shows the dialogue box with several parameters.
      
@@ -23,7 +22,7 @@ class InputDialogController: NSObject {
         InputDialogController().showWithTitle(title: title, message: message,
                                               placeholder: placeholder, presenter: presenter, handler: handler)
     }
-    
+
     /**
      Shows the dialogue box with several parameters and allows user to respond with input.
      
@@ -36,19 +35,19 @@ class InputDialogController: NSObject {
     func showWithTitle(title: String, message: String, placeholder: String,
                        presenter: UIViewController, handler: @escaping (String) -> Void) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
-        let defaultAction = UIAlertAction(title: "Cancel", style: .cancel) { action in
+
+        let defaultAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
             self.removeTextFieldObserver()
         }
-        
-        saveAction = UIAlertAction(title: "Save", style: .default) { action in
+
+        saveAction = UIAlertAction(title: "Save", style: .default) { _ in
             self.removeTextFieldObserver()
             let textFieldText = alert.textFields![0].text ?? String()
             handler(textFieldText)
         }
-        
+
         saveAction.isEnabled = false
-        
+
         alert.addTextField { textField in
             textField.placeholder = placeholder
             NotificationCenter.default.addObserver(self,
@@ -56,12 +55,12 @@ class InputDialogController: NSObject {
                                                    name: NSNotification.Name.UITextFieldTextDidChange,
                                                    object: nil)
         }
-        
+
         alert.addAction(defaultAction)
         alert.addAction(saveAction)
         presenter.present(alert, animated: true, completion: nil)
     }
-    
+
     /**
      Handler for text field being changeed by user input.
      
@@ -71,7 +70,7 @@ class InputDialogController: NSObject {
         let textField = notification.object as? UITextField
         saveAction.isEnabled = !(textField!.text?.isEmpty ?? false)
     }
-    
+
     /**
      Removes all entries of observer from notification center's dispatch table.
      */

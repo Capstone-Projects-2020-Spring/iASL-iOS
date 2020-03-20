@@ -17,98 +17,99 @@ import UIKit
 // MARK: InferenceViewControllerDelegate Method Declarations
 protocol InferenceViewControllerDelegate {
 
-  /**
-   This method is called when the user changes the stepper value to update number of threads used for inference.
-   */
-  func didChangeThreadCount(to count: Int)
+	/**
+	This method is called when the user changes the stepper value to update number of threads used for inference.
+	*/
+	func didChangeThreadCount(to count: Int)
 
 }
 
 class InferenceViewController: UIViewController {
 
-  // MARK: Sections and Information to display
-  private enum InferenceSections: Int, CaseIterable {
-    case Results
-    case InferenceInfo
-  }
+	// MARK: Sections and Information to display
+	private enum InferenceSections: Int, CaseIterable {
+		case results
+		case inferenceInfo
+	}
 
-  private enum InferenceInfo: Int, CaseIterable {
-    case Resolution
-    case Crop
-    case InferenceTime
+	private enum InferenceInfo: Int, CaseIterable {
+		case resolution
+		case crop
+		case inferenceTime
 
-    func displayString() -> String {
+		func displayString() -> String {
 
-      var toReturn = ""
+			var toReturn = ""
 
-      switch self {
-      case .Resolution:
-        toReturn = "Resolution"
-      case .Crop:
-        toReturn = "Crop"
-      case .InferenceTime:
-        toReturn = "Inference Time"
+			switch self {
+			case .resolution:
+				toReturn = "Resolution"
+			case .crop:
+				toReturn = "Crop"
+			case .inferenceTime:
+				toReturn = "Inference Time"
 
-      }
-      return toReturn
-    }
-  }
+			}
+			return toReturn
+		}
+	}
 
-  // MARK: Storyboard Outlets
-  @IBOutlet weak var tableView: UITableView!
-  @IBOutlet weak var threadStepper: UIStepper!
-  @IBOutlet weak var stepperValueLabel: UILabel!
+	// MARK: Storyboard Outlets
+	@IBOutlet weak var tableView: UITableView!
+	@IBOutlet weak var threadStepper: UIStepper!
+	@IBOutlet weak var stepperValueLabel: UILabel!
 
-  // MARK: Constants
-  private let normalCellHeight: CGFloat = 27.0
-  private let separatorCellHeight: CGFloat = 42.0
-  private let bottomSpacing: CGFloat = 21.0
-  private let minThreadCount = 1
-  private let bottomSheetButtonDisplayHeight: CGFloat = 44.0
-  private let infoTextColor = UIColor.black
-  private let lightTextInfoColor = UIColor(displayP3Red: 117.0/255.0, green: 117.0/255.0, blue: 117.0/255.0, alpha: 1.0)
-  private let infoFont = UIFont.systemFont(ofSize: 14.0, weight: .regular)
-  private let highlightedFont = UIFont.systemFont(ofSize: 14.0, weight: .medium)
+	// MARK: Constants
+	private let normalCellHeight: CGFloat = 27.0
+	private let separatorCellHeight: CGFloat = 42.0
+	private let bottomSpacing: CGFloat = 21.0
+	private let minThreadCount = 1
+	private let bottomSheetButtonDisplayHeight: CGFloat = 44.0
+	private let infoTextColor = UIColor.black
+	private let lightTextInfoColor = UIColor(displayP3Red: 117.0/255.0, green: 117.0/255.0, blue: 117.0/255.0, alpha: 1.0)
+	private let infoFont = UIFont.systemFont(ofSize: 14.0, weight: .regular)
+	private let highlightedFont = UIFont.systemFont(ofSize: 14.0, weight: .medium)
 
-  // MARK: Instance Variables
-  var inferenceResult: Result? = nil
-  var wantedInputWidth: Int = 0
-  var wantedInputHeight: Int = 0
-  var resolution: CGSize = CGSize.zero
-  var maxResults: Int = 0
-  var threadCountLimit: Int = 0
-  private var currentThreadCount: Int = 0
+	// MARK: Instance Variables
+	var inferenceResult: Result?
+	var wantedInputWidth: Int = 0
+	var wantedInputHeight: Int = 0
+	var resolution: CGSize = CGSize.zero
+	var maxResults: Int = 0
+	var threadCountLimit: Int = 0
+	private var currentThreadCount: Int = 0
 
-  // MARK: Delegate
-  var delegate: InferenceViewControllerDelegate?
+	// MARK: Delegate
+	// swiftlint:disable weak_delegate
+	var delegate: InferenceViewControllerDelegate?
+	// swiftlint:enable weak_delegate
+	// MARK: Computed properties
+	var collapsedHeight: CGFloat {
+		return normalCellHeight * CGFloat(maxResults - 1) + separatorCellHeight + bottomSheetButtonDisplayHeight
 
-  // MARK: Computed properties
-  var collapsedHeight: CGFloat {
-    return normalCellHeight * CGFloat(maxResults - 1) + separatorCellHeight + bottomSheetButtonDisplayHeight
+	}
 
-  }
+	override func viewDidLoad() {
+		super.viewDidLoad()
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
+		// Set up stepper
+		threadStepper.isUserInteractionEnabled = true
+		threadStepper.maximumValue = Double(threadCountLimit)
+		threadStepper.minimumValue = Double(minThreadCount)
+		threadStepper.value = Double(currentThreadCount)
 
-    // Set up stepper
-    threadStepper.isUserInteractionEnabled = true
-    threadStepper.maximumValue = Double(threadCountLimit)
-    threadStepper.minimumValue = Double(minThreadCount)
-    threadStepper.value = Double(currentThreadCount)
+	}
 
-  }
+	// MARK: Buttion Actions
+	/**
+	Delegate the change of number of threads to View Controller and change the stepper display.
+	*/
+	@IBAction func onClickThreadStepper(_ sender: Any) {
 
-  // MARK: Buttion Actions
-  /**
-   Delegate the change of number of threads to View Controller and change the stepper display.
-   */
-  @IBAction func onClickThreadStepper(_ sender: Any) {
-
-    delegate?.didChangeThreadCount(to: Int(threadStepper.value))
-    currentThreadCount = Int(threadStepper.value)
-    stepperValueLabel.text = "\(currentThreadCount)"
-  }
+		delegate?.didChangeThreadCount(to: Int(threadStepper.value))
+		currentThreadCount = Int(threadStepper.value)
+		stepperValueLabel.text = "\(currentThreadCount)"
+	}
 }
 
 // MARK: UITableView Data Source
@@ -127,9 +128,9 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
 
     var rowCount = 0
     switch inferenceSection {
-    case .Results:
+    case .results:
       rowCount = maxResults
-    case .InferenceInfo:
+    case .inferenceInfo:
       rowCount = InferenceInfo.allCases.count
     }
     return rowCount
@@ -144,18 +145,16 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     switch inferenceSection {
-    case .Results:
+    case .results:
       if indexPath.row == maxResults - 1 {
         height = separatorCellHeight + bottomSpacing
-      }
-      else {
+      } else {
         height = normalCellHeight
       }
-    case .InferenceInfo:
+    case .inferenceInfo:
       if indexPath.row == InferenceInfo.allCases.count - 1 {
         height = separatorCellHeight + bottomSpacing
-      }
-      else {
+      } else {
         height = normalCellHeight
       }
     }
@@ -176,7 +175,7 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
     var color = infoTextColor
 
     switch inferenceSection {
-    case .Results:
+    case .results:
 
       let tuple = displayStringsForResults(atRow: indexPath.row)
       fieldName = tuple.0
@@ -185,13 +184,12 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
       if indexPath.row == 0 {
         font = highlightedFont
         color = infoTextColor
-      }
-      else {
+      } else {
         font = infoFont
         color = lightTextInfoColor
       }
 
-    case .InferenceInfo:
+    case .inferenceInfo:
       let tuple = displayStringsForInferenceInfo(atRow: indexPath.row)
       fieldName = tuple.0
       info = tuple.1
@@ -218,8 +216,7 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
       if row == 1 {
         fieldName = "No Results"
         info = ""
-      }
-      else {
+      } else {
         fieldName = ""
         info = ""
       }
@@ -230,8 +227,7 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
       let inference = tempResult.inferences[row]
       fieldName = inference.label
       info =  String(format: "%.2f", inference.confidence * 100.0) + "%"
-    }
-    else {
+    } else {
       fieldName = ""
       info = ""
     }
@@ -254,11 +250,11 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
     fieldName = inferenceInfo.displayString()
 
     switch inferenceInfo {
-    case .Resolution:
+    case .resolution:
       info = "\(Int(resolution.width))x\(Int(resolution.height))"
-    case .Crop:
+    case .crop:
       info = "\(wantedInputWidth)x\(wantedInputHeight)"
-    case .InferenceTime:
+    case .inferenceTime:
       guard let finalResults = inferenceResult else {
         info = "0ms"
         break
@@ -268,12 +264,10 @@ extension InferenceViewController: UITableViewDelegate, UITableViewDataSource {
 
     return(fieldName, info)
   }
-    
-    func threadStepperSetup(){
+
+    func threadStepperSetup() {
         threadStepper.translatesAutoresizingMaskIntoConstraints = false
-        
+
     }
-    
+
 }
-
-
