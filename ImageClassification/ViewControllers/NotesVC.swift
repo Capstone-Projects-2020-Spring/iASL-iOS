@@ -28,8 +28,14 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         createNoteButtonSetup()
     }
     
+    
 
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .all
+    }
 }
+
+
 
 extension NotesVC {
     
@@ -109,7 +115,8 @@ extension NotesVC {
     }
     
     @objc func backButtonTapped(){
-        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
+        //navigationController?.popViewController(animated: true)
     }
     
     func topLabelSetup(){

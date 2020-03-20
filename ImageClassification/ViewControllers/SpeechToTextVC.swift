@@ -19,21 +19,20 @@ class SpeechToTextVC: UIViewController, SFSpeechRecognizerDelegate {
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
     
-    let recordButton = UIButton()
     let textView = UITextView()
-    
+    let liveButton = UIButton()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        liveButtonSetup()
         textViewSetup()
-        recordButtonSetup()
-        // Do any additional setup after loading the view.
-        
-        // Configure the SFSpeechRecognizer object already
-        // stored in a local member variable.
+        print("adsf")
         speechRecognizer.delegate = self
+        
+         record()
+        
         
         // Asynchronously make the authorization request.
         SFSpeechRecognizer.requestAuthorization { authStatus in
@@ -43,36 +42,46 @@ class SpeechToTextVC: UIViewController, SFSpeechRecognizerDelegate {
             OperationQueue.main.addOperation {
                 switch authStatus {
                 case .authorized:
-                    self.recordButton.isEnabled = true
+                    self.liveButton.isEnabled = true
                     
                 case .denied:
-                    self.recordButton.isEnabled = false
-                    self.recordButton.setTitle("User denied access to speech recognition", for: .disabled)
+                    self.liveButton.isEnabled = false
+                    self.liveButton.setTitle("User denied access to speech recognition", for: .disabled)
                     
                 case .restricted:
-                    self.recordButton.isEnabled = false
-                    self.recordButton.setTitle("Speech recognition restricted on this device", for: .disabled)
+                    self.liveButton.isEnabled = false
+                    self.liveButton.setTitle("Speech recognition restricted on this device", for: .disabled)
                     
                 case .notDetermined:
-                    self.recordButton.isEnabled = false
-                    self.recordButton.setTitle("Speech recognition not yet authorized", for: .disabled)
+                    self.liveButton.isEnabled = false
+                    self.liveButton.setTitle("Speech recognition not yet authorized", for: .disabled)
                     
                 default:
-                    self.recordButton.isEnabled = false
+                    self.liveButton.isEnabled = false
                 }
             }
         }
+        
     }
     
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         if UIDevice.current.orientation == UIDeviceOrientation.portraitUpsideDown {
             
-        } else {
-            dismiss(animated: true, completion: nil)
-            
+            //record()
         }
         
+        if UIDevice.current.orientation == UIDeviceOrientation.portrait {
+            print("adsf")
+            dismiss(animated: true, completion: nil)
+        }
+        
+        
+    }
+    
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .all
     }
     
     override public func viewDidAppear(_ animated: Bool) {
@@ -123,8 +132,8 @@ class SpeechToTextVC: UIViewController, SFSpeechRecognizerDelegate {
                 self.recognitionRequest = nil
                 self.recognitionTask = nil
 
-                self.recordButton.isEnabled = true
-                self.recordButton.setTitle("Start Recording", for: [])
+                self.liveButton.isEnabled = true
+                self.liveButton.setTitle("Start Recording", for: [])
             }
         }
 
@@ -146,11 +155,11 @@ class SpeechToTextVC: UIViewController, SFSpeechRecognizerDelegate {
     
     public func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
         if available {
-            recordButton.isEnabled = true
-            recordButton.setTitle("Start Recording", for: [])
+            liveButton.isEnabled = true
+            liveButton.setTitle("Start Recording", for: [])
         } else {
-            recordButton.isEnabled = false
-            recordButton.setTitle("Recognition Not Available", for: .disabled)
+            liveButton.isEnabled = false
+            liveButton.setTitle("Recognition Not Available", for: .disabled)
         }
     }
 
@@ -162,35 +171,27 @@ class SpeechToTextVC: UIViewController, SFSpeechRecognizerDelegate {
 
 extension SpeechToTextVC {
     
-    func recordButtonSetup(){
-        view.addSubview(recordButton)
-        recordButton.translatesAutoresizingMaskIntoConstraints = false
-        recordButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        recordButton.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        recordButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -40).isActive = true
-        recordButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        recordButton.backgroundColor = .red
-        recordButton.addTarget(self, action: #selector(recordButtonTapped), for: .touchUpInside)
-    }
+
     
-    // MARK: Interface Builder actions
     
-    @objc func recordButtonTapped() {
+    func record() {
         print("tapped")
         if audioEngine.isRunning {
             audioEngine.stop()
             recognitionRequest?.endAudio()
-            recordButton.isEnabled = false
-            recordButton.setTitle("Stopping", for: .disabled)
+            liveButton.isEnabled = false
+            liveButton.setTitle("Stopping", for: .disabled)
         } else {
             do {
                 try startRecording()
-                recordButton.setTitle("Stop Recording", for: [])
+                liveButton.setTitle("Stop Recording", for: [])
             } catch {
-                recordButton.setTitle("Recording Not Available", for: [])
+                liveButton.setTitle("Recording Not Available", for: [])
             }
         }
     }
+    
+    // MARK: Interface Builder actions
 
     func textViewSetup(){
         view.addSubview(textView)
@@ -198,9 +199,29 @@ extension SpeechToTextVC {
         textView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
         textView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
         textView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        textView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+        textView.topAnchor.constraint(equalTo: liveButton.bottomAnchor, constant: 10).isActive = true
         textView.isEditable = false
         textView.isSelectable = false
         textView.font = UIFont.boldSystemFont(ofSize: 30)
     }
+    
+    func liveButtonSetup(){
+        view.addSubview(liveButton)
+        liveButton.translatesAutoresizingMaskIntoConstraints = false
+        //liveButton.setTitle("Live", for: .normal)
+        liveButton.setImage(#imageLiteral(resourceName: "microphone"), for: .normal)
+        liveButton.setImage(#imageLiteral(resourceName: "microphone"), for: .selected)
+        liveButton.imageView?.contentMode = .scaleAspectFit
+        liveButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        liveButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        liveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        liveButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
+        liveButton.addTarget(self, action: #selector(liveButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc func liveButtonTapped() {
+        audioEngine.stop()
+        dismiss(animated: true, completion: nil)
+    }
+    
 }
