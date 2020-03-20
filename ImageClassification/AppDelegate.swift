@@ -36,9 +36,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     //let db = Firestore.firestore()
 
     //changesw the root view controller
-    window = UIWindow(frame: UIScreen.main.bounds)
-    window?.rootViewController = LoginVC()
-    window?.makeKeyAndVisible()
+//    window = UIWindow(frame: UIScreen.main.bounds)
+//    window?.rootViewController = LoginVC()
+//    window?.makeKeyAndVisible()
 
     application.registerForRemoteNotifications()
 

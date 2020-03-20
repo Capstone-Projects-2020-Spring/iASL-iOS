@@ -22,8 +22,7 @@ import FirebaseFirestore
 
 // MARK: Added a UITextFieldDelegate here to the class
 
-// MARK: If there is a camera view, then the keyboard won't be there and thus, the view won't have to move
-//so just make it an imageview for now
+// MARK: If there is a camera view, then the keyboard won't be there and thus, the view won't have to move so just make it an imageview for now
 
 class LoginVC: UIViewController, UITextFieldDelegate {
 
