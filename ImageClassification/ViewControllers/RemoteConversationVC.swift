@@ -9,15 +9,15 @@
 import UIKit
 
 class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
-    var people = ["Ian","Leo","Liam","Viet","Tarek","Aidan","Shakeel"]
+
+    var people = ["Ian", "Leo", "Liam", "Viet", "Tarek", "Aidan", "Shakeel"]
 
     let topBar = UIView()
     let topLabel = UILabel()
     let backButton = UIButton()
     let tableView = UITableView()
     let liveButton = UIButton()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -28,24 +28,21 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
 
         //composedMessageSetup()
     }
-    
-    
-    
-        
+
 }
 
 extension RemoteConversationVC {
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return people.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
         cell?.textLabel?.text = people[indexPath.row]
         return cell!
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = ChatVC()
         vc.modalPresentationStyle = .fullScreen
@@ -53,9 +50,8 @@ extension RemoteConversationVC {
         vc.topLabel.text = people[indexPath.row]
         navigationController?.pushViewController(vc, animated: true)
     }
-    
-    
-    func tableViewSetup(){
+
+    func tableViewSetup() {
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.topAnchor.constraint(equalTo: topBar.bottomAnchor).isActive = true
@@ -67,8 +63,7 @@ extension RemoteConversationVC {
         tableView.dataSource = self
     }
 
-    
-    func topBarSetup(){
+    func topBarSetup() {
         view.addSubview(topBar)
         topBar.translatesAutoresizingMaskIntoConstraints = false
         topBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -77,7 +72,7 @@ extension RemoteConversationVC {
         topBar.heightAnchor.constraint(equalToConstant: 90).isActive = true
         topBar.backgroundColor = .black
     }
-    
+
     func backButtonSetup() {
         topBar.addSubview(backButton)
         backButton.translatesAutoresizingMaskIntoConstraints = false
@@ -88,13 +83,13 @@ extension RemoteConversationVC {
         backButton.backgroundColor = .red
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
-    
-    @objc func backButtonTapped(){
+
+    @objc func backButtonTapped() {
         dismiss(animated: true, completion: nil)
         //navigationController?.popViewController(animated: true)
     }
-    
-    func topLabelSetup(){
+
+    func topLabelSetup() {
         topBar.addSubview(topLabel)
         topLabel.translatesAutoresizingMaskIntoConstraints = false
         topLabel.leadingAnchor.constraint(equalTo: backButton.trailingAnchor, constant: 20).isActive = true
@@ -105,7 +100,5 @@ extension RemoteConversationVC {
         topLabel.font = UIFont.boldSystemFont(ofSize: 30)
         topLabel.textColor = .white
     }
-    
-    
 
 }

@@ -340,6 +340,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6765C7EC23FB35F70083A5C5 /* Build configuration list for PBXNativeTarget "ImageClassificationTests" */;
 			buildPhases = (
+				670E273A24248B8D003E129E /* ShellScript */,
 				6765C7DF23FB35F60083A5C5 /* Sources */,
 				6765C7E023FB35F60083A5C5 /* Frameworks */,
 				6765C7E123FB35F60083A5C5 /* Resources */,
@@ -437,6 +438,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		670E273A24248B8D003E129E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which ./Pods/SwiftLint/swiftlint >/dev/null; then\n ./Pods/SwiftLint/swiftlint autocorrect\n ./Pods/SwiftLint/swiftlint\nelse\n echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 		67FFA552AA72A4E613645B4E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -576,7 +594,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ImageClassification.app/ImageClassification";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iASL.app/iASL";
 			};
 			name = Debug;
 		};
@@ -598,7 +616,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ImageClassification.app/ImageClassification";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iASL.app/iASL";
 			};
 			name = Release;
 		};

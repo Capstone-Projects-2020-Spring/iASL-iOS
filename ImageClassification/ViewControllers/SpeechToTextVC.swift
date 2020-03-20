@@ -11,18 +11,14 @@ import Speech
 
 class SpeechToTextVC: UIViewController, SFSpeechRecognizerDelegate {
 
-    
-    
-    
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
-    
+
     let textView = UITextView()
     let liveButton = UIButton()
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -30,10 +26,9 @@ class SpeechToTextVC: UIViewController, SFSpeechRecognizerDelegate {
         textViewSetup()
         print("adsf")
         speechRecognizer.delegate = self
-        
+
          record()
-        
-        
+
         // Asynchronously make the authorization request.
         SFSpeechRecognizer.requestAuthorization { authStatus in
 
@@ -43,59 +38,55 @@ class SpeechToTextVC: UIViewController, SFSpeechRecognizerDelegate {
                 switch authStatus {
                 case .authorized:
                     self.liveButton.isEnabled = true
-                    
+
                 case .denied:
                     self.liveButton.isEnabled = false
                     self.liveButton.setTitle("User denied access to speech recognition", for: .disabled)
-                    
+
                 case .restricted:
                     self.liveButton.isEnabled = false
                     self.liveButton.setTitle("Speech recognition restricted on this device", for: .disabled)
-                    
+
                 case .notDetermined:
                     self.liveButton.isEnabled = false
                     self.liveButton.setTitle("Speech recognition not yet authorized", for: .disabled)
-                    
+
                 default:
                     self.liveButton.isEnabled = false
                 }
             }
         }
-        
+
     }
-    
-    
+
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         if UIDevice.current.orientation == UIDeviceOrientation.portraitUpsideDown {
-            
+
             //record()
         }
-        
+
         if UIDevice.current.orientation == UIDeviceOrientation.portrait {
             print("adsf")
             dismiss(animated: true, completion: nil)
         }
-        
-        
+
     }
-    
-    
+
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .all
     }
-    
+
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        
+
     }
-    
+
     private func startRecording() throws {
-        
+
         // Cancel the previous task if it's running.
         recognitionTask?.cancel()
         self.recognitionTask = nil
-        
+
         // Configure the audio session for the app.
         let audioSession = AVAudioSession.sharedInstance()
         try audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
@@ -106,24 +97,24 @@ class SpeechToTextVC: UIViewController, SFSpeechRecognizerDelegate {
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
         guard let recognitionRequest = recognitionRequest else { fatalError("Unable to create a SFSpeechAudioBufferRecognitionRequest object") }
         recognitionRequest.shouldReportPartialResults = true
-        
+
         // Keep speech recognition data on device
         if #available(iOS 13, *) {
             recognitionRequest.requiresOnDeviceRecognition = false
         }
-        
+
         // Create a recognition task for the speech recognition session.
         // Keep a reference to the task so that it can be canceled.
         recognitionTask = speechRecognizer.recognitionTask(with: recognitionRequest) { result, error in
             var isFinal = false
-            
+
             if let result = result {
                 // Update the text view with the results.
                 self.textView.text = result.bestTranscription.formattedString
                 isFinal = result.isFinal
                 print("Text \(result.bestTranscription.formattedString)")
             }
-            
+
             if error != nil || isFinal {
                 // Stop recognizing speech if there is a problem.
                 self.audioEngine.stop()
@@ -139,20 +130,19 @@ class SpeechToTextVC: UIViewController, SFSpeechRecognizerDelegate {
 
         // Configure the microphone input.
         let recordingFormat = inputNode.outputFormat(forBus: 0)
-        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer: AVAudioPCMBuffer, when: AVAudioTime) in
+        inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { (buffer: AVAudioPCMBuffer, _: AVAudioTime) in
             self.recognitionRequest?.append(buffer)
         }
-        
+
         audioEngine.prepare()
         try audioEngine.start()
-        
+
         // Let the user know to start talking.
         textView.text = "(Go ahead, I'm listening)"
     }
-    
-    
+
     // MARK: SFSpeechRecognizerDelegate
-    
+
     public func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
         if available {
             liveButton.isEnabled = true
@@ -163,17 +153,10 @@ class SpeechToTextVC: UIViewController, SFSpeechRecognizerDelegate {
         }
     }
 
-
-    
-    
-    
 }
 
 extension SpeechToTextVC {
-    
 
-    
-    
     func record() {
         print("tapped")
         if audioEngine.isRunning {
@@ -190,10 +173,10 @@ extension SpeechToTextVC {
             }
         }
     }
-    
+
     // MARK: Interface Builder actions
 
-    func textViewSetup(){
+    func textViewSetup() {
         view.addSubview(textView)
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
@@ -204,8 +187,8 @@ extension SpeechToTextVC {
         textView.isSelectable = false
         textView.font = UIFont.boldSystemFont(ofSize: 30)
     }
-    
-    func liveButtonSetup(){
+
+    func liveButtonSetup() {
         view.addSubview(liveButton)
         liveButton.translatesAutoresizingMaskIntoConstraints = false
         //liveButton.setTitle("Live", for: .normal)
@@ -218,10 +201,10 @@ extension SpeechToTextVC {
         liveButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         liveButton.addTarget(self, action: #selector(liveButtonTapped), for: .touchUpInside)
     }
-    
+
     @objc func liveButtonTapped() {
         audioEngine.stop()
         dismiss(animated: true, completion: nil)
     }
-    
+
 }

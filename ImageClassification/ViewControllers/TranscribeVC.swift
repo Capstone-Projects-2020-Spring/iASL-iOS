@@ -12,7 +12,7 @@ class TranscribeVC: UIViewController {
 
     let textView = UITextView()
     let liveButton = UIButton()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -20,7 +20,6 @@ class TranscribeVC: UIViewController {
         textViewSetup()
         // Do any additional setup after loading the view.
     }
-    
 
     /*
     // MARK: - Navigation
@@ -33,7 +32,6 @@ class TranscribeVC: UIViewController {
     */
 
 }
-
 
 extension TranscribeVC {
 
@@ -53,10 +51,10 @@ extension TranscribeVC {
 //            }
 //        }
 //    }
-    
+
     // MARK: Interface Builder actions
 
-    func textViewSetup(){
+    func textViewSetup() {
         view.addSubview(textView)
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
@@ -67,8 +65,8 @@ extension TranscribeVC {
         textView.isSelectable = false
         textView.font = UIFont.boldSystemFont(ofSize: 30)
     }
-    
-    func liveButtonSetup(){
+
+    func liveButtonSetup() {
         view.addSubview(liveButton)
         liveButton.translatesAutoresizingMaskIntoConstraints = false
         //liveButton.setTitle("Live", for: .normal)
@@ -81,9 +79,9 @@ extension TranscribeVC {
         liveButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         liveButton.addTarget(self, action: #selector(liveButtonTapped), for: .touchUpInside)
     }
-    
+
     @objc func liveButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
-    
+
 }
