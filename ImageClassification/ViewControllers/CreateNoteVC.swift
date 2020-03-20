@@ -20,7 +20,6 @@ class CreateNoteVC: UIViewController {
         backButtonSetup()
         noteTitleSetup()
         textViewSetup()
-
     }
 
 }
@@ -34,7 +33,9 @@ extension CreateNoteVC {
         backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        backButton.backgroundColor = .red
+        let tintedImage = #imageLiteral(resourceName: "back").withRenderingMode(.alwaysTemplate)
+        backButton.setImage(tintedImage, for: .normal)
+        backButton.tintColor = .black
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
 
