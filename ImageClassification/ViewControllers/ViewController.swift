@@ -235,9 +235,11 @@ extension ViewController: CameraFeedManagerDelegate {
 
 	fileprivate func deleteCharacter() {
 		DispatchQueue.main.async {
-			var text = self.outputTextView.text
-			text?.removeLast()
-			self.outputTextView.text = text
+            if(self.outputTextView.text != ""){
+                var text = self.outputTextView.text
+                text?.removeLast()
+                self.outputTextView.text = text
+            }
 		}
 	}
 
@@ -598,7 +600,7 @@ extension ViewController {
         outputTextView.trailingAnchor.constraint(equalTo: textViewHolder.trailingAnchor).isActive = true
         outputTextView.topAnchor.constraint(equalTo: textViewHolder.topAnchor, constant: 20).isActive = true
         outputTextView.isEditable = false
-        outputTextView.text = "The quick brown fox jumps over the lazy dog"
+        outputTextView.text = ""
         outputTextView.textColor = .gray
         outputTextView.font = UIFont.boldSystemFont(ofSize: 30)
     }
