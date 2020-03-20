@@ -28,11 +28,11 @@ class SpeechToTextVC: UIViewController, SFSpeechRecognizerDelegate {
         view.backgroundColor = .white
         liveButtonSetup()
         textViewSetup()
-        // Do any additional setup after loading the view.
-        
-        // Configure the SFSpeechRecognizer object already
-        // stored in a local member variable.
+        print("adsf")
         speechRecognizer.delegate = self
+        
+         record()
+        
         
         // Asynchronously make the authorization request.
         SFSpeechRecognizer.requestAuthorization { authStatus in
@@ -61,17 +61,27 @@ class SpeechToTextVC: UIViewController, SFSpeechRecognizerDelegate {
                 }
             }
         }
+        
     }
     
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         if UIDevice.current.orientation == UIDeviceOrientation.portraitUpsideDown {
             
-        } else {
-            dismiss(animated: true, completion: nil)
-            
+            //record()
         }
         
+        if UIDevice.current.orientation == UIDeviceOrientation.portrait {
+            print("adsf")
+            dismiss(animated: true, completion: nil)
+        }
+        
+        
+    }
+    
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .all
     }
     
     override public func viewDidAppear(_ animated: Bool) {
@@ -210,6 +220,7 @@ extension SpeechToTextVC {
     }
     
     @objc func liveButtonTapped() {
+        audioEngine.stop()
         dismiss(animated: true, completion: nil)
     }
     

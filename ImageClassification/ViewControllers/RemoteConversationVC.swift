@@ -90,7 +90,8 @@ extension RemoteConversationVC {
     }
     
     @objc func backButtonTapped(){
-        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
+        //navigationController?.popViewController(animated: true)
     }
     
     func topLabelSetup(){

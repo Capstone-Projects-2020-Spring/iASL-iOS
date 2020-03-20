@@ -102,12 +102,14 @@ class ViewController: UIViewController {
             let vc = SpeechToTextVC()
             vc.modalPresentationStyle = .fullScreen
             vc.modalTransitionStyle = .crossDissolve
-            present(vc, animated: true, completion: {vc.record()})
+            present(vc, animated: true, completion: nil)
+            
+            //
         } else {
             liveButton.isSelected = false
             remoteChatButton.isHidden = false
             notesButton.isHidden = false
-            
+            dismiss(animated: true, completion: nil)
         }
         
     }
@@ -123,7 +125,6 @@ class ViewController: UIViewController {
         topBarSetup()
         //logoLabelSetup()
         cameraUnavailableLabelSetup()
-        buttonStackSetup()
         notesButtonSetup()
         remoteChatButtonSetup()
         resumeButtonSetup()
@@ -131,6 +132,9 @@ class ViewController: UIViewController {
         textViewHolderSetup()
         outputTextViewSetup()
         //speak()
+        
+
+        
         
         guard modelDataHandler != nil else {
             fatalError("Model set up failed")
@@ -147,6 +151,14 @@ class ViewController: UIViewController {
         
         addPanGesture()
     }
+    
+    
+    
+
+    
+    
+    
+    
     
     
     func tabBarControllerSetup(){
@@ -524,8 +536,8 @@ extension ViewController {
         vc.modalPresentationStyle = .fullScreen
         remoteChatButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         remoteChatButton.setTitleColor(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1), for: .normal)
-        //present(vc, animated: true, completion: nil)
-        navigationController?.pushViewController(vc, animated: true)
+        present(vc, animated: true, completion: nil)
+        //navigationController?.pushViewController(vc, animated: true)
     }
     
     func liveButtonSetup(){
@@ -553,11 +565,12 @@ extension ViewController {
 //
 //        }
         
+        
         liveButton.isSelected = true
         let vc = SpeechToTextVC()
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .crossDissolve
-        present(vc, animated: true, completion: {vc.record()})
+        present(vc, animated: true, completion: nil)
         
     }
     
@@ -582,23 +595,8 @@ extension ViewController {
         let vc = NotesVC()
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .crossDissolve
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func buttonStackSetup(){
-        topBar.addSubview(buttonStack)
-        buttonStack.translatesAutoresizingMaskIntoConstraints = false
-        buttonStack.leadingAnchor.constraint(equalTo: topBar.leadingAnchor, constant: 20).isActive = true
-        buttonStack.trailingAnchor.constraint(equalTo: topBar.trailingAnchor, constant: -20).isActive = true
-        buttonStack.bottomAnchor.constraint(equalTo: topBar.bottomAnchor).isActive = true
-        buttonStack.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        buttonStack.addArrangedSubview(remoteChatButton)
-        buttonStack.addArrangedSubview(liveButton)
-        buttonStack.addArrangedSubview(notesButton)
-        
-        buttonStack.distribution = .fillEqually
-        
+        present(vc, animated: true, completion: nil)
+        //navigationController?.pushViewController(vc, animated: true)
     }
     
     func textViewHolderSetup() {
