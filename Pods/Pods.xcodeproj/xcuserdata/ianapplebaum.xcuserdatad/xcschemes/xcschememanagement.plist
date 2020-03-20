@@ -12,7 +12,7 @@
 		<key>Firebase.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>3</integer>
+			<integer>4</integer>
 		</dict>
 		<key>FirebaseAnalytics.xcscheme</key>
 		<dict>
@@ -182,6 +182,11 @@
 			<integer>22</integer>
 		</dict>
 		<key>SwiftLint.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>22</integer>
+		</dict>
+		<key>SwiftLint.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>22</integer>
