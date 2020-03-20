@@ -235,7 +235,7 @@ extension ViewController: CameraFeedManagerDelegate {
 
 	fileprivate func deleteCharacter() {
 		DispatchQueue.main.async {
-            if(self.outputTextView.text != ""){
+            if self.outputTextView.text != "" {
                 var text = self.outputTextView.text
                 text?.removeLast()
                 self.outputTextView.text = text
