@@ -28,6 +28,9 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         createNoteButtonSetup()
     }
 
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .all
+    }
 }
 
 extension NotesVC {
@@ -79,7 +82,9 @@ extension NotesVC {
         backButton.bottomAnchor.constraint(equalTo: topBar.bottomAnchor, constant: -10).isActive = true
         backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        backButton.backgroundColor = .red
+        let tintedImage = #imageLiteral(resourceName: "back").withRenderingMode(.alwaysTemplate)
+        backButton.setImage(tintedImage, for: .normal)
+        backButton.tintColor = .white
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
 
@@ -106,7 +111,8 @@ extension NotesVC {
     }
 
     @objc func backButtonTapped() {
-        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
+        //navigationController?.popViewController(animated: true)
     }
 
     func topLabelSetup() {

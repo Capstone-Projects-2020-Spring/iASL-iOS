@@ -10,12 +10,13 @@ import UIKit
 
 class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    var people = ["Ian", "Leo", "Liam", "Viet", "Tarek", "Aidan", "Shakeel"]
+    var people = ["Ian Applebaum", "Leo Gomes", "Liam Miller", "Viet Pham", "Tarek Elseify", "Aidan Loza", "Shakeel Alibhai"]
 
     let topBar = UIView()
     let topLabel = UILabel()
     let backButton = UIButton()
     let tableView = UITableView()
+    let liveButton = UIButton()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +28,8 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
 
         //composedMessageSetup()
     }
+
+}
 
 extension RemoteConversationVC {
 
@@ -45,7 +48,8 @@ extension RemoteConversationVC {
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .crossDissolve
         vc.topLabel.text = people[indexPath.row]
-        navigationController?.pushViewController(vc, animated: true)
+        present(vc, animated: true, completion: nil)
+        //navigationController?.pushViewController(vc, animated: true)
     }
 
     func tableViewSetup() {
@@ -77,12 +81,15 @@ extension RemoteConversationVC {
         backButton.bottomAnchor.constraint(equalTo: topBar.bottomAnchor, constant: -10).isActive = true
         backButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         backButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        backButton.backgroundColor = .red
+        let tintedImage = #imageLiteral(resourceName: "back").withRenderingMode(.alwaysTemplate)
+        backButton.setImage(tintedImage, for: .normal)
+        backButton.tintColor = .white
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
 
     @objc func backButtonTapped() {
-        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
+        //navigationController?.popViewController(animated: true)
     }
 
     func topLabelSetup() {

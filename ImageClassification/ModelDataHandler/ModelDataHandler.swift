@@ -54,7 +54,7 @@ class ModelDataHandler {
   // MARK: - Model Parameters
 
   let batchSize = 1
-  let inputChannels = 1
+  let inputChannels = 3
   let inputWidth = 200
   let inputHeight = 200
 
@@ -142,7 +142,7 @@ class ModelDataHandler {
       // Run inference by invoking the `Interpreter`.
       let startDate = Date()
       try interpreter.invoke()
-      interval = Date().timeIntervalSince(startDate) * 1
+      interval = Date().timeIntervalSince(startDate) * 1000
 
       // Get the output `Tensor` to process the inference results.
       outputTensor = try interpreter.output(at: 0)

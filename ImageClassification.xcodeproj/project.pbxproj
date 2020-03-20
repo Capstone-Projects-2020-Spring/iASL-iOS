@@ -8,13 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		2F8F42FAF8F1249277BA57B8 /* Pods_ImageClassification.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76AE2E947B2172049010B9BA /* Pods_ImageClassification.framework */; };
-		60EF4013241DB63700CA0C41 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EF4012241DB63700CA0C41 /* LoginVC.swift */; };
+		670E273924248A78003E129E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 670E273824248A77003E129E /* GoogleService-Info.plist */; };
+		670E273C2424904A003E129E /* model.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 670E273B2424904A003E129E /* model.tflite */; };
 		6765C7E623FB35F60083A5C5 /* ImageClassificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6765C7E523FB35F60083A5C5 /* ImageClassificationTests.swift */; };
-		676DCBA82422BF5900DD76A7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 676DCBA62422BF5900DD76A7 /* GoogleService-Info.plist */; };
-		676DCBAA2422BF9B00DD76A7 /* model.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 676DCBA92422BF9B00DD76A7 /* model.tflite */; };
+		6E23ACD52416BE8E00495F02 /* RemoteConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E23ACD42416BE8E00495F02 /* RemoteConversationVC.swift */; };
+		6E27F53E2423CDCC0087F7F5 /* TranscribeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E27F53D2423CDCC0087F7F5 /* TranscribeVC.swift */; };
 		6E3469932421CD64009F1E7D /* SpeechToTextVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E3469922421CD64009F1E7D /* SpeechToTextVC.swift */; };
 		6E6D14CF24175AC800A185E9 /* CreateNoteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6D14CE24175AC800A185E9 /* CreateNoteVC.swift */; };
 		6E6D14D1241845D900A185E9 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6D14D0241845D900A185E9 /* ChatTableViewCell.swift */; };
+		6EB03F7C24251C6D009C0843 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB03F7B24251C6D009C0843 /* Extensions.swift */; };
+		6EB03F7E24253489009C0843 /* Caboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB03F7D24253489009C0843 /* Caboard.swift */; };
+		6EB03F962425546D009C0843 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB03F952425546D009C0843 /* KeyboardViewController.swift */; };
+		6EB03F9A2425546D009C0843 /* ASL Keyboard.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6EB03F932425546D009C0843 /* ASL Keyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		6EF328FB24173A430071E430 /* NotesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF328FA24173A430071E430 /* NotesVC.swift */; };
 		6EF328FD2417543B0071E430 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF328FC2417543B0071E430 /* ChatVC.swift */; };
 		AA16E5A22180843800D9E153 /* InfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA16E5A12180843700D9E153 /* InfoCell.swift */; };
@@ -40,7 +45,28 @@
 			remoteGlobalIDString = AAE79E55213521DA00E7AC1F;
 			remoteInfo = ImageClassification;
 		};
+		6EB03F982425546D009C0843 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AAE79E4E213521DA00E7AC1F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6EB03F922425546D009C0843;
+			remoteInfo = "ASL Keyboard";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6EB03F9B2425546D009C0843 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				6EB03F9A2425546D009C0843 /* ASL Keyboard.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		42680B19B0C37DEE1A977082 /* Pods-ImageClassification.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageClassification.debug.xcconfig"; path = "Target Support Files/Pods-ImageClassification/Pods-ImageClassification.debug.xcconfig"; sourceTree = "<group>"; };
@@ -58,17 +84,24 @@
 		604630C1240232560085F612 /* DateTodayFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTodayFormatter.swift; sourceTree = "<group>"; };
 		604630C2240232560085F612 /* TextFieldFormHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldFormHandler.swift; sourceTree = "<group>"; };
 		604630C3240232560085F612 /* InputDialogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputDialogController.swift; sourceTree = "<group>"; };
-		60EF4012241DB63700CA0C41 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		670E273824248A77003E129E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		670E273B2424904A003E129E /* model.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = model.tflite; sourceTree = "<group>"; };
 		6765C7E323FB35F60083A5C5 /* ImageClassificationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageClassificationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6765C7E523FB35F60083A5C5 /* ImageClassificationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageClassificationTests.swift; sourceTree = "<group>"; };
 		6765C7E723FB35F60083A5C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		676DCBA62422BF5900DD76A7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "ImageClassification/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		676DCBA72422BF5900DD76A7 /* iASL.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = iASL.entitlements; path = ImageClassification/iASL.entitlements; sourceTree = "<group>"; };
-		676DCBA92422BF9B00DD76A7 /* model.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = model.tflite; sourceTree = "<group>"; };
 		6E23ACD42416BE8E00495F02 /* RemoteConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConversationVC.swift; sourceTree = "<group>"; };
+		6E23ACD62416CB4000495F02 /* iASL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iASL.entitlements; sourceTree = "<group>"; };
+		6E27F53D2423CDCC0087F7F5 /* TranscribeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscribeVC.swift; sourceTree = "<group>"; };
 		6E3469922421CD64009F1E7D /* SpeechToTextVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechToTextVC.swift; sourceTree = "<group>"; };
 		6E6D14CE24175AC800A185E9 /* CreateNoteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNoteVC.swift; sourceTree = "<group>"; };
 		6E6D14D0241845D900A185E9 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
+		6EB03F7B24251C6D009C0843 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		6EB03F7D24253489009C0843 /* Caboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Caboard.swift; sourceTree = "<group>"; };
+		6EB03F932425546D009C0843 /* ASL Keyboard.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "ASL Keyboard.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6EB03F952425546D009C0843 /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
+		6EB03F972425546D009C0843 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6ED11B8B2424145E000CF870 /* short_notification.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = short_notification.mp3; sourceTree = "<group>"; };
+		6ED11B8C242414A1000CF870 /* simple_notification.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = simple_notification.mp3; sourceTree = "<group>"; };
 		6EF328FA24173A430071E430 /* NotesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesVC.swift; sourceTree = "<group>"; };
 		6EF328FC2417543B0071E430 /* ChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVC.swift; sourceTree = "<group>"; };
 		6F6D81459D9BDFCDF5716B5C /* Pods-ImageClassification.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageClassification.release.xcconfig"; path = "Target Support Files/Pods-ImageClassification/Pods-ImageClassification.release.xcconfig"; sourceTree = "<group>"; };
@@ -92,6 +125,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		6765C7E023FB35F60083A5C5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6EB03F902425546D009C0843 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -204,6 +244,15 @@
 			path = ImageClassificationTests;
 			sourceTree = "<group>";
 		};
+		6EB03F942425546D009C0843 /* ASL Keyboard */ = {
+			isa = PBXGroup;
+			children = (
+				6EB03F952425546D009C0843 /* KeyboardViewController.swift */,
+				6EB03F972425546D009C0843 /* Info.plist */,
+			);
+			path = "ASL Keyboard";
+			sourceTree = "<group>";
+		};
 		8A66D810CC188BF511866FE7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -231,7 +280,7 @@
 		AA5FEB7A21355CCC00F9BD4B /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				676DCBA92422BF9B00DD76A7 /* model.tflite */,
+				670E273B2424904A003E129E /* model.tflite */,
 				AA5FEB7C21355CCC00F9BD4B /* labels.txt */,
 			);
 			path = Model;
@@ -265,11 +314,10 @@
 		AAE79E4D213521DA00E7AC1F = {
 			isa = PBXGroup;
 			children = (
-				676DCBA62422BF5900DD76A7 /* GoogleService-Info.plist */,
-				676DCBA72422BF5900DD76A7 /* iASL.entitlements */,
 				604630A5240231D50085F612 /* twilio */,
 				AAE79E58213521DA00E7AC1F /* ImageClassification */,
 				6765C7E423FB35F60083A5C5 /* ImageClassificationTests */,
+				6EB03F942425546D009C0843 /* ASL Keyboard */,
 				AAE79E57213521DA00E7AC1F /* Products */,
 				2A93ED2EC57590DCEFC6C694 /* Pods */,
 				8A66D810CC188BF511866FE7 /* Frameworks */,
@@ -281,6 +329,7 @@
 			children = (
 				AAE79E56213521DA00E7AC1F /* iASL.app */,
 				6765C7E323FB35F60083A5C5 /* ImageClassificationTests.xctest */,
+				6EB03F932425546D009C0843 /* ASL Keyboard.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -288,6 +337,11 @@
 		AAE79E58213521DA00E7AC1F /* ImageClassification */ = {
 			isa = PBXGroup;
 			children = (
+				6ED11B8B2424145E000CF870 /* short_notification.mp3 */,
+				6ED11B8C242414A1000CF870 /* simple_notification.mp3 */,
+				6E23ACD62416CB4000495F02 /* iASL.entitlements */,
+				670E273824248A77003E129E /* GoogleService-Info.plist */,
+				AAE79E59213521DA00E7AC1F /* AppDelegate.swift */,
 				AAAB096C218981A30015A1F2 /* Extensions */,
 				AA16E5A02180843700D9E153 /* Cells */,
 				AA24751A2170A054000B6A31 /* Views */,
@@ -296,7 +350,6 @@
 				AAE79E972135268800E7AC1F /* Camera Feed */,
 				AA5FEB7A21355CCC00F9BD4B /* Model */,
 				AA5FEB7F21355D0300F9BD4B /* Storyboards */,
-				AAE79E59213521DA00E7AC1F /* AppDelegate.swift */,
 				AAE79E60213521DB00E7AC1F /* Assets.xcassets */,
 				AAE79E65213521DB00E7AC1F /* Info.plist */,
 			);
@@ -307,8 +360,10 @@
 			isa = PBXGroup;
 			children = (
 				AAE79E942135237A00E7AC1F /* ViewController.swift */,
-				60EF4012241DB63700CA0C41 /* LoginVC.swift */,
+				6EB03F7B24251C6D009C0843 /* Extensions.swift */,
 				6E3469922421CD64009F1E7D /* SpeechToTextVC.swift */,
+				6EB03F7D24253489009C0843 /* Caboard.swift */,
+				6E27F53D2423CDCC0087F7F5 /* TranscribeVC.swift */,
 				6E23ACD42416BE8E00495F02 /* RemoteConversationVC.swift */,
 				6EF328FC2417543B0071E430 /* ChatVC.swift */,
 				6E6D14D0241845D900A185E9 /* ChatTableViewCell.swift */,
@@ -335,10 +390,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6765C7EC23FB35F70083A5C5 /* Build configuration list for PBXNativeTarget "ImageClassificationTests" */;
 			buildPhases = (
+				670E273A24248B8D003E129E /* ShellScript */,
 				6765C7DF23FB35F60083A5C5 /* Sources */,
 				6765C7E023FB35F60083A5C5 /* Frameworks */,
 				6765C7E123FB35F60083A5C5 /* Resources */,
-				67B588B1241699E2003B090C /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -350,6 +405,23 @@
 			productReference = 6765C7E323FB35F60083A5C5 /* ImageClassificationTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		6EB03F922425546D009C0843 /* ASL Keyboard */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6EB03F9E2425546D009C0843 /* Build configuration list for PBXNativeTarget "ASL Keyboard" */;
+			buildPhases = (
+				6EB03F8F2425546D009C0843 /* Sources */,
+				6EB03F902425546D009C0843 /* Frameworks */,
+				6EB03F912425546D009C0843 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ASL Keyboard";
+			productName = "ASL Keyboard";
+			productReference = 6EB03F932425546D009C0843 /* ASL Keyboard.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		AAE79E55213521DA00E7AC1F /* ImageClassification */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AAE79E7E213521DB00E7AC1F /* Build configuration list for PBXNativeTarget "ImageClassification" */;
@@ -359,11 +431,13 @@
 				AAE79E52213521DA00E7AC1F /* Sources */,
 				AAE79E53213521DA00E7AC1F /* Frameworks */,
 				AAE79E54213521DA00E7AC1F /* Resources */,
-				5BF4907522317E6E532C2EB0 /* [CP] Embed Pods Frameworks */,
+				67FFA552AA72A4E613645B4E /* [CP] Embed Pods Frameworks */,
+				6EB03F9B2425546D009C0843 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				6EB03F992425546D009C0843 /* PBXTargetDependency */,
 			);
 			name = ImageClassification;
 			productName = ImageClassification;
@@ -383,6 +457,9 @@
 					6765C7E223FB35F60083A5C5 = {
 						CreatedOnToolsVersion = 11.3;
 						TestTargetID = AAE79E55213521DA00E7AC1F;
+					};
+					6EB03F922425546D009C0843 = {
+						CreatedOnToolsVersion = 11.3;
 					};
 					AAE79E55213521DA00E7AC1F = {
 						CreatedOnToolsVersion = 9.4.1;
@@ -405,6 +482,7 @@
 			targets = (
 				AAE79E55213521DA00E7AC1F /* ImageClassification */,
 				6765C7E223FB35F60083A5C5 /* ImageClassificationTests */,
+				6EB03F922425546D009C0843 /* ASL Keyboard */,
 			);
 		};
 /* End PBXProject section */
@@ -417,23 +495,47 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6EB03F912425546D009C0843 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AAE79E54213521DA00E7AC1F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				AAE79E64213521DB00E7AC1F /* LaunchScreen.storyboard in Resources */,
-				676DCBAA2422BF9B00DD76A7 /* model.tflite in Resources */,
+				670E273C2424904A003E129E /* model.tflite in Resources */,
 				AAE79E61213521DB00E7AC1F /* Assets.xcassets in Resources */,
 				AA5FEB7E21355CCC00F9BD4B /* labels.txt in Resources */,
 				AAE79E5F213521DA00E7AC1F /* Main.storyboard in Resources */,
-				676DCBA82422BF5900DD76A7 /* GoogleService-Info.plist in Resources */,
+				670E273924248A78003E129E /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		5BF4907522317E6E532C2EB0 /* [CP] Embed Pods Frameworks */ = {
+		670E273A24248B8D003E129E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which ./Pods/SwiftLint/swiftlint >/dev/null; then\n ./Pods/SwiftLint/swiftlint autocorrect\n ./Pods/SwiftLint/swiftlint\nelse\n echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		67FFA552AA72A4E613645B4E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -449,23 +551,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ImageClassification/Pods-ImageClassification-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		67B588B1241699E2003B090C /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which ./Pods/SwiftLint/swiftlint >/dev/null; then\n  ./Pods/SwiftLint/swiftlint autocorrect\n  ./Pods/SwiftLint/swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		AA055D8B2162320A00B25948 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -517,6 +602,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6EB03F8F2425546D009C0843 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6EB03F962425546D009C0843 /* KeyboardViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AAE79E52213521DA00E7AC1F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -524,18 +617,21 @@
 				6EF328FD2417543B0071E430 /* ChatVC.swift in Sources */,
 				AAE79E952135237A00E7AC1F /* ViewController.swift in Sources */,
 				6E3469932421CD64009F1E7D /* SpeechToTextVC.swift in Sources */,
+				6E27F53E2423CDCC0087F7F5 /* TranscribeVC.swift in Sources */,
 				6EF328FB24173A430071E430 /* NotesVC.swift in Sources */,
 				AA5B0EEC217E70000026FF23 /* CurvedView.swift in Sources */,
 				6E6D14CF24175AC800A185E9 /* CreateNoteVC.swift in Sources */,
 				AAE79E9A2135268800E7AC1F /* PreviewView.swift in Sources */,
+				6E23ACD52416BE8E00495F02 /* RemoteConversationVC.swift in Sources */,
 				AAE79E9B2135268800E7AC1F /* CameraFeedManager.swift in Sources */,
+				6EB03F7E24253489009C0843 /* Caboard.swift in Sources */,
 				AAAB096E218981FA0015A1F2 /* CVPixelBufferExtension.swift in Sources */,
 				AA16E5A22180843800D9E153 /* InfoCell.swift in Sources */,
 				AABFCBB2213FE0B100C0A67B /* ModelDataHandler.swift in Sources */,
 				6E6D14D1241845D900A185E9 /* ChatTableViewCell.swift in Sources */,
+				6EB03F7C24251C6D009C0843 /* Extensions.swift in Sources */,
 				AA5B0EEA217E5E300026FF23 /* InferenceViewController.swift in Sources */,
 				AAE79E5A213521DA00E7AC1F /* AppDelegate.swift in Sources */,
-				60EF4013241DB63700CA0C41 /* LoginVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -546,6 +642,11 @@
 			isa = PBXTargetDependency;
 			target = AAE79E55213521DA00E7AC1F /* ImageClassification */;
 			targetProxy = 6765C7E823FB35F60083A5C5 /* PBXContainerItemProxy */;
+		};
+		6EB03F992425546D009C0843 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6EB03F922425546D009C0843 /* ASL Keyboard */;
+			targetProxy = 6EB03F982425546D009C0843 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -611,6 +712,49 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iASL.app/iASL";
+			};
+			name = Release;
+		};
+		6EB03F9C2425546D009C0843 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = N6ESLEE34B;
+				INFOPLIST_FILE = "ASL Keyboard/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cis4398.iasl.ASL-Keyboard";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6EB03F9D2425546D009C0843 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = N6ESLEE34B;
+				INFOPLIST_FILE = "ASL Keyboard/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cis4398.iasl.ASL-Keyboard";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -734,6 +878,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 42680B19B0C37DEE1A977082 /* Pods-ImageClassification.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ImageClassification/iASL.entitlements;
@@ -750,7 +895,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.iASL.LanguageTranslator;
+				PRODUCT_BUNDLE_IDENTIFIER = org.cis4398.iasl;
 				PRODUCT_NAME = iASL;
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -764,6 +909,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6F6D81459D9BDFCDF5716B5C /* Pods-ImageClassification.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ImageClassification/iASL.entitlements;
@@ -780,7 +926,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.iASL.LanguageTranslator;
+				PRODUCT_BUNDLE_IDENTIFIER = org.cis4398.iasl;
 				PRODUCT_NAME = iASL;
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -797,6 +943,15 @@
 			buildConfigurations = (
 				6765C7EA23FB35F70083A5C5 /* Debug */,
 				6765C7EB23FB35F70083A5C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6EB03F9E2425546D009C0843 /* Build configuration list for PBXNativeTarget "ASL Keyboard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6EB03F9C2425546D009C0843 /* Debug */,
+				6EB03F9D2425546D009C0843 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -39,13 +39,14 @@ type_name:
 identifier_name:
   min_length: # only min_length
     error: 4 # only error
-    warning: key
   excluded: # excluded via string array
     - id
+    - vc
     - URL
     - GlobalAPIKey
     - i
     - db
     - url
     - row
+    - key
 reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, junit, html, emoji, sonarqube, markdown)
