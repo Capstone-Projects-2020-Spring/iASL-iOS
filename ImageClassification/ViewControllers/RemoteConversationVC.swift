@@ -91,6 +91,9 @@ extension RemoteConversationVC {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        //let vc = ChatVC(collectionViewLayout: UICollectionViewFlowLayout())
+        
         let vc = ChatVC()
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .crossDissolve

@@ -37,8 +37,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     //FIXME: May need to reavaluate this solution
     //changes the root view controller
+//    window = UIWindow(frame: UIScreen.main.bounds)
+//    window?.rootViewController = LoginVC()
+//    window?.makeKeyAndVisible()
+    
+    //just for editing the chatVC
     window = UIWindow(frame: UIScreen.main.bounds)
-    window?.rootViewController = LoginVC()
+    window?.rootViewController = RemoteConversationVC()
     window?.makeKeyAndVisible()
 
     application.registerForRemoteNotifications()
