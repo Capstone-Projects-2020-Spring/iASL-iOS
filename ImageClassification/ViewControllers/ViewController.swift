@@ -108,6 +108,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //previewViewSetup()
+        
+        print("we loaded the main view controller")
+
 
         topBarSetup()
         //logoLabelSetup()
@@ -140,8 +143,6 @@ class ViewController: UIViewController {
 
         addPanGesture()
     }
-    
-    
     
 
     func tabBarControllerSetup() {

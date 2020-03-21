@@ -8,6 +8,8 @@
 
 // FIXME: Add a thing where the view will disappear when the user presses "login" or "register"
 
+// FIXME: Add a skip button so user's don't have to login if they don't want. Not needed for the main part of the app
+
 import Foundation
 import UIKit
 import Firebase
@@ -379,73 +381,87 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         //hide the keyboard
         hideKeyboard()
         
+        
+        //if isRegister = true, then its on the register screen
+        //else if isRegister = false, then its on the login screen
+        if isRegisterButton {
+            
+            handleRegister()
+                
+        } else {
+            
+            handleLogin()
+            
+        }
+        
+        
+        //if login successful
+        //then exit the view controller
+        
+        //self.dismiss(animated: true, completion: nil)
+//        let viewController = ViewController()
+//        present(viewController, animated: true, completion: nil)
+    }
+    
+    func handleRegister() {
+        
         //get email and password and name
         guard let email = emailTextField.text, let password = passwordTextField.text, let name = nameTextField.text else {
             print("Did not get email and password")
             return
         }
         
-        //if isRegister = true, then its on the register screen
-        //else if isRegister = false, then its on the login screen
-        if isRegisterButton {
-            
-            Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
-                if err != nil {
-                    print(err!)
-                    return
-                }
-                
-                let db = Firestore.firestore()
-                //successfully added user to authentication
-                //var ref: DocumentReference? = nil
-                
-                //check to see if uid exists
-                guard let uid = result?.user.uid else {
-                    return
-                }
-                
-                let dataToAdd: [String : Any] = ["name": name, "email": email, "uid": uid]
-                
-                //added user to database with UID as document
-                db.collection(self.collectionUser).document(uid).setData(dataToAdd, merge: true) { (error) in
-                    if let error = error {
-                        print(error)
-                    }
-                    
-                    //added user to collection with UID
-                    print("added user to database with UID")
-                }
-                
-//                //add user with data to collection
-//                ref = db.collection(self.collectionUser).addDocument(data: dataToAdd) {error in
-//                    if let error = error {
-//                        print(error)
-//                    }
-//
-//                    //successfully added user to database
-//                    print("added user to database")
-//                }
-                
-                
+        
+        Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
+            if err != nil {
+                print(err!)
+                return
             }
-        } else {
             
-            //sign in with username and password
-            Auth.auth().signIn(withEmail: email, password: password) { (result, err) in
-                if err != nil {
-                    print(err!)
-                    return
+            let db = Firestore.firestore()
+            //successfully added user to authentication
+            //var ref: DocumentReference? = nil
+            
+            //check to see if uid exists
+            guard let uid = result?.user.uid else {
+                return
+            }
+            
+            let dataToAdd: [String : Any] = ["name": name, "email": email, "uid": uid]
+            
+            //added user to database with UID as document
+            db.collection(self.collectionUser).document(uid).setData(dataToAdd, merge: true) { (error) in
+                if let error = error {
+                    print(error)
                 }
                 
-                //successfully signed in
-                print("you signed in successfully")
-                
+                //added user to collection with UID
+                print("added user to database with UID")
             }
         }
+    }
+    
+    func handleLogin() {
+        //get email and password and name
+        guard let email = emailTextField.text, let password = passwordTextField.text else {
+            print("Did not get email and password")
+            return
+        }
         
-        
-        //if login successful
-        //then exit the view controller
+        //sign in with username and password
+        Auth.auth().signIn(withEmail: email, password: password) { (result, err) in
+            if err != nil {
+                print(err!)
+                return
+            }
+            
+            //successfully signed in
+            print("you signed in successfully")
+            
+        }
+    }
+    
+    func handleLogout() {
         
     }
 

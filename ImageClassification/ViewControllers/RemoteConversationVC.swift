@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -17,6 +18,19 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
     let backButton = UIButton()
     let tableView = UITableView()
     let liveButton = UIButton()
+    
+    let logoutButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .clear
+        button.setTitle("Logout", for: .normal)
+        button.setTitleColor(.systemPink, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        //button.layer.cornerRadius = 5
+        //button.layer.masksToBounds = true
+        button.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
+        return button
+    }()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,9 +39,40 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         backButtonSetup()
         topLabelSetup()
         tableViewSetup()
+        
+        logoutButtonSetup()
 
         //composedMessageSetup()
     }
+
+    //FIXME: Maybe add a pop up message asking the user if they are sure they want to log out?
+    ///handles the logout button, so it logs the user out of firebae and presents the login controller
+    @objc func handleLogout() {
+        
+        print("handle logout tapped")
+        
+        //log the user out of firebase
+        do {
+            try Auth.auth().signOut()
+        } catch let logoutError {
+            print(logoutError)
+        }
+        //present the login screen
+        let loginController = LoginVC()
+        present(loginController, animated: true, completion: nil)
+    }
+    
+    ///sets the anchors and adds the button to the top bar
+    func logoutButtonSetup() {
+        //x, y, height, width
+        topBar.addSubview(logoutButton)
+        
+        logoutButton.trailingAnchor.constraint(equalTo: topBar.trailingAnchor, constant: -10).isActive = true
+        logoutButton.bottomAnchor.constraint(equalTo: topBar.bottomAnchor, constant: -10).isActive = true
+        logoutButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        //logoutButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+    }
+    
 
 }
 
