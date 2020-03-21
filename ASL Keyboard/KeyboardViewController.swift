@@ -8,9 +8,12 @@
 
 import UIKit
 
+
 class KeyboardViewController: UIInputViewController {
 
     @IBOutlet var nextKeyboardButton: UIButton!
+    let previewView = PreviewView()
+    let keyboardView = UIView()
     
     override func updateViewConstraints() {
         super.updateViewConstraints()
@@ -20,6 +23,8 @@ class KeyboardViewController: UIInputViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         
         // Perform custom UI setup here
         self.nextKeyboardButton = UIButton(type: .system)
@@ -34,6 +39,18 @@ class KeyboardViewController: UIInputViewController {
         
         self.nextKeyboardButton.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
         self.nextKeyboardButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        
+        self.view.addSubview(previewView)
+        self.previewView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            //self.previewView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            self.previewView.topAnchor.constraint(equalTo: view.topAnchor),
+            self.previewView.widthAnchor.constraint(equalToConstant: 150),
+            self.previewView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            //self.previewView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            self.previewView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+          ])
+        self.previewView.backgroundColor = .blue
     }
     
     override func viewWillLayoutSubviews() {
@@ -58,4 +75,17 @@ class KeyboardViewController: UIInputViewController {
         self.nextKeyboardButton.setTitleColor(textColor, for: [])
     }
 
+    func previewViewSetup() {
+        view.addSubview(previewView)
+        previewView.translatesAutoresizingMaskIntoConstraints = false
+        previewView.widthAnchor.constraint(equalToConstant: 130).isActive = true
+        previewView.topAnchor.constraint(equalTo: view.topAnchor,constant: 5).isActive = true
+        //previewView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+
+        //previewView.trailingAnchor.constraint(equalTo: caboardView.trailingAnchor).isActive = true
+        previewView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        previewView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -5).isActive = true
+        previewView.backgroundColor = .black
+    }
+    
 }

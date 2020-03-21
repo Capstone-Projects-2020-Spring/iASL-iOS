@@ -20,6 +20,8 @@
 		6EB03F7E24253489009C0843 /* Caboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB03F7D24253489009C0843 /* Caboard.swift */; };
 		6EB03F962425546D009C0843 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB03F952425546D009C0843 /* KeyboardViewController.swift */; };
 		6EB03F9A2425546D009C0843 /* ASL Keyboard.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6EB03F932425546D009C0843 /* ASL Keyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		6ED189E52425AFB900CC3993 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB03F952425546D009C0843 /* KeyboardViewController.swift */; };
+		6ED189E62425B08800CC3993 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE79E982135268800E7AC1F /* PreviewView.swift */; };
 		6EF328FB24173A430071E430 /* NotesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF328FA24173A430071E430 /* NotesVC.swift */; };
 		6EF328FD2417543B0071E430 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF328FC2417543B0071E430 /* ChatVC.swift */; };
 		AA16E5A22180843800D9E153 /* InfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA16E5A12180843700D9E153 /* InfoCell.swift */; };
@@ -607,6 +609,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6EB03F962425546D009C0843 /* KeyboardViewController.swift in Sources */,
+				6ED189E62425B08800CC3993 /* PreviewView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -625,6 +628,7 @@
 				6E23ACD52416BE8E00495F02 /* RemoteConversationVC.swift in Sources */,
 				AAE79E9B2135268800E7AC1F /* CameraFeedManager.swift in Sources */,
 				6EB03F7E24253489009C0843 /* Caboard.swift in Sources */,
+				6ED189E52425AFB900CC3993 /* KeyboardViewController.swift in Sources */,
 				AAAB096E218981FA0015A1F2 /* CVPixelBufferExtension.swift in Sources */,
 				AA16E5A22180843800D9E153 /* InfoCell.swift in Sources */,
 				AABFCBB2213FE0B100C0A67B /* ModelDataHandler.swift in Sources */,
