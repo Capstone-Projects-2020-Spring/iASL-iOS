@@ -1,8 +1,9 @@
 disabled_rules: # rule identifiers to exclude from running
 opt_in_rules: # some rules are only opt-in
+  - missing_docs
   # Find all the available rules by running:
   # swiftlint rules
- - missing_docs
+ 
 excluded: # paths to ignore during linting. Takes precedence over `included`.
   - Carthage
   - Pods
@@ -15,6 +16,12 @@ force_try:
   severity: warning # explicitly
 # rules that have both warning and error levels, can set just the warning level
 # implicitly
+missing_docs:
+  error:
+  - public
+  warning:
+  - internal
+  - private
 line_length: 
   warning: 230
   error: 500
@@ -39,13 +46,14 @@ type_name:
 identifier_name:
   min_length: # only min_length
     error: 4 # only error
-    warning: key
   excluded: # excluded via string array
     - id
+    - vc
     - URL
     - GlobalAPIKey
     - i
     - db
     - url
     - row
+    - key
 reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, junit, html, emoji, sonarqube, markdown)
