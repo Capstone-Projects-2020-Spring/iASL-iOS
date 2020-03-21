@@ -59,6 +59,8 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         }
         //present the login screen
         let loginController = LoginVC()
+        loginController.modalTransitionStyle = .crossDissolve
+        loginController.modalPresentationStyle = .fullScreen
         present(loginController, animated: true, completion: nil)
     }
     

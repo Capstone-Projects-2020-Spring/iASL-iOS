@@ -35,10 +35,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     //initializes the firestore firebase
     //let db = Firestore.firestore()
 
-    //changesw the root view controller
-//    window = UIWindow(frame: UIScreen.main.bounds)
-//    window?.rootViewController = LoginVC()
-//    window?.makeKeyAndVisible()
+    //FIXME: May need to reavaluate this solution
+    //changes the root view controller
+    window = UIWindow(frame: UIScreen.main.bounds)
+    window?.rootViewController = LoginVC()
+    window?.makeKeyAndVisible()
 
     application.registerForRemoteNotifications()
 

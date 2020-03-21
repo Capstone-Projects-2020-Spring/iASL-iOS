@@ -398,9 +398,18 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         //if login successful
         //then exit the view controller
         
-        //self.dismiss(animated: true, completion: nil)
-//        let viewController = ViewController()
-//        present(viewController, animated: true, completion: nil)
+        //MARK: Leo, you might need this when switching to all programmatic
+        //This switches this view controller to the main view controller in Main.storyboard
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        guard let destination = mainStoryboard.instantiateViewController(withIdentifier: "main") as? ViewController else {
+            print("Could not find the main view controller")
+            return
+        }
+        
+        destination.modalTransitionStyle = .crossDissolve
+        destination.modalPresentationStyle = .fullScreen
+        present(destination, animated: true, completion: nil)
     }
     
     func handleRegister() {
