@@ -354,12 +354,12 @@
 		AAE79E58213521DA00E7AC1F /* ImageClassification */ = {
 			isa = PBXGroup;
 			children = (
-				602388982426E01B0041E2C3 /* Object Models */,
 				6ED11B8B2424145E000CF870 /* short_notification.mp3 */,
 				6ED11B8C242414A1000CF870 /* simple_notification.mp3 */,
 				6E23ACD62416CB4000495F02 /* iASL.entitlements */,
 				670E273824248A77003E129E /* GoogleService-Info.plist */,
 				AAE79E59213521DA00E7AC1F /* AppDelegate.swift */,
+				602388982426E01B0041E2C3 /* Object Models */,
 				AAAB096C218981A30015A1F2 /* Extensions */,
 				AA16E5A02180843700D9E153 /* Cells */,
 				AA24751A2170A054000B6A31 /* Views */,

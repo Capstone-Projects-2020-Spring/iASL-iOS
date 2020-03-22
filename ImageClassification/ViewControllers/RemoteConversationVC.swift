@@ -101,6 +101,16 @@ extension RemoteConversationVC {
         present(vc, animated: true, completion: nil)
         //navigationController?.pushViewController(vc, animated: true)
     }
+    
+    //change the color of the status bar
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .lightContent
+    }
 
     func tableViewSetup() {
         view.addSubview(tableView)
