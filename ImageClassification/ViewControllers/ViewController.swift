@@ -291,18 +291,6 @@ extension ViewController: CameraFeedManagerDelegate {
 extension ViewController {
 
 
-    /**
-     This method changes bottom sheet state to either fully expanded or closed at the end of pan.
-     */
-    private func translateBottomSheetAtEndOfPan(withVerticalTranslation verticalTranslation: CGFloat) {
-
-        // Changes bottom sheet state to either fully open or closed at the end of pan.
-        let bottomSpace = bottomSpaceAtEndOfPan(withVerticalTranslation: verticalTranslation)
-        setBottomSheetLayout(withBottomSpace: bottomSpace)
-    }
-
-    /**
-     Return the final state of the bottom sheet view (whether fully collapsed or expanded) that is to be retained.
      */
     private func bottomSpaceAtEndOfPan(withVerticalTranslation verticalTranslation: CGFloat) -> CGFloat {
 
