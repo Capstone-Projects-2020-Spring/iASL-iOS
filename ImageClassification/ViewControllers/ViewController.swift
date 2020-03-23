@@ -40,7 +40,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var bottomSheetView: CurvedView!
 
     @IBOutlet weak var bottomSheetViewBottomSpace: NSLayoutConstraint!
-    @IBOutlet weak var bottomSheetStateImageView: UIImageView!
     // MARK: Constants
     private let animationDuration = 0.5
     private let collapseTransitionThreshold: CGFloat = -40.0
@@ -62,7 +61,7 @@ class ViewController: UIViewController {
         ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo)
 
     // Handles the presenting of results on the screen
-    private var inferenceViewController = InferenceViewController()
+
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
@@ -173,11 +172,6 @@ class ViewController: UIViewController {
                 return
             }
 
-            inferenceViewController = (segue.destination as? InferenceViewController)!
-            inferenceViewController.wantedInputHeight = tempModelDataHandler.inputHeight
-            inferenceViewController.wantedInputWidth = tempModelDataHandler.inputWidth
-            inferenceViewController.maxResults = tempModelDataHandler.resultCount
-            inferenceViewController.threadCountLimit = tempModelDataHandler.threadCountLimit
 
         }
     }
@@ -237,9 +231,7 @@ extension ViewController: CameraFeedManagerDelegate {
         // Display results by handing off to the InferenceViewController.
         DispatchQueue.main.async {
             let resolution = CGSize(width: CVPixelBufferGetWidth(pixelBuffer), height: CVPixelBufferGetHeight(pixelBuffer))
-            self.inferenceViewController.inferenceResult = self.result
-            self.inferenceViewController.resolution = resolution
-            self.inferenceViewController.tableView.reloadData()
+
         }
     }
 
@@ -321,13 +313,13 @@ extension ViewController {
         if initialBottomSpace == 0.0 {
             height = bottomSheetView.bounds.size.height
         } else {
-            height = inferenceViewController.collapsedHeight
+            
         }
 
         let currentHeight = bottomSheetView.bounds.size.height + bottomSpace
 
         if currentHeight - height <= collapseTransitionThreshold {
-            bottomSpace = inferenceViewController.collapsedHeight - bottomSheetView.bounds.size.height
+            
         } else if currentHeight - height >= expandThransitionThreshold {
             bottomSpace = 0.0
         } else {

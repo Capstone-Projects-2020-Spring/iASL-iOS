@@ -26,23 +26,14 @@
                                             <segue destination="5Mj-3V-GSf" kind="embed" identifier="EMBED" id="lEP-sh-HOn"/>
                                         </connections>
                                     </containerView>
-                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="down_icon" translatesAutoresizingMaskIntoConstraints="NO" id="mga-a8-Bfe">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="44" id="Xue-Nw-sWi"/>
-                                        </constraints>
-                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="RaE-UX-KCt" secondAttribute="trailing" id="6VW-wL-32Y"/>
                                     <constraint firstAttribute="height" constant="324" id="ADz-jv-vdU"/>
-                                    <constraint firstAttribute="trailing" secondItem="mga-a8-Bfe" secondAttribute="trailing" id="KYy-5A-Ppg"/>
                                     <constraint firstItem="RaE-UX-KCt" firstAttribute="leading" secondItem="ddd-K8-X1g" secondAttribute="leading" id="bep-9h-hfD"/>
                                     <constraint firstItem="RaE-UX-KCt" firstAttribute="top" secondItem="ddd-K8-X1g" secondAttribute="top" constant="44" id="bzl-to-SOj"/>
-                                    <constraint firstItem="mga-a8-Bfe" firstAttribute="leading" secondItem="ddd-K8-X1g" secondAttribute="leading" id="dcW-2n-mPE"/>
                                     <constraint firstAttribute="bottom" secondItem="RaE-UX-KCt" secondAttribute="bottom" id="fN4-kS-BCh"/>
-                                    <constraint firstItem="mga-a8-Bfe" firstAttribute="top" secondItem="ddd-K8-X1g" secondAttribute="top" id="q1w-Ft-eGg"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -55,7 +46,6 @@
                         <viewLayoutGuide key="safeArea" id="Ijl-bc-mDl"/>
                     </view>
                     <connections>
-                        <outlet property="bottomSheetStateImageView" destination="mga-a8-Bfe" id="W8k-ir-pYB"/>
                         <outlet property="bottomSheetView" destination="ddd-K8-X1g" id="WY6-8z-eIc"/>
                         <outlet property="bottomSheetViewBottomSpace" destination="0yl-Zb-EVZ" id="BcA-AX-QG1"/>
                     </connections>
@@ -185,7 +175,4 @@
             <point key="canvasLocation" x="565.60000000000002" y="696.25187406296857"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="down_icon" width="20" height="6"/>
-    </resources>
 </document>
