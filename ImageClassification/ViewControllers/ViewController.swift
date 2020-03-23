@@ -37,9 +37,7 @@ class ViewController: UIViewController {
     var previewView = PreviewView()
     let cameraUnavailableLabel = UILabel()
     let resumeButton = UIButton()
-    @IBOutlet weak var bottomSheetView: CurvedView!
 
-    @IBOutlet weak var bottomSheetViewBottomSpace: NSLayoutConstraint!
     // MARK: Constants
     private let animationDuration = 0.5
     private let collapseTransitionThreshold: CGFloat = -40.0

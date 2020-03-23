@@ -15,37 +15,9 @@
                     <view key="view" contentMode="scaleToFill" id="pbw-Hb-35N">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ddd-K8-X1g" customClass="CurvedView" customModule="iASL" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="343" width="375" height="324"/>
-                                <subviews>
-                                    <containerView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RaE-UX-KCt">
-                                        <rect key="frame" x="0.0" y="44" width="375" height="280"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </containerView>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="RaE-UX-KCt" secondAttribute="trailing" id="6VW-wL-32Y"/>
-                                    <constraint firstAttribute="height" constant="324" id="ADz-jv-vdU"/>
-                                    <constraint firstItem="RaE-UX-KCt" firstAttribute="leading" secondItem="ddd-K8-X1g" secondAttribute="leading" id="bep-9h-hfD"/>
-                                    <constraint firstItem="RaE-UX-KCt" firstAttribute="top" secondItem="ddd-K8-X1g" secondAttribute="top" constant="44" id="bzl-to-SOj"/>
-                                    <constraint firstAttribute="bottom" secondItem="RaE-UX-KCt" secondAttribute="bottom" id="fN4-kS-BCh"/>
-                                </constraints>
-                            </view>
-                        </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstAttribute="bottom" secondItem="ddd-K8-X1g" secondAttribute="bottom" id="0yl-Zb-EVZ"/>
-                            <constraint firstAttribute="trailing" secondItem="ddd-K8-X1g" secondAttribute="trailing" id="ax4-7h-oga"/>
-                            <constraint firstItem="ddd-K8-X1g" firstAttribute="leading" secondItem="pbw-Hb-35N" secondAttribute="leading" id="rmj-y1-88M"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="Ijl-bc-mDl"/>
                     </view>
-                    <connections>
-                        <outlet property="bottomSheetView" destination="ddd-K8-X1g" id="WY6-8z-eIc"/>
-                        <outlet property="bottomSheetViewBottomSpace" destination="0yl-Zb-EVZ" id="BcA-AX-QG1"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JUu-fJ-Imh" sceneMemberID="firstResponder"/>
             </objects>
