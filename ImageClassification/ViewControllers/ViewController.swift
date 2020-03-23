@@ -287,47 +287,7 @@ extension ViewController: CameraFeedManagerDelegate {
     }
 }
 
-// MARK: Bottom Sheet Interaction Methods
-extension ViewController {
 
-
-     */
-    private func bottomSpaceAtEndOfPan(withVerticalTranslation verticalTranslation: CGFloat) -> CGFloat {
-
-        // Calculates whether to fully expand or collapse bottom sheet when pan gesture ends.
-        var bottomSpace = initialBottomSpace - verticalTranslation
-
-        var height: CGFloat = 0.0
-        if initialBottomSpace == 0.0 {
-            height = bottomSheetView.bounds.size.height
-        } else {
-            
-        }
-
-        let currentHeight = bottomSheetView.bounds.size.height + bottomSpace
-
-        if currentHeight - height <= collapseTransitionThreshold {
-            
-        } else if currentHeight - height >= expandThransitionThreshold {
-            bottomSpace = 0.0
-        } else {
-            bottomSpace = initialBottomSpace
-        }
-
-        return bottomSpace
-    }
-
-    /**
-     This method layouts the change of the bottom space of bottom sheet with respect to the view managed by this controller.
-     */
-    func setBottomSheetLayout(withBottomSpace bottomSpace: CGFloat) {
-
-        view.setNeedsLayout()
-        bottomSheetViewBottomSpace.constant = bottomSpace
-        view.setNeedsLayout()
-    }
-
-}
 
 extension ViewController {
 
