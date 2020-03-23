@@ -59,8 +59,6 @@ class SpeechToTextVC: UIViewController, SFSpeechRecognizerDelegate {
 
     }
 
-    
-    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         if UIDevice.current.orientation == UIDeviceOrientation.portraitUpsideDown {
 

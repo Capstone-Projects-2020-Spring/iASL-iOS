@@ -12,7 +12,6 @@
 		670E273C2424904A003E129E /* model.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 670E273B2424904A003E129E /* model.tflite */; };
 		6765C7E623FB35F60083A5C5 /* ImageClassificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6765C7E523FB35F60083A5C5 /* ImageClassificationTests.swift */; };
 		6E23ACD52416BE8E00495F02 /* RemoteConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E23ACD42416BE8E00495F02 /* RemoteConversationVC.swift */; };
-		6E27F53E2423CDCC0087F7F5 /* TranscribeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E27F53D2423CDCC0087F7F5 /* TranscribeVC.swift */; };
 		6E3469932421CD64009F1E7D /* SpeechToTextVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E3469922421CD64009F1E7D /* SpeechToTextVC.swift */; };
 		6E6D14CF24175AC800A185E9 /* CreateNoteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6D14CE24175AC800A185E9 /* CreateNoteVC.swift */; };
 		6E6D14D1241845D900A185E9 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6D14D0241845D900A185E9 /* ChatTableViewCell.swift */; };
@@ -93,7 +92,6 @@
 		6765C7E723FB35F60083A5C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E23ACD42416BE8E00495F02 /* RemoteConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConversationVC.swift; sourceTree = "<group>"; };
 		6E23ACD62416CB4000495F02 /* iASL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iASL.entitlements; sourceTree = "<group>"; };
-		6E27F53D2423CDCC0087F7F5 /* TranscribeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscribeVC.swift; sourceTree = "<group>"; };
 		6E3469922421CD64009F1E7D /* SpeechToTextVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechToTextVC.swift; sourceTree = "<group>"; };
 		6E6D14CE24175AC800A185E9 /* CreateNoteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNoteVC.swift; sourceTree = "<group>"; };
 		6E6D14D0241845D900A185E9 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
@@ -365,7 +363,6 @@
 				6EB03F7B24251C6D009C0843 /* Extensions.swift */,
 				6E3469922421CD64009F1E7D /* SpeechToTextVC.swift */,
 				6EB03F7D24253489009C0843 /* Caboard.swift */,
-				6E27F53D2423CDCC0087F7F5 /* TranscribeVC.swift */,
 				6E23ACD42416BE8E00495F02 /* RemoteConversationVC.swift */,
 				6EF328FC2417543B0071E430 /* ChatVC.swift */,
 				6E6D14D0241845D900A185E9 /* ChatTableViewCell.swift */,
@@ -620,7 +617,6 @@
 				6EF328FD2417543B0071E430 /* ChatVC.swift in Sources */,
 				AAE79E952135237A00E7AC1F /* ViewController.swift in Sources */,
 				6E3469932421CD64009F1E7D /* SpeechToTextVC.swift in Sources */,
-				6E27F53E2423CDCC0087F7F5 /* TranscribeVC.swift in Sources */,
 				6EF328FB24173A430071E430 /* NotesVC.swift in Sources */,
 				AA5B0EEC217E70000026FF23 /* CurvedView.swift in Sources */,
 				6E6D14CF24175AC800A185E9 /* CreateNoteVC.swift in Sources */,

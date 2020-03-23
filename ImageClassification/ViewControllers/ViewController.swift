@@ -32,12 +32,10 @@ class ViewController: UIViewController {
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
 
-    let notes = NotesVC()
 
-    let logoLabel = UILabel()
     let topBar = UIView()
     // MARK: Storyboards Connections
-    @IBOutlet weak var previewView: PreviewView!
+    var previewView = PreviewView()
     let cameraUnavailableLabel = UILabel()
     let resumeButton = UIButton()
     @IBOutlet weak var bottomSheetView: CurvedView!
@@ -81,12 +79,7 @@ class ViewController: UIViewController {
         }
 
     }
-    
-    
 
-    
-    
-    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         if UIDevice.current.orientation == UIDeviceOrientation.portraitUpsideDown {
             liveButton.isSelected = true
@@ -109,7 +102,7 @@ class ViewController: UIViewController {
     // MARK: View Handling Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        //previewViewSetup()
+        previewViewSetup()
 
         topBarSetup()
         //logoLabelSetup()
@@ -121,12 +114,9 @@ class ViewController: UIViewController {
         textViewHolderSetup()
         outputTextViewSetup()
         //speak()
-        
+
         //liveButton
-        
-        
-        
-        
+
         guard modelDataHandler != nil else {
             fatalError("Model set up failed")
         }
@@ -140,11 +130,8 @@ class ViewController: UIViewController {
         #endif
         cameraCapture.delegate = self
 
-        addPanGesture()
+
     }
-    
-    
-    
 
     func tabBarControllerSetup() {
 
@@ -152,7 +139,7 @@ class ViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         changeBottomViewState()
 
         #if !targetEnvironment(simulator)
@@ -337,10 +324,7 @@ extension ViewController {
     /**
      This method adds a pan gesture to make the bottom sheet interactive.
      */
-    private func addPanGesture() {
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(ViewController.didPan(panGesture:)))
-        bottomSheetView.addGestureRecognizer(panGesture)
-    }
+
 
     /** Change whether bottom sheet should be in expanded or collapsed state.
      */
@@ -369,42 +353,9 @@ extension ViewController {
         }
     }
 
-    /**
-     This method responds to the user panning on the bottom sheet.
-     */
-    @objc func didPan(panGesture: UIPanGestureRecognizer) {
 
-        // Opens or closes the bottom sheet based on the user's interaction with the bottom sheet.
-        let translation = panGesture.translation(in: view)
 
-        switch panGesture.state {
-        case .began:
-            initialBottomSpace = bottomSheetViewBottomSpace.constant
-            translateBottomSheet(withVerticalTranslation: translation.y)
-        case .changed:
-            translateBottomSheet(withVerticalTranslation: translation.y)
-        case .cancelled:
-            setBottomSheetLayout(withBottomSpace: initialBottomSpace)
-        case .ended:
-            translateBottomSheetAtEndOfPan(withVerticalTranslation: translation.y)
-            setImageBasedOnBottomViewState()
-            initialBottomSpace = 0.0
-        default:
-            break
-        }
-    }
 
-    /**
-     This method sets bottom sheet translation while pan gesture state is continuously changing.
-     */
-    private func translateBottomSheet(withVerticalTranslation verticalTranslation: CGFloat) {
-
-        let bottomSpace = initialBottomSpace - verticalTranslation
-        guard bottomSpace <= 0.0 && bottomSpace >= inferenceViewController.collapsedHeight - bottomSheetView.bounds.size.height else {
-            return
-        }
-        setBottomSheetLayout(withBottomSpace: bottomSpace)
-    }
 
     /**
      This method changes bottom sheet state to either fully expanded or closed at the end of pan.
@@ -454,12 +405,10 @@ extension ViewController {
         view.setNeedsLayout()
     }
 
-    
 }
 
-
 extension ViewController {
-    
+
     func previewViewSetup() {
             view.addSubview(previewView)
             previewView.translatesAutoresizingMaskIntoConstraints = false
@@ -469,17 +418,7 @@ extension ViewController {
             previewView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         }
 
-        func logoLabelSetup() {
-            topBar.addSubview(logoLabel)
-            logoLabel.translatesAutoresizingMaskIntoConstraints = false
-            logoLabel.bottomAnchor.constraint(equalTo: topBar.bottomAnchor, constant: -10).isActive = true
-            logoLabel.leadingAnchor.constraint(equalTo: topBar.leadingAnchor, constant: 40).isActive = true
-            logoLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
-            logoLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-            logoLabel.text = "iASL"
-            logoLabel.font = UIFont.systemFont(ofSize: 30)
-            logoLabel.textColor = .white
-        }
+
 
         func topBarSetup() {
             view.addSubview(topBar)
@@ -618,6 +557,4 @@ extension ViewController {
             synthesizer.speak(utterance)
         }
 
-    
-    
 }
