@@ -32,7 +32,6 @@ class ViewController: UIViewController {
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
 
-
     let topBar = UIView()
     // MARK: Storyboards Connections
     var previewView = PreviewView()
@@ -103,9 +102,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         previewViewSetup()
-
         topBarSetup()
-        //logoLabelSetup()
         cameraUnavailableLabelSetup()
         notesButtonSetup()
         remoteChatButtonSetup()
@@ -115,7 +112,6 @@ class ViewController: UIViewController {
         outputTextViewSetup()
         //speak()
 
-        //liveButton
 
         guard modelDataHandler != nil else {
             fatalError("Model set up failed")
@@ -130,7 +126,6 @@ class ViewController: UIViewController {
         #endif
         cameraCapture.delegate = self
 
-
     }
 
     func tabBarControllerSetup() {
@@ -139,9 +134,6 @@ class ViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        changeBottomViewState()
-
         #if !targetEnvironment(simulator)
         cameraCapture.checkCameraConfigurationAndStartSession()
         #endif
@@ -186,7 +178,6 @@ class ViewController: UIViewController {
             inferenceViewController.wantedInputWidth = tempModelDataHandler.inputWidth
             inferenceViewController.maxResults = tempModelDataHandler.resultCount
             inferenceViewController.threadCountLimit = tempModelDataHandler.threadCountLimit
-            inferenceViewController.delegate = self
 
         }
     }
@@ -211,19 +202,6 @@ class ViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
 
-}
-
-// MARK: InferenceViewControllerDelegate Methods
-extension ViewController: InferenceViewControllerDelegate {
-
-    func didChangeThreadCount(to count: Int) {
-        if modelDataHandler?.threadCount == count { return }
-        modelDataHandler = ModelDataHandler(
-            modelFileInfo: MobileNet.modelInfo,
-            labelsFileInfo: MobileNet.labelsInfo,
-            threadCount: count
-        )
-    }
 }
 
 // MARK: CameraFeedManagerDelegate Methods
@@ -320,42 +298,6 @@ extension ViewController: CameraFeedManagerDelegate {
 // MARK: Bottom Sheet Interaction Methods
 extension ViewController {
 
-    // MARK: Bottom Sheet Interaction Methods
-    /**
-     This method adds a pan gesture to make the bottom sheet interactive.
-     */
-
-
-    /** Change whether bottom sheet should be in expanded or collapsed state.
-     */
-    private func changeBottomViewState() {
-
-        let inferenceVC = inferenceViewController
-
-        if bottomSheetViewBottomSpace.constant == inferenceVC.collapsedHeight - bottomSheetView.bounds.size.height {
-
-            bottomSheetViewBottomSpace.constant = 0.0
-        } else {
-            bottomSheetViewBottomSpace.constant = inferenceVC.collapsedHeight - bottomSheetView.bounds.size.height
-        }
-        setImageBasedOnBottomViewState()
-    }
-
-    /**
-     Set image of the bottom sheet icon based on whether it is expanded or collapsed
-     */
-    private func setImageBasedOnBottomViewState() {
-
-        if bottomSheetViewBottomSpace.constant == 0.0 {
-            bottomSheetStateImageView.image = UIImage(named: "down_icon")
-        } else {
-            bottomSheetStateImageView.image = UIImage(named: "up_icon")
-        }
-    }
-
-
-
-
 
     /**
      This method changes bottom sheet state to either fully expanded or closed at the end of pan.
@@ -417,8 +359,6 @@ extension ViewController {
             previewView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
             previewView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         }
-
-
 
         func topBarSetup() {
             view.addSubview(topBar)
