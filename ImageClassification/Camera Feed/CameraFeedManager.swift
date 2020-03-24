@@ -51,12 +51,14 @@ protocol CameraFeedManagerDelegate: class {
 }
 
 /**
- This enum holds the state of the camera initialization.
- */
+This enum holds the state of the camera initialization.
+*/
 enum CameraConfiguration {
-
+/// camera was initialized succesfully
   case success
+	/// camera did not initialize successfully
   case failed
+	/// user has denied iASL access to camera
   case permissionDenied
 }
 
