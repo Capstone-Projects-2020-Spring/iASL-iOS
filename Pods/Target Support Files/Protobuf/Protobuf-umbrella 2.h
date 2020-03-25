@@ -1,0 +1,82 @@
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#else
+#ifndef FOUNDATION_EXPORT
+#if defined(__cplusplus)
+#define FOUNDATION_EXPORT extern "C"
+#else
+#define FOUNDATION_EXPORT extern
+#endif
+#endif
+#endif
+
+#import "GPBArray 4.h"
+#import "GPBArray.h"
+#import "GPBArray_PackagePrivate 4.h"
+#import "GPBArray_PackagePrivate.h"
+#import "GPBBootstrap 4.h"
+#import "GPBBootstrap.h"
+#import "GPBCodedInputStream 4.h"
+#import "GPBCodedInputStream.h"
+#import "GPBCodedInputStream_PackagePrivate 4.h"
+#import "GPBCodedInputStream_PackagePrivate.h"
+#import "GPBCodedOutputStream 4.h"
+#import "GPBCodedOutputStream.h"
+#import "GPBCodedOutputStream_PackagePrivate 4.h"
+#import "GPBCodedOutputStream_PackagePrivate.h"
+#import "GPBDescriptor 4.h"
+#import "GPBDescriptor.h"
+#import "GPBDescriptor_PackagePrivate 4.h"
+#import "GPBDescriptor_PackagePrivate.h"
+#import "GPBDictionary 4.h"
+#import "GPBDictionary.h"
+#import "GPBDictionary_PackagePrivate 4.h"
+#import "GPBDictionary_PackagePrivate.h"
+#import "GPBExtensionInternals 4.h"
+#import "GPBExtensionInternals.h"
+#import "GPBExtensionRegistry 4.h"
+#import "GPBExtensionRegistry.h"
+#import "GPBMessage 4.h"
+#import "GPBMessage.h"
+#import "GPBMessage_PackagePrivate 4.h"
+#import "GPBMessage_PackagePrivate.h"
+#import "GPBProtocolBuffers 4.h"
+#import "GPBProtocolBuffers.h"
+#import "GPBProtocolBuffers_RuntimeSupport 4.h"
+#import "GPBProtocolBuffers_RuntimeSupport.h"
+#import "GPBRootObject 4.h"
+#import "GPBRootObject.h"
+#import "GPBRootObject_PackagePrivate 4.h"
+#import "GPBRootObject_PackagePrivate.h"
+#import "GPBRuntimeTypes 4.h"
+#import "GPBRuntimeTypes.h"
+#import "GPBUnknownField 4.h"
+#import "GPBUnknownField.h"
+#import "GPBUnknownFieldSet 4.h"
+#import "GPBUnknownFieldSet.h"
+#import "GPBUnknownFieldSet_PackagePrivate 4.h"
+#import "GPBUnknownFieldSet_PackagePrivate.h"
+#import "GPBUnknownField_PackagePrivate 4.h"
+#import "GPBUnknownField_PackagePrivate.h"
+#import "GPBUtilities 4.h"
+#import "GPBUtilities.h"
+#import "GPBUtilities_PackagePrivate 4.h"
+#import "GPBUtilities_PackagePrivate.h"
+#import "GPBWellKnownTypes 4.h"
+#import "GPBWellKnownTypes.h"
+#import "GPBWireFormat 4.h"
+#import "GPBWireFormat.h"
+#import "Any.pbobjc.h"
+#import "Api.pbobjc.h"
+#import "Duration.pbobjc.h"
+#import "Empty.pbobjc.h"
+#import "FieldMask.pbobjc.h"
+#import "SourceContext.pbobjc.h"
+#import "Struct.pbobjc.h"
+#import "Timestamp.pbobjc.h"
+#import "Type.pbobjc.h"
+#import "Wrappers.pbobjc.h"
+
+FOUNDATION_EXPORT double protobufVersionNumber;
+FOUNDATION_EXPORT const unsigned char protobufVersionString[];
+
