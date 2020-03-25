@@ -10,7 +10,6 @@
 #endif
 #endif
 
-#import "cct.nanopb 2.h"
 #import "cct.nanopb.h"
 
 FOUNDATION_EXPORT double GoogleDataTransportCCTSupportVersionNumber;

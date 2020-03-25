@@ -10,9 +10,7 @@
 #endif
 #endif
 
-#import "FirebaseInstanceID 3.h"
 #import "FirebaseInstanceID.h"
-#import "FIRInstanceID 3.h"
 #import "FIRInstanceID.h"
 
 FOUNDATION_EXPORT double FirebaseInstanceIDVersionNumber;
