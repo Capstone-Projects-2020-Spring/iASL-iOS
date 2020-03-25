@@ -31,6 +31,17 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         return button
     }()
     
+    // FIXME: Go back and fix this UI
+    let addChatButton: UIButton = {
+        let image: UIImage = UIImage(named: "plus")!
+        let button = UIButton()
+        button.backgroundColor = .clear
+        button.setImage(image, for: .normal) //FIXME: get a different logo
+        button.layer.cornerRadius = button.frame.width / 2
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(handleAddChat), for: .touchUpInside)
+        return button
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,8 +52,19 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         tableViewSetup()
         
         logoutButtonSetup()
-
+        addChatButtonSetup()
         //composedMessageSetup()
+    }
+    
+    ///Add a user to a current conversation
+    @objc func handleAddChat() {
+        print("add chat button pressed")
+        
+        //call a new view controller
+        let addChatVC = AddChatVC()
+        addChatVC.modalTransitionStyle = .crossDissolve
+        addChatVC.modalPresentationStyle = .fullScreen
+        present(addChatVC, animated: true, completion: nil)
     }
 
     //FIXME: Maybe add a pop up message asking the user if they are sure they want to log out?
@@ -73,6 +95,15 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         logoutButton.bottomAnchor.constraint(equalTo: topBar.bottomAnchor, constant: -10).isActive = true
         logoutButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         //logoutButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+    }
+    
+    func addChatButtonSetup() {
+        view.addSubview(addChatButton)
+        
+        addChatButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        addChatButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
+        addChatButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        addChatButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
 

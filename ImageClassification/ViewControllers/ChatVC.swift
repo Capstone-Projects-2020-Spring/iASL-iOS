@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 //FIXME: Fix keyboard height with respect to input box
 
@@ -23,6 +24,8 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
     let topLabel = UILabel()
     let backButton = UIButton()
     let tableView = UITableView()
+    
+    let messagesConstant: String = "messages"
     
     //delete this once you can get messages from Firebase
     let tempMessages = [
@@ -53,25 +56,9 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         collection.register(ChatMessageCell.self, forCellWithReuseIdentifier: cellId)
         return collection
     }()
-    
-        //let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout.init()
-    
-//    //this is where everything will go so we can get it under the top bar
-//    let containerView: UIView = {
-//        let view = UIView()
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        return view
-//    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        //view.backgroundColor = .white
-        
-//        layout.scrollDirection = UICollectionView.ScrollDirection.vertical
-//        //collectionView.setCollectionViewLayout(layout, animated: true)
-//        collectionView.delegate = self
-//        collectionView.dataSource = self
         
         view.backgroundColor = .white
         
@@ -92,13 +79,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         
     }
     
-//    ///going to hold the messages here
-//    func containerViewSetup() {
-//        containerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-//        containerView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-//        containerView.topAnchor.constraint(equalTo: topBar.bottomAnchor).isActive = true
-//        containerView.bottomAnchor.constraint(equalTo: previewView.topAnchor).isActive = true
-//    }
+    
     
     func collectionViewSetup() {
         view.addSubview(collectionView)
@@ -226,6 +207,25 @@ extension ChatVC {
     @objc func handleSendButton() {
         print(composedMessage.text!)
         
+        guard let messageText = composedMessage.text else {
+            print("could not get message")
+            return
+        }
+        
+        let ref = Database.database().reference().child(self.messagesConstant)
+        //gets an auto ID for each message
+        let childRef = ref.childByAutoId()
+        
+        
+        let values = ["text": messageText]
+        childRef.updateChildValues(values) { (error, ref) in
+            if error != nil {
+                print(error!)
+            }
+            
+            //you've added your message successfully\
+            print("successfully added message")
+        }
         //this is where it needs to send the message to firebase
     }
     

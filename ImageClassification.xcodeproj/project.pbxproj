@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2F8F42FAF8F1249277BA57B8 /* Pods_ImageClassification.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76AE2E947B2172049010B9BA /* Pods_ImageClassification.framework */; };
+		60075D67242C00B500D84544 /* AddChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60075D66242C00B500D84544 /* AddChatVC.swift */; };
 		602388952425A43E0041E2C3 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602388942425A43E0041E2C3 /* LoginVC.swift */; };
 		602388972426D9A40041E2C3 /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602388962426D9A40041E2C3 /* ChatMessageCell.swift */; };
 		6023889A2426E37A0041E2C3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602388992426E37A0041E2C3 /* User.swift */; };
@@ -74,6 +75,7 @@
 
 /* Begin PBXFileReference section */
 		42680B19B0C37DEE1A977082 /* Pods-ImageClassification.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageClassification.debug.xcconfig"; path = "Target Support Files/Pods-ImageClassification/Pods-ImageClassification.debug.xcconfig"; sourceTree = "<group>"; };
+		60075D66242C00B500D84544 /* AddChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatVC.swift; sourceTree = "<group>"; };
 		602388942425A43E0041E2C3 /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		602388962426D9A40041E2C3 /* ChatMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageCell.swift; sourceTree = "<group>"; };
 		602388992426E37A0041E2C3 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -390,6 +392,7 @@
 				6EF328FA24173A430071E430 /* NotesVC.swift */,
 				6E6D14CE24175AC800A185E9 /* CreateNoteVC.swift */,
 				602388962426D9A40041E2C3 /* ChatMessageCell.swift */,
+				60075D66242C00B500D84544 /* AddChatVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -645,6 +648,7 @@
 				6E6D14CF24175AC800A185E9 /* CreateNoteVC.swift in Sources */,
 				AAE79E9A2135268800E7AC1F /* PreviewView.swift in Sources */,
 				6E23ACD52416BE8E00495F02 /* RemoteConversationVC.swift in Sources */,
+				60075D67242C00B500D84544 /* AddChatVC.swift in Sources */,
 				AAE79E9B2135268800E7AC1F /* CameraFeedManager.swift in Sources */,
 				6EB03F7E24253489009C0843 /* Caboard.swift in Sources */,
 				AAAB096E218981FA0015A1F2 /* CVPixelBufferExtension.swift in Sources */,
