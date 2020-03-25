@@ -27,12 +27,15 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
     
     let messagesConstant: String = "messages"
     
+    //so we know which user we are talking to 
+    var chatPartner: User?
+    
     //delete this once you can get messages from Firebase
     let tempMessages = [
-        Message(toId: "toId", fromId: "fromId", text: "Text Message 1", timestamp: "timestamp"),
-        Message(toId: "toId", fromId: "fromId", text: "Text Message 2", timestamp: "timestamp"),
-        Message(toId: "toId", fromId: "fromId", text: "Text Message 3 that could be pretty long perhaps", timestamp: "timestamp"),
-        Message(toId: "toId", fromId: "fromId", text: "Text Message 4", timestamp: "timestamp")
+        Message(receiverId: "receiverId", senderId: "senderId", text: "Text Message 1", timestamp: "timestamp"),
+        Message(receiverId: "receiverId", senderId: "senderId", text: "Text Message 2", timestamp: "timestamp"),
+        Message(receiverId: "receiverId", senderId: "senderId", text: "Text Message 3 that could be pretty long perhaps", timestamp: "timestamp"),
+        Message(receiverId: "receiverId", senderId: "senderId", text: "Text Message 4", timestamp: "timestamp")
     ]
     
     static let cellId = "cellId"
@@ -204,6 +207,8 @@ extension ChatVC {
 //        tableView.dataSource = self
 //    }
     
+    
+    ///handles what happens when you send a message
     @objc func handleSendButton() {
         print(composedMessage.text!)
         
@@ -216,8 +221,16 @@ extension ChatVC {
         //gets an auto ID for each message
         let childRef = ref.childByAutoId()
         
+        //receiver is who you are talking to, sender is you
         
-        let values = ["text": messageText]
+        guard let receiverId = chatPartner?.id, let senderId = Auth.auth().currentUser?.uid else {
+            print("could not get necessary message information")
+            return
+        }
+        
+        let timestamp = NSDate().timeIntervalSince1970
+        
+        let values = ["receiverId": receiverId, "senderId": senderId ,"text": messageText, "timestamp": timestamp] as [String: Any]
         childRef.updateChildValues(values) { (error, ref) in
             if error != nil {
                 print(error!)

@@ -62,6 +62,7 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         
         //call a new view controller
         let addChatVC = AddChatVC()
+        addChatVC.remoteConversations = self //sets the reference variable to self so we can transition elsewhere
         addChatVC.modalTransitionStyle = .crossDissolve
         addChatVC.modalPresentationStyle = .fullScreen
         present(addChatVC, animated: true, completion: nil)
@@ -124,13 +125,32 @@ extension RemoteConversationVC {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         //let vc = ChatVC(collectionViewLayout: UICollectionViewFlowLayout())
+        let cell: UITableViewCell = tableView.cellForRow(at: indexPath)!
         
+        guard let name = cell.textLabel?.text else {
+            print("could not find name")
+            return
+        }
+        showChatVC(name: name)
+        //navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    //FIXME: These two below need to change later once we have a working view controller in remote
+    func showChatVCForUser(user: User) {
+        let vc = ChatVC()
+        vc.chatPartner = user
+        vc.topLabel.text = user.name
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        present(vc, animated: true, completion: nil)
+    }
+    
+    func showChatVC(name: String) {
         let vc = ChatVC()
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .crossDissolve
-        vc.topLabel.text = people[indexPath.row]
+        vc.topLabel.text = name
         present(vc, animated: true, completion: nil)
-        //navigationController?.pushViewController(vc, animated: true)
     }
     
     //change the color of the status bar

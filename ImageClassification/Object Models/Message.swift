@@ -10,14 +10,14 @@ import Foundation
 import UIKit
 
 class Message: NSObject {
-    var toId: String?
-    var fromId: String?
+    var receiverId: String?
+    var senderId: String?
     var text: String?
     var timestamp: String?
     
-    init(toId: String, fromId: String, text: String, timestamp: String) {
-        self.toId = toId
-        self.fromId = fromId
+    init(receiverId: String, senderId: String, text: String, timestamp: String) {
+        self.receiverId = receiverId
+        self.senderId = senderId
         self.text = text
         self.timestamp = timestamp
     }
