@@ -7,18 +7,20 @@
 //
 
 import Foundation
+import UIKit
+protocol ASLViewControllerDelegate {
+	var outputDelegate: UIView? { get set }
+}
 /// Functions for ASL to Text recognition
 protocol ASLtoTextEditing {
 	/// deletes the last charachter
 	func deleteCharacter()
 	/// Executes functions based off of Classifier output.
-	func executeASLtoText()
+	func iASLClassifier()
 	/// adds word result to text
 	func addWord()
 	/// add charachter result to text
 	func addCharachter()
-	/// adds " " to text.
-	func addSpace()
 	/// moves cursor one charachter forward.
 	func moveCursorForward()
 	/// moves cursor one charachter backward.
@@ -44,4 +46,12 @@ protocol ASLtoTextEditing {
 	/// stops deselecting at cursor point
 	func endDeselect()
 	
+}
+
+protocol ASLPunctuation {
+	/// adds " " to text.
+	func addSpace()
+	func addPeriod()
+	func addComma()
+	func addSemiColon()
 }

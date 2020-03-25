@@ -412,7 +412,7 @@ extension ViewController {
         }
 
 }
-extension ViewController: ASLtoText{
+extension ViewController{
 	func deleteCharacter() {
 		DispatchQueue.main.async {
             if self.outputTextView.text != "" {

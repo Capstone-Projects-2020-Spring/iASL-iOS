@@ -12,6 +12,7 @@
 		602388972426D9A40041E2C3 /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602388962426D9A40041E2C3 /* ChatMessageCell.swift */; };
 		6023889A2426E37A0041E2C3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602388992426E37A0041E2C3 /* User.swift */; };
 		6023889C2426E3A40041E2C3 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6023889B2426E3A40041E2C3 /* Message.swift */; };
+		670603B3242AEED40077652F /* ASLtoText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 670603B2242AEED40077652F /* ASLtoText.swift */; };
 		670E273924248A78003E129E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 670E273824248A77003E129E /* GoogleService-Info.plist */; };
 		670E273C2424904A003E129E /* model.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 670E273B2424904A003E129E /* model.tflite */; };
 		6765C7E623FB35F60083A5C5 /* ImageClassificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6765C7E523FB35F60083A5C5 /* ImageClassificationTests.swift */; };
@@ -78,6 +79,7 @@
 		602388962426D9A40041E2C3 /* ChatMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageCell.swift; sourceTree = "<group>"; };
 		602388992426E37A0041E2C3 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		6023889B2426E3A40041E2C3 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		670603B2242AEED40077652F /* ASLtoText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASLtoText.swift; sourceTree = "<group>"; };
 		670E273824248A77003E129E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		670E273B2424904A003E129E /* model.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = model.tflite; sourceTree = "<group>"; };
 		6765C7E323FB35F60083A5C5 /* ImageClassificationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageClassificationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -286,6 +288,7 @@
 			isa = PBXGroup;
 			children = (
 				AAE79E942135237A00E7AC1F /* ViewController.swift */,
+				670603B2242AEED40077652F /* ASLtoText.swift */,
 				6EB03F7B24251C6D009C0843 /* Extensions.swift */,
 				6E3469922421CD64009F1E7D /* SpeechToTextVC.swift */,
 				602388942425A43E0041E2C3 /* LoginVC.swift */,
@@ -549,6 +552,7 @@
 				602388952425A43E0041E2C3 /* LoginVC.swift in Sources */,
 				6EF328FB24173A430071E430 /* NotesVC.swift in Sources */,
 				AA5B0EEC217E70000026FF23 /* CurvedView.swift in Sources */,
+				670603B3242AEED40077652F /* ASLtoText.swift in Sources */,
 				6E6D14CF24175AC800A185E9 /* CreateNoteVC.swift in Sources */,
 				AAE79E9A2135268800E7AC1F /* PreviewView.swift in Sources */,
 				6E23ACD52416BE8E00495F02 /* RemoteConversationVC.swift in Sources */,
