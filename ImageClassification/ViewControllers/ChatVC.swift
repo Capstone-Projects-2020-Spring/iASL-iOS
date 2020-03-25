@@ -106,7 +106,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         sendButtonSetup()
 
         collectionViewSetup()
-		
+
         guard modelDataHandler != nil else {
             fatalError("Model set up failed")
         }
@@ -353,7 +353,7 @@ extension ChatVC {
     }
 
 }
-extension ChatVC: CameraFeedManagerDelegate{
+extension ChatVC: CameraFeedManagerDelegate {
 	fileprivate func deleteCharacter() {
 		DispatchQueue.main.async {
             if self.composedMessage.text != "" {

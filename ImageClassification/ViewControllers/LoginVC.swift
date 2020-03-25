@@ -132,7 +132,8 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     }
 
     //need to add some text fields inside the container view
-
+	// FIXME: Liam you need to fix these linting issues
+	// swiftlint:disable identifier_name
     ///the textfield where the user can enter their name when they are registering
     let nameTextField: UITextField = {
         let tf = UITextField()
@@ -166,7 +167,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         tf.isSecureTextEntry = true //makes the little dots appear for password
         return tf
     }()
-
+// swiftlint:enable identifier_name
     //need an input container view
 
     ///container that holds the three textviews
@@ -415,7 +416,8 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             print("Did not get email and password")
             return
         }
-
+		// FIXME: Liam you need to fix these linting issues
+		// swiftlint:disable identifier_name
         Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
             if err != nil {
                 print(err!)
@@ -464,7 +466,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 
         }
     }
-
+	// swiftlint:enable identifier_name
     func handleLogout() {
 
     }

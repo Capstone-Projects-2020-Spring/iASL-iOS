@@ -60,7 +60,6 @@ class ViewController: UIViewController {
 
     // Handles the presenting of results on the screen
 
-
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
@@ -108,7 +107,6 @@ class ViewController: UIViewController {
         textViewHolderSetup()
         outputTextViewSetup()
         //speak()
-
 
         guard modelDataHandler != nil else {
             fatalError("Model set up failed")
@@ -169,7 +167,6 @@ class ViewController: UIViewController {
             guard let tempModelDataHandler = modelDataHandler else {
                 return
             }
-
 
         }
     }
@@ -284,7 +281,6 @@ extension ViewController: CameraFeedManagerDelegate {
         previewView.shouldUseClipboardImage = true
     }
 }
-
 
 extension ViewController {
 
