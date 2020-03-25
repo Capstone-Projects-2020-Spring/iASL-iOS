@@ -10,6 +10,7 @@
 #endif
 #endif
 
+#import "firebasecore.nanopb 3.h"
 #import "firebasecore.nanopb.h"
 
 FOUNDATION_EXPORT double FirebaseCoreDiagnosticsVersionNumber;

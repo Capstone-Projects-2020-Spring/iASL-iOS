@@ -10,8 +10,11 @@
 #endif
 #endif
 
+#import "FirebaseMessaging 3.h"
 #import "FirebaseMessaging.h"
+#import "FIRMessaging 3.h"
 #import "FIRMessaging.h"
+#import "FIRMessagingExtensionHelper 3.h"
 #import "FIRMessagingExtensionHelper.h"
 
 FOUNDATION_EXPORT double FirebaseMessagingVersionNumber;
