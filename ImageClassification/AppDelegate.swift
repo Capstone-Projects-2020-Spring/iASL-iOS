@@ -58,7 +58,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     return true
 
-    return true
   }
 
     func requestTranscribePermissions() {

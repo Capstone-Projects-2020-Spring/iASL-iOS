@@ -439,3 +439,21 @@ extension ChatVC: CameraFeedManagerDelegate {
         previewView.shouldUseClipboardImage = true
     }
 }
+
+extension ChatVC {
+	@objc func classifyPasteboardImage() {
+		  guard let image = UIPasteboard.general.images?.first else {
+			  return
+		  }
+
+		  guard let buffer = CVImageBuffer.buffer(from: image) else {
+			  return
+		  }
+
+		  previewView.image = image
+
+		  DispatchQueue.global().async {
+			  self.didOutput(pixelBuffer: buffer)
+		  }
+	  }
+}
