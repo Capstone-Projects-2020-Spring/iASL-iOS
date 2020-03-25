@@ -25,9 +25,9 @@
 	<key>NSCameraUsageDescription</key>
 	<string>This app uses camera to classify the objects that appear in the camera feed.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string></string>
+	<string>Microphone is necessary for Speech to Text</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string></string>
+	<string>Microphone audio will be transcribe to text</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
