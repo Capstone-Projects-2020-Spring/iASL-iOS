@@ -7,6 +7,8 @@ import UIKit
 /**
  Various functions for handling text fields and cleaning up behavior of app.
  */
+
+///Text field handler that handles data output from machinelearning and presents them to the textview
 public class TextFieldFormHandler: NSObject {
     var textFields: [UITextField]!
     var keyboardSize: CGFloat = 0
@@ -84,7 +86,8 @@ public class TextFieldFormHandler: NSObject {
     }
 
     public func cleanUp() {
-        NotificationCenter.default.removeObserver(self)
+        //NotificationCenter.default.removeObserver(self)
+        NotificationCenter.deinit
     }
 
     // MARK: - Private Methods

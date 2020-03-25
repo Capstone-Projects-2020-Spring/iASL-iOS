@@ -48,8 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     application.registerForRemoteNotifications()
 
     Messaging.messaging().delegate = self
-    
-    
+
     self.window = UIWindow(frame: UIScreen.main.bounds)
 
     self.window?.rootViewController = ViewController()
@@ -57,7 +56,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     self.window?.makeKeyAndVisible()
 
     return true
-    
 
     return true
   }
