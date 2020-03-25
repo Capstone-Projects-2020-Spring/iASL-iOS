@@ -195,7 +195,7 @@ class ViewController: UIViewController {
 
 // MARK: CameraFeedManagerDelegate Methods
 extension ViewController: CameraFeedManagerDelegate {
-	
+
 	func didOutput(pixelBuffer: CVPixelBuffer) {
         let currentTimeMs = Date().timeIntervalSince1970 * 1000
         guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
@@ -412,7 +412,7 @@ extension ViewController {
         }
 
 }
-extension ViewController{
+extension ViewController {
 	func deleteCharacter() {
 		DispatchQueue.main.async {
             if self.outputTextView.text != "" {

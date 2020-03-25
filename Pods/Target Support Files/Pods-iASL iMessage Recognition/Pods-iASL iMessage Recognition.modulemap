@@ -1,6 +1,0 @@
-framework module Pods_iASL_iMessage_Recognition {
-  umbrella header "Pods-iASL iMessage Recognition-umbrella.h"
-
-  export *
-  module * { export * }
-}

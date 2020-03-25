@@ -1,1 +1,0 @@
-../../../FirebaseAnalyticsInterop/Interop/Analytics/Public/FIRAnalyticsInterop 2.h

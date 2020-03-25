@@ -45,7 +45,7 @@ protocol ASLtoTextEditing {
 	func startDeselect()
 	/// stops deselecting at cursor point
 	func endDeselect()
-	
+
 }
 
 protocol ASLPunctuation {
