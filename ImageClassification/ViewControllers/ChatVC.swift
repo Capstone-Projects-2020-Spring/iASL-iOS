@@ -23,7 +23,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
     let topLabel = UILabel()
     let backButton = UIButton()
     let tableView = UITableView()
-    
+
     //delete this once you can get messages from Firebase
     let tempMessages = [
         Message(toId: "toId", fromId: "fromId", text: "Text Message 1", timestamp: "timestamp"),
@@ -31,9 +31,9 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         Message(toId: "toId", fromId: "fromId", text: "Text Message 3 that could be pretty long perhaps", timestamp: "timestamp"),
         Message(toId: "toId", fromId: "fromId", text: "Text Message 4", timestamp: "timestamp")
     ]
-    
+
     static let cellId = "cellId"
-    
+
     //FIXME: will probably delete this or relocate it
     let sendButton: UIButton = {
         let button = UIButton()
@@ -44,7 +44,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         button.addTarget(self, action: #selector(handleSendButton), for: .touchUpInside)
         return button
     }()
-    
+
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -53,9 +53,9 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         collection.register(ChatMessageCell.self, forCellWithReuseIdentifier: cellId)
         return collection
     }()
-    
+
         //let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout.init()
-    
+
 //    //this is where everything will go so we can get it under the top bar
 //    let containerView: UIView = {
 //        let view = UIView()
@@ -67,14 +67,14 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         super.viewDidLoad()
 
         //view.backgroundColor = .white
-        
+
 //        layout.scrollDirection = UICollectionView.ScrollDirection.vertical
 //        //collectionView.setCollectionViewLayout(layout, animated: true)
 //        collectionView.delegate = self
 //        collectionView.dataSource = self
-        
+
         view.backgroundColor = .white
-        
+
         topBarSetup()
         backButtonSetup()
         topLabelSetup()
@@ -84,14 +84,13 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         composedMessageSetup()
 
         sendButtonSetup()
-        
+
         collectionViewSetup()
-        
+
         //collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
 
-        
     }
-    
+
 //    ///going to hold the messages here
 //    func containerViewSetup() {
 //        containerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
@@ -99,7 +98,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
 //        containerView.topAnchor.constraint(equalTo: topBar.bottomAnchor).isActive = true
 //        containerView.bottomAnchor.constraint(equalTo: previewView.topAnchor).isActive = true
 //    }
-    
+
     func collectionViewSetup() {
         view.addSubview(collectionView)
         collectionView.backgroundColor = .white
@@ -107,65 +106,63 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         collectionView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         collectionView.topAnchor.constraint(equalTo: topBar.bottomAnchor).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: previewView.topAnchor).isActive = true
-        
+
         //makes it always scroll vertical, even when there are not enough collection cells to require scrolling
         collectionView.alwaysBounceVertical = true
-        
+
         //makes it so the top message is not snug to the top of the view
         collectionView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0)
-        
+
         collectionView.delegate = self
         collectionView.dataSource = self
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return tempMessages.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChatVC.cellId, for: indexPath) as! ChatMessageCell
-        
+
         //this is where you will set the text of each message
         let message = tempMessages[indexPath.row]
         cell.textView.text = message.text
-        
+
         //modify the bubbleView width?
         cell.bubbleViewWidthAnchor?.constant = estimateFrameForText(text: message.text!).width + 32 //32 is just a guess
-        
+
         return cell
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
+
         var height: CGFloat = 80
-        
+
         //need to somehow guess the height based on the amount of text inside the bubble
         if let text = tempMessages[indexPath.item].text {
             height = estimateFrameForText(text: text).height + 20 //20 is just a guess
         }
-        
+
         return CGSize(width: view.frame.width, height: height)
     }
-    
+
     private func estimateFrameForText(text: String) -> CGRect {
         let size = CGSize(width: 200, height: 1000)
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-        
+
         return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)], context: nil)
     }
-    
-    
+
     //change the color of the status bar
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNeedsStatusBarAppearanceUpdate()
     }
-    
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
     }
-    
-    
+
 }
 
 //class ChatVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -222,16 +219,16 @@ extension ChatVC {
 //        tableView.delegate = self
 //        tableView.dataSource = self
 //    }
-    
+
     @objc func handleSendButton() {
         print(composedMessage.text!)
-        
+
         //this is where it needs to send the message to firebase
     }
-    
+
     func sendButtonSetup() {
         previewView.addSubview(sendButton)
-        
+
         sendButton.topAnchor.constraint(equalTo: previewView.topAnchor).isActive = true
         sendButton.bottomAnchor.constraint(equalTo: previewView.bottomAnchor).isActive = true
         sendButton.rightAnchor.constraint(equalTo: previewView.rightAnchor).isActive = true
@@ -246,18 +243,17 @@ extension ChatVC {
         previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8).isActive = true
         previewView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
         previewView.backgroundColor = .black
-        
+
         previewView.layer.cornerRadius = 5
-        
+
         //going to make it the send button for now
         //FIXME: Remove this and add a send button at some point
     }
 
-    
-    //MARK: Ep 8 for styling this stuff
-    
+    // MARK: Ep 8 for styling this stuff
+
     //FIXME: Add placeholder logic manually since you can't use a text field here, won't expand vertically
-    
+
     //FIXME: Can we use enter to send a message and not go lower in the textview?
     func composedMessageSetup() {
         view.addSubview(composedMessage)

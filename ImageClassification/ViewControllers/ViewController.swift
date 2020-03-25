@@ -82,9 +82,6 @@ class ViewController: UIViewController {
 
     }
 
-    
-    
-    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         if UIDevice.current.orientation == UIDeviceOrientation.portraitUpsideDown {
             liveButton.isSelected = true
@@ -108,9 +105,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         //previewViewSetup()
-        
-        print("we loaded the main view controller")
 
+        print("we loaded the main view controller")
 
         topBarSetup()
         //logoLabelSetup()
@@ -122,12 +118,9 @@ class ViewController: UIViewController {
         textViewHolderSetup()
         outputTextViewSetup()
         //speak()
-        
+
         //liveButton
-        
-        
-        
-        
+
         guard modelDataHandler != nil else {
             fatalError("Model set up failed")
         }
@@ -143,7 +136,6 @@ class ViewController: UIViewController {
 
         addPanGesture()
     }
-    
 
     func tabBarControllerSetup() {
 
@@ -453,12 +445,10 @@ extension ViewController {
         view.setNeedsLayout()
     }
 
-    
 }
 
-
 extension ViewController {
-    
+
     func previewViewSetup() {
             view.addSubview(previewView)
             previewView.translatesAutoresizingMaskIntoConstraints = false
@@ -617,6 +607,4 @@ extension ViewController {
             synthesizer.speak(utterance)
         }
 
-    
-    
 }

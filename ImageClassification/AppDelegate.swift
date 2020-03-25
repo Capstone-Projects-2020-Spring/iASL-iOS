@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     requestTranscribePermissions()
 
     FirebaseApp.configure()
-    
+
     //initializes the firestore firebase
     //let db = Firestore.firestore()
 
@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //    window = UIWindow(frame: UIScreen.main.bounds)
 //    window?.rootViewController = LoginVC()
 //    window?.makeKeyAndVisible()
-    
+
     //just for editing the chatVC
     window = UIWindow(frame: UIScreen.main.bounds)
     window?.rootViewController = RemoteConversationVC()

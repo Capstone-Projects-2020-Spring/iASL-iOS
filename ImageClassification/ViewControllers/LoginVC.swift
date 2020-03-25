@@ -30,32 +30,31 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 
     ///boolean that determines if we are on the login screen or the register screen
     var isRegisterButton: Bool = true
-    
+
     let collectionUser: String = "users"
 
     ///first function that is called
     override func viewDidLoad() {
         let view = UIView()
         view.backgroundColor = .systemPink
-        
+
         let removeKeyboardTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboardOnTap))
-        
+
         //create the firestore
 //        let db = Firestore.firestore()
 //        var ref: DocumentReference? = nil
 //        ref = db.collection(self.collectionUser).addDocument(data: <#T##[String : Any]#>)
-        
+
         //set the delegates for the keyboards
         nameTextField.delegate = self
         emailTextField.delegate = self
         passwordTextField.delegate = self
-        
+
         //Listening for keyboard hide/show events
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-        
-        
+
         //true means register button is sent
         //false means login button is sent
         isRegisterButton = true
@@ -65,7 +64,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         view.addSubview(infoSubmitButton)
         view.addSubview(cameraContainerView)
         view.addSubview(toggleRegisterLoginButton)
-        
+
         view.addGestureRecognizer(removeKeyboardTap)
 
         self.view = view
@@ -75,10 +74,10 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         setupInfoSubmitButton()
         setupCameraView()
         setupToggleRegisterLoginButton()
-        
+
         //print(toggleRegisterLoginButton.frame.origin.y)
     }
-    
+
     ///This gets called when the register or login button is pressed
     func hideKeyboard() {
         //gives up the first repsonder if any of these are active
@@ -86,13 +85,13 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
     }
-    
+
     ///when the user taps anywhere else on the screen, it hides the keyboard
     @objc func hideKeyboardOnTap() {
         //removes the keyboard
         view.endEditing(true)
     }
-    
+
     ///This is for removing the keyboard notifications
     deinit {
         //Stop listening for keyboard hide/show events
@@ -100,28 +99,28 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
-    
+
     @objc func keyboardWillChange(notification: Notification) {
         print("Keyboard will show \(notification.name.rawValue)")
-        
+
         //get the size of the keyboard
         guard let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
             print("Could not find the keyboard height")
             return
         }
-        
+
         //gets the rects for the button and the top of the keyboard for math
         let bottomLeftOfButton = toggleRegisterLoginButton.frame.origin.y + toggleRegisterLoginButton.frame.height
         let topOfKeyboard = view.frame.height - keyboardRect.height
-        
+
         //print("Top of Keyboard: \(topOfKeyboard)")
         //print("Bottom of button: \(bottomLeftOfButton)")
-        
+
         //difference between height of keyboard and bottom of button. view will change by this much
         let difference = topOfKeyboard - bottomLeftOfButton
-        
+
         //print("Difference: \(difference)")
-        
+
         //For shifting the screen up and down
         if notification.name == UIResponder.keyboardWillShowNotification || notification.name == UIResponder.keyboardWillChangeFrameNotification {
             //move the screen up by the same size as the keyboard
@@ -129,8 +128,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         } else {
             view.frame.origin.y = 0
         }
-        
-        
+
     }
 
     //need to add some text fields inside the container view
@@ -320,7 +318,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     ///handles the toggle button
     @objc func toggleRegisterLoginButtonPressed() {
         print("we pressed the toggle button")
-        
+
         //hide the keyboard
         hideKeyboard()
 
@@ -372,106 +370,103 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         submitButton.addTarget(self, action: #selector(infoSubmitButtonPressed), for: .touchUpInside)
         return submitButton
     }()
-    
+
     ///When this is pressed, the info should be sent to Firebase and the keyboard should disappear, and the view should disappear
     @objc func infoSubmitButtonPressed() {
         //for now, just make the keyboard disappear
         print("info submit button pressed")
-        
+
         //hide the keyboard
         hideKeyboard()
-        
-        
+
         //if isRegister = true, then its on the register screen
         //else if isRegister = false, then its on the login screen
         if isRegisterButton {
-            
+
             handleRegister()
-                
+
         } else {
-            
+
             handleLogin()
-            
+
         }
-        
-        
+
         //if login successful
         //then exit the view controller
-        
-        //MARK: Leo, you might need this when switching to all programmatic
+
+        // MARK: Leo, you might need this when switching to all programmatic
         //This switches this view controller to the main view controller in Main.storyboard
         let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        
+
         guard let destination = mainStoryboard.instantiateViewController(withIdentifier: "main") as? ViewController else {
             print("Could not find the main view controller")
             return
         }
-        
+
         destination.modalTransitionStyle = .crossDissolve
         destination.modalPresentationStyle = .fullScreen
         present(destination, animated: true, completion: nil)
     }
-    
+
     func handleRegister() {
-        
+
         //get email and password and name
         guard let email = emailTextField.text, let password = passwordTextField.text, let name = nameTextField.text else {
             print("Did not get email and password")
             return
         }
-        
-        
+
         Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
             if err != nil {
                 print(err!)
                 return
             }
-            
+
             let db = Firestore.firestore()
             //successfully added user to authentication
             //var ref: DocumentReference? = nil
-            
+
             //check to see if uid exists
             guard let uid = result?.user.uid else {
                 return
             }
-            
-            let dataToAdd: [String : Any] = ["name": name, "email": email, "uid": uid]
-            
+
+            let dataToAdd: [String: Any] = ["name": name, "email": email, "uid": uid]
+
             //added user to database with UID as document
             db.collection(self.collectionUser).document(uid).setData(dataToAdd, merge: true) { (error) in
                 if let error = error {
                     print(error)
                 }
-                
+
                 //added user to collection with UID
                 print("added user to database with UID")
             }
         }
     }
-    
+
     func handleLogin() {
         //get email and password and name
         guard let email = emailTextField.text, let password = passwordTextField.text else {
             print("Did not get email and password")
             return
         }
-        
+
         //sign in with username and password
-        Auth.auth().signIn(withEmail: email, password: password) { (result, err) in
+        Auth.auth().signIn(withEmail: email, password: password) { (_, err) in
             if err != nil {
                 print(err!)
                 return
             }
-            
+
             //successfully signed in
             print("you signed in successfully")
-            
+
         }
     }
-    
+
     func handleLogout() {
-        
+
     }
 
     ///sets up the constraints of the submit button
@@ -485,22 +480,22 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 }
 
 extension LoginVC {
-    
+
     ///checks if we have a valid email address in the login
-    func isValidEmail(email:String?) -> Bool {
-        
+    func isValidEmail(email: String?) -> Bool {
+
         guard email != nil else { return false }
-        
+
         let regEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
-        
-        let pred = NSPredicate(format:"SELF MATCHES %@", regEx)
+
+        let pred = NSPredicate(format: "SELF MATCHES %@", regEx)
         return pred.evaluate(with: email)
     }
-    
+
     ///checks if we have a valid password in the login
-    func isValidPassword(testStr:String?) -> Bool {
+    func isValidPassword(testStr: String?) -> Bool {
         guard testStr != nil else { return false }
-     
+
         // at least one uppercase,
         // at least one digit
         // at least one lowercase

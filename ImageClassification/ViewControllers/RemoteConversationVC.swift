@@ -18,7 +18,7 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
     let backButton = UIButton()
     let tableView = UITableView()
     let liveButton = UIButton()
-    
+
     let logoutButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
@@ -30,7 +30,6 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         button.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
         return button
     }()
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +38,7 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         backButtonSetup()
         topLabelSetup()
         tableViewSetup()
-        
+
         logoutButtonSetup()
 
         //composedMessageSetup()
@@ -48,9 +47,9 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
     //FIXME: Maybe add a pop up message asking the user if they are sure they want to log out?
     ///handles the logout button, so it logs the user out of firebae and presents the login controller
     @objc func handleLogout() {
-        
+
         print("handle logout tapped")
-        
+
         //log the user out of firebase
         do {
             try Auth.auth().signOut()
@@ -63,18 +62,17 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         loginController.modalPresentationStyle = .fullScreen
         present(loginController, animated: true, completion: nil)
     }
-    
+
     ///sets the anchors and adds the button to the top bar
     func logoutButtonSetup() {
         //x, y, height, width
         topBar.addSubview(logoutButton)
-        
+
         logoutButton.trailingAnchor.constraint(equalTo: topBar.trailingAnchor, constant: -10).isActive = true
         logoutButton.bottomAnchor.constraint(equalTo: topBar.bottomAnchor, constant: -10).isActive = true
         logoutButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         //logoutButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
     }
-    
 
 }
 
@@ -91,9 +89,9 @@ extension RemoteConversationVC {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+
         //let vc = ChatVC(collectionViewLayout: UICollectionViewFlowLayout())
-        
+
         let vc = ChatVC()
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .crossDissolve
@@ -101,13 +99,13 @@ extension RemoteConversationVC {
         present(vc, animated: true, completion: nil)
         //navigationController?.pushViewController(vc, animated: true)
     }
-    
+
     //change the color of the status bar
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNeedsStatusBarAppearanceUpdate()
     }
-    
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
     }

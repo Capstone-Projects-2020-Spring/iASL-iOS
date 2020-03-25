@@ -14,7 +14,7 @@ class Message: NSObject {
     var fromId: String?
     var text: String?
     var timestamp: String?
-    
+
     init(toId: String, fromId: String, text: String, timestamp: String) {
         self.toId = toId
         self.fromId = fromId

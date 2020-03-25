@@ -14,7 +14,7 @@ class Caboard: UIViewController {
     let previewView = PreviewView()
     let composedMessage = UITextView()
     let nextButton = UIButton()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         caboardViewSetup()
@@ -22,15 +22,12 @@ class Caboard: UIViewController {
         nextButtonSetup()
         //composedMessageSetup()
     }
-    
 
-    
 }
 
-
 extension Caboard {
-    
-    func caboardViewSetup(){
+
+    func caboardViewSetup() {
         view.addSubview(caboardView)
         caboardView.translatesAutoresizingMaskIntoConstraints = false
         caboardView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
@@ -39,21 +36,21 @@ extension Caboard {
         caboardView.heightAnchor.constraint(equalToConstant: 220).isActive = true
         caboardView.backgroundColor = .white
     }
-    
+
     func previewViewSetup() {
         caboardView.addSubview(previewView)
         previewView.translatesAutoresizingMaskIntoConstraints = false
         previewView.widthAnchor.constraint(equalToConstant: 130).isActive = true
-        previewView.topAnchor.constraint(equalTo: caboardView.topAnchor,constant: 5).isActive = true
+        previewView.topAnchor.constraint(equalTo: caboardView.topAnchor, constant: 5).isActive = true
         //previewView.heightAnchor.constraint(equalToConstant: 150).isActive = true
-        
+
         //previewView.trailingAnchor.constraint(equalTo: caboardView.trailingAnchor).isActive = true
         previewView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         previewView.bottomAnchor.constraint(equalTo: caboardView.safeAreaLayoutGuide.bottomAnchor, constant: -5).isActive = true
         previewView.backgroundColor = .black
     }
-    
-    func nextButtonSetup(){
+
+    func nextButtonSetup() {
         caboardView.addSubview(nextButton)
         nextButton.translatesAutoresizingMaskIntoConstraints = false
         nextButton.trailingAnchor.constraint(equalTo: caboardView.trailingAnchor, constant: -5).isActive = true
@@ -64,5 +61,5 @@ extension Caboard {
         nextButton.setTitle("Next", for: .normal)
         nextButton.layer.cornerRadius = 5
     }
-    
+
 }
