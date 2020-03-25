@@ -10,6 +10,8 @@
 
 // FIXME: Add a skip button so user's don't have to login if they don't want. Not needed for the main part of the app
 
+// FIXME: What happens when a user forgets their password?
+
 import Foundation
 import UIKit
 import Firebase
@@ -412,6 +414,10 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         present(destination, animated: true, completion: nil)
     }
     
+    //FIXME: move this
+    let usersStringConstant: String = "users"
+    
+    
     func handleRegister() {
         
         //get email and password and name
@@ -421,32 +427,51 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         }
         
         
+        //code for creating a user in auth
         Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
             if err != nil {
                 print(err!)
                 return
             }
             
-            let db = Firestore.firestore()
-            //successfully added user to authentication
-            //var ref: DocumentReference? = nil
-            
             //check to see if uid exists
             guard let uid = result?.user.uid else {
                 return
             }
             
-            let dataToAdd: [String : Any] = ["name": name, "email": email, "uid": uid]
+            //let db = Firestore.firestore()
+            var ref: DatabaseReference!
+            ref = Database.database().reference()
+            //gets the user child in the database with the UID as the child name
+            let userReference = ref.child(self.usersStringConstant).child(uid)
+            //successfully added user to authentication
+            //var ref: DocumentReference? = nil
             
-            //added user to database with UID as document
-            db.collection(self.collectionUser).document(uid).setData(dataToAdd, merge: true) { (error) in
-                if let error = error {
-                    print(error)
+            //adds the name and the email
+            let dataToAdd: [String : Any] = ["name": name, "email": email]
+            
+            //for realtime storing
+            userReference.updateChildValues(dataToAdd) { (error, ref) in
+                if error != nil {
+                    print(error!)
+                    return
                 }
                 
-                //added user to collection with UID
-                print("added user to database with UID")
+                //you've successfully added user to realtime database
+                print("saved user successfully into REALTIME")
             }
+            
+            
+            //added user to database with UID as document
+            //MARK: The code below is for using Firestore, not realtime
+//            db.collection(self.collectionUser).document(uid).setData(dataToAdd, merge: true) { (error) in
+//                if let error = error {
+//                    print(error)
+//                }
+//
+//                //added user to collection with UID
+//                print("added user to database with UID")
+//            }
         }
     }
     
