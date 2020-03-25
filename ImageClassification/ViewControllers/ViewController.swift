@@ -195,17 +195,7 @@ class ViewController: UIViewController {
 
 // MARK: CameraFeedManagerDelegate Methods
 extension ViewController: CameraFeedManagerDelegate {
-
-	fileprivate func deleteCharacter() {
-		DispatchQueue.main.async {
-            if self.outputTextView.text != "" {
-                var text = self.outputTextView.text
-                text?.removeLast()
-                self.outputTextView.text = text
-            }
-		}
-	}
-
+	
 	func didOutput(pixelBuffer: CVPixelBuffer) {
         let currentTimeMs = Date().timeIntervalSince1970 * 1000
         guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
@@ -213,16 +203,7 @@ extension ViewController: CameraFeedManagerDelegate {
 
         // Pass the pixel buffer to TensorFlow Lite to perform inference.
         result = modelDataHandler?.runModel(onFrame: pixelBuffer)
-		switch result?.inferences[0].label {
-		case "del":
-			deleteCharacter()
-		case "space":
-			print("space")
-		default:
-			DispatchQueue.main.async {
-				self.outputTextView.text += self.result!.inferences[0].label.description
-			}
-		}
+		executeASLtoText()
         // Display results by handing off to the InferenceViewController.
         DispatchQueue.main.async {
             let resolution = CGSize(width: CVPixelBufferGetWidth(pixelBuffer), height: CVPixelBufferGetHeight(pixelBuffer))
@@ -430,4 +411,28 @@ extension ViewController {
             synthesizer.speak(utterance)
         }
 
+}
+extension ViewController: ASLtoText{
+	func deleteCharacter() {
+		DispatchQueue.main.async {
+            if self.outputTextView.text != "" {
+				var text = self.outputTextView.text
+                text?.removeLast()
+                self.outputTextView.text = text
+            }
+		}
+	}
+
+	func executeASLtoText() {
+		switch result?.inferences[0].label {
+		case "del":
+			deleteCharacter()
+		case "space":
+			print("space")
+		default:
+			DispatchQueue.main.async {
+				self.outputTextView.text += self.result!.inferences[0].label.description
+			}
+		}
+	}
 }
