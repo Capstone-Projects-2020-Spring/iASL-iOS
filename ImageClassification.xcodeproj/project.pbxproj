@@ -287,6 +287,7 @@
 			children = (
 				AA16E5A12180843700D9E153 /* InfoCell.swift */,
 				60075D68242C29F700D84544 /* ChatUserCell.swift */,
+				602388962426D9A40041E2C3 /* ChatMessageCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -394,7 +395,6 @@
 				AA5B0EE9217E5E300026FF23 /* InferenceViewController.swift */,
 				6EF328FA24173A430071E430 /* NotesVC.swift */,
 				6E6D14CE24175AC800A185E9 /* CreateNoteVC.swift */,
-				602388962426D9A40041E2C3 /* ChatMessageCell.swift */,
 				60075D66242C00B500D84544 /* AddChatVC.swift */,
 			);
 			path = ViewControllers;

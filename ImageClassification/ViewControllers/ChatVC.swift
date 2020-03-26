@@ -189,10 +189,31 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         let message = messages[indexPath.row]
         cell.textView.text = message.text
         
+        setupCell(cell: cell, message: message)
+        
         //modify the bubbleView width?
         cell.bubbleViewWidthAnchor?.constant = estimateFrameForText(text: message.text!).width + 32 //32 is just a guess
         
         return cell
+    }
+    
+    func setupCell(cell: ChatMessageCell, message: Message) {
+        if message.senderId == Auth.auth().currentUser?.uid {
+            //outgoing blue
+            cell.bubbleView.backgroundColor = .systemPink
+            cell.textView.textColor = .white
+            
+            cell.bubbleViewRightAnchor?.isActive = true
+            cell.bubbleViewLeftAnchor?.isActive = false
+        } else {
+            //incoming gray
+            cell.bubbleView.backgroundColor = .lightGray
+            cell.textView.textColor = .black
+            
+            cell.bubbleViewRightAnchor?.isActive = false
+            cell.bubbleViewLeftAnchor?.isActive = true
+            
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

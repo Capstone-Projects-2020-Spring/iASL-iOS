@@ -103,7 +103,7 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
                     //print(message.timestamp)
                     
                     //add message to all the messages
-                    self.messages.append(message)
+                    //self.messages.append(message)
                     
                     //one message per receiver
                     if let receiverId = message.receiverId {
