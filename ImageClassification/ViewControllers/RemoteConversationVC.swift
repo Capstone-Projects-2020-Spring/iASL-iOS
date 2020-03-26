@@ -258,13 +258,39 @@ extension RemoteConversationVC {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         //let vc = ChatVC(collectionViewLayout: UICollectionViewFlowLayout())
-        let cell: UITableViewCell = tableView.cellForRow(at: indexPath)!
+        //let cell: UITableViewCell = tableView.cellForRow(at: indexPath)!
         
-        guard let name = cell.textLabel?.text else {
-            print("could not find name")
+        let message = messages[indexPath.row]
+        
+        guard let chatPartnerId = message.chatPartnerId() else {
             return
         }
-        showChatVC(name: name)
+        
+        let ref = Database.database().reference().child("users").child(chatPartnerId)
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            print(snapshot)
+            
+            guard let dictionary = snapshot.value as? [String: AnyObject] else {
+                return
+            }
+            
+            let user = User()
+            user.name = dictionary["name"] as? String
+            user.email = dictionary["email"] as? String
+            
+            //FIXME: this may be dictionary["id"] as? String
+            user.id = chatPartnerId
+            
+            self.showChatVCForUser(user: user)
+            
+            
+        }, withCancel: nil)
+        
+//        guard let name = cell.textLabel?.text else {
+//            print("could not find name")
+//            return
+//        }
+//        showChatVC(name: name)
         //navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -272,7 +298,7 @@ extension RemoteConversationVC {
     func showChatVCForUser(user: User) {
         let vc = ChatVC()
         vc.chatPartner = user
-        vc.topLabel.text = user.name
+        //vc.topLabel.text = user.name //this has been moved to in ChatVC
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .crossDissolve
         present(vc, animated: true, completion: nil)

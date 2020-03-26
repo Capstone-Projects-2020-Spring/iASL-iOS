@@ -17,8 +17,9 @@ class ChatUserCell: UITableViewCell {
     var message: Message? {
         didSet {
             
-            if let receiverId = message?.receiverId {
-                let ref = Database.database().reference().child("users").child(receiverId)
+            //calls the Message object model function
+            if let id = message?.chatPartnerId() {
+                let ref = Database.database().reference().child("users").child(id)
                 ref.observe(.value, with: { (snapshot) in
                     
                     print(snapshot)

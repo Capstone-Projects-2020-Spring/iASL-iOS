@@ -28,7 +28,16 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
     let messagesConstant: String = "messages"
     
     //so we know which user we are talking to 
-    var chatPartner: User?
+    var chatPartner: User? {
+        didSet {
+            topLabel.text = chatPartner?.name
+            
+            //observe the messages
+            observeMessages()
+        }
+    }
+    
+    var messages = [Message]()
     
     //delete this once you can get messages from Firebase
     var tempMessages = [Message]()
@@ -106,7 +115,50 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         
     }
     
-    
+    func observeMessages() {
+        
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("could not get the UID")
+            return
+        }
+        
+        let userMessagesRef = Database.database().reference().child("user-messages").child(uid)
+        userMessagesRef.observe(.childAdded, with: { (snapshot) in
+            
+            let messageId = snapshot.key
+            let messagesRef = Database.database().reference().child("messages").child(messageId)
+            messagesRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                guard let dictionary = snapshot.value as? [String: AnyObject] else {
+                    print("could not find dictionary")
+                    return
+                }
+                
+                let message = Message()
+                message.receiverId = dictionary["receiverId"] as? String
+                message.senderId = dictionary["senderId"] as? String
+                message.text = dictionary["text"] as? String
+                message.timestamp = dictionary["timestamp"] as? NSNumber
+                
+                if message.chatPartnerId() == self.chatPartner?.id {
+                    //add the messages we received to the messages array
+                    self.messages.append(message)
+                    
+                    //reload the table
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                    }
+                    
+                }
+                
+                
+                
+                
+                
+            }, withCancel: nil)
+            
+        }, withCancel: nil)
+    }
     
     func collectionViewSetup() {
         view.addSubview(collectionView)
@@ -127,14 +179,14 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return tempMessages.count
+        return messages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChatVC.cellId, for: indexPath) as! ChatMessageCell
         
         //this is where you will set the text of each message
-        let message = tempMessages[indexPath.row]
+        let message = messages[indexPath.row]
         cell.textView.text = message.text
         
         //modify the bubbleView width?
@@ -148,7 +200,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         var height: CGFloat = 80
         
         //need to somehow guess the height based on the amount of text inside the bubble
-        if let text = tempMessages[indexPath.item].text {
+        if let text = messages[indexPath.item].text {
             height = estimateFrameForText(text: text).height + 20 //20 is just a guess
         }
         
