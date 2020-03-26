@@ -108,6 +108,14 @@ class ViewController: UIViewController {
         outputTextViewSetup()
         //speak()
 
+        
+        let panYGesture = UIPanGestureRecognizer(target: self, action:(#selector(self.handleYGesture(_:))))
+        self.textViewHolder.addGestureRecognizer(panYGesture)
+        
+        let panXGesture = UIPanGestureRecognizer(target: self, action:(#selector(self.handleYGesture(_:))))
+        self.view.addGestureRecognizer(panXGesture)
+        
+        
         guard modelDataHandler != nil else {
             fatalError("Model set up failed")
         }
@@ -122,7 +130,39 @@ class ViewController: UIViewController {
         cameraCapture.delegate = self
 
     }
+    
+    @objc func handleYGesture(_ sender: UIPanGestureRecognizer) {
+        
+        
+        switch sender.state {
+        case .began:
+            print("")
+        case .changed:
+            
+            //MARK: Pan Gesture for the outputTextView
+            ///Look over here
+            let translation = sender.translation(in: self.textViewHolder)
+            textViewHolder.transform = CGAffineTransform(translationX: 0, y: translation.y)
+            outputTextView.transform = CGAffineTransform(translationX: 0, y: translation.y)
 
+        case .cancelled:
+            print("asf")
+        case .ended:
+            print("as")
+            textViewHolder.layoutIfNeeded()
+            outputTextView.layoutIfNeeded()
+        default:
+            break
+        }
+    }
+    
+    @objc func handleXGesture(_ sender: UIPanGestureRecognizer) {
+        
+        
+    }
+    
+    
+    
     func tabBarControllerSetup() {
 
     }
@@ -282,6 +322,12 @@ extension ViewController: CameraFeedManagerDelegate {
     }
 }
 
+
+
+
+
+
+
 extension ViewController {
 
     func previewViewSetup() {
@@ -406,6 +452,8 @@ extension ViewController {
             textViewHolder.backgroundColor = #colorLiteral(red: 0.9596421632, green: 0.9596421632, blue: 0.9596421632, alpha: 1)
             textViewHolder.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
             textViewHolder.layer.cornerRadius = 20
+            textViewHolder.isUserInteractionEnabled = true
+            
         }
 
         func outputTextViewSetup() {
@@ -419,6 +467,7 @@ extension ViewController {
             outputTextView.text = ""
             outputTextView.textColor = .gray
             outputTextView.font = UIFont.boldSystemFont(ofSize: 30)
+            outputTextView.isUserInteractionEnabled = true
         }
 
         func speak() {
