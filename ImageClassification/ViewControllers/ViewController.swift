@@ -112,9 +112,13 @@ class ViewController: UIViewController {
         let panYGesture = UIPanGestureRecognizer(target: self, action:(#selector(self.handleYGesture(_:))))
         self.textViewHolder.addGestureRecognizer(panYGesture)
         
-        let panXGesture = UIPanGestureRecognizer(target: self, action:(#selector(self.handleYGesture(_:))))
-        self.view.addGestureRecognizer(panXGesture)
+        let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleLeftSwipeGesture(_:)))
+        view.addGestureRecognizer(swipeLeftGestureRecognizer)
+        swipeLeftGestureRecognizer.direction = .left
         
+        let swipeRightGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleRightSwipeGesture(_:)))
+        view.addGestureRecognizer(swipeRightGestureRecognizer)
+        swipeRightGestureRecognizer.direction = .right
         
         guard modelDataHandler != nil else {
             fatalError("Model set up failed")
@@ -156,16 +160,21 @@ class ViewController: UIViewController {
         }
     }
     
-    @objc func handleXGesture(_ sender: UIPanGestureRecognizer) {
-        
-        
+    @objc func handleLeftSwipeGesture(_ sender: UISwipeGestureRecognizer){
+        let vc = NotesVC()
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
     }
     
+    @objc func handleRightSwipeGesture(_ sender: UISwipeGestureRecognizer){
+        let vc = RemoteConversationVC()
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
+    }
     
-    
-    func tabBarControllerSetup() {
 
-    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
