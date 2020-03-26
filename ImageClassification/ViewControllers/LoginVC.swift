@@ -268,6 +268,14 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         //need a reference
         passwordTextFieldHeightAnchor = passwordTextField.heightAnchor.constraint(equalTo: inputContainerView.heightAnchor, multiplier: 1/3)
         passwordTextFieldHeightAnchor?.isActive = true
+        
+        //make sure this works
+        if #available(iOS 12, *) {
+            passwordTextField.textContentType = .oneTimeCode
+        } else {
+            emailTextField.textContentType = .init(rawValue: "")
+            passwordTextField.textContentType = .init(rawValue: "")
+        }
     }
 
     ///sets up the constraints of the top orange separator

@@ -13,7 +13,7 @@ class Message: NSObject {
     var receiverId: String?
     var senderId: String?
     var text: String?
-    var timestamp: String?
+    var timestamp: NSNumber?
     
 //    init(receiverId: String, senderId: String, text: String, timestamp: String) {
 //        self.receiverId = receiverId

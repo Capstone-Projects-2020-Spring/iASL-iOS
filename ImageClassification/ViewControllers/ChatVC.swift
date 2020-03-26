@@ -42,22 +42,22 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         tempMessage1.receiverId = "receiverId"
         tempMessage1.senderId = "senderId"
         tempMessage1.text = "Text Message 1"
-        tempMessage1.timestamp = "timestamp"
+        tempMessage1.timestamp = 1
         
         tempMessage2.receiverId = "receiverId"
         tempMessage2.senderId = "senderId"
         tempMessage2.text = "Text Message 1"
-        tempMessage2.timestamp = "timestamp"
+        tempMessage2.timestamp = 2
         
         tempMessage3.receiverId = "receiverId"
         tempMessage3.senderId = "senderId"
         tempMessage3.text = "Text Message 1"
-        tempMessage3.timestamp = "timestamp"
+        tempMessage3.timestamp = 3
         
         tempMessage4.receiverId = "receiverId"
         tempMessage4.senderId = "senderId"
         tempMessage4.text = "Text Message 1"
-        tempMessage4.timestamp = "timestamp"
+        tempMessage4.timestamp = 4
         
         tempMessages = [tempMessage1, tempMessage2, tempMessage3, tempMessage4]
     }
@@ -252,16 +252,49 @@ extension ChatVC {
             return
         }
         
-        let timestamp = NSDate().timeIntervalSince1970
+        let timestamp: NSNumber = NSNumber(value: NSDate().timeIntervalSince1970)
         
         let values = ["receiverId": receiverId, "senderId": senderId ,"text": messageText, "timestamp": timestamp] as [String: Any]
+        
+        
         childRef.updateChildValues(values) { (error, ref) in
             if error != nil {
                 print(error!)
+                return
             }
             
             //you've added your message successfully\
             print("successfully added message")
+            
+            //need to also save to new node for cost related issues
+            let userMessagesRef = Database.database().reference().child("user-messages").child(senderId)
+            
+            let messageId = childRef.key
+            let userValue = [messageId: 1] as! [String: Any]
+            
+            userMessagesRef.updateChildValues(userValue) { (error2, ref2) in
+                if error2 != nil {
+                    print(error2!)
+                    return
+                }
+                
+                //you've added to the user-messages node for message senders
+                print("you've added to the user-messages node for senders")
+            }
+            
+            let receiverUserMessagesRef = Database.database().reference().child("user-messages").child(receiverId)
+            receiverUserMessagesRef.updateChildValues(userValue) { (error2, ref2) in
+                if error2 != nil {
+                    print(error2!)
+                    return
+                }
+                
+                
+                //you've added a node to the user-messages node for message receivers
+                print("you've added to the user-messages node for receivers")
+            }
+            
+            
         }
         //this is where it needs to send the message to firebase
     }

@@ -13,8 +13,12 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
 
     var people = ["Ian Applebaum", "Leo Gomes", "Liam Miller", "Viet Pham", "Tarek Elseify", "Aidan Loza", "Shakeel Alibhai"]
     
+    private let refreshControl = UIRefreshControl()
+    
     //this is where all the messages will go
     var messages = [Message]()
+    //for organizing messages by name and most recent
+    var messagesDictionary = [String: Message]()
 
     let topBar = UIView()
     let topLabel = UILabel()
@@ -54,40 +58,115 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         topLabelSetup()
         tableViewSetup()
         
-        tableView.register(ChatUserCell.self, forCellReuseIdentifier: "chatCell")
-        
         logoutButtonSetup()
         addChatButtonSetup()
         //composedMessageSetup()
         
-        observeMessages()
+        //observeMessages()
+        observeUserMessages()
         
     }
     
-    //gather all of the messages ever so we can organize them properly in the main table view
-    func observeMessages() {
-        let ref = Database.database().reference().child("messages")
+    @objc func refreshTableViewOnPull() {
+        print("refreshing table view thanks to pulling down")
+        
+        self.tableView.reloadData()
+        
+        refreshControl.endRefreshing()
+    }
+    
+    func observeUserMessages() {
+        
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("could not get UID")
+            return
+        }
+        
+        let ref = Database.database().reference().child("user-messages").child(uid)
+        
         ref.observe(.childAdded, with: { (snapshot) in
             
-            if let dictionary = snapshot.value as? [String: AnyObject] {
-                let message = Message()
-                message.receiverId = dictionary["receiverId"] as? String
-                message.senderId = dictionary["senderId"] as? String
-                message.text = dictionary["text"] as? String
-                message.timestamp = dictionary["timestamp"] as? String
-                //print(message.text)
-                
-                //add message to all the messages
-                self.messages.append(message)
-            }
+            let messageId = snapshot.key
             
-            //reload the table
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
+            let messagesReference = Database.database().reference().child("messages").child(messageId)
+            
+            messagesReference.observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                //this is where the old observe messages stuff goes
+                if let dictionary = snapshot.value as? [String: AnyObject] {
+                    let message = Message()
+                    message.receiverId = dictionary["receiverId"] as? String
+                    message.senderId = dictionary["senderId"] as? String
+                    message.text = dictionary["text"] as? String
+                    message.timestamp = dictionary["timestamp"] as? NSNumber
+                    //print(message.text)
+                    //print(message.timestamp)
+                    
+                    //add message to all the messages
+                    self.messages.append(message)
+                    
+                    //one message per receiver
+                    if let receiverId = message.receiverId {
+                        self.messagesDictionary[receiverId] = message
+                        
+                        self.messages = Array(self.messagesDictionary.values)
+                        
+                        //sort messages by most recent
+                        self.messages.sorted { (message1, message2) -> Bool in
+                            return message1.timestamp?.intValue > message2.timestamp?.intValue
+                        }
+                    }
+                }
+                
+                //reload the table
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+                
+            }, withCancel: nil)
             
         }, withCancel: nil)
+        
+        
     }
+    
+//    //gather all of the messages ever so we can organize them properly in the main table view
+//    func observeMessages() {
+//        let ref = Database.database().reference().child("messages")
+//        ref.observe(.childAdded, with: { (snapshot) in
+//
+//            if let dictionary = snapshot.value as? [String: AnyObject] {
+//                let message = Message()
+//                message.receiverId = dictionary["receiverId"] as? String
+//                message.senderId = dictionary["senderId"] as? String
+//                message.text = dictionary["text"] as? String
+//                message.timestamp = dictionary["timestamp"] as? NSNumber
+//                //print(message.text)
+//                //print(message.timestamp)
+//
+//                //add message to all the messages
+//                self.messages.append(message)
+//
+//                //one message per receiver
+//                if let receiverId = message.receiverId {
+//                    self.messagesDictionary[receiverId] = message
+//
+//                    self.messages = Array(self.messagesDictionary.values)
+//
+//                    //sort messages by most recent
+//                    self.messages.sorted { (message1, message2) -> Bool in
+//                        return message1.timestamp?.intValue > message2.timestamp?.intValue
+//                    }
+//                }
+//            }
+//
+//            //reload the table
+//            DispatchQueue.main.async {
+//                self.tableView.reloadData()
+//            }
+//
+//        }, withCancel: nil)
+//    }
     
     ///Add a user to a current conversation
     @objc func handleAddChat() {
@@ -106,6 +185,11 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
     @objc func handleLogout() {
         
         print("handle logout tapped")
+        
+        //clear the arrays that hold user messages and reset the table
+        messages.removeAll()
+        messagesDictionary.removeAll()
+        tableView.reloadData()
         
         //log the user out of firebase
         do {
@@ -143,8 +227,11 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
 
 }
 
+
 extension RemoteConversationVC {
 
+    //MARK: Table View Stuff
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messages.count
     }
@@ -158,40 +245,12 @@ extension RemoteConversationVC {
         let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell") as! ChatUserCell
         //let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "chatCell")
         
+        //get the message
         let message = messages[indexPath.row]
         
+        //sets the message and does the work for applying it to a cell
+        cell.message = message
         
-        //FIXME: This will get moved into custom user cell
-        if let receiverId = message.receiverId {
-            let ref = Database.database().reference().child("users").child(receiverId)
-            ref.observe(.value, with: { (snapshot) in
-                
-                if let dictionary = snapshot.value as? [String: AnyObject] {
-                    
-                    let name = dictionary["name"] as? String
-                    
-                    
-                    cell.textLabel?.text = name
-                    
-                }
-                
-            }, withCancel: nil)
-        }
-        
-        
-        //cell?.textLabel?.text = message.receiverId
-        //cell.textLabel?.text = message.receiverId! + " " + message.timestamp!
-        
-        //some magic to get the timestamp correctly
-//        if let timestamp = Double(message.timestamp!) {
-//            print("we have the timestamp")
-//            let timestampDate = NSDate(timeIntervalSince1970: timestamp)
-//
-//            cell.detailTextLabel?.text = timestampDate.description
-//
-//        }
-        
-        cell.detailTextLabel?.text = message.timestamp
         
         return cell
     }
@@ -247,6 +306,16 @@ extension RemoteConversationVC {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.delegate = self
         tableView.dataSource = self
+        
+        tableView.register(ChatUserCell.self, forCellReuseIdentifier: "chatCell")
+        refreshControl.addTarget(self, action: #selector(refreshTableViewOnPull), for: .valueChanged)
+        
+        //adding the pull to refresh
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl = refreshControl
+        } else {
+            tableView.addSubview(refreshControl)
+        }
     }
 
     func topBarSetup() {
@@ -290,3 +359,30 @@ extension RemoteConversationVC {
     }
 
 }
+
+// MARK: Functions that help with comparing message.timestamp.intValue in observeMessages() function
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+    switch (lhs, rhs) {
+    case let (l?, r?):
+        return l < r
+    case (nil, _?):
+        return true
+    default:
+        return false
+    }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+    switch (lhs, rhs) {
+    case let (l?, r?):
+        return l > r
+    default:
+        return rhs < lhs
+    }
+}
+
