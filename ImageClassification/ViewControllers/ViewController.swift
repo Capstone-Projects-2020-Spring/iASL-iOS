@@ -422,13 +422,24 @@ extension ViewController {
             }
 		}
 	}
+	func addSpace() {
+		DispatchQueue.main.async {
+            if self.outputTextView.text != "" {
+				var text = self.outputTextView.text
+                text?.append(" ")
+                self.outputTextView.text = text
+            }
+		}
+	}
 
 	func executeASLtoText() {
 		switch result?.inferences[0].label {
 		case "del":
 			deleteCharacter()
 		case "space":
-			print("space")
+			addSpace()
+		case "nothing":
+			print("")
 		default:
 			DispatchQueue.main.async {
 				self.outputTextView.text += self.result!.inferences[0].label.description
