@@ -31,12 +31,36 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
     var chatPartner: User?
     
     //delete this once you can get messages from Firebase
-    let tempMessages = [
-        Message(receiverId: "receiverId", senderId: "senderId", text: "Text Message 1", timestamp: "timestamp"),
-        Message(receiverId: "receiverId", senderId: "senderId", text: "Text Message 2", timestamp: "timestamp"),
-        Message(receiverId: "receiverId", senderId: "senderId", text: "Text Message 3 that could be pretty long perhaps", timestamp: "timestamp"),
-        Message(receiverId: "receiverId", senderId: "senderId", text: "Text Message 4", timestamp: "timestamp")
-    ]
+    var tempMessages = [Message]()
+    
+    var tempMessage1 = Message()
+    var tempMessage2 = Message()
+    var tempMessage3 = Message()
+    var tempMessage4 = Message()
+    
+    func loadTempMessage() {
+        tempMessage1.receiverId = "receiverId"
+        tempMessage1.senderId = "senderId"
+        tempMessage1.text = "Text Message 1"
+        tempMessage1.timestamp = "timestamp"
+        
+        tempMessage2.receiverId = "receiverId"
+        tempMessage2.senderId = "senderId"
+        tempMessage2.text = "Text Message 1"
+        tempMessage2.timestamp = "timestamp"
+        
+        tempMessage3.receiverId = "receiverId"
+        tempMessage3.senderId = "senderId"
+        tempMessage3.text = "Text Message 1"
+        tempMessage3.timestamp = "timestamp"
+        
+        tempMessage4.receiverId = "receiverId"
+        tempMessage4.senderId = "senderId"
+        tempMessage4.text = "Text Message 1"
+        tempMessage4.timestamp = "timestamp"
+        
+        tempMessages = [tempMessage1, tempMessage2, tempMessage3, tempMessage4]
+    }
     
     static let cellId = "cellId"
     

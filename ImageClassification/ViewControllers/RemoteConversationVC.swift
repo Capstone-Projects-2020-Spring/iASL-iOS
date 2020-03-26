@@ -12,6 +12,9 @@ import Firebase
 class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var people = ["Ian Applebaum", "Leo Gomes", "Liam Miller", "Viet Pham", "Tarek Elseify", "Aidan Loza", "Shakeel Alibhai"]
+    
+    //this is where all the messages will go
+    var messages = [Message]()
 
     let topBar = UIView()
     let topLabel = UILabel()
@@ -51,9 +54,39 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         topLabelSetup()
         tableViewSetup()
         
+        tableView.register(ChatUserCell.self, forCellReuseIdentifier: "chatCell")
+        
         logoutButtonSetup()
         addChatButtonSetup()
         //composedMessageSetup()
+        
+        observeMessages()
+        
+    }
+    
+    //gather all of the messages ever so we can organize them properly in the main table view
+    func observeMessages() {
+        let ref = Database.database().reference().child("messages")
+        ref.observe(.childAdded, with: { (snapshot) in
+            
+            if let dictionary = snapshot.value as? [String: AnyObject] {
+                let message = Message()
+                message.receiverId = dictionary["receiverId"] as? String
+                message.senderId = dictionary["senderId"] as? String
+                message.text = dictionary["text"] as? String
+                message.timestamp = dictionary["timestamp"] as? String
+                //print(message.text)
+                
+                //add message to all the messages
+                self.messages.append(message)
+            }
+            
+            //reload the table
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+            
+        }, withCancel: nil)
     }
     
     ///Add a user to a current conversation
@@ -113,13 +146,54 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
 extension RemoteConversationVC {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return people.count
+        return messages.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 72
     }
 
+    //FIXME: Make a custom user cell here
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
-        cell?.textLabel?.text = people[indexPath.row]
-        return cell!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell") as! ChatUserCell
+        //let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "chatCell")
+        
+        let message = messages[indexPath.row]
+        
+        
+        //FIXME: This will get moved into custom user cell
+        if let receiverId = message.receiverId {
+            let ref = Database.database().reference().child("users").child(receiverId)
+            ref.observe(.value, with: { (snapshot) in
+                
+                if let dictionary = snapshot.value as? [String: AnyObject] {
+                    
+                    let name = dictionary["name"] as? String
+                    
+                    
+                    cell.textLabel?.text = name
+                    
+                }
+                
+            }, withCancel: nil)
+        }
+        
+        
+        //cell?.textLabel?.text = message.receiverId
+        //cell.textLabel?.text = message.receiverId! + " " + message.timestamp!
+        
+        //some magic to get the timestamp correctly
+//        if let timestamp = Double(message.timestamp!) {
+//            print("we have the timestamp")
+//            let timestampDate = NSDate(timeIntervalSince1970: timestamp)
+//
+//            cell.detailTextLabel?.text = timestampDate.description
+//
+//        }
+        
+        cell.detailTextLabel?.text = message.timestamp
+        
+        return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

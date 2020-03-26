@@ -15,10 +15,10 @@ class Message: NSObject {
     var text: String?
     var timestamp: String?
     
-    init(receiverId: String, senderId: String, text: String, timestamp: String) {
-        self.receiverId = receiverId
-        self.senderId = senderId
-        self.text = text
-        self.timestamp = timestamp
-    }
+//    init(receiverId: String, senderId: String, text: String, timestamp: String) {
+//        self.receiverId = receiverId
+//        self.senderId = senderId
+//        self.text = text
+//        self.timestamp = timestamp
+//    }
 }
