@@ -39,7 +39,7 @@ class AddChatVC: UIViewController {
     ///gets all of the users from the database
     func getUsers() {
         Database.database().reference().child(self.usersConstant).observe(.childAdded, with: { (snapshot) in
-            print(snapshot)
+            //print(snapshot)
             
             if let dictionary = snapshot.value as? [String: AnyObject] {
                 let user = User()

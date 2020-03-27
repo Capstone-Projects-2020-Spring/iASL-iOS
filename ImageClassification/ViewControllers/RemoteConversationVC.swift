@@ -86,11 +86,15 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         
         ref.observe(.childAdded, with: { (snapshot) in
             
+            print(snapshot)
+            
             let messageId = snapshot.key
             
             let messagesReference = Database.database().reference().child("messages").child(messageId)
             
             messagesReference.observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                print(snapshot)
                 
                 //this is where the old observe messages stuff goes
                 if let dictionary = snapshot.value as? [String: AnyObject] {
@@ -106,8 +110,14 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
                     //self.messages.append(message)
                     
                     //one message per receiver
-                    if let receiverId = message.receiverId {
-                        self.messagesDictionary[receiverId] = message
+                    
+                    
+                    //finally, this is the solution to the problem commented our below (I think)
+                    if let chatPartnerId = message.chatPartnerId() {
+                        self.messagesDictionary[chatPartnerId] = message
+                        
+                        print("keys: ",self.messagesDictionary.keys)
+                        print("values: ", self.messagesDictionary.values)
                         
                         self.messages = Array(self.messagesDictionary.values)
                         
@@ -116,7 +126,23 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
                             return message1.timestamp?.intValue > message2.timestamp?.intValue
                         }
                     }
+                    
+//                    if let receiverId = message.receiverId {
+//                        self.messagesDictionary[receiverId] = message
+//
+//                        print("keys: ",self.messagesDictionary.keys)
+//                        print("values: ", self.messagesDictionary.values)
+//
+//                        self.messages = Array(self.messagesDictionary.values)
+//
+//                        //sort messages by most recent
+//                        self.messages.sorted { (message1, message2) -> Bool in
+//                            return message1.timestamp?.intValue > message2.timestamp?.intValue
+//                        }
+//                    }
                 }
+                
+                print("dictionary length: ", self.messages.count)
                 
                 //reload the table
                 DispatchQueue.main.async {
@@ -248,6 +274,8 @@ extension RemoteConversationVC {
         //get the message
         let message = messages[indexPath.row]
         
+        print("messages count: ", messages.count)
+        
         //sets the message and does the work for applying it to a cell
         cell.message = message
         
@@ -268,7 +296,7 @@ extension RemoteConversationVC {
         
         let ref = Database.database().reference().child("users").child(chatPartnerId)
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            print(snapshot)
+            //print(snapshot)
             
             guard let dictionary = snapshot.value as? [String: AnyObject] else {
                 return
@@ -296,6 +324,13 @@ extension RemoteConversationVC {
     
     //FIXME: These two below need to change later once we have a working view controller in remote
     func showChatVCForUser(user: User) {
+        
+        messages.removeAll()
+        messagesDictionary.removeAll()
+        tableView.reloadData()
+        
+        observeUserMessages()
+        
         let vc = ChatVC()
         vc.chatPartner = user
         //vc.topLabel.text = user.name //this has been moved to in ChatVC
@@ -369,6 +404,10 @@ extension RemoteConversationVC {
 
     @objc func backButtonTapped() {
         dismiss(animated: true, completion: nil)
+        
+//        messages.removeAll()
+//        messagesDictionary.removeAll()
+//        observeUserMessages()
         //navigationController?.popViewController(animated: true)
     }
 

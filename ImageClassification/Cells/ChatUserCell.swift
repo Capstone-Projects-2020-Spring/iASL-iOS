@@ -22,7 +22,8 @@ class ChatUserCell: UITableViewCell {
                 let ref = Database.database().reference().child("users").child(id)
                 ref.observe(.value, with: { (snapshot) in
                     
-                    print(snapshot)
+                    //print(snapshot)
+                    
                     
                     if let dictionary = snapshot.value as? [String: AnyObject] {
                         
@@ -47,6 +48,8 @@ class ChatUserCell: UITableViewCell {
                 detailTextLabel?.text = dateFormat.string(from: timestampDate as Date)
                 
             }
+            
+            detailTextLabel?.text = message?.text
             
         }
     }
