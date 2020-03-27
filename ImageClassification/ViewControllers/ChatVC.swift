@@ -402,6 +402,8 @@ extension ChatVC {
     //FIXME: Add placeholder logic manually since you can't use a text field here, won't expand vertically
     
     //FIXME: Can we use enter to send a message and not go lower in the textview?
+    
+    //FIXME: Fix issue with keyboard covering textview
     func composedMessageSetup() {
         view.addSubview(composedMessage)
         composedMessage.translatesAutoresizingMaskIntoConstraints = false
