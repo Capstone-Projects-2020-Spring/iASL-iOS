@@ -21,6 +21,9 @@ jobs:
           xcodebuild clean test -workspace ImageClassification.xcworkspace -scheme ImageClassification -destination "${destination}" CODE_SIGNING_ALLOWED=NO ONLY_ACTIVE_ARCH=NO
         env: 
          destination: ${{ matrix.destination }}
+      - name: Update Code Coverage
+        run: |
+          bash <(curl -s https://codecov.io/bash) -J 'iASL-iOS'
 #   add_permalink:
 #     runs-on: [ubuntu-latest]
 #     steps:
