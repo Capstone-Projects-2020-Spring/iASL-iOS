@@ -108,18 +108,17 @@ class ViewController: UIViewController {
         outputTextViewSetup()
         //speak()
 
-        
-        let panYGesture = UIPanGestureRecognizer(target: self, action:(#selector(self.handleYGesture(_:))))
+        let panYGesture = UIPanGestureRecognizer(target: self, action: (#selector(self.handleYGesture(_:))))
         self.textViewHolder.addGestureRecognizer(panYGesture)
-        
+
         let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleLeftSwipeGesture(_:)))
         view.addGestureRecognizer(swipeLeftGestureRecognizer)
         swipeLeftGestureRecognizer.direction = .left
-        
+
         let swipeRightGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleRightSwipeGesture(_:)))
         view.addGestureRecognizer(swipeRightGestureRecognizer)
         swipeRightGestureRecognizer.direction = .right
-        
+
         guard modelDataHandler != nil else {
             fatalError("Model set up failed")
         }
@@ -134,47 +133,37 @@ class ViewController: UIViewController {
         cameraCapture.delegate = self
 
     }
-    
-    @objc func handleYGesture(_ sender: UIPanGestureRecognizer) {
-        
-        
-        switch sender.state {
-        case .began:
-            print("")
-        case .changed:
-            
-            //MARK: Pan Gesture for the outputTextView
-            ///Look over here
-            let translation = sender.translation(in: self.textViewHolder)
-            textViewHolder.transform = CGAffineTransform(translationX: 0, y: translation.y)
-            outputTextView.transform = CGAffineTransform(translationX: 0, y: translation.y)
 
-        case .cancelled:
-            print("asf")
-        case .ended:
-            print("as")
-            textViewHolder.layoutIfNeeded()
-            outputTextView.layoutIfNeeded()
-        default:
-            break
-        }
-    }
-    
-    @objc func handleLeftSwipeGesture(_ sender: UISwipeGestureRecognizer){
+	@objc func handleYGesture(_ gesture: UIPanGestureRecognizer) {
+	  // 1
+	  let translation = gesture.translation(in: view)
+
+	  // 2
+	  guard let gestureView = gesture.view else {
+		return
+	  }
+
+	  gestureView.center = CGPoint(
+		x: gestureView.center.x,
+		y: gestureView.center.y + translation.y
+	  )
+
+	  // 3
+	  gesture.setTranslation(.zero, in: view)
+	}
+    @objc func handleLeftSwipeGesture(_ sender: UISwipeGestureRecognizer) {
         let vc = NotesVC()
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
     }
-    
-    @objc func handleRightSwipeGesture(_ sender: UISwipeGestureRecognizer){
+
+    @objc func handleRightSwipeGesture(_ sender: UISwipeGestureRecognizer) {
         let vc = RemoteConversationVC()
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
     }
-    
-
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -331,12 +320,6 @@ extension ViewController: CameraFeedManagerDelegate {
     }
 }
 
-
-
-
-
-
-
 extension ViewController {
 
     func previewViewSetup() {
@@ -462,11 +445,11 @@ extension ViewController {
             textViewHolder.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
             textViewHolder.layer.cornerRadius = 20
             textViewHolder.isUserInteractionEnabled = true
-            
+
         }
 
         func outputTextViewSetup() {
-            view.addSubview(outputTextView)
+            textViewHolder.addSubview(outputTextView)
             outputTextView.translatesAutoresizingMaskIntoConstraints = false
             outputTextView.bottomAnchor.constraint(equalTo: textViewHolder.bottomAnchor).isActive = true
             outputTextView.leadingAnchor.constraint(equalTo: textViewHolder.leadingAnchor).isActive = true
