@@ -1,9 +1,9 @@
 import UIKit
-
+/*
 @objc public protocol TextFieldFormHandlerDelegate {
     @objc optional func textFieldFormHandlerDoneEnteringData(handler: TextFieldFormHandler)
 }
-
+*/
 /**
  Various functions for handling text fields and cleaning up behavior of app.
  */
