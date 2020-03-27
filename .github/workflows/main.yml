@@ -23,7 +23,7 @@ jobs:
          destination: ${{ matrix.destination }}
       - name: Update Code Coverage
         run: |
-          bash <(curl -s https://codecov.io/bash) -J 'iASL-iOS'
+          bash <(curl -s https://codecov.io/bash) -J 'iASL-iOS' -t ${{ secrets.CODE_COV }}
 #   add_permalink:
 #     runs-on: [ubuntu-latest]
 #     steps:
