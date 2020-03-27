@@ -52,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     self.window = UIWindow(frame: UIScreen.main.bounds)
 
-    self.window?.rootViewController = ViewController()
+    self.window?.rootViewController = RemoteConversationVC()
 
     self.window?.makeKeyAndVisible()
 

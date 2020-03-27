@@ -106,6 +106,12 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         sendButtonSetup()
 
         collectionViewSetup()
+        
+        let child = Caboard()
+        addChild(child)
+        child.view.frame = view.frame
+        view.addSubview(child.view)
+        child.didMove(toParent: self)
 
         guard modelDataHandler != nil else {
             fatalError("Model set up failed")
