@@ -21,9 +21,10 @@ jobs:
           xcodebuild clean test -workspace ImageClassification.xcworkspace -scheme ImageClassification -destination "${destination}" -enableCodeCoverage YES CODE_SIGNING_ALLOWED=NO ONLY_ACTIVE_ARCH=NO
         env:
          destination: ${{ matrix.destination }}
-      - name: Update Code Coverage
-        run: |
-          bash <(curl -s https://codecov.io/bash) -J 'ImageClassification' -t {{ secrets.CODE_COV }}
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODE_COV }} # not required for public repos
 #   add_permalink:
 #     runs-on: [ubuntu-latest]
 #     steps:
