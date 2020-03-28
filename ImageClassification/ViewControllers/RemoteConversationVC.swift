@@ -49,7 +49,7 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
     @objc func handleLogout() {
 
         print("handle logout tapped")
-
+/*
         //log the user out of firebase
         do {
             try Auth.auth().signOut()
@@ -61,6 +61,7 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         loginController.modalTransitionStyle = .crossDissolve
         loginController.modalPresentationStyle = .fullScreen
         present(loginController, animated: true, completion: nil)
+*/
     }
 
     ///sets the anchors and adds the button to the top bar
