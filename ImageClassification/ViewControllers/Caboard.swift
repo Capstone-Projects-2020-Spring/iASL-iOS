@@ -74,15 +74,7 @@ class Caboard: UIView {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-    fileprivate func deleteCharacter() {
-        DispatchQueue.main.async {
-            if self.composedMessage.text != "" {
-                var text = self.composedMessage.text
-                text?.removeLast()
-                self.composedMessage.text = text
-            }
-        }
-    }
+    
 	override func willMove(toSuperview newSuperview: UIView?) {
 		super.willMove(toSuperview: newSuperview)
         #if !targetEnvironment(simulator)
@@ -106,16 +98,24 @@ extension Caboard: CameraFeedManagerDelegate {
 
         // Pass the pixel buffer to TensorFlow Lite to perform inference.
         result = modelDataHandler?.runModel(onFrame: pixelBuffer)
-        switch result?.inferences[0].label {
-        case "del":
-            deleteCharacter()
-        case "space":
-            print("space")
-        default:
-            DispatchQueue.main.async {
-                self.composedMessage.text += self.result!.inferences[0].label.description
-            }
-        }
+		DispatchQueue.main.async {
+			switch self.result?.inferences[0].label {
+			case "del":
+				
+				self.target?.deleteBackward()
+				
+			case "space":
+				
+				
+				self.target?.insertText(" ")
+				
+			default:
+				
+				self.target?.insertText(self.result!.inferences[0].label.description)
+				
+			}
+		}
+       
         // Display results by handing off to the InferenceViewController.
         DispatchQueue.main.async {
             let resolution = CGSize(width: CVPixelBufferGetWidth(pixelBuffer), height: CVPixelBufferGetHeight(pixelBuffer))
