@@ -19,8 +19,8 @@
 #import <GoogleDataTransport/GDTCORAssert.h>
 #import <GoogleDataTransport/GDTCORClock.h>
 #import <GoogleDataTransport/GDTCORConsoleLogger.h>
+#import <GoogleDataTransport/GDTCORReachability.h>
 
-#import "GDTCORLibrary/Private/GDTCORReachability.h"
 #import "GDTCORLibrary/Private/GDTCORRegistrar_Private.h"
 #import "GDTCORLibrary/Private/GDTCORStorage.h"
 
@@ -177,9 +177,10 @@ static NSString *const ktargetToInFlightPackagesKey =
   GDTCORUploadCoordinator *sharedCoordinator = [GDTCORUploadCoordinator sharedInstance];
   dispatch_sync(sharedCoordinator->_coordinationQueue, ^{
     @try {
+      NSSet *classes =
+          [NSSet setWithObjects:[NSMutableDictionary class], [GDTCORUploadPackage class], nil];
       sharedCoordinator->_targetToInFlightPackages =
-          [aDecoder decodeObjectOfClass:[NSMutableDictionary class]
-                                 forKey:ktargetToInFlightPackagesKey];
+          [aDecoder decodeObjectOfClasses:classes forKey:ktargetToInFlightPackagesKey];
 
     } @catch (NSException *exception) {
       sharedCoordinator->_targetToInFlightPackages = [NSMutableDictionary dictionary];
@@ -240,7 +241,7 @@ static NSString *const ktargetToInFlightPackagesKey =
         [prioritizer packageDelivered:package successful:successful];
       }
     }
-    if (package.events != nil) {
+    if (successful && package.events) {
       [self.storage removeEvents:package.events];
     }
   });

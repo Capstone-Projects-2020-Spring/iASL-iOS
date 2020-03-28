@@ -17,24 +17,26 @@
 #import <Foundation/Foundation.h>
 
 #import <GoogleDataTransport/GDTCORClock.h>
+#import <GoogleDataTransport/GDTCOREvent.h>
 #import <GoogleDataTransport/GDTCORPrioritizer.h>
+#import <GoogleDataTransport/GDTCORTargets.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 /** Manages the prioritization of events from GoogleDataTransport. */
-@interface GDTCCTPrioritizer : NSObject <GDTCORPrioritizer>
+@interface GDTCCTPrioritizer : NSObject <NSSecureCoding, GDTCORPrioritizer>
 
 /** The queue on which this prioritizer operates. */
 @property(nonatomic) dispatch_queue_t queue;
 
 /** All CCT events that have been processed by this prioritizer. */
-@property(nonatomic) NSMutableSet<GDTCORStoredEvent *> *CCTEvents;
+@property(nonatomic) NSMutableSet<GDTCOREvent *> *CCTEvents;
 
 /** All FLL events that have been processed by this prioritizer. */
-@property(nonatomic) NSMutableSet<GDTCORStoredEvent *> *FLLEvents;
+@property(nonatomic) NSMutableSet<GDTCOREvent *> *FLLEvents;
 
 /** All CSH events that have been processed by this prioritizer. */
-@property(nonatomic) NSMutableSet<GDTCORStoredEvent *> *CSHEvents;
+@property(nonatomic) NSMutableSet<GDTCOREvent *> *CSHEvents;
 
 /** The most recent attempted upload of CCT daily uploaded logs. */
 @property(nonatomic) GDTCORClock *CCTTimeOfLastDailyUpload;
