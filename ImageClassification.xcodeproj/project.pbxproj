@@ -38,20 +38,6 @@
 
 /* Begin PBXFileReference section */
 		42680B19B0C37DEE1A977082 /* Pods-ImageClassification.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageClassification.debug.xcconfig"; path = "Target Support Files/Pods-ImageClassification/Pods-ImageClassification.debug.xcconfig"; sourceTree = "<group>"; };
-		604630AD2402322C0085F612 /* ChannelManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelManager.swift; sourceTree = "<group>"; };
-		604630AF240232360085F612 /* MainChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainChatViewController.swift; sourceTree = "<group>"; };
-		604630B0240232360085F612 /* StatusMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusMessage.swift; sourceTree = "<group>"; };
-		604630B1240232360085F612 /* ChatTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatTableCell.swift; sourceTree = "<group>"; };
-		604630B52402323D0085F612 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		604630B7240232440085F612 /* MenuTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableCell.swift; sourceTree = "<group>"; };
-		604630B8240232440085F612 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
-		604630BB240232490085F612 /* MessagingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagingManager.swift; sourceTree = "<group>"; };
-		604630BD2402324E0085F612 /* SessionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
-		604630BF240232560085F612 /* TokenRequestHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TokenRequestHandler.swift; sourceTree = "<group>"; };
-		604630C0240232560085F612 /* AlertDialogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertDialogController.swift; sourceTree = "<group>"; };
-		604630C1240232560085F612 /* DateTodayFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTodayFormatter.swift; sourceTree = "<group>"; };
-		604630C2240232560085F612 /* TextFieldFormHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldFormHandler.swift; sourceTree = "<group>"; };
-		604630C3240232560085F612 /* InputDialogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputDialogController.swift; sourceTree = "<group>"; };
 		6706342F241DEA320077F31D /* model.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = model.tflite; sourceTree = "<group>"; };
 		6765C7E323FB35F60083A5C5 /* ImageClassificationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageClassificationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6765C7E523FB35F60083A5C5 /* ImageClassificationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageClassificationTests.swift; sourceTree = "<group>"; };
@@ -103,83 +89,6 @@
 				6F6D81459D9BDFCDF5716B5C /* Pods-ImageClassification.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		604630A5240231D50085F612 /* twilio */ = {
-			isa = PBXGroup;
-			children = (
-				604630AC2402321E0085F612 /* util */,
-				604630AB240232140085F612 /* session */,
-				604630AA2402320E0085F612 /* messaging */,
-				604630A9240232070085F612 /* menu */,
-				604630A8240231FE0085F612 /* loginVC */,
-				604630A7240231F50085F612 /* chat */,
-				604630A6240231EE0085F612 /* channels */,
-			);
-			path = twilio;
-			sourceTree = "<group>";
-		};
-		604630A6240231EE0085F612 /* channels */ = {
-			isa = PBXGroup;
-			children = (
-				604630AD2402322C0085F612 /* ChannelManager.swift */,
-			);
-			path = channels;
-			sourceTree = "<group>";
-		};
-		604630A7240231F50085F612 /* chat */ = {
-			isa = PBXGroup;
-			children = (
-				604630B1240232360085F612 /* ChatTableCell.swift */,
-				604630AF240232360085F612 /* MainChatViewController.swift */,
-				604630B0240232360085F612 /* StatusMessage.swift */,
-			);
-			path = chat;
-			sourceTree = "<group>";
-		};
-		604630A8240231FE0085F612 /* loginVC */ = {
-			isa = PBXGroup;
-			children = (
-				604630B52402323D0085F612 /* LoginViewController.swift */,
-			);
-			path = loginVC;
-			sourceTree = "<group>";
-		};
-		604630A9240232070085F612 /* menu */ = {
-			isa = PBXGroup;
-			children = (
-				604630B7240232440085F612 /* MenuTableCell.swift */,
-				604630B8240232440085F612 /* MenuViewController.swift */,
-			);
-			path = menu;
-			sourceTree = "<group>";
-		};
-		604630AA2402320E0085F612 /* messaging */ = {
-			isa = PBXGroup;
-			children = (
-				604630BB240232490085F612 /* MessagingManager.swift */,
-			);
-			path = messaging;
-			sourceTree = "<group>";
-		};
-		604630AB240232140085F612 /* session */ = {
-			isa = PBXGroup;
-			children = (
-				604630BD2402324E0085F612 /* SessionManager.swift */,
-			);
-			path = session;
-			sourceTree = "<group>";
-		};
-		604630AC2402321E0085F612 /* util */ = {
-			isa = PBXGroup;
-			children = (
-				604630C0240232560085F612 /* AlertDialogController.swift */,
-				604630C1240232560085F612 /* DateTodayFormatter.swift */,
-				604630C3240232560085F612 /* InputDialogController.swift */,
-				604630C2240232560085F612 /* TextFieldFormHandler.swift */,
-				604630BF240232560085F612 /* TokenRequestHandler.swift */,
-			);
-			path = util;
 			sourceTree = "<group>";
 		};
 		6765C7E423FB35F60083A5C5 /* ImageClassificationTests */ = {
@@ -252,7 +161,6 @@
 		AAE79E4D213521DA00E7AC1F = {
 			isa = PBXGroup;
 			children = (
-				604630A5240231D50085F612 /* twilio */,
 				AAE79E58213521DA00E7AC1F /* ImageClassification */,
 				6765C7E423FB35F60083A5C5 /* ImageClassificationTests */,
 				AAE79E57213521DA00E7AC1F /* Products */,
