@@ -69,12 +69,11 @@ class Caboard: UIView {
         //collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
 
     }
-	
+
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-	
-    
+
 	override func willMove(toSuperview newSuperview: UIView?) {
 		super.willMove(toSuperview: newSuperview)
         #if !targetEnvironment(simulator)
@@ -101,21 +100,20 @@ extension Caboard: CameraFeedManagerDelegate {
 		DispatchQueue.main.async {
 			switch self.result?.inferences[0].label {
 			case "del":
-				
+
 				self.target?.deleteBackward()
-				
+
 			case "space":
-				
-				
+
 				self.target?.insertText(" ")
-				
+
 			default:
-				
+
 				self.target?.insertText(self.result!.inferences[0].label.description)
-				
+
 			}
 		}
-       
+
         // Display results by handing off to the InferenceViewController.
         DispatchQueue.main.async {
             let resolution = CGSize(width: CVPixelBufferGetWidth(pixelBuffer), height: CVPixelBufferGetHeight(pixelBuffer))
@@ -294,4 +292,21 @@ extension Caboard {
         bottomCover.backgroundColor = .white
     }
 
+}
+extension Caboard {
+    @objc func classifyPasteboardImage() {
+        guard let image = UIPasteboard.general.images?.first else {
+            return
+        }
+
+        guard let buffer = CVImageBuffer.buffer(from: image) else {
+            return
+        }
+
+        previewView.image = image
+
+        DispatchQueue.global().async {
+            self.didOutput(pixelBuffer: buffer)
+        }
+    }
 }

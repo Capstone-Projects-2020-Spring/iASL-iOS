@@ -18,13 +18,12 @@ import Foundation
 //FIXME: Name at top, if too long, gets cut off
 
 class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
+
     let composedMessage = UITextView()
     let topBar = UIView()
     let topLabel = UILabel()
     let backButton = UIButton()
     let tableView = UITableView()
-	
 
 	   // Handles all data preprocessing and makes calls to run inference through the `Interpreter`.
 	   private var modelDataHandler: ModelDataHandler? =
@@ -85,7 +84,6 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         topLabelSetup()
         //tableViewSetup()
         // Do any additional setup after loading the view.
-        
 
         sendButtonSetup()
 		composedMessageSetup()
@@ -105,11 +103,10 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         //collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
 
     }
-	@objc func handleKeyboardNotification(notification: Notification){
-		if let frameObject: AnyObject = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as AnyObject?
-		{
+	@objc func handleKeyboardNotification(notification: Notification) {
+		if let frameObject: AnyObject = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as AnyObject? {
 			let keyboardRect = frameObject.cgRectValue
-			
+
 			//bottomConstraint?.isActive = false
 			//bottomConstraint? = composedMessage.bottomAnchor.constraint(equalTo: topAnchor, constant: -20)//composedMessage.frame.height - 20 - keyboardRect!.height
 			//bottomConstraint?.isActive = true
