@@ -191,7 +191,9 @@ extension Caboard: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         outputText.append(prediction[indexPath.row])
         outputText.append(" ")
-        print(outputText)
+		DispatchQueue.main.async {
+			print(self.outputText)
+		}
     }
 
 }
@@ -233,8 +235,13 @@ extension Caboard {
         nextButton.backgroundColor = #colorLiteral(red: 0.1800611732, green: 0.3206211665, blue: 0.7568627596, alpha: 1)
         nextButton.setTitle("Next", for: .normal)
         nextButton.layer.cornerRadius = 5
+		nextButton.addTarget(self, action: #selector(returnKeyPressed), for: .touchUpInside)
     }
-
+	@objc func returnKeyPressed(){
+		DispatchQueue.main.async {
+			self.target?.insertText("\n")
+		}
+	}
     func buttonStackSetup() {
         addSubview(buttonStack)
         buttonStack.translatesAutoresizingMaskIntoConstraints = false
@@ -269,7 +276,18 @@ extension Caboard {
 		deleteButton.accessibilityTraits = [.keyboardKey]
         deleteButton.accessibilityLabel = "Delete"
 		deleteButton.addTarget(self, action: #selector(deleteChar), for: .touchUpInside)
+//		deleteButton.addTarget(self, action: #selector(deleteChar), for: .touchDown)
+		// Add Gesture Recognizer to view
+
+		let longPressGestureRecognizer = UILongPressGestureRecognizer(
+					target: self,
+					action: #selector(handleLongPress))
+
+		self.addGestureRecognizer(longPressGestureRecognizer)
     }
+	@objc func handleLongPress(){
+		deleteChar()
+	}
 	@objc func deleteChar(){
 		DispatchQueue.main.async {
 			self.target?.deleteBackward()
