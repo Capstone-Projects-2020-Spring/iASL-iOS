@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Caboard: UIViewController {
+class Caboard: UIView {
 
     let caboardView = UIView()
     let previewView = PreviewView()
@@ -21,10 +21,9 @@ class Caboard: UIViewController {
     let predictionTable = UITableView()
     let keyboardChangeButton = UIButton()
 
-    
-    var prediction = ["He","Hey","Here"]
+    var prediction = ["He", "Hey", "Here"]
     var outputText = String()
-
+	weak var target: UIKeyInput?
     // MARK: Constants
     private let animationDuration = 0.5
     private let collapseTransitionThreshold: CGFloat = -40.0
@@ -44,11 +43,11 @@ class Caboard: UIViewController {
     // Handles all data preprocessing and makes calls to run inference through the `Interpreter`.
     private var modelDataHandler: ModelDataHandler? =
         ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo)
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+
+	init(target: UIKeyInput) {
+		super.init(frame: .zero)
+		self.target = target
+		autoresizingMask = [.flexibleWidth, .flexibleHeight]
         caboardViewSetup()
         previewViewSetup()
         buttonStackSetup()
@@ -56,13 +55,9 @@ class Caboard: UIViewController {
         nextButtonSetup()
         predictionTableSetup()
         bottomCoverSetup()
-        
+
         //composedMessageSetup()
-        
-        
-        
-        
-        
+
         #if targetEnvironment(simulator)
         previewView.shouldUseClipboardImage = true
         NotificationCenter.default.addObserver(self,
@@ -72,9 +67,13 @@ class Caboard: UIViewController {
         #endif
         cameraCapture.delegate = self
         //collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
-        
+
     }
-    
+	
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+	
     fileprivate func deleteCharacter() {
         DispatchQueue.main.async {
             if self.composedMessage.text != "" {
@@ -84,6 +83,18 @@ class Caboard: UIViewController {
             }
         }
     }
+	override func willMove(toSuperview newSuperview: UIView?) {
+		super.willMove(toSuperview: newSuperview)
+        #if !targetEnvironment(simulator)
+        cameraCapture.checkCameraConfigurationAndStartSession()
+        #endif
+	}
+	override func willRemoveSubview(_ subview: UIView) {
+		super.willRemoveSubview(subview)
+		#if !targetEnvironment(simulator)
+		cameraCapture.stopSession()
+		#endif
+	}
 
 }
 
@@ -111,7 +122,7 @@ extension Caboard: CameraFeedManagerDelegate {
 
         }
     }
-    
+
     func presentCameraPermissionsDeniedAlert() {
         let alertController = UIAlertController(title: "Camera Permissions Denied", message: "Camera permissions have been denied for this app. You can change this by going to Settings", preferredStyle: .alert)
 
@@ -122,25 +133,25 @@ extension Caboard: CameraFeedManagerDelegate {
         alertController.addAction(cancelAction)
         alertController.addAction(settingsAction)
 
-        present(alertController, animated: true, completion: nil)
+//        present(alertController, animated: true, completion: nil)
 
         previewView.shouldUseClipboardImage = true
     }
-    
+
     func presentVideoConfigurationErrorAlert() {
         let alert = UIAlertController(title: "Camera Configuration Failed", message: "There was an error while configuring camera.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
 
-        self.present(alert, animated: true)
+//        self.present(alert, animated: true)
         previewView.shouldUseClipboardImage = true
     }
-    
+
     func sessionRunTimeErrorOccured() {
         // Handles session run time error by updating the UI and providing a button if session can be manually resumed.
         self.resumeButton.isHidden = false
         previewView.shouldUseClipboardImage = true
     }
-    
+
     // MARK: Session Handling Alerts
     func sessionWasInterrupted(canResumeManually resumeManually: Bool) {
 
@@ -151,7 +162,7 @@ extension Caboard: CameraFeedManagerDelegate {
             self.cameraUnavailableLabel.isHidden = false
         }
     }
-    
+
     func sessionInterruptionEnded() {
         // Updates UI once session interruption has ended.
         if !self.cameraUnavailableLabel.isHidden {
@@ -162,7 +173,6 @@ extension Caboard: CameraFeedManagerDelegate {
             self.resumeButton.isHidden = true
         }
     }
-    
 
 }
 
@@ -170,7 +180,7 @@ extension Caboard: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return prediction.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
         cell?.textLabel?.text = prediction[indexPath.row]
@@ -178,33 +188,32 @@ extension Caboard: UITableViewDelegate, UITableViewDataSource {
         cell?.backgroundColor = .clear
         return cell!
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         outputText.append(prediction[indexPath.row])
         outputText.append(" ")
         print(outputText)
     }
-    
+
 }
 
-
 extension Caboard {
-    
+
     func caboardViewSetup() {
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = caboardView.bounds
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         caboardView.addSubview(blurEffectView)
-        
-        view.addSubview(caboardView)
+
+        addSubview(caboardView)
         caboardView.translatesAutoresizingMaskIntoConstraints = false
-        caboardView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-        caboardView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        caboardView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+//		caboardView.bottomAnchor.constraint(equalTo: (viewDelagate?.safeAreaLayoutGuide.bottomAnchor)!).isActive = true
+//		caboardView.leadingAnchor.constraint(equalTo: viewDelagate!.leadingAnchor).isActive = true
+//		caboardView.trailingAnchor.constraint(equalTo: viewDelagate!.trailingAnchor).isActive = true
         caboardView.heightAnchor.constraint(equalToConstant: 230).isActive = true
-        
+
         caboardView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
     }
 
@@ -212,9 +221,11 @@ extension Caboard {
         caboardView.addSubview(previewView)
         previewView.translatesAutoresizingMaskIntoConstraints = false
         previewView.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        previewView.topAnchor.constraint(equalTo: caboardView.topAnchor, constant: 5).isActive = true
-        previewView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 5).isActive = true
-        previewView.bottomAnchor.constraint(equalTo: caboardView.safeAreaLayoutGuide.bottomAnchor, constant: -5).isActive = true
+        previewView.topAnchor.constraint(equalTo: self.topAnchor, constant: 5).isActive = true
+		previewView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 5).isActive = true
+		previewView.heightAnchor.constraint(equalToConstant: 215).isActive = true
+		previewView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5).isActive = true
+//		previewView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5).isActive = true
         previewView.backgroundColor = .black
     }
 
@@ -225,32 +236,32 @@ extension Caboard {
         nextButton.setTitle("Next", for: .normal)
         nextButton.layer.cornerRadius = 5
     }
-    
-    func buttonStackSetup(){
-        view.addSubview(buttonStack)
+
+    func buttonStackSetup() {
+        addSubview(buttonStack)
         buttonStack.translatesAutoresizingMaskIntoConstraints = false
         buttonStack.leadingAnchor.constraint(equalTo: previewView.trailingAnchor, constant: 5).isActive = true
-        buttonStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -5).isActive = true
-        buttonStack.bottomAnchor.constraint(equalTo: caboardView.bottomAnchor, constant: -5).isActive = true
+		buttonStack.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5).isActive = true
+        buttonStack.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5).isActive = true
         buttonStack.heightAnchor.constraint(equalToConstant: 40).isActive = true
         buttonStack.distribution = .fillEqually
         buttonStack.spacing = 5
     }
-    
+
     func predictionTableSetup() {
         caboardView.addSubview(predictionTable)
         predictionTable.translatesAutoresizingMaskIntoConstraints = false
         predictionTable.leadingAnchor.constraint(equalTo: previewView.trailingAnchor, constant: 5).isActive = true
         predictionTable.bottomAnchor.constraint(equalTo: buttonStack.topAnchor, constant: -5).isActive = true
-        predictionTable.trailingAnchor.constraint(equalTo: caboardView.trailingAnchor, constant: -5).isActive = true
-        predictionTable.topAnchor.constraint(equalTo: caboardView.topAnchor, constant: 5).isActive = true
+        predictionTable.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5).isActive = true
+        predictionTable.topAnchor.constraint(equalTo: self.topAnchor, constant: 5).isActive = true
         predictionTable.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         predictionTable.backgroundColor = .clear
         predictionTable.separatorColor = .white
         predictionTable.delegate = self
         predictionTable.dataSource = self
     }
-    
+
     func deleteButtonSetup() {
         buttonStack.addArrangedSubview(deleteButton)
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
@@ -265,22 +276,22 @@ extension Caboard {
         keyboardChangeButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         keyboardChangeButton.setImage(#imageLiteral(resourceName: "keyboard"), for: .normal)
     }
-    
-    func bottomCoverSetup(){
+
+    func bottomCoverSetup() {
         let bottomCover = UIView()
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = bottomCover.bounds
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         bottomCover.addSubview(blurEffectView)
-        
-        view.addSubview(bottomCover)
+
+        addSubview(bottomCover)
         bottomCover.translatesAutoresizingMaskIntoConstraints = false
-        bottomCover.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        bottomCover.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        bottomCover.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        bottomCover.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        bottomCover.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        bottomCover.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        bottomCover.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        bottomCover.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor).isActive = true
         bottomCover.backgroundColor = .white
     }
-    
+
 }
