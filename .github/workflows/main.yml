@@ -25,6 +25,7 @@ jobs:
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODE_COV }} # not required for public repos
+          flags: ImageClassification
 #   add_permalink:
 #     runs-on: [ubuntu-latest]
 #     steps:
