@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Foundation
 
 //FIXME: Fix keyboard height with respect to input box
 
@@ -66,7 +67,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
 //        view.translatesAutoresizingMaskIntoConstraints = false
 //        return view
 //    }()
-
+	var bottomConstraint: NSLayoutConstraint?
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -90,7 +91,11 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         sendButtonSetup()
 
         collectionViewSetup()
-
+		bottomConstraint = composedMessage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20)
+		bottomConstraint?.isActive = true
+		view.addConstraint(bottomConstraint!)
+//		NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(notification:)), name: , object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
 //        let child = Caboard()
 //        addChild(child)
 //        child.view.frame = view.frame
@@ -100,7 +105,18 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         //collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
 
     }
-
+	@objc func handleKeyboardNotification(notification: Notification){
+		if let frameObject: AnyObject = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as AnyObject?
+		{
+			let keyboardRect = frameObject.cgRectValue
+			
+			//bottomConstraint?.isActive = false
+			//bottomConstraint? = composedMessage.bottomAnchor.constraint(equalTo: topAnchor, constant: -20)//composedMessage.frame.height - 20 - keyboardRect!.height
+			//bottomConstraint?.isActive = true
+			self.view.layoutIfNeeded()
+			 // use keyboardRect to calculate the frame of the textfield
+		}
+	}
 //    ///going to hold the messages here
 //    func containerViewSetup() {
 //        containerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
@@ -278,7 +294,7 @@ extension ChatVC {
         view.addSubview(composedMessage)
         composedMessage.translatesAutoresizingMaskIntoConstraints = false
         composedMessage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8).isActive = true
-        composedMessage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
+
         composedMessage.trailingAnchor.constraint(equalTo: previewView.leadingAnchor, constant: -5).isActive = true
         composedMessage.heightAnchor.constraint(equalToConstant: 150).isActive = true
         composedMessage.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
