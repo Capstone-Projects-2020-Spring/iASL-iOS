@@ -264,10 +264,17 @@ extension Caboard {
         buttonStack.addArrangedSubview(deleteButton)
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
         deleteButton.backgroundColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
-        deleteButton.setTitle("Delete", for: .normal)
+        deleteButton.setTitle("⌫", for: .normal)
         deleteButton.layer.cornerRadius = 5
+		deleteButton.accessibilityTraits = [.keyboardKey]
+        deleteButton.accessibilityLabel = "Delete"
+		deleteButton.addTarget(self, action: #selector(deleteChar), for: .touchUpInside)
     }
-
+	@objc func deleteChar(){
+		DispatchQueue.main.async {
+			self.target?.deleteBackward()
+		}
+	}
     func keyboardButtonSetup() {
         buttonStack.addArrangedSubview(keyboardChangeButton)
         keyboardChangeButton.translatesAutoresizingMaskIntoConstraints = false
