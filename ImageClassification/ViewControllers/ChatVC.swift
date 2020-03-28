@@ -18,7 +18,7 @@ import Foundation
 //FIXME: Name at top, if too long, gets cut off
 
 class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    let previewView = PreviewView()
+    
     let composedMessage = UITextView()
     let topBar = UIView()
     let topLabel = UILabel()
@@ -85,15 +85,15 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         topLabelSetup()
         //tableViewSetup()
         // Do any additional setup after loading the view.
-        previewViewSetup()
-        composedMessageSetup()
+        
 
         sendButtonSetup()
+		composedMessageSetup()
 
         collectionViewSetup()
-		bottomConstraint = composedMessage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20)
-		bottomConstraint?.isActive = true
-		view.addConstraint(bottomConstraint!)
+//		bottomConstraint = composedMessage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20)
+//		bottomConstraint?.isActive = true
+//		view.addConstraint(bottomConstraint!)
 //		NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(notification:)), name: , object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
 //        let child = Caboard()
@@ -131,7 +131,8 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         collectionView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         collectionView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         collectionView.topAnchor.constraint(equalTo: topBar.bottomAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: previewView.topAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: composedMessage
+			.topAnchor).isActive = true
 
         //makes it always scroll vertical, even when there are not enough collection cells to require scrolling
         collectionView.alwaysBounceVertical = true
@@ -262,24 +263,24 @@ extension ChatVC {
     }
 
     func sendButtonSetup() {
-        previewView.addSubview(sendButton)
-
-        sendButton.topAnchor.constraint(equalTo: previewView.topAnchor).isActive = true
-        sendButton.bottomAnchor.constraint(equalTo: previewView.bottomAnchor).isActive = true
-        sendButton.rightAnchor.constraint(equalTo: previewView.rightAnchor).isActive = true
-        sendButton.leftAnchor.constraint(equalTo: previewView.leftAnchor).isActive = true
-    }
+        view.addSubview(sendButton)
+		 sendButton.translatesAutoresizingMaskIntoConstraints = false
+		sendButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
+		sendButton.heightAnchor.constraint(equalToConstant: 150).isActive = true
+		sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8).isActive = true
+		sendButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -215).isActive = true
+	}
 
     func previewViewSetup() {
-        view.addSubview(previewView)
-        previewView.translatesAutoresizingMaskIntoConstraints = false
-        previewView.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        previewView.heightAnchor.constraint(equalToConstant: 150).isActive = true
-        previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8).isActive = true
-        previewView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
-        previewView.backgroundColor = .blue
-
-        previewView.layer.cornerRadius = 5
+//        view.addSubview(previewView)
+//        previewView.translatesAutoresizingMaskIntoConstraints = false
+//        previewView.widthAnchor.constraint(equalToConstant: 100).isActive = true
+//        previewView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+//        previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8).isActive = true
+//        previewView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
+//        previewView.backgroundColor = .blue
+//
+//        previewView.layer.cornerRadius = 5
 
         //going to make it the send button for now
         //FIXME: Remove this and add a send button at some point
@@ -294,9 +295,11 @@ extension ChatVC {
         view.addSubview(composedMessage)
         composedMessage.translatesAutoresizingMaskIntoConstraints = false
         composedMessage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8).isActive = true
-
-        composedMessage.trailingAnchor.constraint(equalTo: previewView.leadingAnchor, constant: -5).isActive = true
+		composedMessage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -215).isActive = true
+//		composedMessage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8)
+        composedMessage.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -5).isActive = true
         composedMessage.heightAnchor.constraint(equalToConstant: 150).isActive = true
+		composedMessage.center = view.center
         composedMessage.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         composedMessage.layer.borderWidth = 1
         composedMessage.layer.cornerRadius = 10
