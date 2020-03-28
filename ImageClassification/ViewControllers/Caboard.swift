@@ -106,9 +106,10 @@ extension Caboard: CameraFeedManagerDelegate {
 			case "space":
 
 				self.target?.insertText(" ")
-
+			case "nothing":
+				break
 			default:
-
+				
 				self.target?.insertText(self.result!.inferences[0].label.description)
 
 			}
