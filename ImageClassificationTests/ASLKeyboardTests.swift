@@ -31,5 +31,12 @@ class ASLKeyboardTests: XCTestCase {
 		}
 
     }
-
+	func testTestAddReturn() {
+		let keyboard = Caboard(target: noteVC!.textView)
+		noteVC?.textView.inputView = keyboard
+		DispatchQueue.main.async {
+			keyboard.returnKeyPressed()
+			XCTAssert(self.noteVC?.textView.text! == "T\n", "Return key pressed failed. Text = \(String(describing: self.noteVC?.textView.text!))")
+		}
+	}
 }
