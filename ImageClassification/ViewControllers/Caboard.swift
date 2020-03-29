@@ -248,7 +248,7 @@ extension Caboard {
         buttonStack.translatesAutoresizingMaskIntoConstraints = false
         buttonStack.leadingAnchor.constraint(equalTo: previewView.trailingAnchor, constant: 5).isActive = true
 		buttonStack.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5).isActive = true
-        buttonStack.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5).isActive = true
+        buttonStack.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -5).isActive = true
         buttonStack.heightAnchor.constraint(equalToConstant: 40).isActive = true
         buttonStack.distribution = .fillEqually
         buttonStack.spacing = 5
