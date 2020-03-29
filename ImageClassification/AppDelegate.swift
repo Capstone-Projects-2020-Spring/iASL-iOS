@@ -17,7 +17,7 @@ import Speech
 import Firebase
 import FirebaseMessaging
 import FirebaseFirestore
-
+import SwiftMonkeyPaws
 let navigationController = UINavigationController()
 
 @UIApplicationMain
@@ -51,7 +51,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     Messaging.messaging().delegate = self
 
     self.window?.makeKeyAndVisible()
-
+	if CommandLine.arguments.contains("--MonkeyPaws") {
+		paws = MonkeyPaws(view: window!)
+	}
     return true
 
   }
@@ -67,5 +69,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
     }
+	var paws: MonkeyPaws?
 
 }

@@ -305,6 +305,8 @@ PODS:
   - PromisesObjC (1.2.8)
   - Protobuf (3.11.4)
   - SwiftLint (0.39.1)
+  - SwiftMonkey (2.1.1)
+  - SwiftMonkeyPaws (2.1.1)
   - TensorFlowLiteC (2.1.0)
   - TensorFlowLiteSwift (2.1.0):
     - TensorFlowLiteC (= 2.1.0)
@@ -319,6 +321,8 @@ DEPENDENCIES:
   - Firebase/Messaging
   - FirebaseFirestoreSwift
   - SwiftLint
+  - SwiftMonkey (~> 2.1.0)
+  - SwiftMonkeyPaws (~> 2.1.0)
   - TensorFlowLiteSwift
 
 SPEC REPOS:
@@ -351,6 +355,8 @@ SPEC REPOS:
     - PromisesObjC
     - Protobuf
     - SwiftLint
+    - SwiftMonkey
+    - SwiftMonkeyPaws
     - TensorFlowLiteC
     - TensorFlowLiteSwift
 
@@ -383,9 +389,11 @@ SPEC CHECKSUMS:
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
   SwiftLint: 55e96a4a4d537d4a3156859fc1c54bd24851a046
+  SwiftMonkey: aea6f2707a4b7ab5277b4d2fd2f0723a083997b1
+  SwiftMonkeyPaws: 655524bb402df5ac2be836f9f604aca1068fbde6
   TensorFlowLiteC: 215603d4426d93810eace5947e317389554a4b66
   TensorFlowLiteSwift: 9d8137f18d5ac30ca89bba4fbe118e0949ac5743
 
-PODFILE CHECKSUM: cf7b173dd62134bbbcf99274bc867fba562a2c2b
+PODFILE CHECKSUM: 70c3221aadb250a0c002e15ba0fc10412b8a5acf
 
 COCOAPODS: 1.9.1

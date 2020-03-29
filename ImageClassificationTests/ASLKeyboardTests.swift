@@ -27,7 +27,7 @@ class ASLKeyboardTests: XCTestCase {
 		noteVC?.textView.inputView = keyboard
 		DispatchQueue.main.async {
 			keyboard.deleteChar()
-			XCTAssert(!keyboard.target!.hasText, "NOT true")
+			XCTAssert(keyboard.target!.hasText == false, "Has text")
 		}
 
     }
