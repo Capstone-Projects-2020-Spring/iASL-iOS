@@ -1,0 +1,6 @@
+module Pods_iASLUITests {
+  umbrella header "Pods-iASLUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
