@@ -22,7 +22,6 @@ class Caboard: UIView {
     let keyboardChangeButton = UIButton()
 
     var prediction = ["He", "Hey", "Here"]
-    var outputText = String()
 	weak var target: UIKeyInput?
     // MARK: Constants
     private let animationDuration = 0.5
@@ -190,10 +189,11 @@ extension Caboard: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        outputText.append(prediction[indexPath.row])
-        outputText.append(" ")
+//        outputText.append(prediction[indexPath.row])
+
 		DispatchQueue.main.async {
-			print(self.outputText)
+//			print(self.outputText)
+			self.target?.insertText(self.prediction[indexPath.row])
 		}
     }
 
@@ -293,6 +293,7 @@ extension Caboard {
 		DispatchQueue.main.async {
 			self.target?.deleteBackward()
 		}
+
 	}
     func keyboardButtonSetup() {
         buttonStack.addArrangedSubview(keyboardChangeButton)

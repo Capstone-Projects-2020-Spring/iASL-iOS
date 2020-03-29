@@ -15,7 +15,8 @@
 		670E273924248A78003E129E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 670E273824248A77003E129E /* GoogleService-Info.plist */; };
 		670E273C2424904A003E129E /* model.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 670E273B2424904A003E129E /* model.tflite */; };
 		6765C7E623FB35F60083A5C5 /* ImageClassificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6765C7E523FB35F60083A5C5 /* ImageClassificationTests.swift */; };
-		67ABF92624301CCE00881646 /* ASLKeyboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67ABF92524301CCE00881646 /* ASLKeyboardTests.swift */; };
+		67ABF92624301CCE00881646 /* ASLKeyboardUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67ABF92524301CCE00881646 /* ASLKeyboardUITests.swift */; };
+		67ABF9282430299200881646 /* ASLKeyboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67ABF9272430299200881646 /* ASLKeyboardTests.swift */; };
 		67B31A99242C038C00DC15C4 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B31A98242C038C00DC15C4 /* ChatVC.swift */; };
 		67CD6E9A242AE2770004D255 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE79E982135268800E7AC1F /* PreviewView.swift */; };
 		67CD6E9E242AE3380004D255 /* TranscribeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CD6E9D242AE3370004D255 /* TranscribeVC.swift */; };
@@ -79,7 +80,8 @@
 		67ABF91A24301C1C00881646 /* iASLUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iASLUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		67ABF91E24301C1C00881646 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		67ABF92424301CCE00881646 /* iASLUITests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iASLUITests-Bridging-Header.h"; sourceTree = "<group>"; };
-		67ABF92524301CCE00881646 /* ASLKeyboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASLKeyboardTests.swift; sourceTree = "<group>"; };
+		67ABF92524301CCE00881646 /* ASLKeyboardUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASLKeyboardUITests.swift; sourceTree = "<group>"; };
+		67ABF9272430299200881646 /* ASLKeyboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASLKeyboardTests.swift; sourceTree = "<group>"; };
 		67B31A98242C038C00DC15C4 /* ChatVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatVC.swift; sourceTree = "<group>"; };
 		67CD6E9D242AE3370004D255 /* TranscribeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranscribeVC.swift; sourceTree = "<group>"; };
 		6E23ACD42416BE8E00495F02 /* RemoteConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConversationVC.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 			children = (
 				6765C7E523FB35F60083A5C5 /* ImageClassificationTests.swift */,
 				6765C7E723FB35F60083A5C5 /* Info.plist */,
+				67ABF9272430299200881646 /* ASLKeyboardTests.swift */,
 			);
 			path = ImageClassificationTests;
 			sourceTree = "<group>";
@@ -177,7 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				67ABF91E24301C1C00881646 /* Info.plist */,
-				67ABF92524301CCE00881646 /* ASLKeyboardTests.swift */,
+				67ABF92524301CCE00881646 /* ASLKeyboardUITests.swift */,
 				67ABF92424301CCE00881646 /* iASLUITests-Bridging-Header.h */,
 			);
 			path = iASLUITests;
@@ -571,6 +574,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6765C7E623FB35F60083A5C5 /* ImageClassificationTests.swift in Sources */,
+				67ABF9282430299200881646 /* ASLKeyboardTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -578,7 +582,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				67ABF92624301CCE00881646 /* ASLKeyboardTests.swift in Sources */,
+				67ABF92624301CCE00881646 /* ASLKeyboardUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
