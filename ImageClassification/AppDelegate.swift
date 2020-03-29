@@ -50,7 +50,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     Messaging.messaging().delegate = self
 
-
     self.window?.makeKeyAndVisible()
 
     return true

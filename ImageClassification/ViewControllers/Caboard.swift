@@ -109,7 +109,7 @@ extension Caboard: CameraFeedManagerDelegate {
 			case "nothing":
 				break
 			default:
-				
+
 				self.target?.insertText(self.result!.inferences[0].label.description)
 
 			}
@@ -238,7 +238,7 @@ extension Caboard {
         nextButton.layer.cornerRadius = 5
 		nextButton.addTarget(self, action: #selector(returnKeyPressed), for: .touchUpInside)
     }
-	@objc func returnKeyPressed(){
+	@objc func returnKeyPressed() {
 		DispatchQueue.main.async {
 			self.target?.insertText("\n")
 		}
@@ -286,10 +286,10 @@ extension Caboard {
 
 		self.addGestureRecognizer(longPressGestureRecognizer)
     }
-	@objc func handleLongPress(){
+	@objc func handleLongPress() {
 		deleteChar()
 	}
-	@objc func deleteChar(){
+	@objc func deleteChar() {
 		DispatchQueue.main.async {
 			self.target?.deleteBackward()
 		}
