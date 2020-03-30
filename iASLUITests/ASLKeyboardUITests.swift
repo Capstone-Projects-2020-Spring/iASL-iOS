@@ -27,7 +27,22 @@ class ASLKeyboardUITests: XCTestCase {
     }
 	func testMonkey() {
 		let application = XCUIApplication()
+
 		application.launchArguments = ["--MonkeyPaws"]
+		
+		addUIInterruptionMonitor(withDescription: "System Dialog") { (alert) -> Bool in
+			  let okButton = alert.buttons["OK"]
+			  if okButton.exists {
+				okButton.tap()
+			  }
+
+			  let allowButton = alert.buttons["Allow"]
+			  if allowButton.exists {
+				allowButton.tap()
+			  }
+
+			  return true
+			}
 			// Initialise the monkey tester with the current device
 			// frame. Giving an explicit seed will make it generate
 			// the same sequence of events on each run, and leaving it
@@ -62,7 +77,20 @@ class ASLKeyboardUITests: XCTestCase {
 
         // Use XCTAssert and related functions to verify your tests produce the correct results.
 		let app = XCUIApplication()
+		addUIInterruptionMonitor(withDescription: "System Dialog") {
+		  (alert) -> Bool in
+		  let okButton = alert.buttons["OK"]
+		  if okButton.exists {
+			okButton.tap()
+		  }
 
+		  let allowButton = alert.buttons["Allow"]
+		  if allowButton.exists {
+			allowButton.tap()
+		  }
+
+		  return true
+		}
 		app.buttons["notesIcon"].tap()
 		app.buttons["New Note"].tap()
 		app.textViews.element.tap()
