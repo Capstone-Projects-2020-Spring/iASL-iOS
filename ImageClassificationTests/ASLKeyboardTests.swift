@@ -10,7 +10,7 @@ import XCTest
 @testable import iASL
 class ASLKeyboardTests: XCTestCase {
 	var noteVC: CreateNoteVC?
-    override func setUpWithError() throws {
+	override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
 		noteVC = CreateNoteVC()
 		noteVC?.textView.text = "T"
