@@ -9,7 +9,7 @@
 import XCTest
 import SwiftMonkey
 class ASLKeyboardUITests: XCTestCase {
-
+	let application = XCUIApplication()
 	override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
 
@@ -17,8 +17,20 @@ class ASLKeyboardUITests: XCTestCase {
         continueAfterFailure = false
 
         // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
-        XCUIApplication().launch()
+		application.launch()
+		addUIInterruptionMonitor(withDescription: "System Dialog") { (alert) -> Bool in
+		  let okButton = alert.buttons["OK"]
+		  if okButton.exists {
+			okButton.tap()
+		  }
 
+		  let allowButton = alert.buttons["Allow"]
+		  if allowButton.exists {
+			allowButton.tap()
+		  }
+
+		  return true
+		}
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
 
@@ -26,7 +38,6 @@ class ASLKeyboardUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 	func testMonkey() {
-		let application = XCUIApplication()
 
 		application.launchArguments = ["--MonkeyPaws"]
 
@@ -72,10 +83,10 @@ class ASLKeyboardUITests: XCTestCase {
 			// Run the monkey test indefinitely.
 		monkey.monkeyAround(forDuration: 100)
 	}
-//    func testASLKeyboardLaunchesNoErroneousInput() {
-//        // Use recording to get started writing UI tests.
-//
-//        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testASLKeyboardLaunchesNoErroneousInput() {
+        // Use recording to get started writing UI tests.
+
+        // Use XCTAssert and related functions to verify your tests produce the correct results.
 //		let app = XCUIApplication()
 //		addUIInterruptionMonitor(withDescription: "System Dialog") {
 //		  (alert) -> Bool in
@@ -91,16 +102,16 @@ class ASLKeyboardUITests: XCTestCase {
 //
 //		  return true
 //		}
-//		app.buttons["notesIcon"].tap()
-//		app.buttons["New Note"].tap()
-//		app.textViews.element.tap()
-//		let text = app.textViews.element.value as? String
-//		sleep(5)
-//		XCTAssert(text == "", "Should be blank")
-//
-//		//Test delete key
-//		app.keys["Delete"].tap()
-//
-//    }
+		application.buttons["notesIcon"].tap()
+		application.buttons["New Note"].tap()
+		application.textViews.element.tap()
+		let text = application.textViews.element.value as? String
+		sleep(5)
+		XCTAssert(text == "", "Should be blank")
+
+		//Test delete key
+		application.keys["Delete"].tap()
+
+    }
 
 }
