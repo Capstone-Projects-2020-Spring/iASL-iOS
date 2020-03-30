@@ -16,11 +16,11 @@ class ASLKeyboardTests: XCTestCase {
 		noteVC?.textView.text = "T"
     }
 
-    override func tearDownWithError() throws {
+    override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testKeyboardDelete() throws {
+    func testKeyboardDelete() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
 		let keyboard = Caboard(target: noteVC!.textView)
