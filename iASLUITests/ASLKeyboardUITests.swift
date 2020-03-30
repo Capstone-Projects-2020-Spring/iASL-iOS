@@ -29,7 +29,7 @@ class ASLKeyboardUITests: XCTestCase {
 		let application = XCUIApplication()
 
 		application.launchArguments = ["--MonkeyPaws"]
-		
+
 		addUIInterruptionMonitor(withDescription: "System Dialog") { (alert) -> Bool in
 			  let okButton = alert.buttons["OK"]
 			  if okButton.exists {
