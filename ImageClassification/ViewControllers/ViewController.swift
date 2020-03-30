@@ -161,21 +161,21 @@ class ViewController: UIViewController {
         }
         
         
-        if gestureView.center.y >= 499 && gestureView.center.y <= 725 {
+        if gestureView.center.y >= 675 && gestureView.center.y <= 950 {
             gestureView.center = CGPoint(
                 x: gestureView.center.x,
                 y: gestureView.center.y + translation.y
             )
         } else {
-            if gestureView.center.y < 499 {
+            if gestureView.center.y < 675 {
                 gestureView.center = CGPoint(
                     x: gestureView.center.x,
-                    y: 499
+                    y: 675
                 )
-            } else if gestureView.center.y >= 499 && gestureView.center.y > 725 {
+            } else if gestureView.center.y >= 675 && gestureView.center.y > 950 {
                 gestureView.center = CGPoint(
                     x: gestureView.center.x,
-                    y: 725
+                    y: 950
                 )
             }
         }
@@ -471,7 +471,7 @@ extension ViewController {
     func textViewHolderSetup() {
         view.addSubview(textViewHolder)
         textViewHolder.translatesAutoresizingMaskIntoConstraints = false
-        textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor,constant: 50).isActive = true
+        textViewHolder.topAnchor.constraint(equalTo: view.bottomAnchor,constant: -200).isActive = true
         textViewHolder.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         textViewHolder.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         textViewHolder.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5).isActive = true
