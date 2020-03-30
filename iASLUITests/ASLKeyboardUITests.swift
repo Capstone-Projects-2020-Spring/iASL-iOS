@@ -9,7 +9,7 @@
 import XCTest
 import SwiftMonkey
 class ASLKeyboardUITests: XCTestCase {
-	let application = XCUIApplication()
+//	let application = XCUIApplication()
 	override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
 
@@ -17,20 +17,23 @@ class ASLKeyboardUITests: XCTestCase {
         continueAfterFailure = false
 
         // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
-		application.launch()
+		XCUIApplication().launch()
+		var count = 0
 		addUIInterruptionMonitor(withDescription: "System Dialog") { (alert) -> Bool in
 		  let okButton = alert.buttons["OK"]
 		  if okButton.exists {
 			okButton.tap()
+			count += 1
 		  }
 
 		  let allowButton = alert.buttons["Allow"]
 		  if allowButton.exists {
 			allowButton.tap()
+			count += 1
 		  }
-
 		  return true
 		}
+		print(count)
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
 
@@ -39,8 +42,8 @@ class ASLKeyboardUITests: XCTestCase {
     }
 	func testMonkey() {
 
-		application.launchArguments = ["--MonkeyPaws"]
-
+//		application.launchArguments = ["--MonkeyPaws"]
+		XCUIApplication().launch()
 		addUIInterruptionMonitor(withDescription: "System Dialog") { (alert) -> Bool in
 			  let okButton = alert.buttons["OK"]
 			  if okButton.exists {
@@ -58,7 +61,7 @@ class ASLKeyboardUITests: XCTestCase {
 			// frame. Giving an explicit seed will make it generate
 			// the same sequence of events on each run, and leaving it
 			// out will generate a new sequence on each run.
-			let monkey = Monkey(frame: application.frame)
+			let monkey = Monkey(frame: XCUIApplication().frame)
 			//let monkey = Monkey(seed: 123, frame: application.frame)
 
 			// Add actions for the monkey to perform. We just use a
@@ -78,40 +81,38 @@ class ASLKeyboardUITests: XCTestCase {
 			// Occasionally, use the regular XCTest functionality
 			// to check if an alert is shown, and click a random
 			// button on it.
-			monkey.addXCTestTapAlertAction(interval: 100, application: application)
+			monkey.addXCTestTapAlertAction(interval: 100, application: XCUIApplication())
 
 			// Run the monkey test indefinitely.
 		monkey.monkeyAround(forDuration: 100)
 	}
+	/*
     func testASLKeyboardLaunchesNoErroneousInput() {
         // Use recording to get started writing UI tests.
 
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-//		let app = XCUIApplication()
-//		addUIInterruptionMonitor(withDescription: "System Dialog") {
-//		  (alert) -> Bool in
-//		  let okButton = alert.buttons["OK"]
-//		  if okButton.exists {
-//			okButton.tap()
-//		  }
-//
-//		  let allowButton = alert.buttons["Allow"]
-//		  if allowButton.exists {
-//			allowButton.tap()
-//		  }
-//
-//		  return true
-//		}
-		application.buttons["notesIcon"].tap()
-		application.buttons["New Note"].tap()
-		application.textViews.element.tap()
-		let text = application.textViews.element.value as? String
-		sleep(5)
-		XCTAssert(text == "", "Should be blank")
+		addUIInterruptionMonitor(withDescription: "System Dialog") { (alert) -> Bool in
+		  let okButton = alert.buttons["OK"]
+		  if okButton.exists {
+			okButton.tap()
+		  }
 
-		//Test delete key
-		application.keys["Delete"].tap()
+		  let allowButton = alert.buttons["Allow"]
+		  if allowButton.exists {
+			allowButton.tap()
+		  }
+//			self.testASLKeyboardLaunchesNoErroneousInput()
+		  return true
+		}
+//		XCUIApplication().buttons["notesIcon"].tap()
+//		XCUIApplication().buttons["New Note"].tap()
+//		XCUIApplication().textViews.element.tap()
+//		let text = XCUIApplication().textViews.element.value as? String
+//		sleep(5)
+//		XCTAssert(text == "", "Should be blank")
+//
+//		//Test delete key
+//		XCUIApplication().keys["Delete"].tap()
 
     }
-
+*/
 }

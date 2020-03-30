@@ -51,9 +51,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     Messaging.messaging().delegate = self
 
     self.window?.makeKeyAndVisible()
-	if CommandLine.arguments.contains("--MonkeyPaws") {
-		paws = MonkeyPaws(view: window!)
-	}
+//	if CommandLine.arguments.contains("--MonkeyPaws") {
+//		paws = MonkeyPaws(view: window!)
+//	}
     return true
 
   }
@@ -69,6 +69,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
     }
-	var paws: MonkeyPaws?
+//	var paws: MonkeyPaws?
 
 }
