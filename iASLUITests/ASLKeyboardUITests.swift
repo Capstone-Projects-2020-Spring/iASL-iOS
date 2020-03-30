@@ -72,35 +72,35 @@ class ASLKeyboardUITests: XCTestCase {
 			// Run the monkey test indefinitely.
 		monkey.monkeyAround(forDuration: 100)
 	}
-    func testASLKeyboardLaunchesNoErroneousInput() {
-        // Use recording to get started writing UI tests.
-
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-		let app = XCUIApplication()
-		addUIInterruptionMonitor(withDescription: "System Dialog") {
-		  (alert) -> Bool in
-		  let okButton = alert.buttons["OK"]
-		  if okButton.exists {
-			okButton.tap()
-		  }
-
-		  let allowButton = alert.buttons["Allow"]
-		  if allowButton.exists {
-			allowButton.tap()
-		  }
-
-		  return true
-		}
-		app.buttons["notesIcon"].tap()
-		app.buttons["New Note"].tap()
-		app.textViews.element.tap()
-		let text = app.textViews.element.value as? String
-		sleep(5)
-		XCTAssert(text == "", "Should be blank")
-
-		//Test delete key
-		app.keys["Delete"].tap()
-
-    }
+//    func testASLKeyboardLaunchesNoErroneousInput() {
+//        // Use recording to get started writing UI tests.
+//
+//        // Use XCTAssert and related functions to verify your tests produce the correct results.
+//		let app = XCUIApplication()
+//		addUIInterruptionMonitor(withDescription: "System Dialog") {
+//		  (alert) -> Bool in
+//		  let okButton = alert.buttons["OK"]
+//		  if okButton.exists {
+//			okButton.tap()
+//		  }
+//
+//		  let allowButton = alert.buttons["Allow"]
+//		  if allowButton.exists {
+//			allowButton.tap()
+//		  }
+//
+//		  return true
+//		}
+//		app.buttons["notesIcon"].tap()
+//		app.buttons["New Note"].tap()
+//		app.textViews.element.tap()
+//		let text = app.textViews.element.value as? String
+//		sleep(5)
+//		XCTAssert(text == "", "Should be blank")
+//
+//		//Test delete key
+//		app.keys["Delete"].tap()
+//
+//    }
 
 }
