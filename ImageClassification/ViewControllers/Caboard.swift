@@ -12,7 +12,6 @@ class Caboard: UIView {
 
     let caboardView = UIView()
     let previewView = PreviewView()
-    let composedMessage = UITextView()
     let nextButton = UIButton()
     let deleteButton = UIButton()
     let cameraUnavailableLabel = UILabel()
@@ -287,9 +286,16 @@ extension Caboard {
 		self.addGestureRecognizer(longPressGestureRecognizer)
     }
 	@objc func handleLongPress() {
-		deleteChar()
+		deleteChar {
+			#if DEBUG
+			if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil {
+					// Code only executes when tests are running
+				print("SUgma")
+				}
+			#endif
+		}
 	}
-	@objc func deleteChar() {
+	@objc func deleteChar(completion:@escaping () -> Void) {
 		DispatchQueue.main.async {
 			self.target?.deleteBackward()
 		}

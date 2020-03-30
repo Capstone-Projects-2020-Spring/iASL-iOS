@@ -26,8 +26,10 @@ class ASLKeyboardTests: XCTestCase {
 		let keyboard = Caboard(target: noteVC!.textView)
 		noteVC?.textView.inputView = keyboard
 		DispatchQueue.main.async {
-			keyboard.deleteChar()
-			XCTAssert(keyboard.target!.hasText == false, "Has text")
+			keyboard.deleteChar {
+
+				XCTAssert(keyboard.target!.hasText == false, "Has text")
+			}
 		}
 
     }
