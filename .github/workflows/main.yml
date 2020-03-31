@@ -32,6 +32,7 @@ jobs:
         with:
           token: ${{ secrets.CODE_COV }} # not required for public repos
           flags: ImageClassification
+          file: DerivedData
 #   add_permalink:
 #     runs-on: [ubuntu-latest]
 #     steps:
