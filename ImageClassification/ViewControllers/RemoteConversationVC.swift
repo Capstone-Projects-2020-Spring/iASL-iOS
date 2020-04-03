@@ -228,7 +228,7 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         loginController.modalTransitionStyle = .crossDissolve
         loginController.modalPresentationStyle = .fullScreen
         present(loginController, animated: true, completion: nil)
-*/
+//*/
     }
 
     ///sets the anchors and adds the button to the top bar

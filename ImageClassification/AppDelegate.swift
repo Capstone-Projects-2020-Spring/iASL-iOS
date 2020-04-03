@@ -17,7 +17,7 @@ import Speech
 import Firebase
 import FirebaseMessaging
 import FirebaseFirestore
-import SwiftMonkeyPaws
+//import SwiftMonkeyPaws
 let navigationController = UINavigationController()
 
 @UIApplicationMain
