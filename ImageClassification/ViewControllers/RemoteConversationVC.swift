@@ -111,12 +111,11 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
 
                     //one message per receiver
 
-
                     //finally, this is the solution to the problem commented our below (I think)
                     if let chatPartnerId = message.chatPartnerId() {
                         self.messagesDictionary[chatPartnerId] = message
 
-                        print("keys: ",self.messagesDictionary.keys)
+                        print("keys: ", self.messagesDictionary.keys)
                         print("values: ", self.messagesDictionary.values)
 
                         self.messages = Array(self.messagesDictionary.values)
@@ -152,7 +151,6 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
             }, withCancel: nil)
 
         }, withCancel: nil)
-
 
     }
 
@@ -251,13 +249,11 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         addChatButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
     }
 
-
 }
-
 
 extension RemoteConversationVC {
 
-    //MARK: Table View Stuff
+    // MARK: Table View Stuff
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messages.count
@@ -279,7 +275,6 @@ extension RemoteConversationVC {
 
         //sets the message and does the work for applying it to a cell
         cell.message = message
-
 
         return cell
     }
@@ -311,7 +306,6 @@ extension RemoteConversationVC {
             user.id = chatPartnerId
 
             self.showChatVCForUser(user: user)
-
 
         }, withCancel: nil)
 
@@ -430,7 +424,7 @@ extension RemoteConversationVC {
 
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+private func < <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
     switch (lhs, rhs) {
     case let (lefthandSide?, righthandSide?):
         return lefthandSide < righthandSide
@@ -443,7 +437,7 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+private func > <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
     switch (lhs, rhs) {
     case let (lefthandSide?, righthandSide?):
         return lefthandSide > righthandSide

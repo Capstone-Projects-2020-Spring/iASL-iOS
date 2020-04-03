@@ -112,7 +112,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
 //		bottomConstraint?.isActive = true
 //		view.addConstraint(bottomConstraint!)
 //		NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(notification:)), name: , object: nil)
-		//NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+//		NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
 //        let child = Caboard()
 //        addChild(child)
 //        child.view.frame = view.frame
@@ -158,10 +158,6 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
                     }
 
                 }
-
-
-
-
 
             }, withCancel: nil)
 
@@ -320,7 +316,6 @@ extension ChatVC {
 //        tableView.dataSource = self
 //    }
 
-
     ///handles what happens when you send a message
     @objc func handleSendButton() {
         print(composedMessage.text!)
@@ -343,10 +338,9 @@ extension ChatVC {
 
         let timestamp: NSNumber = NSNumber(value: NSDate().timeIntervalSince1970)
 
-        let values = ["receiverId": receiverId, "senderId": senderId ,"text": messageText, "timestamp": timestamp] as [String: Any]
+        let values = ["receiverId": receiverId, "senderId": senderId, "text": messageText, "timestamp": timestamp] as [String: Any]
 
-
-        childRef.updateChildValues(values) { (error, ref) in
+        childRef.updateChildValues(values) { (error, _) in
             if error != nil {
                 print(error!)
                 return
@@ -361,7 +355,7 @@ extension ChatVC {
             let messageId = childRef.key
             let userValue = [messageId: 1] as! [String: Any]
 
-            userMessagesRef.updateChildValues(userValue) { (error2, ref2) in
+            userMessagesRef.updateChildValues(userValue) { (error2, _) in
                 if error2 != nil {
                     print(error2!)
                     return
@@ -372,17 +366,15 @@ extension ChatVC {
             }
 
             let receiverUserMessagesRef = Database.database().reference().child("user-messages").child(receiverId)
-            receiverUserMessagesRef.updateChildValues(userValue) { (error2, ref2) in
+            receiverUserMessagesRef.updateChildValues(userValue) { (error2, _) in
                 if error2 != nil {
                     print(error2!)
                     return
                 }
 
-
                 //you've added a node to the user-messages node for message receivers
                 print("you've added to the user-messages node for receivers")
             }
-
 
         }
         //this is where it needs to send the message to firebase

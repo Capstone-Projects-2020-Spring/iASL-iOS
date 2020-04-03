@@ -428,7 +428,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     //FIXME: move this
     let usersStringConstant: String = "users"
 
-
     func handleRegister() {
 
         //get email and password and name
@@ -436,7 +435,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             print("Did not get email and password")
             return
         }
-
 
         //code for creating a user in auth
         Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
@@ -459,10 +457,10 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             //var ref: DocumentReference? = nil
 
             //adds the name and the email
-            let dataToAdd: [String : Any] = ["name": name, "email": email]
+            let dataToAdd: [String: Any] = ["name": name, "email": email]
 
             //for realtime storing
-            userReference.updateChildValues(dataToAdd) { (error, ref) in
+            userReference.updateChildValues(dataToAdd) { (error, _) in
                 if error != nil {
                     print(error!)
                     return
@@ -472,9 +470,8 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                 print("saved user successfully into REALTIME")
             }
 
-
             //added user to database with UID as document
-            //MARK: The code below is for using Firestore, not realtime
+            // MARK: The code below is for using Firestore, not realtime
 //            db.collection(self.collectionUser).document(uid).setData(dataToAdd, merge: true) { (error) in
 //                if let error = error {
 //                    print(error)
