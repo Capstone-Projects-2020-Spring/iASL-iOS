@@ -457,7 +457,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             //var ref: DocumentReference? = nil
 
             //adds the name and the email
-            let dataToAdd: [String: Any] = ["name": name, "email": email]
+            let dataToAdd: [String: Any] = ["name": name, "email": email, "id": uid]
 
             //for realtime storing
             userReference.updateChildValues(dataToAdd) { (error, _) in
@@ -501,10 +501,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             print("you signed in successfully")
 
         }
-    }
-	// swiftlint:enable identifier_name
-    func handleLogout() {
-
     }
 
     ///sets up the constraints of the submit button

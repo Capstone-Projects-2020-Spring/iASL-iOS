@@ -193,6 +193,8 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         //this is where you will set the text of each message
         let message = messages[indexPath.row]
         cell.textView.text = message.text
+        
+        print(message.timestamp!)
 
         setupCell(cell: cell, message: message)
 
@@ -336,8 +338,9 @@ extension ChatVC {
             return
         }
 
-        let timestamp: NSNumber = NSNumber(value: NSDate().timeIntervalSince1970)
-
+        //gets it in milliseconds
+        let timestamp: NSNumber = NSNumber(value: NSDate().timeIntervalSince1970 * 1000)
+        
         let values = ["receiverId": receiverId, "senderId": senderId, "text": messageText, "timestamp": timestamp] as [String: Any]
 
         childRef.updateChildValues(values) { (error, _) in
@@ -470,4 +473,17 @@ extension ChatVC {
         topLabel.textColor = .white
     }
 
+}
+
+extension NSDate {
+    func toMillis() -> NSNumber {
+        return NSNumber(value:Int64(timeIntervalSince1970 * 1000))
+    }
+    static func fromMillis(millis: NSNumber?) -> NSDate? {
+        return millis.map() { number in NSDate(timeIntervalSince1970: Double(truncating: number) / 1000)}
+    }
+
+    static func currentTimeInMillis() -> NSNumber {
+        return NSDate().toMillis()
+    }
 }

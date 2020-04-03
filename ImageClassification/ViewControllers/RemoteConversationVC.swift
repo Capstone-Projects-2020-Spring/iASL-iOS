@@ -121,9 +121,16 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
                         self.messages = Array(self.messagesDictionary.values)
 
                         //sort messages by most recent
-                        self.messages.sorted { (message1, message2) -> Bool in
+//                        self.messages.sorted { (message1, message2) -> Bool in
+//                            return message1.timestamp?.intValue > message2.timestamp?.intValue
+//                        }
+                        
+                        //this sort actually works and the previous one does not
+                        self.messages.sort { (message1, message2) -> Bool in
                             return message1.timestamp?.intValue > message2.timestamp?.intValue
                         }
+                        
+                        //self.messages.sort(by: >)
                     }
 
 //                    if let receiverId = message.receiverId {
@@ -271,7 +278,7 @@ extension RemoteConversationVC {
         //get the message
         let message = messages[indexPath.row]
 
-        print("messages count: ", messages.count)
+        print("messages timestamp: ", message.timestamp!)
 
         //sets the message and does the work for applying it to a cell
         cell.message = message
