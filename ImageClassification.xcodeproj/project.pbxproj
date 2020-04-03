@@ -20,16 +20,13 @@
 		67ABF92624301CCE00881646 /* ASLKeyboardUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67ABF92524301CCE00881646 /* ASLKeyboardUITests.swift */; };
 		67ABF9282430299200881646 /* ASLKeyboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67ABF9272430299200881646 /* ASLKeyboardTests.swift */; };
 		67B31A99242C038C00DC15C4 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B31A98242C038C00DC15C4 /* ChatVC.swift */; };
-		67CD6E9A242AE2770004D255 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE79E982135268800E7AC1F /* PreviewView.swift */; };
 		67CD6E9E242AE3380004D255 /* TranscribeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CD6E9D242AE3370004D255 /* TranscribeVC.swift */; };
-		67ED193D2437E12E000FB1F1 /* ChatUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60075D68242C29F700D84544 /* ChatUserCell.swift */; };
 		6E23ACD52416BE8E00495F02 /* RemoteConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E23ACD42416BE8E00495F02 /* RemoteConversationVC.swift */; };
 		6E3469932421CD64009F1E7D /* SpeechToTextVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E3469922421CD64009F1E7D /* SpeechToTextVC.swift */; };
 		6E6D14CF24175AC800A185E9 /* CreateNoteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6D14CE24175AC800A185E9 /* CreateNoteVC.swift */; };
 		6E6D14D1241845D900A185E9 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6D14D0241845D900A185E9 /* ChatTableViewCell.swift */; };
 		6EB03F7C24251C6D009C0843 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB03F7B24251C6D009C0843 /* Extensions.swift */; };
 		6EB03F7E24253489009C0843 /* Caboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB03F7D24253489009C0843 /* Caboard.swift */; };
-		6EB03F962425546D009C0843 /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB03F952425546D009C0843 /* KeyboardViewController.swift */; };
 		6EF328FB24173A430071E430 /* NotesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF328FA24173A430071E430 /* NotesVC.swift */; };
 		AA16E5A22180843800D9E153 /* InfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA16E5A12180843700D9E153 /* InfoCell.swift */; };
 		AA5FEB7E21355CCC00F9BD4B /* labels.txt in Resources */ = {isa = PBXBuildFile; fileRef = AA5FEB7C21355CCC00F9BD4B /* labels.txt */; };
@@ -59,13 +56,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = AAE79E55213521DA00E7AC1F;
 			remoteInfo = ImageClassification;
-		};
-		6EB03F982425546D009C0843 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = AAE79E4E213521DA00E7AC1F /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6EB03F922425546D009C0843;
-			remoteInfo = "ASL Keyboard";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -97,9 +87,6 @@
 		6E6D14D0241845D900A185E9 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
 		6EB03F7B24251C6D009C0843 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		6EB03F7D24253489009C0843 /* Caboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Caboard.swift; sourceTree = "<group>"; };
-		6EB03F932425546D009C0843 /* ASL Keyboard.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "ASL Keyboard.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		6EB03F952425546D009C0843 /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
-		6EB03F972425546D009C0843 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6ED11B8B2424145E000CF870 /* short_notification.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = short_notification.mp3; sourceTree = "<group>"; };
 		6ED11B8C242414A1000CF870 /* simple_notification.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = simple_notification.mp3; sourceTree = "<group>"; };
 		6EF328FA24173A430071E430 /* NotesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesVC.swift; sourceTree = "<group>"; };
@@ -135,13 +122,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2411022608F9D5E2FB97EC5 /* libPods-iASLUITests.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		6EB03F902425546D009C0843 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,15 +174,6 @@
 				67ABF92424301CCE00881646 /* iASLUITests-Bridging-Header.h */,
 			);
 			path = iASLUITests;
-			sourceTree = "<group>";
-		};
-		6EB03F942425546D009C0843 /* ASL Keyboard */ = {
-			isa = PBXGroup;
-			children = (
-				6EB03F952425546D009C0843 /* KeyboardViewController.swift */,
-				6EB03F972425546D009C0843 /* Info.plist */,
-			);
-			path = "ASL Keyboard";
 			sourceTree = "<group>";
 		};
 		8A66D810CC188BF511866FE7 /* Frameworks */ = {
@@ -270,7 +241,6 @@
 			children = (
 				AAE79E58213521DA00E7AC1F /* ImageClassification */,
 				6765C7E423FB35F60083A5C5 /* ImageClassificationTests */,
-				6EB03F942425546D009C0843 /* ASL Keyboard */,
 				67ABF91B24301C1C00881646 /* iASLUITests */,
 				AAE79E57213521DA00E7AC1F /* Products */,
 				2A93ED2EC57590DCEFC6C694 /* Pods */,
@@ -283,7 +253,6 @@
 			children = (
 				AAE79E56213521DA00E7AC1F /* iASL.app */,
 				6765C7E323FB35F60083A5C5 /* ImageClassificationTests.xctest */,
-				6EB03F932425546D009C0843 /* ASL Keyboard.appex */,
 				67ABF91A24301C1C00881646 /* iASLUITests.xctest */,
 			);
 			name = Products;
@@ -380,23 +349,6 @@
 			productReference = 67ABF91A24301C1C00881646 /* iASLUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		6EB03F922425546D009C0843 /* ASL Keyboard */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 6EB03F9E2425546D009C0843 /* Build configuration list for PBXNativeTarget "ASL Keyboard" */;
-			buildPhases = (
-				6EB03F8F2425546D009C0843 /* Sources */,
-				6EB03F902425546D009C0843 /* Frameworks */,
-				6EB03F912425546D009C0843 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "ASL Keyboard";
-			productName = "ASL Keyboard";
-			productReference = 6EB03F932425546D009C0843 /* ASL Keyboard.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 		AAE79E55213521DA00E7AC1F /* ImageClassification */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AAE79E7E213521DB00E7AC1F /* Build configuration list for PBXNativeTarget "ImageClassification" */;
@@ -411,7 +363,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				6EB03F992425546D009C0843 /* PBXTargetDependency */,
 			);
 			name = ImageClassification;
 			productName = ImageClassification;
@@ -437,9 +388,6 @@
 						LastSwiftMigration = 1140;
 						TestTargetID = AAE79E55213521DA00E7AC1F;
 					};
-					6EB03F922425546D009C0843 = {
-						CreatedOnToolsVersion = 11.3;
-					};
 					AAE79E55213521DA00E7AC1F = {
 						CreatedOnToolsVersion = 9.4.1;
 						LastSwiftMigration = 1110;
@@ -461,7 +409,6 @@
 			targets = (
 				AAE79E55213521DA00E7AC1F /* ImageClassification */,
 				6765C7E223FB35F60083A5C5 /* ImageClassificationTests */,
-				6EB03F922425546D009C0843 /* ASL Keyboard */,
 				67ABF91924301C1C00881646 /* iASLUITests */,
 			);
 		};
@@ -476,13 +423,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		67ABF91824301C1C00881646 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		6EB03F912425546D009C0843 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -603,15 +543,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6EB03F8F2425546D009C0843 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6EB03F962425546D009C0843 /* KeyboardViewController.swift in Sources */,
-				67CD6E9A242AE2770004D255 /* PreviewView.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		AAE79E52213521DA00E7AC1F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -653,11 +584,6 @@
 			isa = PBXTargetDependency;
 			target = AAE79E55213521DA00E7AC1F /* ImageClassification */;
 			targetProxy = 67ABF91F24301C1C00881646 /* PBXContainerItemProxy */;
-		};
-		6EB03F992425546D009C0843 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 6EB03F922425546D009C0843 /* ASL Keyboard */;
-			targetProxy = 6EB03F982425546D009C0843 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -775,51 +701,6 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = ImageClassification;
-			};
-			name = Release;
-		};
-		6EB03F9C2425546D009C0843 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = N6ESLEE34B;
-				INFOPLIST_FILE = "ASL Keyboard/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.iASL.LanguageTranslator.ASL-Keyboard";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		6EB03F9D2425546D009C0843 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = N6ESLEE34B;
-				INFOPLIST_FILE = "ASL Keyboard/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.iASL.LanguageTranslator.ASL-Keyboard";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -1019,15 +900,6 @@
 			buildConfigurations = (
 				67ABF92224301C1C00881646 /* Debug */,
 				67ABF92324301C1C00881646 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		6EB03F9E2425546D009C0843 /* Build configuration list for PBXNativeTarget "ASL Keyboard" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				6EB03F9C2425546D009C0843 /* Debug */,
-				6EB03F9D2425546D009C0843 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
