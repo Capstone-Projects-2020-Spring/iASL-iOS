@@ -11,13 +11,13 @@ import UIKit
 import Firebase
 
 class AddChatVC: UIViewController {
-    
+
     let cellId = "cellId"
     let usersConstant: String = "users"
-    
+
     //an array of users
     var users = [User]()
-    
+
     let topBar = UIView()
     let topLabel = UILabel()
     let backButton = UIButton()
@@ -31,78 +31,75 @@ class AddChatVC: UIViewController {
         backButtonSetup()
         topLabelSetup()
         tableViewSetup()
-        
+
         getUsers()
-        
+
     }
-    
+
     ///gets all of the users from the database
     func getUsers() {
         Database.database().reference().child(self.usersConstant).observe(.childAdded, with: { (snapshot) in
             //print(snapshot)
-            
+
             if let dictionary = snapshot.value as? [String: AnyObject] {
                 let user = User()
                 //this needs to be exact in firebase as it is in the User object
                 //user.setValuesForKeys(dictionary)
-                
+
                 //set the values the safe way
                 user.id = snapshot.key //gets the id, since that is the key
                 user.name = dictionary["name"] as? String
                 user.email = dictionary["email"] as? String
-                
-                
+
                 //add the user to the users array
                 self.users.append(user)
-                
-                
+
                 //call the table view to reload
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
-                
-                
+
             }
         }, withCancel: nil)
     }
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return users.count
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellId) //FIXME: change this later
-        
+
         //set the user for each cell
         let user = users[indexPath.row]
         cell.textLabel?.text = user.name
         cell.detailTextLabel?.text = user.email
-        
+
         return cell
     }
-    
+
     //FIXME: move this
     ///reference variable so we can transition into chatVC via remote conversations
     var remoteConversations: RemoteConversationVC?
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         dismiss(animated: true) {
             print("dismissed completed")
-            
+
             let user = self.users[indexPath.row]
             //print(cell.textLabel?.text)
-            
+
             //show the chatVC via remote conversations vc with the user's name
             self.remoteConversations?.showChatVCForUser(user: user)
         }
     }
-    
+
     //change the color of the status bar
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNeedsStatusBarAppearanceUpdate()
     }
-    
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
     }
@@ -161,8 +158,5 @@ class AddChatVC: UIViewController {
 }
 
 extension AddChatVC: UITableViewDelegate, UITableViewDataSource {
-    
-    
-    
-    
+
 }

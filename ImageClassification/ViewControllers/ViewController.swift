@@ -117,13 +117,11 @@ class ViewController: UIViewController {
         }
         //speak()
 
-
         //        let child = CardView()
         //        addChild(child)
         //        child.view.frame = CGRect(x: 0, y: 0, width: 300, height: 300)
         //        view.addSubview(child.view)
         //        child.didMove(toParent: self)
-
 
         let panYGesture = UIPanGestureRecognizer(target: self, action: (#selector(self.handleYGesture(_:))))
         self.textViewHolder.addGestureRecognizer(panYGesture)
@@ -159,7 +157,6 @@ class ViewController: UIViewController {
         guard let gestureView = gesture.view else {
             return
         }
-
 
         if gestureView.center.y >= 675 && gestureView.center.y <= 950 {
             gestureView.center = CGPoint(
@@ -452,7 +449,7 @@ extension ViewController {
     func textViewHolderSetup() {
         view.addSubview(textViewHolder)
         textViewHolder.translatesAutoresizingMaskIntoConstraints = false
-        textViewHolder.topAnchor.constraint(equalTo: view.bottomAnchor,constant: -200).isActive = true
+        textViewHolder.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -200).isActive = true
         textViewHolder.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         textViewHolder.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         textViewHolder.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5).isActive = true
@@ -466,7 +463,7 @@ extension ViewController {
     func outputTextViewSetup() {
         textViewHolder.addSubview(outputTextView)
         outputTextView.translatesAutoresizingMaskIntoConstraints = false
-        outputTextView.bottomAnchor.constraint(equalTo: textViewHolder.bottomAnchor,constant: -50).isActive = true
+        outputTextView.bottomAnchor.constraint(equalTo: textViewHolder.bottomAnchor, constant: -50).isActive = true
         outputTextView.leadingAnchor.constraint(equalTo: textViewHolder.leadingAnchor).isActive = true
         outputTextView.trailingAnchor.constraint(equalTo: textViewHolder.trailingAnchor).isActive = true
         outputTextView.topAnchor.constraint(equalTo: textViewHolder.topAnchor, constant: 30).isActive = true
@@ -487,7 +484,7 @@ extension ViewController {
         synthesizer.speak(utterance)
     }
 
-    func speakerButtonSetup(){
+    func speakerButtonSetup() {
         textViewHolder.addSubview(speakerButton)
         speakerButton.translatesAutoresizingMaskIntoConstraints = false
         speakerButton.trailingAnchor.constraint(equalTo: textViewHolder.trailingAnchor, constant: -20).isActive = true
@@ -514,7 +511,7 @@ extension ViewController {
         }
     }
 
-    func topNotchSetup(){
+    func topNotchSetup() {
         textViewHolder.addSubview(topNotch)
         topNotch.translatesAutoresizingMaskIntoConstraints = false
         topNotch.heightAnchor.constraint(equalToConstant: 5).isActive = true
