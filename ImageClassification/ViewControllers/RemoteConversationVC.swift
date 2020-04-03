@@ -433,7 +433,7 @@ extension RemoteConversationVC {
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
     switch (lhs, rhs) {
     case let (lefthandSide?, righthandSide?):
-        return l < r
+        return lefthandSide < righthandSide
     case (nil, _?):
         return true
     default:
