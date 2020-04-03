@@ -26,11 +26,14 @@ class ViewController: UIViewController {
     let tabController = UITabBarController()
     let outputTextView = UITextView()
     let textViewHolder = UIView()
+    let speakerButton = UIButton()
+    let topNotch = UIView()
 
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
+    var synthesizer = AVSpeechSynthesizer()
 
     let topBar = UIView()
     // MARK: Storyboards Connections
@@ -106,7 +109,32 @@ class ViewController: UIViewController {
         liveButtonSetup()
         textViewHolderSetup()
         outputTextViewSetup()
+        speakerButtonSetup()
+        topNotchSetup()
+        speak()
+        if speakerButton.isSelected == true {
+            speak()
+        }
         //speak()
+
+
+        //        let child = CardView()
+        //        addChild(child)
+        //        child.view.frame = CGRect(x: 0, y: 0, width: 300, height: 300)
+        //        view.addSubview(child.view)
+        //        child.didMove(toParent: self)
+
+
+        let panYGesture = UIPanGestureRecognizer(target: self, action: (#selector(self.handleYGesture(_:))))
+        self.textViewHolder.addGestureRecognizer(panYGesture)
+
+        let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleLeftSwipeGesture(_:)))
+        view.addGestureRecognizer(swipeLeftGestureRecognizer)
+        swipeLeftGestureRecognizer.direction = .left
+
+        let swipeRightGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleRightSwipeGesture(_:)))
+        view.addGestureRecognizer(swipeRightGestureRecognizer)
+        swipeRightGestureRecognizer.direction = .right
 
         guard modelDataHandler != nil else {
             fatalError("Model set up failed")
@@ -123,8 +151,52 @@ class ViewController: UIViewController {
 
     }
 
-    func tabBarControllerSetup() {
+    @objc func handleYGesture(_ gesture: UIPanGestureRecognizer) {
+        // 1
+        let translation = gesture.translation(in: view)
 
+        // 2
+        guard let gestureView = gesture.view else {
+            return
+        }
+
+
+        if gestureView.center.y >= 675 && gestureView.center.y <= 950 {
+            gestureView.center = CGPoint(
+                x: gestureView.center.x,
+                y: gestureView.center.y + translation.y
+            )
+        } else {
+            if gestureView.center.y < 675 {
+                gestureView.center = CGPoint(
+                    x: gestureView.center.x,
+                    y: 675
+                )
+            } else if gestureView.center.y >= 675 && gestureView.center.y > 950 {
+                gestureView.center = CGPoint(
+                    x: gestureView.center.x,
+                    y: 950
+                )
+            }
+        }
+
+        print(gestureView.center.y)
+
+        // 3
+        gesture.setTranslation(.zero, in: view)
+    }
+    @objc func handleLeftSwipeGesture(_ sender: UISwipeGestureRecognizer) {
+        let vc = NotesVC()
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
+    }
+
+    @objc func handleRightSwipeGesture(_ sender: UISwipeGestureRecognizer) {
+        let vc = RemoteConversationVC()
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -266,150 +338,192 @@ extension ViewController: CameraFeedManagerDelegate {
 extension ViewController {
 
     func previewViewSetup() {
-            view.addSubview(previewView)
-            previewView.translatesAutoresizingMaskIntoConstraints = false
-            previewView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-            previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-            previewView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-            previewView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        view.addSubview(previewView)
+        previewView.translatesAutoresizingMaskIntoConstraints = false
+        previewView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        previewView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        previewView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    }
+
+    func topBarSetup() {
+        view.addSubview(topBar)
+        topBar.translatesAutoresizingMaskIntoConstraints = false
+        topBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        topBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        topBar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        topBar.heightAnchor.constraint(equalToConstant: 90).isActive = true
+        //topBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+    }
+
+    func cameraUnavailableLabelSetup() {
+        view.addSubview(cameraUnavailableLabel)
+        cameraUnavailableLabel.translatesAutoresizingMaskIntoConstraints = false
+        cameraUnavailableLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        cameraUnavailableLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        cameraUnavailableLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        cameraUnavailableLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        cameraUnavailableLabel.text = "Camera Unavailable"
+        cameraUnavailableLabel.textAlignment = .center
+        cameraUnavailableLabel.font = UIFont.boldSystemFont(ofSize: 30)
+        cameraUnavailableLabel.textColor = .white
+        cameraUnavailableLabel.isHidden = true
+    }
+
+    func resumeButtonSetup() {
+        view.addSubview(resumeButton)
+        resumeButton.translatesAutoresizingMaskIntoConstraints = false
+        resumeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        resumeButton.topAnchor.constraint(equalTo: cameraUnavailableLabel.bottomAnchor, constant: 20).isActive = true
+        resumeButton.setTitle("Resume Session", for: .normal)
+        resumeButton.setTitleColor(.yellow, for: .normal)
+        resumeButton.isHidden = true
+    }
+
+    func remoteChatButtonSetup() {
+        view.addSubview(remoteChatButton)
+        remoteChatButton.translatesAutoresizingMaskIntoConstraints = false
+        remoteChatButton.setImage(#imageLiteral(resourceName: "chatIcon"), for: .normal)
+        remoteChatButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        remoteChatButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        remoteChatButton.imageView?.contentMode = .scaleAspectFit
+        remoteChatButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+        remoteChatButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
+        //remoteChatButton.setTitle("Chat", for: .normal)
+        remoteChatButton.addTarget(self, action: #selector(remoteChatButtonTapped), for: .touchUpInside)
+    }
+
+    @objc func remoteChatButtonTapped() {
+        let vc = RemoteConversationVC()
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
+        remoteChatButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        remoteChatButton.setTitleColor(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1), for: .normal)
+        present(vc, animated: true, completion: nil)
+        //navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func liveButtonSetup() {
+        view.addSubview(liveButton)
+        liveButton.translatesAutoresizingMaskIntoConstraints = false
+        //liveButton.setTitle("Live", for: .normal)
+        liveButton.setImage(#imageLiteral(resourceName: "yo"), for: .normal)
+        liveButton.imageView?.contentMode = .scaleAspectFit
+        liveButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        liveButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        liveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        liveButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
+        liveButton.addTarget(self, action: #selector(liveButtonTapped), for: .touchUpInside)
+    }
+
+    @objc func liveButtonTapped() {
+        liveButton.isSelected = true
+        let vc = SpeechToTextVC()
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        present(vc, animated: true, completion: nil)
+
+    }
+
+    func notesButtonSetup() {
+        view.addSubview(notesButton)
+        notesButton.translatesAutoresizingMaskIntoConstraints = false
+        notesButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+        notesButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
+        notesButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        notesButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        notesButton.setImage(#imageLiteral(resourceName: "notesIcon"), for: .normal)
+        //notesButton.setTitle("Notes", for: .normal)
+        notesButton.addTarget(self, action: #selector(notesButtonTapped), for: .touchUpInside)
+
+        notesButton.imageView?.contentMode = .scaleAspectFit
+    }
+
+    @objc func notesButtonTapped() {
+        notesButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        notesButton.setTitleColor(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1), for: .selected)
+        let vc = NotesVC()
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        present(vc, animated: true, completion: nil)
+        //navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func textViewHolderSetup() {
+        view.addSubview(textViewHolder)
+        textViewHolder.translatesAutoresizingMaskIntoConstraints = false
+        textViewHolder.topAnchor.constraint(equalTo: view.bottomAnchor,constant: -200).isActive = true
+        textViewHolder.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        textViewHolder.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        textViewHolder.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5).isActive = true
+        textViewHolder.backgroundColor = #colorLiteral(red: 0.9596421632, green: 0.9596421632, blue: 0.9596421632, alpha: 1).withAlphaComponent(0.5)
+        textViewHolder.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        textViewHolder.layer.cornerRadius = 20
+        textViewHolder.isUserInteractionEnabled = true
+
+    }
+
+    func outputTextViewSetup() {
+        textViewHolder.addSubview(outputTextView)
+        outputTextView.translatesAutoresizingMaskIntoConstraints = false
+        outputTextView.bottomAnchor.constraint(equalTo: textViewHolder.bottomAnchor,constant: -50).isActive = true
+        outputTextView.leadingAnchor.constraint(equalTo: textViewHolder.leadingAnchor).isActive = true
+        outputTextView.trailingAnchor.constraint(equalTo: textViewHolder.trailingAnchor).isActive = true
+        outputTextView.topAnchor.constraint(equalTo: textViewHolder.topAnchor, constant: 30).isActive = true
+        outputTextView.isEditable = false
+        outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.8)
+        outputTextView.text = ""
+        outputTextView.textColor = .black
+        outputTextView.font = UIFont.boldSystemFont(ofSize: 30)
+        outputTextView.isUserInteractionEnabled = true
+    }
+
+    func speak() {
+        let utterance = AVSpeechUtterance(string: outputTextView.text!)
+        utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
+        utterance.rate = 0.4
+
+        synthesizer = AVSpeechSynthesizer()
+        synthesizer.speak(utterance)
+    }
+
+    func speakerButtonSetup(){
+        textViewHolder.addSubview(speakerButton)
+        speakerButton.translatesAutoresizingMaskIntoConstraints = false
+        speakerButton.trailingAnchor.constraint(equalTo: textViewHolder.trailingAnchor, constant: -20).isActive = true
+        speakerButton.bottomAnchor.constraint(equalTo: textViewHolder.bottomAnchor, constant: -5).isActive = true
+        speakerButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        speakerButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        speakerButton.backgroundColor = .blue
+        speakerButton.isSelected = true
+        speakerButton.setImage(#imageLiteral(resourceName: "speaker"), for: .selected)
+        speakerButton.setImage(#imageLiteral(resourceName: "mute"), for: .normal)
+        speakerButton.layer.cornerRadius = 20
+        speakerButton.addTarget(self, action: #selector(speakerButtonTapped), for: .touchUpInside)
+    }
+
+    @objc func speakerButtonTapped() {
+        if speakerButton.isSelected == true {
+            speakerButton.isSelected = false
+            speakerButton.backgroundColor = .gray
+            synthesizer.stopSpeaking(at: .word)
+        } else {
+            speakerButton.isSelected = true
+            speak()
+            speakerButton.backgroundColor = .blue
         }
+    }
 
-        func topBarSetup() {
-            view.addSubview(topBar)
-            topBar.translatesAutoresizingMaskIntoConstraints = false
-            topBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-            topBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-            topBar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-            topBar.heightAnchor.constraint(equalToConstant: 90).isActive = true
-            //topBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        }
-
-        func cameraUnavailableLabelSetup() {
-            view.addSubview(cameraUnavailableLabel)
-            cameraUnavailableLabel.translatesAutoresizingMaskIntoConstraints = false
-            cameraUnavailableLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-            cameraUnavailableLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-            cameraUnavailableLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-            cameraUnavailableLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
-            cameraUnavailableLabel.text = "Camera Unavailable"
-            cameraUnavailableLabel.textAlignment = .center
-            cameraUnavailableLabel.font = UIFont.boldSystemFont(ofSize: 30)
-            cameraUnavailableLabel.textColor = .white
-            cameraUnavailableLabel.isHidden = true
-        }
-
-        func resumeButtonSetup() {
-            view.addSubview(resumeButton)
-            resumeButton.translatesAutoresizingMaskIntoConstraints = false
-            resumeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-            resumeButton.topAnchor.constraint(equalTo: cameraUnavailableLabel.bottomAnchor, constant: 20).isActive = true
-            resumeButton.setTitle("Resume Session", for: .normal)
-            resumeButton.setTitleColor(.yellow, for: .normal)
-            resumeButton.isHidden = true
-        }
-
-        func remoteChatButtonSetup() {
-            view.addSubview(remoteChatButton)
-            remoteChatButton.translatesAutoresizingMaskIntoConstraints = false
-            remoteChatButton.setImage(#imageLiteral(resourceName: "chatIcon"), for: .normal)
-            remoteChatButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-            remoteChatButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-            remoteChatButton.imageView?.contentMode = .scaleAspectFit
-            remoteChatButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-            remoteChatButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
-            //remoteChatButton.setTitle("Chat", for: .normal)
-            remoteChatButton.addTarget(self, action: #selector(remoteChatButtonTapped), for: .touchUpInside)
-        }
-
-        @objc func remoteChatButtonTapped() {
-            let vc = RemoteConversationVC()
-            vc.modalTransitionStyle = .crossDissolve
-            vc.modalPresentationStyle = .fullScreen
-            remoteChatButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-            remoteChatButton.setTitleColor(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1), for: .normal)
-            present(vc, animated: true, completion: nil)
-            //navigationController?.pushViewController(vc, animated: true)
-        }
-
-        func liveButtonSetup() {
-            view.addSubview(liveButton)
-            liveButton.translatesAutoresizingMaskIntoConstraints = false
-            //liveButton.setTitle("Live", for: .normal)
-            liveButton.setImage(#imageLiteral(resourceName: "yo"), for: .normal)
-            liveButton.imageView?.contentMode = .scaleAspectFit
-            liveButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-            liveButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
-            liveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-            liveButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
-            liveButton.addTarget(self, action: #selector(liveButtonTapped), for: .touchUpInside)
-        }
-
-        @objc func liveButtonTapped() {
-            liveButton.isSelected = true
-            let vc = SpeechToTextVC()
-            vc.modalPresentationStyle = .fullScreen
-            vc.modalTransitionStyle = .crossDissolve
-            present(vc, animated: true, completion: nil)
-
-        }
-
-        func notesButtonSetup() {
-            view.addSubview(notesButton)
-            notesButton.translatesAutoresizingMaskIntoConstraints = false
-            notesButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-            notesButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
-            notesButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-            notesButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-            notesButton.setImage(#imageLiteral(resourceName: "notesIcon"), for: .normal)
-            //notesButton.setTitle("Notes", for: .normal)
-            notesButton.addTarget(self, action: #selector(notesButtonTapped), for: .touchUpInside)
-
-            notesButton.imageView?.contentMode = .scaleAspectFit
-        }
-
-        @objc func notesButtonTapped() {
-            notesButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-            notesButton.setTitleColor(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1), for: .selected)
-            let vc = NotesVC()
-            vc.modalPresentationStyle = .fullScreen
-            vc.modalTransitionStyle = .crossDissolve
-            present(vc, animated: true, completion: nil)
-            //navigationController?.pushViewController(vc, animated: true)
-        }
-
-        func textViewHolderSetup() {
-            view.addSubview(textViewHolder)
-            textViewHolder.translatesAutoresizingMaskIntoConstraints = false
-            textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-            textViewHolder.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-            textViewHolder.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-            textViewHolder.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5).isActive = true
-            textViewHolder.backgroundColor = #colorLiteral(red: 0.9596421632, green: 0.9596421632, blue: 0.9596421632, alpha: 1)
-            textViewHolder.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-            textViewHolder.layer.cornerRadius = 20
-        }
-
-        func outputTextViewSetup() {
-            view.addSubview(outputTextView)
-            outputTextView.translatesAutoresizingMaskIntoConstraints = false
-            outputTextView.bottomAnchor.constraint(equalTo: textViewHolder.bottomAnchor).isActive = true
-            outputTextView.leadingAnchor.constraint(equalTo: textViewHolder.leadingAnchor).isActive = true
-            outputTextView.trailingAnchor.constraint(equalTo: textViewHolder.trailingAnchor).isActive = true
-            outputTextView.topAnchor.constraint(equalTo: textViewHolder.topAnchor, constant: 20).isActive = true
-            outputTextView.isEditable = false
-            outputTextView.text = ""
-            outputTextView.textColor = .gray
-            outputTextView.font = UIFont.boldSystemFont(ofSize: 30)
-        }
-
-        func speak() {
-            let utterance = AVSpeechUtterance(string: outputTextView.text!)
-            utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
-            utterance.rate = 0.4
-
-            let synthesizer = AVSpeechSynthesizer()
-            synthesizer.speak(utterance)
-        }
+    func topNotchSetup(){
+        textViewHolder.addSubview(topNotch)
+        topNotch.translatesAutoresizingMaskIntoConstraints = false
+        topNotch.heightAnchor.constraint(equalToConstant: 5).isActive = true
+        topNotch.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        topNotch.centerXAnchor.constraint(equalTo: outputTextView.centerXAnchor).isActive = true
+        topNotch.topAnchor.constraint(equalTo: textViewHolder.topAnchor, constant: 10).isActive = true
+        topNotch.backgroundColor = .gray
+        topNotch.layer.cornerRadius = 2
+    }
 
 }
 extension ViewController {
