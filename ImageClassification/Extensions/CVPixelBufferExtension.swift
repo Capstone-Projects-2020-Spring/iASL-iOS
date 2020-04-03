@@ -96,6 +96,9 @@ extension CVPixelBuffer {
     return thumbnailPixelBuffer
   }
 
+	/** Converts Image to CoreVideo Pixel Buffer. This is used for debugging not in the processing of video.
+	*/
+	/// - Parameter image: The image to convert to `CVPixelBuffer`
   static func buffer(from image: UIImage) -> CVPixelBuffer? {
     let attrs = [
       kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue,

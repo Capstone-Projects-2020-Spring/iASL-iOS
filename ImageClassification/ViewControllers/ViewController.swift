@@ -17,7 +17,7 @@ import UIKit
 import Speech
 
 class ViewController: UIViewController {
-    
+
     let remoteChatButton = UIButton()
     let liveChatButton = UIButton()
     let notesButton = UIButton()
@@ -28,56 +28,56 @@ class ViewController: UIViewController {
     let textViewHolder = UIView()
     let speakerButton = UIButton()
     let topNotch = UIView()
-    
+
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
     var synthesizer = AVSpeechSynthesizer()
-    
+
     let topBar = UIView()
     // MARK: Storyboards Connections
     var previewView = PreviewView()
     let cameraUnavailableLabel = UILabel()
     let resumeButton = UIButton()
-    
+
     // MARK: Constants
     private let animationDuration = 0.5
     private let collapseTransitionThreshold: CGFloat = -40.0
     private let expandThransitionThreshold: CGFloat = 40.0
     private let delayBetweenInferencesMs: Double = 1000
-    
+
     // MARK: Instance Variables
     // Holds the results at any time
     private var result: Result?
     private var initialBottomSpace: CGFloat = 0.0
     private var previousInferenceTimeMs: TimeInterval = Date.distantPast.timeIntervalSince1970 * 1000
-    
+
     // MARK: Controllers that manage functionality
     // Handles all the camera related functionality
     private lazy var cameraCapture = CameraFeedManager(previewView: previewView)
-    
+
     // Handles all data preprocessing and makes calls to run inference through the `Interpreter`.
     private var modelDataHandler: ModelDataHandler? =
         ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo)
-    
+
     // Handles the presenting of results on the screen
-    
+
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        
+
         if #available(iOS 13.0, *) {
-            
+
             ///Code for darmode
             if self.traitCollection.userInterfaceStyle == .dark {
-                
+
             } else { ///Code for light mode
-                
+
             }
         }
-        
+
     }
-    
+
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         if UIDevice.current.orientation == UIDeviceOrientation.portraitUpsideDown {
             liveButton.isSelected = true
@@ -94,9 +94,9 @@ class ViewController: UIViewController {
             notesButton.isHidden = false
             dismiss(animated: true, completion: nil)
         }
-        
+
     }
-    
+
     // MARK: View Handling Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -116,30 +116,30 @@ class ViewController: UIViewController {
             speak()
         }
         //speak()
-        
-        
+
+
         //        let child = CardView()
         //        addChild(child)
         //        child.view.frame = CGRect(x: 0, y: 0, width: 300, height: 300)
         //        view.addSubview(child.view)
         //        child.didMove(toParent: self)
-        
-        
+
+
         let panYGesture = UIPanGestureRecognizer(target: self, action: (#selector(self.handleYGesture(_:))))
         self.textViewHolder.addGestureRecognizer(panYGesture)
-        
+
         let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleLeftSwipeGesture(_:)))
         view.addGestureRecognizer(swipeLeftGestureRecognizer)
         swipeLeftGestureRecognizer.direction = .left
-        
+
         let swipeRightGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleRightSwipeGesture(_:)))
         view.addGestureRecognizer(swipeRightGestureRecognizer)
         swipeRightGestureRecognizer.direction = .right
-        
+
         guard modelDataHandler != nil else {
             fatalError("Model set up failed")
         }
-        
+
         #if targetEnvironment(simulator)
         previewView.shouldUseClipboardImage = true
         NotificationCenter.default.addObserver(self,
@@ -148,19 +148,19 @@ class ViewController: UIViewController {
                                                object: nil)
         #endif
         cameraCapture.delegate = self
-        
+
     }
-    
+
     @objc func handleYGesture(_ gesture: UIPanGestureRecognizer) {
         // 1
         let translation = gesture.translation(in: view)
-        
+
         // 2
         guard let gestureView = gesture.view else {
             return
         }
-        
-        
+
+
         if gestureView.center.y >= 675 && gestureView.center.y <= 950 {
             gestureView.center = CGPoint(
                 x: gestureView.center.x,
@@ -179,9 +179,9 @@ class ViewController: UIViewController {
                 )
             }
         }
-        
+
         print(gestureView.center.y)
-        
+
         // 3
         gesture.setTranslation(.zero, in: view)
     }
@@ -191,33 +191,33 @@ class ViewController: UIViewController {
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
     }
-    
+
     @objc func handleRightSwipeGesture(_ sender: UISwipeGestureRecognizer) {
         let vc = RemoteConversationVC()
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         #if !targetEnvironment(simulator)
         cameraCapture.checkCameraConfigurationAndStartSession()
         #endif
     }
-    
+
     #if !targetEnvironment(simulator)
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         cameraCapture.stopSession()
     }
     #endif
-    
+
     ///This indicates the color of the status bar
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-    
+
     func presentUnableToResumeSessionAlert() {
         let alert = UIAlertController(
             title: "Unable to Resume Session",
@@ -225,86 +225,67 @@ class ViewController: UIViewController {
             preferredStyle: .alert
         )
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        
+
         self.present(alert, animated: true)
     }
-    
+
     ///Prepare for Segue to next storyboard view controller.
     // MARK: Storyboard Segue Handlers
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
-        
+
         if segue.identifier == "EMBED" {
-            
+
             guard let tempModelDataHandler = modelDataHandler else {
                 return
             }
-            
+
         }
     }
-    
+
     @objc func classifyPasteboardImage() {
         guard let image = UIPasteboard.general.images?.first else {
             return
         }
-        
+
         guard let buffer = CVImageBuffer.buffer(from: image) else {
             return
         }
-        
+
         previewView.image = image
-        
+
         DispatchQueue.global().async {
             self.didOutput(pixelBuffer: buffer)
         }
     }
-    
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    
+
 }
 
 // MARK: CameraFeedManagerDelegate Methods
 extension ViewController: CameraFeedManagerDelegate {
-    
-    fileprivate func deleteCharacter() {
-        DispatchQueue.main.async {
-            if self.outputTextView.text != "" {
-                var text = self.outputTextView.text
-                text?.removeLast()
-                self.outputTextView.text = text
-            }
-        }
-    }
-    
-    func didOutput(pixelBuffer: CVPixelBuffer) {
+
+	func didOutput(pixelBuffer: CVPixelBuffer) {
         let currentTimeMs = Date().timeIntervalSince1970 * 1000
         guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
         previousInferenceTimeMs = currentTimeMs
-        
+
         // Pass the pixel buffer to TensorFlow Lite to perform inference.
         result = modelDataHandler?.runModel(onFrame: pixelBuffer)
-        switch result?.inferences[0].label {
-        case "del":
-            deleteCharacter()
-        case "space":
-            print("space")
-        default:
-            DispatchQueue.main.async {
-                self.outputTextView.text += self.result!.inferences[0].label.description
-            }
-        }
+		executeASLtoText()
         // Display results by handing off to the InferenceViewController.
         DispatchQueue.main.async {
             let resolution = CGSize(width: CVPixelBufferGetWidth(pixelBuffer), height: CVPixelBufferGetHeight(pixelBuffer))
-            
+
         }
     }
-    
+
     // MARK: Session Handling Alerts
     func sessionWasInterrupted(canResumeManually resumeManually: Bool) {
-        
+
         // Updates the UI when session is interupted.
         if resumeManually {
             self.resumeButton.isHidden = false
@@ -312,50 +293,50 @@ extension ViewController: CameraFeedManagerDelegate {
             self.cameraUnavailableLabel.isHidden = false
         }
     }
-    
+
     func sessionInterruptionEnded() {
         // Updates UI once session interruption has ended.
         if !self.cameraUnavailableLabel.isHidden {
             self.cameraUnavailableLabel.isHidden = true
         }
-        
+
         if !self.resumeButton.isHidden {
             self.resumeButton.isHidden = true
         }
     }
-    
+
     func sessionRunTimeErrorOccured() {
         // Handles session run time error by updating the UI and providing a button if session can be manually resumed.
         self.resumeButton.isHidden = false
         previewView.shouldUseClipboardImage = true
     }
-    
+
     func presentCameraPermissionsDeniedAlert() {
         let alertController = UIAlertController(title: "Camera Permissions Denied", message: "Camera permissions have been denied for this app. You can change this by going to Settings", preferredStyle: .alert)
-        
+
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         let settingsAction = UIAlertAction(title: "Settings", style: .default) { (_) in
             UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
         }
         alertController.addAction(cancelAction)
         alertController.addAction(settingsAction)
-        
+
         present(alertController, animated: true, completion: nil)
-        
+
         previewView.shouldUseClipboardImage = true
     }
-    
+
     func presentVideoConfigurationErrorAlert() {
         let alert = UIAlertController(title: "Camera Configuration Failed", message: "There was an error while configuring camera.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        
+
         self.present(alert, animated: true)
         previewView.shouldUseClipboardImage = true
     }
 }
 
 extension ViewController {
-    
+
     func previewViewSetup() {
         view.addSubview(previewView)
         previewView.translatesAutoresizingMaskIntoConstraints = false
@@ -364,7 +345,7 @@ extension ViewController {
         previewView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         previewView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
-    
+
     func topBarSetup() {
         view.addSubview(topBar)
         topBar.translatesAutoresizingMaskIntoConstraints = false
@@ -374,7 +355,7 @@ extension ViewController {
         topBar.heightAnchor.constraint(equalToConstant: 90).isActive = true
         //topBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
     }
-    
+
     func cameraUnavailableLabelSetup() {
         view.addSubview(cameraUnavailableLabel)
         cameraUnavailableLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -388,7 +369,7 @@ extension ViewController {
         cameraUnavailableLabel.textColor = .white
         cameraUnavailableLabel.isHidden = true
     }
-    
+
     func resumeButtonSetup() {
         view.addSubview(resumeButton)
         resumeButton.translatesAutoresizingMaskIntoConstraints = false
@@ -398,7 +379,7 @@ extension ViewController {
         resumeButton.setTitleColor(.yellow, for: .normal)
         resumeButton.isHidden = true
     }
-    
+
     func remoteChatButtonSetup() {
         view.addSubview(remoteChatButton)
         remoteChatButton.translatesAutoresizingMaskIntoConstraints = false
@@ -411,7 +392,7 @@ extension ViewController {
         //remoteChatButton.setTitle("Chat", for: .normal)
         remoteChatButton.addTarget(self, action: #selector(remoteChatButtonTapped), for: .touchUpInside)
     }
-    
+
     @objc func remoteChatButtonTapped() {
         let vc = RemoteConversationVC()
         vc.modalTransitionStyle = .crossDissolve
@@ -421,7 +402,7 @@ extension ViewController {
         present(vc, animated: true, completion: nil)
         //navigationController?.pushViewController(vc, animated: true)
     }
-    
+
     func liveButtonSetup() {
         view.addSubview(liveButton)
         liveButton.translatesAutoresizingMaskIntoConstraints = false
@@ -434,16 +415,16 @@ extension ViewController {
         liveButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         liveButton.addTarget(self, action: #selector(liveButtonTapped), for: .touchUpInside)
     }
-    
+
     @objc func liveButtonTapped() {
         liveButton.isSelected = true
         let vc = SpeechToTextVC()
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .crossDissolve
         present(vc, animated: true, completion: nil)
-        
+
     }
-    
+
     func notesButtonSetup() {
         view.addSubview(notesButton)
         notesButton.translatesAutoresizingMaskIntoConstraints = false
@@ -454,10 +435,10 @@ extension ViewController {
         notesButton.setImage(#imageLiteral(resourceName: "notesIcon"), for: .normal)
         //notesButton.setTitle("Notes", for: .normal)
         notesButton.addTarget(self, action: #selector(notesButtonTapped), for: .touchUpInside)
-        
+
         notesButton.imageView?.contentMode = .scaleAspectFit
     }
-    
+
     @objc func notesButtonTapped() {
         notesButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         notesButton.setTitleColor(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1), for: .selected)
@@ -467,7 +448,7 @@ extension ViewController {
         present(vc, animated: true, completion: nil)
         //navigationController?.pushViewController(vc, animated: true)
     }
-    
+
     func textViewHolderSetup() {
         view.addSubview(textViewHolder)
         textViewHolder.translatesAutoresizingMaskIntoConstraints = false
@@ -479,9 +460,9 @@ extension ViewController {
         textViewHolder.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         textViewHolder.layer.cornerRadius = 20
         textViewHolder.isUserInteractionEnabled = true
-        
+
     }
-    
+
     func outputTextViewSetup() {
         textViewHolder.addSubview(outputTextView)
         outputTextView.translatesAutoresizingMaskIntoConstraints = false
@@ -496,16 +477,16 @@ extension ViewController {
         outputTextView.font = UIFont.boldSystemFont(ofSize: 30)
         outputTextView.isUserInteractionEnabled = true
     }
-    
+
     func speak() {
         let utterance = AVSpeechUtterance(string: outputTextView.text!)
         utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
         utterance.rate = 0.4
-        
+
         synthesizer = AVSpeechSynthesizer()
         synthesizer.speak(utterance)
     }
-    
+
     func speakerButtonSetup(){
         textViewHolder.addSubview(speakerButton)
         speakerButton.translatesAutoresizingMaskIntoConstraints = false
@@ -520,7 +501,7 @@ extension ViewController {
         speakerButton.layer.cornerRadius = 20
         speakerButton.addTarget(self, action: #selector(speakerButtonTapped), for: .touchUpInside)
     }
-    
+
     @objc func speakerButtonTapped() {
         if speakerButton.isSelected == true {
             speakerButton.isSelected = false
@@ -532,7 +513,7 @@ extension ViewController {
             speakerButton.backgroundColor = .blue
         }
     }
-    
+
     func topNotchSetup(){
         textViewHolder.addSubview(topNotch)
         topNotch.translatesAutoresizingMaskIntoConstraints = false
@@ -543,5 +524,40 @@ extension ViewController {
         topNotch.backgroundColor = .gray
         topNotch.layer.cornerRadius = 2
     }
-    
+
+}
+extension ViewController {
+	func deleteCharacter() {
+		DispatchQueue.main.async {
+            if self.outputTextView.text != "" {
+				var text = self.outputTextView.text
+                text?.removeLast()
+                self.outputTextView.text = text
+            }
+		}
+	}
+	func addSpace() {
+		DispatchQueue.main.async {
+            if self.outputTextView.text != "" {
+				var text = self.outputTextView.text
+                text?.append(" ")
+                self.outputTextView.text = text
+            }
+		}
+	}
+
+	func executeASLtoText() {
+		switch result?.inferences[0].label {
+		case "del":
+			deleteCharacter()
+		case "space":
+			addSpace()
+		case "nothing":
+			print("")
+		default:
+			DispatchQueue.main.async {
+				self.outputTextView.text += self.result!.inferences[0].label.description
+			}
+		}
+	}
 }

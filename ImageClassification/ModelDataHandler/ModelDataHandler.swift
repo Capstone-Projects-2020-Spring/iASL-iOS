@@ -19,13 +19,17 @@ import Accelerate
 
 /// A result from invoking the `Interpreter`.
 struct Result {
+	///the time the inference was made
   let inferenceTime: Double
+	/// all of the inferences made
   let inferences: [Inference]
 }
 
 /// An inference from invoking the `Interpreter`.
 struct Inference {
+	/// the confidence value returned by the model.
   let confidence: Float
+	/// the label of the returned result from the model
   let label: String
 }
 
@@ -34,7 +38,9 @@ typealias FileInfo = (name: String, extension: String)
 
 /// Information about the MobileNet model.
 enum MobileNet {
+	///The `.tflite` file of the ML Model.
   static let modelInfo: FileInfo = (name: "model", extension: "tflite")
+	/// The file that hold all of the labels returned by the model.
   static let labelsInfo: FileInfo = (name: "labels", extension: "txt")
 }
 
@@ -47,15 +53,19 @@ class ModelDataHandler {
 
   /// The current thread count used by the TensorFlow Lite Interpreter.
   let threadCount: Int
-
+	///The number of results to get from the model.
   let resultCount = 3
+	/// The number of threads that can be deployed.
   let threadCountLimit = 10
 
   // MARK: - Model Parameters
-
+/// How many samples propagate through the network at once
   let batchSize = 1
+	/// How many channels in the image (3 for RGB or 4 if it’s RGBA, but it shouldn’t be RGBA in our case.)
   let inputChannels = 3
+	/// the width the input is scaled to
   let inputWidth = 200
+	/// The height the input is scaled to
   let inputHeight = 200
 
   // MARK: - Private Properties
@@ -87,7 +97,7 @@ class ModelDataHandler {
 
     // Specify the options for the `Interpreter`.
     self.threadCount = threadCount
-    var options = InterpreterOptions()
+	var options = Interpreter.Options()
     options.threadCount = threadCount
     do {
       // Create the `Interpreter`.
@@ -278,7 +288,7 @@ class ModelDataHandler {
     let bytes = [UInt8](unsafeData: byteData)!
     var floats = [Float]()
     for index in 0..<bytes.count {
-        floats.append(Float(bytes[index]) / 255.0)
+        floats.append((Float(bytes[index]) / 127.5) - 1.0)
     }
     return Data(copyingBufferOf: floats)
   }
