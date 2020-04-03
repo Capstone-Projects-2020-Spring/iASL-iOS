@@ -112,7 +112,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
 //		bottomConstraint?.isActive = true
 //		view.addConstraint(bottomConstraint!)
 //		NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(notification:)), name: , object: nil)
-		NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+		//NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
 //        let child = Caboard()
 //        addChild(child)
 //        child.view.frame = view.frame

@@ -407,16 +407,22 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 
         // MARK: Leo, you might need this when switching to all programmatic
         //This switches this view controller to the main view controller in Main.storyboard
-        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-
-        guard let destination = mainStoryboard.instantiateViewController(withIdentifier: "main") as? ViewController else {
-            print("Could not find the main view controller")
-            return
-        }
-
-        destination.modalTransitionStyle = .crossDissolve
-        destination.modalPresentationStyle = .fullScreen
-        present(destination, animated: true, completion: nil)
+        let mainVC = ViewController()
+        mainVC.modalTransitionStyle = .crossDissolve
+        mainVC.modalPresentationStyle = .fullScreen
+        present(mainVC, animated: true, completion: nil)
+        
+        
+//        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//
+//        guard let destination = mainStoryboard.instantiateViewController(withIdentifier: "main") as? ViewController else {
+//            print("Could not find the main view controller")
+//            return
+//        }
+//
+//        destination.modalTransitionStyle = .crossDissolve
+//        destination.modalPresentationStyle = .fullScreen
+//        present(destination, animated: true, completion: nil)
     }
 
     //FIXME: move this
