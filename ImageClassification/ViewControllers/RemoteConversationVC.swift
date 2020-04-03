@@ -432,7 +432,7 @@ extension RemoteConversationVC {
 // Consider refactoring the code to use the non-optional operators.
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
     switch (lhs, rhs) {
-    case let (l?, r?):
+    case let (lefthandSide?, righthandSide?):
         return l < r
     case (nil, _?):
         return true
@@ -445,8 +445,8 @@ fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 // Consider refactoring the code to use the non-optional operators.
 fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
     switch (lhs, rhs) {
-    case let (l?, r?):
-        return l > r
+    case let (lefthandSide?, righthandSide?):
+        return lefthandSide > righthandSide
     default:
         return rhs < lhs
     }
