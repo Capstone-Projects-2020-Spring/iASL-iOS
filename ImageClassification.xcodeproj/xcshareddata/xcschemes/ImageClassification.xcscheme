@@ -49,6 +49,16 @@
                ReferencedContainer = "container:ImageClassification.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "67ABF907243017FC00881646"
+               BuildableName = "iASLUITests.xctest"
+               BlueprintName = "iASLUITests"
+               ReferencedContainer = "container:ImageClassification.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

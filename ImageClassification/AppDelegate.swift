@@ -13,8 +13,12 @@
 // limitations under the License.
 
 import UIKit
+import Speech
 import Firebase
 import FirebaseMessaging
+import FirebaseFirestore
+import SwiftMonkeyPaws
+let navigationController = UINavigationController()
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
@@ -24,27 +28,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
   ) -> Bool {
+    requestTranscribePermissions()
+
     FirebaseApp.configure()
 
-    if #available(iOS 10.0, *) {
-      // For iOS 10 display notification (sent via APNS)
-      UNUserNotificationCenter.current().delegate = self
+    //initializes the firestore firebase
+    //let db = Firestore.firestore()
 
-      let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-      UNUserNotificationCenter.current().requestAuthorization(
-        options: authOptions,
-        completionHandler: {_, _ in })
-    } else {
-      let settings: UIUserNotificationSettings =
-      UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-      application.registerUserNotificationSettings(settings)
-    }
+    //FIXME: May need to reavaluate this solution
+    //changes the root view controller
+//    window = UIWindow(frame: UIScreen.main.bounds)
+//    window?.rootViewController = LoginVC()
+//    window?.makeKeyAndVisible()
+
+    //just for editing the chatVC
+    window = UIWindow(frame: UIScreen.main.bounds)
+    window?.rootViewController = ViewController()
+    window?.makeKeyAndVisible()
 
     application.registerForRemoteNotifications()
 
     Messaging.messaging().delegate = self
 
+    self.window?.makeKeyAndVisible()
+//	if CommandLine.arguments.contains("--MonkeyPaws") {
+//		paws = MonkeyPaws(view: window!)
+//	}
     return true
+
   }
+
+    func requestTranscribePermissions() {
+        SFSpeechRecognizer.requestAuthorization { [unowned self] authStatus in
+            DispatchQueue.main.async {
+                if authStatus == .authorized {
+                    print("Good to go!")
+                } else {
+                    print("Transcription permission was declined.")
+                }
+            }
+        }
+    }
+//	var paws: MonkeyPaws?
 
 }

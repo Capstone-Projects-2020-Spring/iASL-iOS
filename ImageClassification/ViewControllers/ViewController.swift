@@ -21,17 +21,23 @@ class ViewController: UIViewController {
     let remoteChatButton = UIButton()
     let liveChatButton = UIButton()
     let notesButton = UIButton()
+    let buttonStack = UIStackView()
+    let liveButton = UIButton()
+    let tabController = UITabBarController()
+    let outputTextView = UITextView()
+    let textViewHolder = UIView()
 
-    let logoLabel = UILabel()
+    private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
+    private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
+    private var recognitionTask: SFSpeechRecognitionTask?
+    private let audioEngine = AVAudioEngine()
+
     let topBar = UIView()
     // MARK: Storyboards Connections
-    @IBOutlet weak var previewView: PreviewView!
+    var previewView = PreviewView()
     let cameraUnavailableLabel = UILabel()
     let resumeButton = UIButton()
-    @IBOutlet weak var bottomSheetView: CurvedView!
 
-    @IBOutlet weak var bottomSheetViewBottomSpace: NSLayoutConstraint!
-    @IBOutlet weak var bottomSheetStateImageView: UIImageView!
     // MARK: Constants
     private let animationDuration = 0.5
     private let collapseTransitionThreshold: CGFloat = -40.0
@@ -53,7 +59,6 @@ class ViewController: UIViewController {
         ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo)
 
     // Handles the presenting of results on the screen
-    private var inferenceViewController = InferenceViewController()
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
@@ -62,12 +67,29 @@ class ViewController: UIViewController {
 
             ///Code for darmode
             if self.traitCollection.userInterfaceStyle == .dark {
-                logoLabel.textColor = .white
-                topBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+
             } else { ///Code for light mode
-                logoLabel.textColor = .black
-                topBar.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+
             }
+        }
+
+    }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        if UIDevice.current.orientation == UIDeviceOrientation.portraitUpsideDown {
+            liveButton.isSelected = true
+            notesButton.isHidden = true
+            remoteChatButton.isHidden = true
+            let vc = SpeechToTextVC()
+            vc.modalPresentationStyle = .fullScreen
+            vc.modalTransitionStyle = .crossDissolve
+            present(vc, animated: true, completion: {vc.view.rotate(angle: 180)})
+            //
+        } else {
+            liveButton.isSelected = false
+            remoteChatButton.isHidden = false
+            notesButton.isHidden = false
+            dismiss(animated: true, completion: nil)
         }
 
     }
@@ -75,13 +97,16 @@ class ViewController: UIViewController {
     // MARK: View Handling Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        //previewViewSetup()
+        previewViewSetup()
         topBarSetup()
-        logoLabelSetup()
         cameraUnavailableLabelSetup()
-        resumeButtonSetup()
-
         notesButtonSetup()
+        remoteChatButtonSetup()
+        resumeButtonSetup()
+        liveButtonSetup()
+        textViewHolderSetup()
+        outputTextViewSetup()
+        //speak()
 
         guard modelDataHandler != nil else {
             fatalError("Model set up failed")
@@ -96,14 +121,14 @@ class ViewController: UIViewController {
         #endif
         cameraCapture.delegate = self
 
-        addPanGesture()
+    }
+
+    func tabBarControllerSetup() {
+
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        changeBottomViewState()
-
         #if !targetEnvironment(simulator)
         cameraCapture.checkCameraConfigurationAndStartSession()
         #endif
@@ -143,13 +168,6 @@ class ViewController: UIViewController {
                 return
             }
 
-            inferenceViewController = (segue.destination as? InferenceViewController)!
-            inferenceViewController.wantedInputHeight = tempModelDataHandler.inputHeight
-            inferenceViewController.wantedInputWidth = tempModelDataHandler.inputWidth
-            inferenceViewController.maxResults = tempModelDataHandler.resultCount
-            inferenceViewController.threadCountLimit = tempModelDataHandler.threadCountLimit
-            inferenceViewController.delegate = self
-
         }
     }
 
@@ -175,36 +193,21 @@ class ViewController: UIViewController {
 
 }
 
-// MARK: InferenceViewControllerDelegate Methods
-extension ViewController: InferenceViewControllerDelegate {
-
-    func didChangeThreadCount(to count: Int) {
-        if modelDataHandler?.threadCount == count { return }
-        modelDataHandler = ModelDataHandler(
-            modelFileInfo: MobileNet.modelInfo,
-            labelsFileInfo: MobileNet.labelsInfo,
-            threadCount: count
-        )
-    }
-}
-
 // MARK: CameraFeedManagerDelegate Methods
 extension ViewController: CameraFeedManagerDelegate {
 
-    func didOutput(pixelBuffer: CVPixelBuffer) {
+	func didOutput(pixelBuffer: CVPixelBuffer) {
         let currentTimeMs = Date().timeIntervalSince1970 * 1000
         guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
         previousInferenceTimeMs = currentTimeMs
 
         // Pass the pixel buffer to TensorFlow Lite to perform inference.
         result = modelDataHandler?.runModel(onFrame: pixelBuffer)
-
+		executeASLtoText()
         // Display results by handing off to the InferenceViewController.
         DispatchQueue.main.async {
             let resolution = CGSize(width: CVPixelBufferGetWidth(pixelBuffer), height: CVPixelBufferGetHeight(pixelBuffer))
-            self.inferenceViewController.inferenceResult = self.result
-            self.inferenceViewController.resolution = resolution
-            self.inferenceViewController.tableView.reloadData()
+
         }
     }
 
@@ -260,248 +263,187 @@ extension ViewController: CameraFeedManagerDelegate {
     }
 }
 
-// MARK: Bottom Sheet Interaction Methods
 extension ViewController {
 
-    // MARK: Bottom Sheet Interaction Methods
-    /**
-     This method adds a pan gesture to make the bottom sheet interactive.
-     */
-    private func addPanGesture() {
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(ViewController.didPan(panGesture:)))
-        bottomSheetView.addGestureRecognizer(panGesture)
-    }
-
-    /** Change whether bottom sheet should be in expanded or collapsed state.
-     */
-    private func changeBottomViewState() {
-
-        let inferenceVC = inferenceViewController
-
-        if bottomSheetViewBottomSpace.constant == inferenceVC.collapsedHeight - bottomSheetView.bounds.size.height {
-
-            bottomSheetViewBottomSpace.constant = 0.0
-        } else {
-            bottomSheetViewBottomSpace.constant = inferenceVC.collapsedHeight - bottomSheetView.bounds.size.height
-        }
-        setImageBasedOnBottomViewState()
-    }
-
-    /**
-     Set image of the bottom sheet icon based on whether it is expanded or collapsed
-     */
-    private func setImageBasedOnBottomViewState() {
-
-        if bottomSheetViewBottomSpace.constant == 0.0 {
-            bottomSheetStateImageView.image = UIImage(named: "down_icon")
-        } else {
-            bottomSheetStateImageView.image = UIImage(named: "up_icon")
-        }
-    }
-
-    /**
-     This method responds to the user panning on the bottom sheet.
-     */
-    @objc func didPan(panGesture: UIPanGestureRecognizer) {
-
-        // Opens or closes the bottom sheet based on the user's interaction with the bottom sheet.
-        let translation = panGesture.translation(in: view)
-
-        switch panGesture.state {
-        case .began:
-            initialBottomSpace = bottomSheetViewBottomSpace.constant
-            translateBottomSheet(withVerticalTranslation: translation.y)
-        case .changed:
-            translateBottomSheet(withVerticalTranslation: translation.y)
-        case .cancelled:
-            setBottomSheetLayout(withBottomSpace: initialBottomSpace)
-        case .ended:
-            translateBottomSheetAtEndOfPan(withVerticalTranslation: translation.y)
-            setImageBasedOnBottomViewState()
-            initialBottomSpace = 0.0
-        default:
-            break
-        }
-    }
-
-    /**
-     This method sets bottom sheet translation while pan gesture state is continuously changing.
-     */
-    private func translateBottomSheet(withVerticalTranslation verticalTranslation: CGFloat) {
-
-        let bottomSpace = initialBottomSpace - verticalTranslation
-        guard bottomSpace <= 0.0 && bottomSpace >= inferenceViewController.collapsedHeight - bottomSheetView.bounds.size.height else {
-            return
-        }
-        setBottomSheetLayout(withBottomSpace: bottomSpace)
-    }
-
-    /**
-     This method changes bottom sheet state to either fully expanded or closed at the end of pan.
-     */
-    private func translateBottomSheetAtEndOfPan(withVerticalTranslation verticalTranslation: CGFloat) {
-
-        // Changes bottom sheet state to either fully open or closed at the end of pan.
-        let bottomSpace = bottomSpaceAtEndOfPan(withVerticalTranslation: verticalTranslation)
-        setBottomSheetLayout(withBottomSpace: bottomSpace)
-    }
-
-    /**
-     Return the final state of the bottom sheet view (whether fully collapsed or expanded) that is to be retained.
-     */
-    private func bottomSpaceAtEndOfPan(withVerticalTranslation verticalTranslation: CGFloat) -> CGFloat {
-
-        // Calculates whether to fully expand or collapse bottom sheet when pan gesture ends.
-        var bottomSpace = initialBottomSpace - verticalTranslation
-
-        var height: CGFloat = 0.0
-        if initialBottomSpace == 0.0 {
-            height = bottomSheetView.bounds.size.height
-        } else {
-            height = inferenceViewController.collapsedHeight
-        }
-
-        let currentHeight = bottomSheetView.bounds.size.height + bottomSpace
-
-        if currentHeight - height <= collapseTransitionThreshold {
-            bottomSpace = inferenceViewController.collapsedHeight - bottomSheetView.bounds.size.height
-        } else if currentHeight - height >= expandThransitionThreshold {
-            bottomSpace = 0.0
-        } else {
-            bottomSpace = initialBottomSpace
-        }
-
-        return bottomSpace
-    }
-
-    /**
-     This method layouts the change of the bottom space of bottom sheet with respect to the view managed by this controller.
-     */
-    func setBottomSheetLayout(withBottomSpace bottomSpace: CGFloat) {
-
-        view.setNeedsLayout()
-        bottomSheetViewBottomSpace.constant = bottomSpace
-        view.setNeedsLayout()
-    }
-
     func previewViewSetup() {
-        view.addSubview(previewView)
-        previewView.translatesAutoresizingMaskIntoConstraints = false
-        previewView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        previewView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        previewView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-    }
-
-    func logoLabelSetup() {
-        topBar.addSubview(logoLabel)
-        logoLabel.translatesAutoresizingMaskIntoConstraints = false
-        logoLabel.bottomAnchor.constraint(equalTo: topBar.bottomAnchor, constant: -10).isActive = true
-        logoLabel.leadingAnchor.constraint(equalTo: topBar.leadingAnchor, constant: 40).isActive = true
-        logoLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        logoLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        logoLabel.text = "iASL"
-        logoLabel.font = UIFont.systemFont(ofSize: 30)
-        logoLabel.textColor = .white
-    }
-
-    func topBarSetup() {
-        view.addSubview(topBar)
-        topBar.translatesAutoresizingMaskIntoConstraints = false
-        topBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        topBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        topBar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        topBar.heightAnchor.constraint(equalToConstant: 90).isActive = true
-        topBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-    }
-
-    func cameraUnavailableLabelSetup() {
-        view.addSubview(cameraUnavailableLabel)
-        cameraUnavailableLabel.translatesAutoresizingMaskIntoConstraints = false
-        cameraUnavailableLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        cameraUnavailableLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        cameraUnavailableLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        cameraUnavailableLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        cameraUnavailableLabel.text = "Camera Unavailable"
-        cameraUnavailableLabel.textAlignment = .center
-        cameraUnavailableLabel.font = UIFont.boldSystemFont(ofSize: 30)
-        cameraUnavailableLabel.textColor = .white
-        cameraUnavailableLabel.isHidden = true
-    }
-
-    func resumeButtonSetup() {
-        view.addSubview(resumeButton)
-        resumeButton.translatesAutoresizingMaskIntoConstraints = false
-        resumeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        resumeButton.topAnchor.constraint(equalTo: cameraUnavailableLabel.bottomAnchor, constant: 20).isActive = true
-        resumeButton.setTitle("Resume Session", for: .normal)
-        resumeButton.setTitleColor(.yellow, for: .normal)
-        resumeButton.isHidden = true
-    }
-
-    func remoteChatButtonSetup() {
-        view.addSubview(remoteChatButton)
-        remoteChatButton.translatesAutoresizingMaskIntoConstraints = false
-        remoteChatButton.setTitle("Remote Chat", for: .normal)
-        remoteChatButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-        //remoteChatButton.topAnchor.constraint(equalTo: <#T##NSLayoutAnchor<NSLayoutYAxisAnchor>#>, constant: <#T##CGFloat#>)
-    }
-
-    func notesButtonSetup() {
-        topBar.addSubview(notesButton)
-        notesButton.translatesAutoresizingMaskIntoConstraints = false
-        notesButton.setTitle("Notes", for: .normal)
-        notesButton.setTitleColor(.black, for: .normal)
-    }
-
-    /**
-            Requests the user for permission to record from the microphone and transcribe the text.
-     */
-    func requestTranscribePermissions() {
-        SFSpeechRecognizer.requestAuthorization { [unowned self] authStatus in
-            DispatchQueue.main.async {
-                if authStatus == .authorized {
-                    print("Good to go!")
-                } else {
-                    print("Transcription permission was declined.")
-                }
-            }
+            view.addSubview(previewView)
+            previewView.translatesAutoresizingMaskIntoConstraints = false
+            previewView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+            previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+            previewView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+            previewView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         }
-    }
 
-    /**
-        Transcribes the audio recorded from the microphone into text, using built in SFSpeechRecognizer. The recognizer is given a task to transcribe an audio file from a URL. Then the recognized text is spit out as a string which can be used later. The function takes in a URL as a parameter to be transcribed.
-     */
-    func transcribeAudio(url: URL) {
-        // create a new recognizer and point it at our audio
-        let recognizer = SFSpeechRecognizer()
-        let request = SFSpeechURLRecognitionRequest(url: url)
-
-        // start recognition!
-        recognizer?.recognitionTask(with: request) { [unowned self] (result, error) in
-            // abort if we didn't get any transcription back
-            guard let result = result else {
-                print("There was an error: \(error!)")
-                return
-            }
-
-            // if we got the final transcription back, print it
-            if result.isFinal {
-                // pull out the best transcription...
-                print(result.bestTranscription.formattedString)
-            }
+        func topBarSetup() {
+            view.addSubview(topBar)
+            topBar.translatesAutoresizingMaskIntoConstraints = false
+            topBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+            topBar.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+            topBar.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+            topBar.heightAnchor.constraint(equalToConstant: 90).isActive = true
+            //topBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         }
-    }
 
-    /**
-        Synthesizes the text to speech, the function takes a string parameter where the text to be spoken out will be passed. Therefore when the function is called, just call put the desired text in the param.
-     */
-    func synthesizeText(text: String) {
-        let utterance = AVSpeechUtterance(string: text)
-        utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
-        utterance.rate = 0.1
+        func cameraUnavailableLabelSetup() {
+            view.addSubview(cameraUnavailableLabel)
+            cameraUnavailableLabel.translatesAutoresizingMaskIntoConstraints = false
+            cameraUnavailableLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+            cameraUnavailableLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+            cameraUnavailableLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            cameraUnavailableLabel.widthAnchor.constraint(equalToConstant: 300).isActive = true
+            cameraUnavailableLabel.text = "Camera Unavailable"
+            cameraUnavailableLabel.textAlignment = .center
+            cameraUnavailableLabel.font = UIFont.boldSystemFont(ofSize: 30)
+            cameraUnavailableLabel.textColor = .white
+            cameraUnavailableLabel.isHidden = true
+        }
 
-        let synthesizer = AVSpeechSynthesizer()
-        synthesizer.speak(utterance)
-    }
+        func resumeButtonSetup() {
+            view.addSubview(resumeButton)
+            resumeButton.translatesAutoresizingMaskIntoConstraints = false
+            resumeButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+            resumeButton.topAnchor.constraint(equalTo: cameraUnavailableLabel.bottomAnchor, constant: 20).isActive = true
+            resumeButton.setTitle("Resume Session", for: .normal)
+            resumeButton.setTitleColor(.yellow, for: .normal)
+            resumeButton.isHidden = true
+        }
+
+        func remoteChatButtonSetup() {
+            view.addSubview(remoteChatButton)
+            remoteChatButton.translatesAutoresizingMaskIntoConstraints = false
+            remoteChatButton.setImage(#imageLiteral(resourceName: "chatIcon"), for: .normal)
+            remoteChatButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+            remoteChatButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            remoteChatButton.imageView?.contentMode = .scaleAspectFit
+            remoteChatButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+            remoteChatButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
+            //remoteChatButton.setTitle("Chat", for: .normal)
+            remoteChatButton.addTarget(self, action: #selector(remoteChatButtonTapped), for: .touchUpInside)
+        }
+
+        @objc func remoteChatButtonTapped() {
+            let vc = RemoteConversationVC()
+            vc.modalTransitionStyle = .crossDissolve
+            vc.modalPresentationStyle = .fullScreen
+            remoteChatButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+            remoteChatButton.setTitleColor(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1), for: .normal)
+            present(vc, animated: true, completion: nil)
+            //navigationController?.pushViewController(vc, animated: true)
+        }
+
+        func liveButtonSetup() {
+            view.addSubview(liveButton)
+            liveButton.translatesAutoresizingMaskIntoConstraints = false
+            //liveButton.setTitle("Live", for: .normal)
+            liveButton.setImage(#imageLiteral(resourceName: "yo"), for: .normal)
+            liveButton.imageView?.contentMode = .scaleAspectFit
+            liveButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+            liveButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+            liveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+            liveButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
+            liveButton.addTarget(self, action: #selector(liveButtonTapped), for: .touchUpInside)
+        }
+
+        @objc func liveButtonTapped() {
+            liveButton.isSelected = true
+            let vc = SpeechToTextVC()
+            vc.modalPresentationStyle = .fullScreen
+            vc.modalTransitionStyle = .crossDissolve
+            present(vc, animated: true, completion: nil)
+
+        }
+
+        func notesButtonSetup() {
+            view.addSubview(notesButton)
+            notesButton.translatesAutoresizingMaskIntoConstraints = false
+            notesButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+            notesButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
+            notesButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+            notesButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            notesButton.setImage(#imageLiteral(resourceName: "notesIcon"), for: .normal)
+            //notesButton.setTitle("Notes", for: .normal)
+            notesButton.addTarget(self, action: #selector(notesButtonTapped), for: .touchUpInside)
+
+            notesButton.imageView?.contentMode = .scaleAspectFit
+        }
+
+        @objc func notesButtonTapped() {
+            notesButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+            notesButton.setTitleColor(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1), for: .selected)
+            let vc = NotesVC()
+            vc.modalPresentationStyle = .fullScreen
+            vc.modalTransitionStyle = .crossDissolve
+            present(vc, animated: true, completion: nil)
+            //navigationController?.pushViewController(vc, animated: true)
+        }
+
+        func textViewHolderSetup() {
+            view.addSubview(textViewHolder)
+            textViewHolder.translatesAutoresizingMaskIntoConstraints = false
+            textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+            textViewHolder.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+            textViewHolder.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+            textViewHolder.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5).isActive = true
+            textViewHolder.backgroundColor = #colorLiteral(red: 0.9596421632, green: 0.9596421632, blue: 0.9596421632, alpha: 1)
+            textViewHolder.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+            textViewHolder.layer.cornerRadius = 20
+        }
+
+        func outputTextViewSetup() {
+            view.addSubview(outputTextView)
+            outputTextView.translatesAutoresizingMaskIntoConstraints = false
+            outputTextView.bottomAnchor.constraint(equalTo: textViewHolder.bottomAnchor).isActive = true
+            outputTextView.leadingAnchor.constraint(equalTo: textViewHolder.leadingAnchor).isActive = true
+            outputTextView.trailingAnchor.constraint(equalTo: textViewHolder.trailingAnchor).isActive = true
+            outputTextView.topAnchor.constraint(equalTo: textViewHolder.topAnchor, constant: 20).isActive = true
+            outputTextView.isEditable = false
+            outputTextView.text = ""
+            outputTextView.textColor = .gray
+            outputTextView.font = UIFont.boldSystemFont(ofSize: 30)
+        }
+
+        func speak() {
+            let utterance = AVSpeechUtterance(string: outputTextView.text!)
+            utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
+            utterance.rate = 0.4
+
+            let synthesizer = AVSpeechSynthesizer()
+            synthesizer.speak(utterance)
+        }
+
+}
+extension ViewController {
+	func deleteCharacter() {
+		DispatchQueue.main.async {
+            if self.outputTextView.text != "" {
+				var text = self.outputTextView.text
+                text?.removeLast()
+                self.outputTextView.text = text
+            }
+		}
+	}
+	func addSpace() {
+		DispatchQueue.main.async {
+            if self.outputTextView.text != "" {
+				var text = self.outputTextView.text
+                text?.append(" ")
+                self.outputTextView.text = text
+            }
+		}
+	}
+
+	func executeASLtoText() {
+		switch result?.inferences[0].label {
+		case "del":
+			deleteCharacter()
+		case "space":
+			addSpace()
+		case "nothing":
+			print("")
+		default:
+			DispatchQueue.main.async {
+				self.outputTextView.text += self.result!.inferences[0].label.description
+			}
+		}
+	}
 }
