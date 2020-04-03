@@ -18,9 +18,20 @@ jobs:
       - name: Build and test
         run: |
           ./RunScripts/download_models.sh
-          xcodebuild clean test -workspace ImageClassification.xcworkspace -scheme ImageClassification -destination "${destination}" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO
-        env: 
+          xcodebuild clean test -workspace ImageClassification.xcworkspace -scheme ImageClassification -destination "${destination}" -enableCodeCoverage YES CODE_SIGNING_ALLOWED=NO ONLY_ACTIVE_ARCH=NO -derivedDataPath DerivedData
+        env:
          destination: ${{ matrix.destination }}
+      - name: Archive Failed Tests artifacts
+        if: failure()
+        uses: actions/upload-artifact@v1
+        with:
+          name: FailureDiff
+          path: DerivedData/Logs/Test
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODE_COV }} # not required for public repos
+          flags: ImageClassification
 #   add_permalink:
 #     runs-on: [ubuntu-latest]
 #     steps:

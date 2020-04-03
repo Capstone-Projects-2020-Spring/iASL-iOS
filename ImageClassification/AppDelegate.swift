@@ -17,7 +17,7 @@ import Speech
 import Firebase
 import FirebaseMessaging
 import FirebaseFirestore
-
+import SwiftMonkeyPaws
 let navigationController = UINavigationController()
 
 @UIApplicationMain
@@ -31,16 +31,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     requestTranscribePermissions()
 
     FirebaseApp.configure()
-    
+
     //initializes the firestore firebase
     //let db = Firestore.firestore()
 
     //FIXME: May need to reavaluate this solution
     //changes the root view controller
+//    window = UIWindow(frame: UIScreen.main.bounds)
+//    window?.rootViewController = LoginVC()
+//    window?.makeKeyAndVisible()
+
+    //just for editing the chatVC
     window = UIWindow(frame: UIScreen.main.bounds)
-    window?.rootViewController = LoginVC()
+    window?.rootViewController = ViewController()
     window?.makeKeyAndVisible()
-    
+
     //just for editing the chatVC
 //    window = UIWindow(frame: UIScreen.main.bounds)
 //    window?.rootViewController = RemoteConversationVC()
@@ -50,7 +55,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     Messaging.messaging().delegate = self
 
+    self.window?.makeKeyAndVisible()
+//	if CommandLine.arguments.contains("--MonkeyPaws") {
+//		paws = MonkeyPaws(view: window!)
+//	}
     return true
+
   }
 
     func requestTranscribePermissions() {
@@ -64,5 +74,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
     }
+//	var paws: MonkeyPaws?
 
 }

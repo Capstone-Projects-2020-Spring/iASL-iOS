@@ -15,7 +15,7 @@ class Message: NSObject {
     var senderId: String?
     var text: String?
     var timestamp: NSNumber?
-    
+
     func chatPartnerId() -> String? {
         if senderId == Auth.auth().currentUser?.uid {
             return receiverId
@@ -23,7 +23,7 @@ class Message: NSObject {
             return senderId
         }
     }
-    
+
 //    init(receiverId: String, senderId: String, text: String, timestamp: String) {
 //        self.receiverId = receiverId
 //        self.senderId = senderId

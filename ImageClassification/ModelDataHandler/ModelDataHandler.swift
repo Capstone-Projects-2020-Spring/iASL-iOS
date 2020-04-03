@@ -288,7 +288,7 @@ class ModelDataHandler {
     let bytes = [UInt8](unsafeData: byteData)!
     var floats = [Float]()
     for index in 0..<bytes.count {
-        floats.append(Float(bytes[index]) / 255.0)
+        floats.append((Float(bytes[index]) / 127.5) - 1.0)
     }
     return Data(copyingBufferOf: floats)
   }

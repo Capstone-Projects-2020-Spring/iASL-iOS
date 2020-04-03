@@ -19,4 +19,16 @@ target 'ImageClassification' do
     # Add the pod for Firebase Cloud Messaging
     pod 'Firebase/Messaging'
     pod 'SwiftLint'
+    pod 'SwiftMonkeyPaws', '~> 2.1.0'
+end
+target 'iASLUITests' do
+  pod 'SwiftMonkey', '~> 2.1.0'
+end
+#   Disable Code Coverage for Pods projects
+post_install do |installer_representation|
+   installer_representation.pods_project.targets.each do |target|
+       target.build_configurations.each do |config|
+            config.build_settings['CLANG_ENABLE_CODE_COVERAGE'] = 'NO'
+       end
+   end
 end

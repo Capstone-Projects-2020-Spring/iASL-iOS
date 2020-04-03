@@ -32,18 +32,12 @@ class ViewController: UIViewController {
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
 
-    let notes = NotesVC()
-
-    let logoLabel = UILabel()
     let topBar = UIView()
     // MARK: Storyboards Connections
-    @IBOutlet weak var previewView: PreviewView!
+    var previewView = PreviewView()
     let cameraUnavailableLabel = UILabel()
     let resumeButton = UIButton()
-    @IBOutlet weak var bottomSheetView: CurvedView!
 
-    @IBOutlet weak var bottomSheetViewBottomSpace: NSLayoutConstraint!
-    @IBOutlet weak var bottomSheetStateImageView: UIImageView!
     // MARK: Constants
     private let animationDuration = 0.5
     private let collapseTransitionThreshold: CGFloat = -40.0
@@ -65,7 +59,6 @@ class ViewController: UIViewController {
         ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo)
 
     // Handles the presenting of results on the screen
-    private var inferenceViewController = InferenceViewController()
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
@@ -82,9 +75,6 @@ class ViewController: UIViewController {
 
     }
 
-    
-    
-    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         if UIDevice.current.orientation == UIDeviceOrientation.portraitUpsideDown {
             liveButton.isSelected = true
@@ -107,13 +97,8 @@ class ViewController: UIViewController {
     // MARK: View Handling Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        //previewViewSetup()
-        
-        print("we loaded the main view controller")
-
-
+        previewViewSetup()
         topBarSetup()
-        //logoLabelSetup()
         cameraUnavailableLabelSetup()
         notesButtonSetup()
         remoteChatButtonSetup()
@@ -122,12 +107,7 @@ class ViewController: UIViewController {
         textViewHolderSetup()
         outputTextViewSetup()
         //speak()
-        
-        //liveButton
-        
-        
-        
-        
+
         guard modelDataHandler != nil else {
             fatalError("Model set up failed")
         }
@@ -141,9 +121,7 @@ class ViewController: UIViewController {
         #endif
         cameraCapture.delegate = self
 
-        addPanGesture()
     }
-    
 
     func tabBarControllerSetup() {
 
@@ -151,9 +129,6 @@ class ViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        changeBottomViewState()
-
         #if !targetEnvironment(simulator)
         cameraCapture.checkCameraConfigurationAndStartSession()
         #endif
@@ -193,13 +168,6 @@ class ViewController: UIViewController {
                 return
             }
 
-            inferenceViewController = (segue.destination as? InferenceViewController)!
-            inferenceViewController.wantedInputHeight = tempModelDataHandler.inputHeight
-            inferenceViewController.wantedInputWidth = tempModelDataHandler.inputWidth
-            inferenceViewController.maxResults = tempModelDataHandler.resultCount
-            inferenceViewController.threadCountLimit = tempModelDataHandler.threadCountLimit
-            inferenceViewController.delegate = self
-
         }
     }
 
@@ -225,31 +193,8 @@ class ViewController: UIViewController {
 
 }
 
-// MARK: InferenceViewControllerDelegate Methods
-extension ViewController: InferenceViewControllerDelegate {
-
-    func didChangeThreadCount(to count: Int) {
-        if modelDataHandler?.threadCount == count { return }
-        modelDataHandler = ModelDataHandler(
-            modelFileInfo: MobileNet.modelInfo,
-            labelsFileInfo: MobileNet.labelsInfo,
-            threadCount: count
-        )
-    }
-}
-
 // MARK: CameraFeedManagerDelegate Methods
 extension ViewController: CameraFeedManagerDelegate {
-
-	fileprivate func deleteCharacter() {
-		DispatchQueue.main.async {
-            if self.outputTextView.text != "" {
-                var text = self.outputTextView.text
-                text?.removeLast()
-                self.outputTextView.text = text
-            }
-		}
-	}
 
 	func didOutput(pixelBuffer: CVPixelBuffer) {
         let currentTimeMs = Date().timeIntervalSince1970 * 1000
@@ -258,22 +203,11 @@ extension ViewController: CameraFeedManagerDelegate {
 
         // Pass the pixel buffer to TensorFlow Lite to perform inference.
         result = modelDataHandler?.runModel(onFrame: pixelBuffer)
-		switch result?.inferences[0].label {
-		case "del":
-			deleteCharacter()
-		case "space":
-			print("space")
-		default:
-			DispatchQueue.main.async {
-				self.outputTextView.text += self.result!.inferences[0].label.description
-			}
-		}
+		executeASLtoText()
         // Display results by handing off to the InferenceViewController.
         DispatchQueue.main.async {
             let resolution = CGSize(width: CVPixelBufferGetWidth(pixelBuffer), height: CVPixelBufferGetHeight(pixelBuffer))
-            self.inferenceViewController.inferenceResult = self.result
-            self.inferenceViewController.resolution = resolution
-            self.inferenceViewController.tableView.reloadData()
+
         }
     }
 
@@ -329,136 +263,8 @@ extension ViewController: CameraFeedManagerDelegate {
     }
 }
 
-// MARK: Bottom Sheet Interaction Methods
 extension ViewController {
 
-    // MARK: Bottom Sheet Interaction Methods
-    /**
-     This method adds a pan gesture to make the bottom sheet interactive.
-     */
-    private func addPanGesture() {
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(ViewController.didPan(panGesture:)))
-        bottomSheetView.addGestureRecognizer(panGesture)
-    }
-
-    /** Change whether bottom sheet should be in expanded or collapsed state.
-     */
-    private func changeBottomViewState() {
-
-        let inferenceVC = inferenceViewController
-
-        if bottomSheetViewBottomSpace.constant == inferenceVC.collapsedHeight - bottomSheetView.bounds.size.height {
-
-            bottomSheetViewBottomSpace.constant = 0.0
-        } else {
-            bottomSheetViewBottomSpace.constant = inferenceVC.collapsedHeight - bottomSheetView.bounds.size.height
-        }
-        setImageBasedOnBottomViewState()
-    }
-
-    /**
-     Set image of the bottom sheet icon based on whether it is expanded or collapsed
-     */
-    private func setImageBasedOnBottomViewState() {
-
-        if bottomSheetViewBottomSpace.constant == 0.0 {
-            bottomSheetStateImageView.image = UIImage(named: "down_icon")
-        } else {
-            bottomSheetStateImageView.image = UIImage(named: "up_icon")
-        }
-    }
-
-    /**
-     This method responds to the user panning on the bottom sheet.
-     */
-    @objc func didPan(panGesture: UIPanGestureRecognizer) {
-
-        // Opens or closes the bottom sheet based on the user's interaction with the bottom sheet.
-        let translation = panGesture.translation(in: view)
-
-        switch panGesture.state {
-        case .began:
-            initialBottomSpace = bottomSheetViewBottomSpace.constant
-            translateBottomSheet(withVerticalTranslation: translation.y)
-        case .changed:
-            translateBottomSheet(withVerticalTranslation: translation.y)
-        case .cancelled:
-            setBottomSheetLayout(withBottomSpace: initialBottomSpace)
-        case .ended:
-            translateBottomSheetAtEndOfPan(withVerticalTranslation: translation.y)
-            setImageBasedOnBottomViewState()
-            initialBottomSpace = 0.0
-        default:
-            break
-        }
-    }
-
-    /**
-     This method sets bottom sheet translation while pan gesture state is continuously changing.
-     */
-    private func translateBottomSheet(withVerticalTranslation verticalTranslation: CGFloat) {
-
-        let bottomSpace = initialBottomSpace - verticalTranslation
-        guard bottomSpace <= 0.0 && bottomSpace >= inferenceViewController.collapsedHeight - bottomSheetView.bounds.size.height else {
-            return
-        }
-        setBottomSheetLayout(withBottomSpace: bottomSpace)
-    }
-
-    /**
-     This method changes bottom sheet state to either fully expanded or closed at the end of pan.
-     */
-    private func translateBottomSheetAtEndOfPan(withVerticalTranslation verticalTranslation: CGFloat) {
-
-        // Changes bottom sheet state to either fully open or closed at the end of pan.
-        let bottomSpace = bottomSpaceAtEndOfPan(withVerticalTranslation: verticalTranslation)
-        setBottomSheetLayout(withBottomSpace: bottomSpace)
-    }
-
-    /**
-     Return the final state of the bottom sheet view (whether fully collapsed or expanded) that is to be retained.
-     */
-    private func bottomSpaceAtEndOfPan(withVerticalTranslation verticalTranslation: CGFloat) -> CGFloat {
-
-        // Calculates whether to fully expand or collapse bottom sheet when pan gesture ends.
-        var bottomSpace = initialBottomSpace - verticalTranslation
-
-        var height: CGFloat = 0.0
-        if initialBottomSpace == 0.0 {
-            height = bottomSheetView.bounds.size.height
-        } else {
-            height = inferenceViewController.collapsedHeight
-        }
-
-        let currentHeight = bottomSheetView.bounds.size.height + bottomSpace
-
-        if currentHeight - height <= collapseTransitionThreshold {
-            bottomSpace = inferenceViewController.collapsedHeight - bottomSheetView.bounds.size.height
-        } else if currentHeight - height >= expandThransitionThreshold {
-            bottomSpace = 0.0
-        } else {
-            bottomSpace = initialBottomSpace
-        }
-
-        return bottomSpace
-    }
-
-    /**
-     This method layouts the change of the bottom space of bottom sheet with respect to the view managed by this controller.
-     */
-    func setBottomSheetLayout(withBottomSpace bottomSpace: CGFloat) {
-
-        view.setNeedsLayout()
-        bottomSheetViewBottomSpace.constant = bottomSpace
-        view.setNeedsLayout()
-    }
-
-    
-}
-
-
-extension ViewController {
-    
     func previewViewSetup() {
             view.addSubview(previewView)
             previewView.translatesAutoresizingMaskIntoConstraints = false
@@ -466,18 +272,6 @@ extension ViewController {
             previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
             previewView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
             previewView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        }
-
-        func logoLabelSetup() {
-            topBar.addSubview(logoLabel)
-            logoLabel.translatesAutoresizingMaskIntoConstraints = false
-            logoLabel.bottomAnchor.constraint(equalTo: topBar.bottomAnchor, constant: -10).isActive = true
-            logoLabel.leadingAnchor.constraint(equalTo: topBar.leadingAnchor, constant: 40).isActive = true
-            logoLabel.widthAnchor.constraint(equalToConstant: 100).isActive = true
-            logoLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
-            logoLabel.text = "iASL"
-            logoLabel.font = UIFont.systemFont(ofSize: 30)
-            logoLabel.textColor = .white
         }
 
         func topBarSetup() {
@@ -617,6 +411,39 @@ extension ViewController {
             synthesizer.speak(utterance)
         }
 
-    
-    
+}
+extension ViewController {
+	func deleteCharacter() {
+		DispatchQueue.main.async {
+            if self.outputTextView.text != "" {
+				var text = self.outputTextView.text
+                text?.removeLast()
+                self.outputTextView.text = text
+            }
+		}
+	}
+	func addSpace() {
+		DispatchQueue.main.async {
+            if self.outputTextView.text != "" {
+				var text = self.outputTextView.text
+                text?.append(" ")
+                self.outputTextView.text = text
+            }
+		}
+	}
+
+	func executeASLtoText() {
+		switch result?.inferences[0].label {
+		case "del":
+			deleteCharacter()
+		case "space":
+			addSpace()
+		case "nothing":
+			print("")
+		default:
+			DispatchQueue.main.async {
+				self.outputTextView.text += self.result!.inferences[0].label.description
+			}
+		}
+	}
 }

@@ -56,4 +56,5 @@ identifier_name:
     - url
     - row
     - key
+    - app
 reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, junit, html, emoji, sonarqube, markdown)

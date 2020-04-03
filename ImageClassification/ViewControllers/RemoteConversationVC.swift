@@ -12,9 +12,9 @@ import Firebase
 class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var people = ["Ian Applebaum", "Leo Gomes", "Liam Miller", "Viet Pham", "Tarek Elseify", "Aidan Loza", "Shakeel Alibhai"]
-    
+
     private let refreshControl = UIRefreshControl()
-    
+
     //this is where all the messages will go
     var messages = [Message]()
     //for organizing messages by name and most recent
@@ -25,7 +25,7 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
     let backButton = UIButton()
     let tableView = UITableView()
     let liveButton = UIButton()
-    
+
     let logoutButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
@@ -37,7 +37,7 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         button.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
         return button
     }()
-    
+
     // FIXME: Go back and fix this UI
     let addChatButton: UIButton = {
         let image: UIImage = UIImage(named: "plus")!
@@ -57,45 +57,45 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         backButtonSetup()
         topLabelSetup()
         tableViewSetup()
-        
+
         logoutButtonSetup()
         addChatButtonSetup()
         //composedMessageSetup()
-        
+
         //observeMessages()
         observeUserMessages()
-        
+
     }
-    
+
     @objc func refreshTableViewOnPull() {
         print("refreshing table view thanks to pulling down")
-        
+
         self.tableView.reloadData()
-        
+
         refreshControl.endRefreshing()
     }
-    
+
     func observeUserMessages() {
-        
+
         guard let uid = Auth.auth().currentUser?.uid else {
             print("could not get UID")
             return
         }
-        
+
         let ref = Database.database().reference().child("user-messages").child(uid)
-        
+
         ref.observe(.childAdded, with: { (snapshot) in
-            
+
             print(snapshot)
-            
+
             let messageId = snapshot.key
-            
+
             let messagesReference = Database.database().reference().child("messages").child(messageId)
-            
+
             messagesReference.observeSingleEvent(of: .value, with: { (snapshot) in
-                
+
                 print(snapshot)
-                
+
                 //this is where the old observe messages stuff goes
                 if let dictionary = snapshot.value as? [String: AnyObject] {
                     let message = Message()
@@ -105,28 +105,28 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
                     message.timestamp = dictionary["timestamp"] as? NSNumber
                     //print(message.text)
                     //print(message.timestamp)
-                    
+
                     //add message to all the messages
                     //self.messages.append(message)
-                    
+
                     //one message per receiver
-                    
-                    
+
+
                     //finally, this is the solution to the problem commented our below (I think)
                     if let chatPartnerId = message.chatPartnerId() {
                         self.messagesDictionary[chatPartnerId] = message
-                        
+
                         print("keys: ",self.messagesDictionary.keys)
                         print("values: ", self.messagesDictionary.values)
-                        
+
                         self.messages = Array(self.messagesDictionary.values)
-                        
+
                         //sort messages by most recent
                         self.messages.sorted { (message1, message2) -> Bool in
                             return message1.timestamp?.intValue > message2.timestamp?.intValue
                         }
                     }
-                    
+
 //                    if let receiverId = message.receiverId {
 //                        self.messagesDictionary[receiverId] = message
 //
@@ -141,21 +141,21 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
 //                        }
 //                    }
                 }
-                
+
                 print("dictionary length: ", self.messages.count)
-                
+
                 //reload the table
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
-                
+
             }, withCancel: nil)
-            
+
         }, withCancel: nil)
-        
-        
+
+
     }
-    
+
 //    //gather all of the messages ever so we can organize them properly in the main table view
 //    func observeMessages() {
 //        let ref = Database.database().reference().child("messages")
@@ -193,11 +193,11 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
 //
 //        }, withCancel: nil)
 //    }
-    
+
     ///Add a user to a current conversation
     @objc func handleAddChat() {
         print("add chat button pressed")
-        
+
         //call a new view controller
         let addChatVC = AddChatVC()
         addChatVC.remoteConversations = self //sets the reference variable to self so we can transition elsewhere
@@ -209,14 +209,14 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
     //FIXME: Maybe add a pop up message asking the user if they are sure they want to log out?
     ///handles the logout button, so it logs the user out of firebae and presents the login controller
     @objc func handleLogout() {
-        
+
         print("handle logout tapped")
-        
+
         //clear the arrays that hold user messages and reset the table
         messages.removeAll()
         messagesDictionary.removeAll()
         tableView.reloadData()
-        
+
         //log the user out of firebase
         do {
             try Auth.auth().signOut()
@@ -228,28 +228,29 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         loginController.modalTransitionStyle = .crossDissolve
         loginController.modalPresentationStyle = .fullScreen
         present(loginController, animated: true, completion: nil)
+*/
     }
-    
+
     ///sets the anchors and adds the button to the top bar
     func logoutButtonSetup() {
         //x, y, height, width
         topBar.addSubview(logoutButton)
-        
+
         logoutButton.trailingAnchor.constraint(equalTo: topBar.trailingAnchor, constant: -10).isActive = true
         logoutButton.bottomAnchor.constraint(equalTo: topBar.bottomAnchor, constant: -10).isActive = true
         logoutButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         //logoutButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
     }
-    
+
     func addChatButtonSetup() {
         view.addSubview(addChatButton)
-        
+
         addChatButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         addChatButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
         addChatButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         addChatButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
     }
-    
+
 
 }
 
@@ -257,11 +258,11 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
 extension RemoteConversationVC {
 
     //MARK: Table View Stuff
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messages.count
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 72
     }
@@ -270,50 +271,50 @@ extension RemoteConversationVC {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell") as! ChatUserCell
         //let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "chatCell")
-        
+
         //get the message
         let message = messages[indexPath.row]
-        
+
         print("messages count: ", messages.count)
-        
+
         //sets the message and does the work for applying it to a cell
         cell.message = message
-        
-        
+
+
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+
         //let vc = ChatVC(collectionViewLayout: UICollectionViewFlowLayout())
         //let cell: UITableViewCell = tableView.cellForRow(at: indexPath)!
-        
+
         let message = messages[indexPath.row]
-        
+
         guard let chatPartnerId = message.chatPartnerId() else {
             return
         }
-        
+
         let ref = Database.database().reference().child("users").child(chatPartnerId)
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
             //print(snapshot)
-            
+
             guard let dictionary = snapshot.value as? [String: AnyObject] else {
                 return
             }
-            
+
             let user = User()
             user.name = dictionary["name"] as? String
             user.email = dictionary["email"] as? String
-            
+
             //FIXME: this may be dictionary["id"] as? String
             user.id = chatPartnerId
-            
+
             self.showChatVCForUser(user: user)
-            
-            
+
+
         }, withCancel: nil)
-        
+
 //        guard let name = cell.textLabel?.text else {
 //            print("could not find name")
 //            return
@@ -321,16 +322,16 @@ extension RemoteConversationVC {
 //        showChatVC(name: name)
         //navigationController?.pushViewController(vc, animated: true)
     }
-    
+
     //FIXME: These two below need to change later once we have a working view controller in remote
     func showChatVCForUser(user: User) {
-        
+
         messages.removeAll()
         messagesDictionary.removeAll()
         tableView.reloadData()
-        
+
         observeUserMessages()
-        
+
         let vc = ChatVC()
         vc.chatPartner = user
         //vc.topLabel.text = user.name //this has been moved to in ChatVC
@@ -338,7 +339,7 @@ extension RemoteConversationVC {
         vc.modalTransitionStyle = .crossDissolve
         present(vc, animated: true, completion: nil)
     }
-    
+
     func showChatVC(name: String) {
         let vc = ChatVC()
         vc.modalPresentationStyle = .fullScreen
@@ -346,13 +347,13 @@ extension RemoteConversationVC {
         vc.topLabel.text = name
         present(vc, animated: true, completion: nil)
     }
-    
+
     //change the color of the status bar
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNeedsStatusBarAppearanceUpdate()
     }
-    
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
     }
@@ -367,10 +368,10 @@ extension RemoteConversationVC {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.delegate = self
         tableView.dataSource = self
-        
+
         tableView.register(ChatUserCell.self, forCellReuseIdentifier: "chatCell")
         refreshControl.addTarget(self, action: #selector(refreshTableViewOnPull), for: .valueChanged)
-        
+
         //adding the pull to refresh
         if #available(iOS 10.0, *) {
             tableView.refreshControl = refreshControl
@@ -404,7 +405,7 @@ extension RemoteConversationVC {
 
     @objc func backButtonTapped() {
         dismiss(animated: true, completion: nil)
-        
+
 //        messages.removeAll()
 //        messagesDictionary.removeAll()
 //        observeUserMessages()
@@ -450,4 +451,3 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
         return rhs < lhs
     }
 }
-
