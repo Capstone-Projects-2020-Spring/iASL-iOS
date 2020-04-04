@@ -463,13 +463,13 @@ extension ViewController {
     func outputTextViewSetup() {
         textViewHolder.addSubview(outputTextView)
         outputTextView.translatesAutoresizingMaskIntoConstraints = false
-        outputTextView.bottomAnchor.constraint(equalTo: textViewHolder.bottomAnchor, constant: -50).isActive = true
+        outputTextView.bottomAnchor.constraint(equalTo: textViewHolder.bottomAnchor, constant: -60).isActive = true
         outputTextView.leadingAnchor.constraint(equalTo: textViewHolder.leadingAnchor).isActive = true
         outputTextView.trailingAnchor.constraint(equalTo: textViewHolder.trailingAnchor).isActive = true
         outputTextView.topAnchor.constraint(equalTo: textViewHolder.topAnchor, constant: 30).isActive = true
         outputTextView.isEditable = false
         outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.8)
-        outputTextView.text = ""
+        outputTextView.text = "The quick brown fox jumps over the lazy dog"
         outputTextView.textColor = .black
         outputTextView.font = UIFont.boldSystemFont(ofSize: 30)
         outputTextView.isUserInteractionEnabled = true
@@ -488,14 +488,14 @@ extension ViewController {
         textViewHolder.addSubview(speakerButton)
         speakerButton.translatesAutoresizingMaskIntoConstraints = false
         speakerButton.trailingAnchor.constraint(equalTo: textViewHolder.trailingAnchor, constant: -20).isActive = true
-        speakerButton.bottomAnchor.constraint(equalTo: textViewHolder.bottomAnchor, constant: -5).isActive = true
-        speakerButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        speakerButton.topAnchor.constraint(equalTo: outputTextView.bottomAnchor, constant: 5).isActive = true
+        speakerButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
         speakerButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        speakerButton.backgroundColor = .blue
+        speakerButton.backgroundColor = #colorLiteral(red: 0.2958290193, green: 0.29024376, blue: 1, alpha: 1)
+        speakerButton.setTitle("Mute", for: .normal)
+        speakerButton.setTitle("Speak", for: .selected)
         speakerButton.isSelected = true
-        speakerButton.setImage(#imageLiteral(resourceName: "speaker"), for: .selected)
-        speakerButton.setImage(#imageLiteral(resourceName: "mute"), for: .normal)
-        speakerButton.layer.cornerRadius = 20
+        speakerButton.layer.cornerRadius = 10
         speakerButton.addTarget(self, action: #selector(speakerButtonTapped), for: .touchUpInside)
     }
 
@@ -507,7 +507,7 @@ extension ViewController {
         } else {
             speakerButton.isSelected = true
             speak()
-            speakerButton.backgroundColor = .blue
+            speakerButton.backgroundColor = #colorLiteral(red: 0.2958290193, green: 0.29024376, blue: 1, alpha: 1)
         }
     }
 
