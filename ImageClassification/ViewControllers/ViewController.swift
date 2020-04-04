@@ -394,7 +394,7 @@ extension ViewController {
     @objc func remoteChatButtonTapped() {
         
         //check if user is logged in, if not go to login screen
-        //checkIfLoggedOut()
+        checkIfLoggedOut()
         
         let vc = RemoteConversationVC()
         vc.modalTransitionStyle = .crossDissolve
@@ -457,7 +457,7 @@ extension ViewController {
     @objc func notesButtonTapped() {
         
         //check if user is logged in, if not go to login screen
-        //checkIfLoggedOut()
+        checkIfLoggedOut()
         
         notesButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         notesButton.setTitleColor(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1), for: .selected)

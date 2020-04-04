@@ -17,6 +17,7 @@ import Speech
 import Firebase
 import FirebaseMessaging
 import FirebaseFirestore
+import KeychainSwift
 //import SwiftMonkeyPaws
 let navigationController = UINavigationController()
 
@@ -31,20 +32,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     requestTranscribePermissions()
 
     FirebaseApp.configure()
-
-    //initializes the firestore firebase
-    //let db = Firestore.firestore()
-
-    //FIXME: May need to reavaluate this solution
-    //changes the root view controller
-    window = UIWindow(frame: UIScreen.main.bounds)
-    window?.rootViewController = LoginVC()
-    window?.makeKeyAndVisible()
-
-    //just for editing the chatVC
-//    window = UIWindow(frame: UIScreen.main.bounds)
-//    window?.rootViewController = ViewController()
-//    window?.makeKeyAndVisible()
+    
+    let keychain = KeychainSwift(keyPrefix: "iasl_")
+    
+    //need a local scope so code can continue afterwards
+    
+    
+    
+    //if we can get email and password from keychain, skip sign in screen
+    if let email = keychain.get("email"), let password = keychain.get("password") {
+        print("Did not get email and password")
+        
+        //sign in with username and password
+        Auth.auth().signIn(withEmail: email, password: password) { (_, err) in
+            if err != nil {
+                print(err!)
+                return
+            }
+            
+            //successfully signed in
+            print("you signed in successfully")
+        }
+        
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = ViewController()
+        window?.makeKeyAndVisible()
+        
+    } else {
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = LoginVC()
+        window?.makeKeyAndVisible()
+    }
 
     //just for editing the chatVC
 //    window = UIWindow(frame: UIScreen.main.bounds)
