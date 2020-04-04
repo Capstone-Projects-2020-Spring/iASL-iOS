@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Foundation
+import Firebase
 
 //FIXME: Fix keyboard height with respect to input box
 
@@ -25,16 +25,51 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
     let backButton = UIButton()
     let tableView = UITableView()
 
-	   // Handles all data preprocessing and makes calls to run inference through the `Interpreter`.
-	   private var modelDataHandler: ModelDataHandler? =
-		   ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo)
+    let messagesConstant: String = "messages"
+
+    //so we know which user we are talking to
+    var chatPartner: User? {
+        didSet {
+            topLabel.text = chatPartner?.name
+
+            //observe the messages
+            observeMessages()
+        }
+    }
+
+    var messages = [Message]()
+
     //delete this once you can get messages from Firebase
-    let tempMessages = [
-        Message(toId: "toId", fromId: "fromId", text: "Text Message 1", timestamp: "timestamp"),
-        Message(toId: "toId", fromId: "fromId", text: "Text Message 2", timestamp: "timestamp"),
-        Message(toId: "toId", fromId: "fromId", text: "Text Message 3 that could be pretty long perhaps", timestamp: "timestamp"),
-        Message(toId: "toId", fromId: "fromId", text: "Text Message 4", timestamp: "timestamp")
-    ]
+    var tempMessages = [Message]()
+
+    var tempMessage1 = Message()
+    var tempMessage2 = Message()
+    var tempMessage3 = Message()
+    var tempMessage4 = Message()
+
+    func loadTempMessage() {
+        tempMessage1.receiverId = "receiverId"
+        tempMessage1.senderId = "senderId"
+        tempMessage1.text = "Text Message 1"
+        tempMessage1.timestamp = 1
+
+        tempMessage2.receiverId = "receiverId"
+        tempMessage2.senderId = "senderId"
+        tempMessage2.text = "Text Message 1"
+        tempMessage2.timestamp = 2
+
+        tempMessage3.receiverId = "receiverId"
+        tempMessage3.senderId = "senderId"
+        tempMessage3.text = "Text Message 1"
+        tempMessage3.timestamp = 3
+
+        tempMessage4.receiverId = "receiverId"
+        tempMessage4.senderId = "senderId"
+        tempMessage4.text = "Text Message 1"
+        tempMessage4.timestamp = 4
+
+        tempMessages = [tempMessage1, tempMessage2, tempMessage3, tempMessage4]
+    }
 
     static let cellId = "cellId"
 
@@ -58,24 +93,8 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         return collection
     }()
 
-        //let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout.init()
-
-//    //this is where everything will go so we can get it under the top bar
-//    let containerView: UIView = {
-//        let view = UIView()
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        return view
-//    }()
-	var bottomConstraint: NSLayoutConstraint?
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        //view.backgroundColor = .white
-
-//        layout.scrollDirection = UICollectionView.ScrollDirection.vertical
-//        //collectionView.setCollectionViewLayout(layout, animated: true)
-//        collectionView.delegate = self
-//        collectionView.dataSource = self
 
         view.backgroundColor = .white
 
@@ -93,7 +112,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
 //		bottomConstraint?.isActive = true
 //		view.addConstraint(bottomConstraint!)
 //		NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(notification:)), name: , object: nil)
-		NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+//		NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
 //        let child = Caboard()
 //        addChild(child)
 //        child.view.frame = view.frame
@@ -103,24 +122,47 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         //collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
 
     }
-	@objc func handleKeyboardNotification(notification: Notification) {
-		if let frameObject: AnyObject = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as AnyObject? {
-			let keyboardRect = frameObject.cgRectValue
 
-			//bottomConstraint?.isActive = false
-			//bottomConstraint? = composedMessage.bottomAnchor.constraint(equalTo: topAnchor, constant: -20)//composedMessage.frame.height - 20 - keyboardRect!.height
-			//bottomConstraint?.isActive = true
-			self.view.layoutIfNeeded()
-			 // use keyboardRect to calculate the frame of the textfield
-		}
-	}
-//    ///going to hold the messages here
-//    func containerViewSetup() {
-//        containerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-//        containerView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-//        containerView.topAnchor.constraint(equalTo: topBar.bottomAnchor).isActive = true
-//        containerView.bottomAnchor.constraint(equalTo: previewView.topAnchor).isActive = true
-//    }
+    func observeMessages() {
+
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("could not get the UID")
+            return
+        }
+
+        let userMessagesRef = Database.database().reference().child("user-messages").child(uid)
+        userMessagesRef.observe(.childAdded, with: { (snapshot) in
+
+            let messageId = snapshot.key
+            let messagesRef = Database.database().reference().child("messages").child(messageId)
+            messagesRef.observeSingleEvent(of: .value, with: { (snapshot) in
+
+                guard let dictionary = snapshot.value as? [String: AnyObject] else {
+                    print("could not find dictionary")
+                    return
+                }
+
+                let message = Message()
+                message.receiverId = dictionary["receiverId"] as? String
+                message.senderId = dictionary["senderId"] as? String
+                message.text = dictionary["text"] as? String
+                message.timestamp = dictionary["timestamp"] as? NSNumber
+
+                if message.chatPartnerId() == self.chatPartner?.id {
+                    //add the messages we received to the messages array
+                    self.messages.append(message)
+
+                    //reload the table
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                    }
+
+                }
+
+            }, withCancel: nil)
+
+        }, withCancel: nil)
+    }
 
     func collectionViewSetup() {
         view.addSubview(collectionView)
@@ -142,15 +184,19 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return tempMessages.count
+        return messages.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChatVC.cellId, for: indexPath) as! ChatMessageCell
 
         //this is where you will set the text of each message
-        let message = tempMessages[indexPath.row]
+        let message = messages[indexPath.row]
         cell.textView.text = message.text
+        
+        print(message.timestamp!)
+
+        setupCell(cell: cell, message: message)
 
         //modify the bubbleView width?
         cell.bubbleViewWidthAnchor?.constant = estimateFrameForText(text: message.text!).width + 32 //32 is just a guess
@@ -158,12 +204,31 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         return cell
     }
 
+    func setupCell(cell: ChatMessageCell, message: Message) {
+        if message.senderId == Auth.auth().currentUser?.uid {
+            //outgoing blue
+            cell.bubbleView.backgroundColor = .systemPink
+            cell.textView.textColor = .white
+
+            cell.bubbleViewRightAnchor?.isActive = true
+            cell.bubbleViewLeftAnchor?.isActive = false
+        } else {
+            //incoming gray
+            cell.bubbleView.backgroundColor = .lightGray
+            cell.textView.textColor = .black
+
+            cell.bubbleViewRightAnchor?.isActive = false
+            cell.bubbleViewLeftAnchor?.isActive = true
+
+        }
+    }
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
         var height: CGFloat = 80
 
         //need to somehow guess the height based on the amount of text inside the bubble
-        if let text = tempMessages[indexPath.item].text {
+        if let text = messages[indexPath.item].text {
             height = estimateFrameForText(text: text).height + 20 //20 is just a guess
         }
 
@@ -253,9 +318,68 @@ extension ChatVC {
 //        tableView.dataSource = self
 //    }
 
+    ///handles what happens when you send a message
     @objc func handleSendButton() {
         print(composedMessage.text!)
 
+        guard let messageText = composedMessage.text else {
+            print("could not get message")
+            return
+        }
+
+        let ref = Database.database().reference().child(self.messagesConstant)
+        //gets an auto ID for each message
+        let childRef = ref.childByAutoId()
+
+        //receiver is who you are talking to, sender is you
+
+        guard let receiverId = chatPartner?.id, let senderId = Auth.auth().currentUser?.uid else {
+            print("could not get necessary message information")
+            return
+        }
+
+        //gets it in milliseconds
+        let timestamp: NSNumber = NSNumber(value: NSDate().timeIntervalSince1970 * 1000)
+        
+        let values = ["receiverId": receiverId, "senderId": senderId, "text": messageText, "timestamp": timestamp] as [String: Any]
+
+        childRef.updateChildValues(values) { (error, _) in
+            if error != nil {
+                print(error!)
+                return
+            }
+
+            //you've added your message successfully\
+            print("successfully added message")
+
+            //need to also save to new node for cost related issues
+            let userMessagesRef = Database.database().reference().child("user-messages").child(senderId)
+
+            let messageId = childRef.key
+            let userValue = [messageId: 1] as! [String: Any]
+
+            userMessagesRef.updateChildValues(userValue) { (error2, _) in
+                if error2 != nil {
+                    print(error2!)
+                    return
+                }
+
+                //you've added to the user-messages node for message senders
+                print("you've added to the user-messages node for senders")
+            }
+
+            let receiverUserMessagesRef = Database.database().reference().child("user-messages").child(receiverId)
+            receiverUserMessagesRef.updateChildValues(userValue) { (error2, _) in
+                if error2 != nil {
+                    print(error2!)
+                    return
+                }
+
+                //you've added a node to the user-messages node for message receivers
+                print("you've added to the user-messages node for receivers")
+            }
+
+        }
         //this is where it needs to send the message to firebase
     }
 
@@ -288,6 +412,8 @@ extension ChatVC {
     //FIXME: Add placeholder logic manually since you can't use a text field here, won't expand vertically
 
     //FIXME: Can we use enter to send a message and not go lower in the textview?
+
+    //FIXME: Fix issue with keyboard covering textview
     func composedMessageSetup() {
         view.addSubview(composedMessage)
         composedMessage.translatesAutoresizingMaskIntoConstraints = false
@@ -347,4 +473,17 @@ extension ChatVC {
         topLabel.textColor = .white
     }
 
+}
+
+extension NSDate {
+    func toMillis() -> NSNumber {
+        return NSNumber(value:Int64(timeIntervalSince1970 * 1000))
+    }
+    static func fromMillis(millis: NSNumber?) -> NSDate? {
+        return millis.map() { number in NSDate(timeIntervalSince1970: Double(truncating: number) / 1000)}
+    }
+
+    static func currentTimeInMillis() -> NSNumber {
+        return NSDate().toMillis()
+    }
 }

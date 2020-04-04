@@ -12,19 +12,19 @@ class CardView: UIViewController {
 
     let outputTextView = UITextView()
     let textViewHolder = UIView()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         //view.frame = CGRect(x: 0, y: 0, width: 200, height: 200)
         view.backgroundColor = .blue
         textViewHolderSetup()
         outputTextViewSetup()
-        
+
         let panYGesture = UIPanGestureRecognizer(target: self, action: (#selector(self.handleYGesture(_:))))
         self.textViewHolder.addGestureRecognizer(panYGesture)
-        
+
     }
-    
+
     @objc func handleYGesture(_ gesture: UIPanGestureRecognizer) {
       // 1
       let translation = gesture.translation(in: view)

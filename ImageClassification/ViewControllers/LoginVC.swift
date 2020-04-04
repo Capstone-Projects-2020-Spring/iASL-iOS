@@ -10,6 +10,8 @@
 
 // FIXME: Add a skip button so user's don't have to login if they don't want. Not needed for the main part of the app
 
+// FIXME: What happens when a user forgets their password?
+
 import Foundation
 import UIKit
 import Firebase
@@ -265,6 +267,14 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         //need a reference
         passwordTextFieldHeightAnchor = passwordTextField.heightAnchor.constraint(equalTo: inputContainerView.heightAnchor, multiplier: 1/3)
         passwordTextFieldHeightAnchor?.isActive = true
+
+        //make sure this works
+        if #available(iOS 12, *) {
+            passwordTextField.textContentType = .oneTimeCode
+        } else {
+            emailTextField.textContentType = .init(rawValue: "")
+            passwordTextField.textContentType = .init(rawValue: "")
+        }
     }
 
     ///sets up the constraints of the top orange separator
@@ -397,17 +407,26 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 
         // MARK: Leo, you might need this when switching to all programmatic
         //This switches this view controller to the main view controller in Main.storyboard
-        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-
-        guard let destination = mainStoryboard.instantiateViewController(withIdentifier: "main") as? ViewController else {
-            print("Could not find the main view controller")
-            return
-        }
-
-        destination.modalTransitionStyle = .crossDissolve
-        destination.modalPresentationStyle = .fullScreen
-        present(destination, animated: true, completion: nil)
+        let mainVC = ViewController()
+        mainVC.modalTransitionStyle = .crossDissolve
+        mainVC.modalPresentationStyle = .fullScreen
+        present(mainVC, animated: true, completion: nil)
+        
+        
+//        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//
+//        guard let destination = mainStoryboard.instantiateViewController(withIdentifier: "main") as? ViewController else {
+//            print("Could not find the main view controller")
+//            return
+//        }
+//
+//        destination.modalTransitionStyle = .crossDissolve
+//        destination.modalPresentationStyle = .fullScreen
+//        present(destination, animated: true, completion: nil)
     }
+
+    //FIXME: move this
+    let usersStringConstant: String = "users"
 
     func handleRegister() {
 
@@ -416,34 +435,51 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             print("Did not get email and password")
             return
         }
-		// FIXME: Liam you need to fix these linting issues
-		// swiftlint:disable identifier_name
+
+        //code for creating a user in auth
         Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
             if err != nil {
                 print(err!)
                 return
             }
 
-            let db = Firestore.firestore()
-            //successfully added user to authentication
-            //var ref: DocumentReference? = nil
-
             //check to see if uid exists
             guard let uid = result?.user.uid else {
                 return
             }
 
-            let dataToAdd: [String: Any] = ["name": name, "email": email, "uid": uid]
+            //let db = Firestore.firestore()
+            var ref: DatabaseReference!
+            ref = Database.database().reference()
+            //gets the user child in the database with the UID as the child name
+            let userReference = ref.child(self.usersStringConstant).child(uid)
+            //successfully added user to authentication
+            //var ref: DocumentReference? = nil
 
-            //added user to database with UID as document
-            db.collection(self.collectionUser).document(uid).setData(dataToAdd, merge: true) { (error) in
-                if let error = error {
-                    print(error)
+            //adds the name and the email
+            let dataToAdd: [String: Any] = ["name": name, "email": email, "id": uid]
+
+            //for realtime storing
+            userReference.updateChildValues(dataToAdd) { (error, _) in
+                if error != nil {
+                    print(error!)
+                    return
                 }
 
-                //added user to collection with UID
-                print("added user to database with UID")
+                //you've successfully added user to realtime database
+                print("saved user successfully into REALTIME")
             }
+
+            //added user to database with UID as document
+            // MARK: The code below is for using Firestore, not realtime
+//            db.collection(self.collectionUser).document(uid).setData(dataToAdd, merge: true) { (error) in
+//                if let error = error {
+//                    print(error)
+//                }
+//
+//                //added user to collection with UID
+//                print("added user to database with UID")
+//            }
         }
     }
 
@@ -465,10 +501,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             print("you signed in successfully")
 
         }
-    }
-	// swiftlint:enable identifier_name
-    func handleLogout() {
-
     }
 
     ///sets up the constraints of the submit button

@@ -57,4 +57,9 @@ identifier_name:
     - row
     - key
     - app
+    - lhs
+    - rhs
+    - uid
+    - ref
+    - err
 reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, junit, html, emoji, sonarqube, markdown)

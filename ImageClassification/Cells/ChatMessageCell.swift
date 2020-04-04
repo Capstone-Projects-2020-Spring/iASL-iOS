@@ -46,9 +46,16 @@ class ChatMessageCell: UICollectionViewCell {
     }
 
     var bubbleViewWidthAnchor: NSLayoutConstraint?
+    var bubbleViewRightAnchor: NSLayoutConstraint?
+    var bubbleViewLeftAnchor: NSLayoutConstraint?
 
     func bubbleViewSetup() {
-        bubbleView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -8).isActive = true
+        bubbleViewRightAnchor = bubbleView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -8)
+        bubbleViewRightAnchor?.isActive = true
+
+        bubbleViewLeftAnchor = bubbleView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 8)
+        bubbleViewLeftAnchor?.isActive = true
+
         bubbleView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
 
         bubbleViewWidthAnchor = bubbleView.widthAnchor.constraint(equalToConstant: 200)
