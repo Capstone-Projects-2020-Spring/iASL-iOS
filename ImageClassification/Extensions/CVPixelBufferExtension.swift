@@ -15,7 +15,7 @@
 
 import UIKit
 import Accelerate
-
+import VideoToolbox
 extension CVPixelBuffer {
 
   /**
@@ -143,3 +143,22 @@ extension CVPixelBuffer {
   }
 
 }
+/*
+extension UIImage {
+    public convenience init?(pixelBuffer: CVPixelBuffer) {
+        var cgImage: CGImage?
+        VTCreateCGImageFromCVPixelBuffer(pixelBuffer, nil, &cgImage)
+
+        guard let retcgImage = cgImage else {
+            return nil
+        }
+
+        self.init(cgImage: retcgImage)
+    }
+}
+extension UIImage {
+    var data : Data? {
+      return cgImage?.dataProvider?.data as Data?
+    }
+}
+*/

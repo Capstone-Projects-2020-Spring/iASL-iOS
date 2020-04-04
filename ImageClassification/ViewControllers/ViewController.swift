@@ -49,7 +49,8 @@ class ViewController: UIViewController {
 
     // MARK: Instance Variables
     // Holds the results at any time
-    private var result: Result?
+    private var handResult: Result?
+	private var wordResult: Result?
     private var initialBottomSpace: CGFloat = 0.0
     private var previousInferenceTimeMs: TimeInterval = Date.distantPast.timeIntervalSince1970 * 1000
 
@@ -266,13 +267,14 @@ class ViewController: UIViewController {
 extension ViewController: CameraFeedManagerDelegate {
 
 	func didOutput(pixelBuffer: CVPixelBuffer) {
+		wordResult = modelDataHandler?.runModelVideoModel(onFrame: pixelBuffer)
         let currentTimeMs = Date().timeIntervalSince1970 * 1000
-        guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
+//        guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
         previousInferenceTimeMs = currentTimeMs
 
         // Pass the pixel buffer to TensorFlow Lite to perform inference.
-        result = modelDataHandler?.runModel(onFrame: pixelBuffer)
-		executeASLtoText()
+//        handResult = modelDataHandler?.runModelHandModel(onFrame: pixelBuffer)
+//		executeASLtoText()
         // Display results by handing off to the InferenceViewController.
         DispatchQueue.main.async {
             let resolution = CGSize(width: CVPixelBufferGetWidth(pixelBuffer), height: CVPixelBufferGetHeight(pixelBuffer))
@@ -544,7 +546,7 @@ extension ViewController {
 	}
 
 	func executeASLtoText() {
-		switch result?.inferences[0].label {
+		switch handResult?.inferences[0].label {
 		case "del":
 			deleteCharacter()
 		case "space":
@@ -553,7 +555,7 @@ extension ViewController {
 			print("")
 		default:
 			DispatchQueue.main.async {
-				self.outputTextView.text += self.result!.inferences[0].label.description
+				self.outputTextView.text += self.handResult!.inferences[0].label.description
 			}
 		}
 	}

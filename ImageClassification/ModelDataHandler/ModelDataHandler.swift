@@ -77,7 +77,8 @@ class ModelDataHandler {
   private var interpreter: Interpreter
 
   /// Information about the alpha component in RGBA data.
-  private let alphaComponent = (baseOffset: 4, moduloRemainder: 3)
+	private let alphaComponent = (baseOffset: 4, moduloRemainder: 3)
+	private var frames: [Data] = []
 
   // MARK: - Initialization
 
@@ -115,7 +116,7 @@ class ModelDataHandler {
   // MARK: - Internal Methods
 
   /// Performs image preprocessing, invokes the `Interpreter`, and processes the inference results.
-  func runModel(onFrame pixelBuffer: CVPixelBuffer) -> Result? {
+  func runModelHandModel(onFrame pixelBuffer: CVPixelBuffer) -> Result? {
 
     let sourcePixelFormat = CVPixelBufferGetPixelFormatType(pixelBuffer)
     assert(sourcePixelFormat == kCVPixelFormatType_32ARGB ||
@@ -185,7 +186,108 @@ class ModelDataHandler {
     // Return the inference time and inference results.
     return Result(inferenceTime: interval, inferences: topNInferences)
   }
+	
+	/// Performs image preprocessing, invokes the `Interpreter`, and processes the inference results.
+	func runModelVideoModel(onFrame pixelBuffer: CVPixelBuffer) -> Result? {
+		if collectVideoFrames(pixelBuffer: pixelBuffer){
+//			for frame in self.frames{
+//				frame.
+//			}
+			print("ATTEMPTING TO SEND FRAMES")
+			var strings:[String] = []
+			for frame in frames{
+				strings.append(frame.base64EncodedString())
+			}
+			
+			let string = strings.joined(separator: "")
+			//MARK: REQUEST
+			let url = URL(string: "http://192.168.73.155:8080/predict")!
+			var request = URLRequest(url: url)
+			request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+			request.httpMethod = "POST"
+			request.httpBody = string.data(using: String.Encoding.utf8)
+			print(request.httpBody)
+			let task = URLSession.shared.dataTask(with: request) { data, response, error in
+						guard let data = data,
+							let response = response as? HTTPURLResponse,
+							error == nil else {                                              // check for fundamental networking error
+							print("error", error ?? "Unknown error")
+								if let error = error as NSError?, error.domain == NSURLErrorDomain && error.code == NSURLErrorNotConnectedToInternet {
+									  //not connected
+									
+								}else{
+									
+								}
+							return
+						}
 
+						guard (200 ... 299) ~= response.statusCode else {                    // check for http errors
+							print("statusCode should be 2xx, but is \(response.statusCode)")
+							print("response = \(response)")
+							
+							return
+						}
+
+						let responseString = String(data: data, encoding: .utf8)
+				print(responseString)
+						}
+
+					task.resume()
+			
+			let interval: TimeInterval
+			
+			// Run inference by invoking the `Interpreter`.
+			let startDate = Date()
+			interval = Date().timeIntervalSince(startDate) * 1000
+			
+			
+			//RESULTS COLLECTED
+			let results: [Float]
+			
+			// Process the results.
+			let topNInferences:[Inference] = []//getTopN(results: results)
+			
+			// Return the inference time and inference results.
+			self.frames = []
+			return Result(inferenceTime: interval, inferences: topNInferences)
+		}else{
+			return nil
+		}
+		
+	 }
+	func collectVideoFrames(pixelBuffer: CVPixelBuffer) -> Bool {
+		 //MARK: Video Preprocessing
+		let sourcePixelFormat = CVPixelBufferGetPixelFormatType(pixelBuffer)
+		assert(sourcePixelFormat == kCVPixelFormatType_32ARGB ||
+				 sourcePixelFormat == kCVPixelFormatType_32BGRA ||
+				   sourcePixelFormat == kCVPixelFormatType_32RGBA)
+
+		let imageChannels = 4
+		assert(imageChannels >= inputChannels)
+
+		// Crops the image to the biggest square in the center and scales it down to model dimensions.
+		let scaledSize = CGSize(width: 150, height: 150)
+		guard let thumbnailPixelBuffer = pixelBuffer.centerThumbnail(ofSize: scaledSize) else {
+		  return false
+		}
+
+		 // Remove the alpha component from the image buffer to get the RGB data.
+		 guard let rgbData = rgbDataFromBuffer(
+			 thumbnailPixelBuffer,
+			 byteCount: batchSize * 150 * 150 * inputChannels,
+			 isModelQuantized: false
+			 ) else {
+				 print("Failed to convert the image buffer to RGB data.")
+				 return false
+		 }
+		if frames.count < 40 {
+			frames.append(rgbData)
+			print("FRAMES COUNT: \(frames.count)")
+		}else{
+			return true
+		}
+		return false
+	}
   // MARK: - Private Methods
 
   /// Returns the top N inference results sorted in descending order.
