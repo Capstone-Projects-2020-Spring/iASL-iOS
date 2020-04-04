@@ -23,17 +23,24 @@ import FirebaseFirestore
  The user should be able to enter their name, email, and password if they have not registered before or
  just their email and password if they are a returning user.
  */
-
-// MARK: Added a UITextFieldDelegate here to the class
-
-// MARK: If there is a camera view, then the keyboard won't be there and thus, the view won't have to move so just make it an imageview for now
-
 class LoginVC: UIViewController, UITextFieldDelegate {
 
     ///boolean that determines if we are on the login screen or the register screen
     var isRegisterButton: Bool = true
 
     let collectionUser: String = "users"
+    
+    let skipButton: UIButton = {
+        let skip = UIButton(type: .system)
+        skip.backgroundColor = .clear
+        skip.setTitle("Skip for now", for: .normal)
+        skip.setTitleColor(.white, for: .normal)
+        skip.translatesAutoresizingMaskIntoConstraints = false
+        skip.layer.cornerRadius = 5
+        skip.layer.masksToBounds = true
+        skip.addTarget(self, action: #selector(handleSkipButton), for: .touchUpInside)
+        return skip
+    }()
 
     ///first function that is called
     override func viewDidLoad() {
@@ -41,11 +48,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         view.backgroundColor = .systemPink
 
         let removeKeyboardTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboardOnTap))
-
-        //create the firestore
-//        let db = Firestore.firestore()
-//        var ref: DocumentReference? = nil
-//        ref = db.collection(self.collectionUser).addDocument(data: <#T##[String : Any]#>)
 
         //set the delegates for the keyboards
         nameTextField.delegate = self
@@ -60,12 +62,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         //true means register button is sent
         //false means login button is sent
         isRegisterButton = true
-
-        //view.addSubview(label)
-        view.addSubview(inputContainerView)
-        view.addSubview(infoSubmitButton)
-        view.addSubview(cameraContainerView)
-        view.addSubview(toggleRegisterLoginButton)
+        
 
         view.addGestureRecognizer(removeKeyboardTap)
 
@@ -76,8 +73,33 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         setupInfoSubmitButton()
         setupCameraView()
         setupToggleRegisterLoginButton()
-
+        setupSkipButton()
+        
         //print(toggleRegisterLoginButton.frame.origin.y)
+    }
+    
+    ///called when this view controller needs to disappear and the main view controller needs to load
+    func handleLeaveLogin() {
+        let mainVC = ViewController()
+        mainVC.modalTransitionStyle = .crossDissolve
+        mainVC.modalPresentationStyle = .fullScreen
+        present(mainVC, animated: true, completion: nil)
+    }
+    
+    ///handles what happens with the skip button is pressed
+    @objc func handleSkipButton() {
+        //print("handle skip button pressed")
+        handleLeaveLogin()
+    }
+    
+    func setupSkipButton() {
+        view.addSubview(skipButton)
+
+        
+        skipButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        skipButton.topAnchor.constraint(equalTo: toggleRegisterLoginButton.bottomAnchor, constant: 12).isActive = true
+        skipButton.widthAnchor.constraint(equalTo: toggleRegisterLoginButton.widthAnchor).isActive = true
+        skipButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
 
     ///This gets called when the register or login button is pressed
@@ -203,6 +225,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 
     ///sets up the constraints for the input container
     func setupInputContainerView() {
+        view.addSubview(inputContainerView)
         //next do the anchors for the container views
         //centerx, centery, width, and height
         inputContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -297,7 +320,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     ///container for where I'd like the camera to go
     let cameraContainerView: UIView = {
         let cameraView = UIView()
-        cameraView.backgroundColor = .white
+        cameraView.backgroundColor = .clear
         cameraView.translatesAutoresizingMaskIntoConstraints = false
         cameraView.layer.cornerRadius = 5
         cameraView.layer.masksToBounds = true
@@ -306,11 +329,30 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 
     ///sets up the constraints of the camera view
     func setupCameraView() {
+        view.addSubview(cameraContainerView)
+        view.addSubview(logoView)
+        
+        //sets up the container for the background, helps with visualizing
         cameraContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         cameraContainerView.bottomAnchor.constraint(equalTo: inputContainerView.topAnchor, constant: -12).isActive = true
         cameraContainerView.widthAnchor.constraint(equalTo: inputContainerView.widthAnchor, multiplier: 0.5).isActive = true
-        cameraContainerView.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        cameraContainerView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        
+        //adds the logo to the view
+        logoView.centerXAnchor.constraint(equalTo: cameraContainerView.centerXAnchor).isActive = true
+        logoView.bottomAnchor.constraint(equalTo: cameraContainerView.bottomAnchor).isActive = true
+        logoView.widthAnchor.constraint(equalTo: cameraContainerView.widthAnchor).isActive = true
+        logoView.heightAnchor.constraint(equalTo: cameraContainerView.heightAnchor).isActive = true
     }
+    
+    ///a logo for the login screen
+    let logoView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "yo")
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
 
     //need a register/login button
     ///the button that changes the view from register mode to login mode
@@ -360,6 +402,8 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 
     ///sets up the constraints of the toggle button
     func setupToggleRegisterLoginButton() {
+        view.addSubview(toggleRegisterLoginButton)
+        
         toggleRegisterLoginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         toggleRegisterLoginButton.topAnchor.constraint(equalTo: infoSubmitButton.bottomAnchor, constant: 12).isActive = true
         toggleRegisterLoginButton.widthAnchor.constraint(equalTo: infoSubmitButton.widthAnchor).isActive = true
@@ -405,29 +449,15 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         //if login successful
         //then exit the view controller
 
-        // MARK: Leo, you might need this when switching to all programmatic
         //This switches this view controller to the main view controller in Main.storyboard
-        let mainVC = ViewController()
-        mainVC.modalTransitionStyle = .crossDissolve
-        mainVC.modalPresentationStyle = .fullScreen
-        present(mainVC, animated: true, completion: nil)
+        handleLeaveLogin()
         
-        
-//        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//
-//        guard let destination = mainStoryboard.instantiateViewController(withIdentifier: "main") as? ViewController else {
-//            print("Could not find the main view controller")
-//            return
-//        }
-//
-//        destination.modalTransitionStyle = .crossDissolve
-//        destination.modalPresentationStyle = .fullScreen
-//        present(destination, animated: true, completion: nil)
     }
 
     //FIXME: move this
     let usersStringConstant: String = "users"
 
+    ///handles what happens when the user decides to register an account
     func handleRegister() {
 
         //get email and password and name
@@ -483,10 +513,14 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         }
     }
 
+    ///handles what happens when the user logins in with an existing account
     func handleLogin() {
         //get email and password and name
         guard let email = emailTextField.text, let password = passwordTextField.text else {
             print("Did not get email and password")
+            
+            //FIXME: Add some kind of error handling for when a password/email is not entered or if the account can't be found
+            
             return
         }
 
@@ -505,6 +539,8 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 
     ///sets up the constraints of the submit button
     func setupInfoSubmitButton() {
+        view.addSubview(infoSubmitButton)
+        
         infoSubmitButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         infoSubmitButton.topAnchor.constraint(equalTo: inputContainerView.bottomAnchor, constant: 12).isActive = true
         infoSubmitButton.widthAnchor.constraint(equalTo: inputContainerView.widthAnchor).isActive = true
