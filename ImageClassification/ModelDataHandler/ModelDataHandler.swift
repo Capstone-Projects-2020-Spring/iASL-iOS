@@ -78,7 +78,7 @@ class ModelDataHandler {
 
   /// Information about the alpha component in RGBA data.
 	private let alphaComponent = (baseOffset: 4, moduloRemainder: 3)
-	private var frames: [Data] = []
+	private var frames: [CVPixelBuffer] = []
 
   // MARK: - Initialization
 
@@ -196,7 +196,8 @@ class ModelDataHandler {
 			print("ATTEMPTING TO SEND FRAMES")
 			var strings:[String] = []
 			for frame in frames{
-				strings.append(frame.base64EncodedString())
+				let img: UIImage = UIImage(pixelBuffer: frame)!
+				strings.append((img.data?.base64EncodedString())!)
 			}
 			
 			let string = strings.joined(separator: "")
@@ -280,8 +281,9 @@ class ModelDataHandler {
 				 print("Failed to convert the image buffer to RGB data.")
 				 return false
 		 }
+		
 		if frames.count < 40 {
-			frames.append(rgbData)
+			frames.append(pixelBuffer)
 			print("FRAMES COUNT: \(frames.count)")
 		}else{
 			return true

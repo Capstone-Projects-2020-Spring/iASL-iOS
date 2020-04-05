@@ -143,11 +143,11 @@ extension CVPixelBuffer {
   }
 
 }
-/*
+
 extension UIImage {
     public convenience init?(pixelBuffer: CVPixelBuffer) {
         var cgImage: CGImage?
-        VTCreateCGImageFromCVPixelBuffer(pixelBuffer, nil, &cgImage)
+		VTCreateCGImageFromCVPixelBuffer(pixelBuffer, options: nil, imageOut: &cgImage)
 
         guard let retcgImage = cgImage else {
             return nil
@@ -161,4 +161,4 @@ extension UIImage {
       return cgImage?.dataProvider?.data as Data?
     }
 }
-*/
+
