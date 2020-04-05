@@ -559,6 +559,7 @@ extension ViewController {
         
         if keyboardButton.isSelected {
             print("ss")
+            outputTextView.isEditable = false
             keyboardButton.isSelected = false
             UIView.animate(withDuration: 0.2, animations: {
                 self.heightAnchor.constant = -self.view.frame.size.height/2
@@ -568,6 +569,7 @@ extension ViewController {
         } else {
             keyboardButton.isSelected = true
             outputTextView.topAnchor.constraint(equalTo: textViewHolder.topAnchor, constant: 30).isActive = true
+            outputTextView.isEditable = true
             UIView.animate(withDuration: 0.2, animations: {
                 self.heightAnchor.constant = -self.view.frame.size.height
                 self.textViewHolder.backgroundColor = .white
@@ -580,7 +582,9 @@ extension ViewController {
     }
     
     
-
+    func buttonStackSetup(){
+        view.addSubview(<#T##view: UIView##UIView#>)
+    }
     
 
     
