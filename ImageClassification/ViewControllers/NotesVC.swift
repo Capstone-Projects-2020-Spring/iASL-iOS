@@ -127,16 +127,19 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
 extension NotesVC {
 
+    ///counts the number of items in a table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return notes.count
     }
 
+    ///each cell in the table view
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
         cell?.textLabel?.text = notes[indexPath.row].text
         return cell!
     }
 
+    ///selecting a specific row in the table view
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = CreateNoteVC()
         vc.note = notes[indexPath.row]
@@ -160,6 +163,7 @@ extension NotesVC {
         .lightContent
     }
 
+    ///set up the table view with constraints and such
     func tableViewSetup() {
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -172,6 +176,7 @@ extension NotesVC {
         tableView.dataSource = self
     }
 
+    ///setting up the top bar with constraints and such
     func topBarSetup() {
         view.addSubview(topBar)
         topBar.translatesAutoresizingMaskIntoConstraints = false
@@ -182,6 +187,7 @@ extension NotesVC {
         topBar.backgroundColor = .black
     }
 
+    ///set up the back button
     func backButtonSetup() {
         topBar.addSubview(backButton)
         backButton.translatesAutoresizingMaskIntoConstraints = false
@@ -195,6 +201,7 @@ extension NotesVC {
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
 
+    ///set up the create note button
     func createNoteButtonSetup() {
 
         view.addSubview(createNoteButton)
@@ -209,6 +216,7 @@ extension NotesVC {
         createNoteButton.addTarget(self, action: #selector(createNoteButtonTapped), for: .touchUpInside)
     }
 
+    ///handles the create note button being tapped
     @objc func createNoteButtonTapped() {
         
         let vc = CreateNoteVC()
@@ -221,11 +229,13 @@ extension NotesVC {
         present(vc, animated: true, completion: nil)
     }
 
+    ///handles the back button being tapped
     @objc func backButtonTapped() {
         dismiss(animated: true, completion: nil)
         //navigationController?.popViewController(animated: true)
     }
 
+    ///sets up the top label for the name of the view controller
     func topLabelSetup() {
         topBar.addSubview(topLabel)
         topLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -244,6 +254,7 @@ extension NotesVC {
 
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
+///private function for comparing two elements
 private func < <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
     switch (lhs, rhs) {
     case let (lefthandSide?, righthandSide?):
@@ -257,6 +268,7 @@ private func < <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
+///private function for comparing two elements
 private func > <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
     switch (lhs, rhs) {
     case let (lefthandSide?, righthandSide?):

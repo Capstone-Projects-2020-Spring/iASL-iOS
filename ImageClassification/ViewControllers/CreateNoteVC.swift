@@ -24,6 +24,7 @@ class CreateNoteVC: UIViewController {
     let textView = UITextView()
     let noteTitle = UITextField()
     
+    ///save button for saving notes
     let saveButton: UIButton = {
         let save = UIButton()
         save.backgroundColor = .clear
@@ -45,6 +46,7 @@ class CreateNoteVC: UIViewController {
         loadNote()
     }
     
+    ///if the note already exists, loads the contents into the VC
     func loadNote() {
         noteTitle.text = note?.title
         textView.text = note?.text
@@ -67,6 +69,7 @@ class CreateNoteVC: UIViewController {
         
     }
     
+    ///handles what happens when a new note is made
     func handleNewNote() {
         
         print("handle new note")
@@ -184,16 +187,13 @@ class CreateNoteVC: UIViewController {
         toggleSaveButtonEnabled()
     }
     
-    ///we just need to get one note here, unlike in messages where we had to get several notes
-    func getNote() {
-        
-    }
-    
+    ///sets the save button to enabled and makes the color normal
     func toggleSaveButtonEnabled() {
         saveButton.isEnabled = true
         saveButton.alpha = 1
     }
     
+    ///sets the save button to disabled and makes the color of the bottom dim
     func toggleSaveButtonDisabled() {
         saveButton.isEnabled = false
         saveButton.alpha = 0.2
@@ -203,6 +203,7 @@ class CreateNoteVC: UIViewController {
 
 extension CreateNoteVC: UITextViewDelegate {
 
+    ///set up for the back button
     func backButtonSetup() {
         view.addSubview(backButton)
         backButton.translatesAutoresizingMaskIntoConstraints = false
@@ -216,10 +217,12 @@ extension CreateNoteVC: UITextViewDelegate {
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
 
+    ///what happens when the back button is tapped, dismisses the view controller
     @objc func backButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
 
+    ///sets up the note title
     func noteTitleSetup() {
         view.addSubview(noteTitle)
         noteTitle.translatesAutoresizingMaskIntoConstraints = false
@@ -230,6 +233,7 @@ extension CreateNoteVC: UITextViewDelegate {
         noteTitle.font = UIFont.boldSystemFont(ofSize: 30)
     }
 
+    ///sets up the main text view
     func textViewSetup() {
         view.addSubview(textView)
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -243,6 +247,7 @@ extension CreateNoteVC: UITextViewDelegate {
         textView.delegate = self
     }
     
+    ///if the text changed in the view controller, toggle the save button 
     func textViewDidChange(_ textView: UITextView) {
         print("textview did change")
         toggleSaveButtonEnabled()
