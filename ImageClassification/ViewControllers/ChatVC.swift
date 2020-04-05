@@ -381,6 +381,9 @@ extension ChatVC {
 
         }
         //this is where it needs to send the message to firebase
+        
+        //clear the composed message part
+        composedMessage.text = ""
     }
 
     func sendButtonSetup() {
