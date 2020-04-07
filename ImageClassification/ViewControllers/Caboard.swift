@@ -194,12 +194,29 @@ extension Caboard {
             predictionButton[x].titleLabel?.textAlignment = .left
             predictionButton[x].setTitle("A", for: .normal)
             predictionButton[x].backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.2)
+            predictionButton[x].setTitleColor(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1), for: .normal)
+            predictionButton[x].addTarget(self, action: #selector(predictionButtonHoldDown(_:)), for: .touchDown)
             predictionButton[x].addTarget(self, action: #selector(predictionButtonTapped(_:)), for: .touchUpInside)
+            predictionButton[x].addTarget(self, action: #selector(predictionButtonTapped(_:)), for: .touchDragExit)
         }
         
     }
     
+    @objc func predictionButtonHoldDown(_ sender:UIButton){
+        for butt in predictionButton {
+            if sender == butt {
+                sender.backgroundColor =  #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.8)
+            }
+        }
+    }
+    
     @objc func predictionButtonTapped(_ sender:UIButton){
+        for butt in predictionButton {
+            if sender == butt {
+                sender.backgroundColor =  #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.2)
+            }
+        }
+        
         let but = predictionButton[0]
         if sender == predictionButton[0] {
             print("tapped")
