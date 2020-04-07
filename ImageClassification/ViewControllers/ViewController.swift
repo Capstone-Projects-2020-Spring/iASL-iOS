@@ -30,6 +30,7 @@ class ViewController: UIViewController {
     let speakerButton = UIButton()
     let clearButton = UIButton()
     let keyboardButton = UIButton()
+    let speechSpeedStepper = UIStepper()
     
     var heightAnchor = NSLayoutConstraint()
     
@@ -129,6 +130,8 @@ class ViewController: UIViewController {
         //        view.addSubview(child.view)
         //        child.didMove(toParent: self)
 
+        
+        
 
         let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleLeftSwipeGesture(_:)))
         view.addGestureRecognizer(swipeLeftGestureRecognizer)
@@ -553,6 +556,12 @@ extension ViewController {
         keyboardButton.addTarget(self, action: #selector(keyboardButtonTapped), for: .touchUpInside)
     }
     
+    func speechStepperSetup(){
+        view.addSubview(speechSpeedStepper)
+        speechSpeedStepper.translatesAutoresizingMaskIntoConstraints = false
+        
+    }
+    
     @objc func keyboardButtonTapped(){
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -580,11 +589,7 @@ extension ViewController {
         
         
     }
-    
-    
-    func buttonStackSetup(){
-        view.addSubview(<#T##view: UIView##UIView#>)
-    }
+
     
 
     

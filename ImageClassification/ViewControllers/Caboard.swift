@@ -17,8 +17,9 @@ class Caboard: UIView {
     let cameraUnavailableLabel = UILabel()
     let resumeButton = UIButton()
     let buttonStack = UIStackView()
-    let predictionTable = UITableView()
     let keyboardChangeButton = UIButton()
+    var predictionButton = [UIButton]()
+    let predictionStack = UIStackView()
 
     var prediction = ["He", "Hey", "Here"]
 	weak var target: UIKeyInput?
@@ -51,11 +52,8 @@ class Caboard: UIView {
         buttonStackSetup()
         deleteButtonSetup()
         nextButtonSetup()
-        predictionTableSetup()
         bottomCoverSetup()
-
-        //composedMessageSetup()
-
+        predictionStackSetup()
         #if targetEnvironment(simulator)
         previewView.shouldUseClipboardImage = true
         NotificationCenter.default.addObserver(self,
@@ -173,33 +171,41 @@ extension Caboard: CameraFeedManagerDelegate {
 
 }
 
-extension Caboard: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return prediction.count
-    }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
-        cell?.textLabel?.text = prediction[indexPath.row]
-        cell?.textLabel?.textColor = .white
-        cell?.backgroundColor = .clear
-        return cell!
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-//        outputText.append(prediction[indexPath.row])
-
-		DispatchQueue.main.async {
-//			print(self.outputText)
-			self.target?.insertText(self.prediction[indexPath.row])
-		}
-    }
-
-}
 
 extension Caboard {
 
+    func predictionStackSetup(){
+        addSubview(predictionStack)
+        predictionStack.translatesAutoresizingMaskIntoConstraints = false
+        predictionStack.leadingAnchor.constraint(equalTo: previewView.trailingAnchor, constant: 5).isActive = true
+        predictionStack.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
+        predictionStack.bottomAnchor.constraint(equalTo: deleteButton.topAnchor, constant: -5).isActive = true
+        predictionStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5).isActive = true
+        predictionStack.axis = .vertical
+        predictionStack.spacing = 5
+        predictionStack.distribution = .fillEqually
+        
+        
+        for x in 0...2 {
+            predictionButton.append(UIButton())
+            predictionStack.addArrangedSubview(predictionButton[x])
+            predictionStack.translatesAutoresizingMaskIntoConstraints = false
+            predictionButton[x].titleLabel?.textAlignment = .left
+            predictionButton[x].setTitle("A", for: .normal)
+            predictionButton[x].backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.2)
+            predictionButton[x].addTarget(self, action: #selector(predictionButtonTapped(_:)), for: .touchUpInside)
+        }
+        
+    }
+    
+    @objc func predictionButtonTapped(_ sender:UIButton){
+        let but = predictionButton[0]
+        if sender == predictionButton[0] {
+            print("tapped")
+        }
+    }
+    
     func caboardViewSetup() {
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -253,19 +259,7 @@ extension Caboard {
         buttonStack.spacing = 5
     }
 
-    func predictionTableSetup() {
-        caboardView.addSubview(predictionTable)
-        predictionTable.translatesAutoresizingMaskIntoConstraints = false
-        predictionTable.leadingAnchor.constraint(equalTo: previewView.trailingAnchor, constant: 5).isActive = true
-        predictionTable.bottomAnchor.constraint(equalTo: buttonStack.topAnchor, constant: -5).isActive = true
-        predictionTable.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5).isActive = true
-        predictionTable.topAnchor.constraint(equalTo: self.topAnchor, constant: 5).isActive = true
-        predictionTable.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        predictionTable.backgroundColor = .clear
-        predictionTable.separatorColor = .white
-        predictionTable.delegate = self
-        predictionTable.dataSource = self
-    }
+
 
     func deleteButtonSetup() {
         buttonStack.addArrangedSubview(deleteButton)
@@ -282,9 +276,10 @@ extension Caboard {
 		let longPressGestureRecognizer = UILongPressGestureRecognizer(
 					target: self,
 					action: #selector(handleLongPress))
-
+        longPressGestureRecognizer.cancelsTouchesInView = false
 		self.addGestureRecognizer(longPressGestureRecognizer)
     }
+    
 	@objc func handleLongPress() {
 		deleteChar {
 			#if DEBUG
