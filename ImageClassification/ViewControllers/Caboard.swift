@@ -20,8 +20,9 @@ class Caboard: UIView {
     let keyboardChangeButton = UIButton()
     var predictionButton = [UIButton]()
     let predictionStack = UIStackView()
+    var stringCache = String()
 
-    var prediction = ["He", "Hey", "Here"]
+    var prediction = Array<String>()
 	weak var target: UIKeyInput?
     // MARK: Constants
     private let animationDuration = 0.5
@@ -107,7 +108,12 @@ extension Caboard: CameraFeedManagerDelegate {
 			default:
 
 				self.target?.insertText(self.result!.inferences[0].label.description)
-
+                self.stringCache.append(self.result!.inferences[0].label.description)
+                let rangeForEndOfStr = NSMakeRange(0, self.stringCache.utf16.count)     // You had inverted parameters ; could also use NSRange(0..<str.utf16.count)
+                let spellChecker = UITextChecker()
+                //print(UITextChecker.availableLanguages)
+                self.prediction = spellChecker.completions(forPartialWordRange: rangeForEndOfStr, in: self.stringCache, language: "en_US")!
+                print(self.prediction ?? "No completion found")
 			}
 		}
 
@@ -187,17 +193,30 @@ extension Caboard {
         predictionStack.distribution = .fillEqually
         
         
-        for x in 0...2 {
+        updateStack(prediction: prediction)
+    }
+    
+    func updateStack(prediction:[String]){
+        
+        var range = 0
+        if prediction.count > 3 {
+            range = 3
+        } else {
+            range = prediction.count
+        }
+        var x = 0
+        while x < range {
             predictionButton.append(UIButton())
             predictionStack.addArrangedSubview(predictionButton[x])
             predictionStack.translatesAutoresizingMaskIntoConstraints = false
             predictionButton[x].titleLabel?.textAlignment = .left
-            predictionButton[x].setTitle("A", for: .normal)
+            predictionButton[x].setTitle(prediction[x], for: .normal)
             predictionButton[x].backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.2)
             predictionButton[x].setTitleColor(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1), for: .normal)
             predictionButton[x].addTarget(self, action: #selector(predictionButtonHoldDown(_:)), for: .touchDown)
             predictionButton[x].addTarget(self, action: #selector(predictionButtonTapped(_:)), for: .touchUpInside)
             predictionButton[x].addTarget(self, action: #selector(predictionButtonTapped(_:)), for: .touchDragExit)
+            x += 1
         }
         
     }
@@ -214,12 +233,9 @@ extension Caboard {
         for butt in predictionButton {
             if sender == butt {
                 sender.backgroundColor =  #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.2)
+                if sender.titleLabel?.text! != nil { self.target?.insertText((sender.titleLabel?.text!)!) }
+                self.target?.insertText(" ")
             }
-        }
-        
-        let but = predictionButton[0]
-        if sender == predictionButton[0] {
-            print("tapped")
         }
     }
     
@@ -236,7 +252,6 @@ extension Caboard {
 //		caboardView.leadingAnchor.constraint(equalTo: viewDelagate!.leadingAnchor).isActive = true
 //		caboardView.trailingAnchor.constraint(equalTo: viewDelagate!.trailingAnchor).isActive = true
         caboardView.heightAnchor.constraint(equalToConstant: 230).isActive = true
-
         caboardView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
     }
 
