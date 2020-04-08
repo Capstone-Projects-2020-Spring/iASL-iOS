@@ -95,9 +95,9 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         view.backgroundColor = .white
-
+        hideKeyboardWhenTappedAround()
+        
         topBarSetup()
         backButtonSetup()
         topLabelSetup()

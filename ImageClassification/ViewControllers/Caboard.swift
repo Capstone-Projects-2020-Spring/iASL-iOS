@@ -22,7 +22,8 @@ class Caboard: UIView {
     let predictionStack = UIStackView()
     var stringCache = String()
 
-    var prediction = Array<String>()
+    var prediction = ["A","A","A"]
+    //var prediction = Array<String>()
 	weak var target: UIKeyInput?
     // MARK: Constants
     private let animationDuration = 0.5
@@ -97,11 +98,13 @@ extension Caboard: CameraFeedManagerDelegate {
 		DispatchQueue.main.async {
 			switch self.result?.inferences[0].label {
 			case "del":
-
+                if self.stringCache.count != 0 {
+                    self.stringCache.removeLast(1)
+                }
 				self.target?.deleteBackward()
 
 			case "space":
-
+                self.stringCache.removeAll()
 				self.target?.insertText(" ")
 			case "nothing":
 				break
@@ -112,6 +115,7 @@ extension Caboard: CameraFeedManagerDelegate {
                 let rangeForEndOfStr = NSMakeRange(0, self.stringCache.utf16.count)     // You had inverted parameters ; could also use NSRange(0..<str.utf16.count)
                 let spellChecker = UITextChecker()
                 //print(UITextChecker.availableLanguages)
+                print("printing text cache: \(self.stringCache)")
                 self.prediction = spellChecker.completions(forPartialWordRange: rangeForEndOfStr, in: self.stringCache, language: "en_US")!
                 print(self.prediction ?? "No completion found")
 			}
