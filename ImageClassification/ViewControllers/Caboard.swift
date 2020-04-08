@@ -100,7 +100,27 @@ extension Caboard: CameraFeedManagerDelegate {
 			case "del":
                 if self.stringCache.count != 0 {
                     self.stringCache.removeLast(1)
+                    
+                    let rangeForEndOfStr = NSMakeRange(0, self.stringCache.utf16.count)
+                    let spellChecker = UITextChecker()
+                    print("printing text cache: \(self.stringCache)")
+                    let result = spellChecker.completions(forPartialWordRange: rangeForEndOfStr, in: self.stringCache, language: "en_US")
+                    if result != nil {
+                        self.prediction = result!
+                    } else {
+                        self.prediction = ["","",""]
+                    }
+                    
+                    print(self.prediction ?? "No completion found")
+                    self.updateStack(prediction: self.prediction)
+                } else {
+                    for butt in self.predictionButton {
+                        butt.setTitle("", for: .normal)
+                    }
                 }
+                
+                
+                
 				self.target?.deleteBackward()
 
 			case "space":
@@ -129,6 +149,10 @@ extension Caboard: CameraFeedManagerDelegate {
         }
     }
 
+    func predictWord(){
+        
+    }
+    
     func presentCameraPermissionsDeniedAlert() {
         let alertController = UIAlertController(title: "Camera Permissions Denied", message: "Camera permissions have been denied for this app. You can change this by going to Settings", preferredStyle: .alert)
 
@@ -197,25 +221,19 @@ extension Caboard {
         predictionStack.spacing = 5
         predictionStack.distribution = .fillEqually
         
-        
-        updateStack(prediction: prediction)
-    }
-    
-    func updateStack(prediction:[String]){
-        
         var range = 0
         if prediction.count > 3 {
-            range = 3
-        } else {
             range = prediction.count
+        } else {
+            range = predictionButton.count
         }
         var x = 0
-        while x < range {
+        while x < 3 {
             predictionButton.append(UIButton())
             predictionStack.addArrangedSubview(predictionButton[x])
             predictionStack.translatesAutoresizingMaskIntoConstraints = false
             predictionButton[x].titleLabel?.textAlignment = .left
-            predictionButton[x].setTitle(prediction[x], for: .normal)
+            predictionButton[x].setTitle("", for: .normal)
             predictionButton[x].backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.2)
             predictionButton[x].setTitleColor(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1), for: .normal)
             predictionButton[x].addTarget(self, action: #selector(predictionButtonHoldDown(_:)), for: .touchDown)
@@ -223,6 +241,27 @@ extension Caboard {
             predictionButton[x].addTarget(self, action: #selector(predictionButtonTapped(_:)), for: .touchDragExit)
             x += 1
         }
+    }
+    
+    func updateStack(prediction:[String]){
+        var range = 0
+        if prediction.count != 0 {
+            if prediction.count <= 3 {
+                range = prediction.count-1
+            } else {
+                range = predictionButton.count-1
+            }
+            
+            for x in 0...range {
+                predictionButton[x].setTitle(prediction[x], for: .normal)
+            }
+        } else {
+            for butt in predictionButton {
+                butt.setTitle("", for: .normal)
+            }
+        }
+        
+        
         
     }
     
