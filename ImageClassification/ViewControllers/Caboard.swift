@@ -118,6 +118,7 @@ extension Caboard: CameraFeedManagerDelegate {
                 print("printing text cache: \(self.stringCache)")
                 self.prediction = spellChecker.completions(forPartialWordRange: rangeForEndOfStr, in: self.stringCache, language: "en_US")!
                 print(self.prediction ?? "No completion found")
+                self.updateStack(prediction: self.prediction)
 			}
 		}
 
