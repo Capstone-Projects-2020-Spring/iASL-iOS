@@ -22,7 +22,7 @@ class Caboard: UIView {
     let predictionStack = UIStackView()
     var stringCache = String()
 
-    var prediction = ["A","A","A"]
+    var prediction = ["","",""]
     //var prediction = Array<String>()
 	weak var target: UIKeyInput?
     // MARK: Constants
@@ -112,15 +112,12 @@ extension Caboard: CameraFeedManagerDelegate {
                     }
                     
                     print(self.prediction ?? "No completion found")
-                    self.updateStack(prediction: self.prediction)
                 } else {
-                    for butt in self.predictionButton {
-                        butt.setTitle("", for: .normal)
-                    }
+                    
                 }
                 
                 
-                
+                self.updateStack(prediction: self.prediction)
 				self.target?.deleteBackward()
 
 			case "space":
@@ -246,6 +243,9 @@ extension Caboard {
     func updateStack(prediction:[String]){
         var range = 0
         if prediction.count != 0 {
+            for butt in predictionButton {
+                butt.isEnabled = true
+            }
             if prediction.count <= 3 {
                 range = prediction.count-1
             } else {
@@ -257,7 +257,7 @@ extension Caboard {
             }
         } else {
             for butt in predictionButton {
-                butt.setTitle("", for: .normal)
+                butt.isEnabled = false
             }
         }
         
@@ -277,10 +277,13 @@ extension Caboard {
         for butt in predictionButton {
             if sender == butt {
                 sender.backgroundColor =  #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.2)
-                if sender.titleLabel?.text! != nil { self.target?.insertText((sender.titleLabel?.text!)!) }
+                let text = sender.titleLabel?.text
+                if text != nil { self.target?.insertText((sender.titleLabel?.text!)!) } else { self.target?.insertText("")}
                 self.target?.insertText(" ")
             }
         }
+        prediction.removeAll()
+        updateStack(prediction: prediction)
     }
     
     func caboardViewSetup() {
