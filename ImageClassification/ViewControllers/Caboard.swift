@@ -98,6 +98,8 @@ extension Caboard: CameraFeedManagerDelegate {
 		DispatchQueue.main.async {
 			switch self.result?.inferences[0].label {
 			case "del":
+                self.target?.deleteBackward()
+                
                 if self.stringCache.count != 0 {
                     self.stringCache.removeLast(1)
                     
@@ -108,17 +110,18 @@ extension Caboard: CameraFeedManagerDelegate {
                     if result != nil {
                         self.prediction = result!
                     } else {
-                        self.prediction = ["","",""]
+                        self.prediction.removeAll()
                     }
                     
                     print(self.prediction ?? "No completion found")
                 } else {
-                    
+                    self.prediction.removeAll()
                 }
                 
+                print("gggg \(self.prediction.count)")
                 
                 self.updateStack(prediction: self.prediction)
-				self.target?.deleteBackward()
+				
 
 			case "space":
                 self.stringCache.removeAll()
@@ -257,6 +260,7 @@ extension Caboard {
             }
         } else {
             for butt in predictionButton {
+                butt.setTitle("", for: .normal)
                 butt.isEnabled = false
             }
         }
@@ -283,6 +287,7 @@ extension Caboard {
             }
         }
         prediction.removeAll()
+        print(prediction.count)
         updateStack(prediction: prediction)
     }
     
