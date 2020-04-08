@@ -120,6 +120,9 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         }
     }
     
+    
+    
+    
     func observeMessages() {
 
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -356,7 +359,7 @@ extension ChatVC {
         composedMessage.layer.cornerRadius = 10
 		composedMessage.inputView = CameraBoard(target: composedMessage)
         composedMessage.font = UIFont.systemFont(ofSize: 20)
-        
+        composedMessage.autocorrectionType = .no
         //composedMessage.delegate = self
         //composedMessage.enablesReturnKeyAutomatically = false
     }
@@ -411,11 +414,22 @@ extension ChatVC {
         keyboardButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         keyboardButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         keyboardButton.setImage(#imageLiteral(resourceName: "keyboard-1"), for: .normal)
+        keyboardButton.setImage(#imageLiteral(resourceName: "yoBlack"), for: .selected)
         keyboardButton.addTarget(self, action: #selector(keyboardButtonTapped), for: .touchUpInside)
     }
     
     @objc func keyboardButtonTapped(){
-        composedMessage.inputView = nil
+        if keyboardButton.isSelected {
+            keyboardButton.isSelected = false
+            composedMessage.inputView = CameraBoard(target: composedMessage)
+            composedMessage.reloadInputViews()
+        } else {
+            keyboardButton.isSelected = true
+            composedMessage.inputView = nil
+            composedMessage.reloadInputViews()
+        }
+        
+        
     }
 }
 
