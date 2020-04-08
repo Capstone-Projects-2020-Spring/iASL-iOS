@@ -30,8 +30,11 @@ class ViewController: UIViewController {
     let speakerButton = UIButton()
     let clearButton = UIButton()
     let keyboardButton = UIButton()
-    
     var heightAnchor = NSLayoutConstraint()
+    var controlViewHeightAnchor = NSLayoutConstraint()
+    
+    let controlView = UIView()
+    let controlButton = UIButton()
     
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
@@ -79,7 +82,6 @@ class ViewController: UIViewController {
 
             }
         }
-
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -113,6 +115,8 @@ class ViewController: UIViewController {
         remoteChatButtonSetup()
         resumeButtonSetup()
         liveButtonSetup()
+        controlViewSetup()
+        controlButtonSetup()
         
         speakerButtonSetup()
         clearButtonSetup()
@@ -121,13 +125,7 @@ class ViewController: UIViewController {
         if speakerButton.isSelected == true {
             speak()
         }
-        //speak()
 
-        //        let child = CardView()
-        //        addChild(child)
-        //        child.view.frame = CGRect(x: 0, y: 0, width: 300, height: 300)
-        //        view.addSubview(child.view)
-        //        child.didMove(toParent: self)
 
 
         let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleLeftSwipeGesture(_:)))
@@ -173,6 +171,8 @@ class ViewController: UIViewController {
         })
 
     }
+    
+    
     
     
     
@@ -575,12 +575,58 @@ extension ViewController {
                 self.view.layoutIfNeeded()
             })
         }
+    }
+    
+    func controlViewSetup() {
+        view.addSubview(controlView)
+        controlView.translatesAutoresizingMaskIntoConstraints = false
+        controlViewHeightAnchor = controlView.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -40)
+        controlView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        controlView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        controlView.heightAnchor.constraint(equalToConstant: view.frame.size.height/2).isActive = true
+        controlViewHeightAnchor.isActive = true
+        controlView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        controlView.layer.cornerRadius = 20
+        controlView.clipsToBounds = true
+        controlView.backgroundColor = .white
+        controlView.isUserInteractionEnabled = true
+    }
+    
+    func controlButtonSetup(){
+        view.addSubview(controlButton)
+        controlButton.translatesAutoresizingMaskIntoConstraints = false
+        controlButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor).isActive = true
+        controlButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor).isActive = true
+        controlButton.topAnchor.constraint(equalTo: controlView.topAnchor).isActive = true
+        controlButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        controlButton.backgroundColor = .blue
+        controlButton.addTarget(self, action: #selector(controlButtonTapped(_:)), for: .touchUpInside)
+    }
+    
+    @objc func controlButtonTapped(_ sender: UIButton) {
+        textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        if sender.isSelected {
+            sender.isSelected = false
+            UIView.animate(withDuration: 0.2, animations: {
+                self.controlViewHeightAnchor.constant = -40
+                self.outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.6)
+                self.view.layoutIfNeeded()
+            })
+        } else {
+            sender.isSelected = true
+            UIView.animate(withDuration: 0.2, animations: {
+                self.controlViewHeightAnchor.constant = -self.view.frame.size.height/2
+                self.outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.6)
+                self.view.layoutIfNeeded()
+            })
+        }
+        
+        
+        
+        
         
         
     }
-    
-    
-
     
 
     
