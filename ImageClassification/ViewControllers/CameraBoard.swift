@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Caboard: UIView {
+class CameraBoard: UIView {
 
     let caboardView = UIView()
     let previewView = PreviewView()
@@ -86,7 +86,7 @@ class Caboard: UIView {
 
 }
 
-extension Caboard: CameraFeedManagerDelegate {
+extension CameraBoard: CameraFeedManagerDelegate {
     func didOutput(pixelBuffer: CVPixelBuffer) {
         let currentTimeMs = Date().timeIntervalSince1970 * 1000
         guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
@@ -97,6 +97,7 @@ extension Caboard: CameraFeedManagerDelegate {
 		DispatchQueue.main.async {
 			switch self.result?.inferences[0].label {
 			case "del":
+                
                 self.target?.deleteBackward()
                 
                 if self.stringCache.count != 0 {
@@ -201,7 +202,7 @@ extension Caboard: CameraFeedManagerDelegate {
 
 
 
-extension Caboard {
+extension CameraBoard {
 
     func predictionStackSetup(){
         addSubview(predictionStack)
@@ -402,7 +403,7 @@ extension Caboard {
     }
 
 }
-extension Caboard {
+extension CameraBoard {
     @objc func classifyPasteboardImage() {
         guard let image = UIPasteboard.general.images?.first else {
             return

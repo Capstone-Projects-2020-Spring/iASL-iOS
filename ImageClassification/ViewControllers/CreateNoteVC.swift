@@ -61,7 +61,7 @@ extension CreateNoteVC {
         textView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         textView.topAnchor.constraint(equalTo: noteTitle.bottomAnchor, constant: 5).isActive = true
         textView.font = UIFont.systemFont(ofSize: 20)
-		textView.inputView = Caboard(target: textView)
+		textView.inputView = CameraBoard(target: textView)
     }
 
 }

@@ -25,6 +25,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
     let backButton = UIButton()
     let tableView = UITableView()
     let sendButton = UIButton()
+    let keyboardButton = UIButton()
     
     let messagesConstant: String = "messages"
 
@@ -93,28 +94,15 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         topBarSetup()
         backButtonSetup()
         topLabelSetup()
-        //tableViewSetup()
-        // Do any additional setup after loading the view.
 
         sendButtonSetup()
+        keybaordButtonSetup()
 		composedMessageSetup()
 
         collectionViewSetup()
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-//		bottomConstraint = composedMessage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20)
-//		bottomConstraint?.isActive = true
-//		view.addConstraint(bottomConstraint!)
-//		NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(notification:)), name: , object: nil)
-//		NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardNotification(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-//        let child = Caboard()
-//        addChild(child)
-//        child.view.frame = view.frame
-//        view.addSubview(child.view)
-//        child.didMove(toParent: self)
-
-        //collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
 
     }
 
@@ -272,60 +260,9 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
 
 }
 
-//class ChatVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
-//
-//    let previewView = PreviewView()
-//    let composedMessage = UITextView()
-//    let topBar = UIView()
-//    let topLabel = UILabel()
-//    let backButton = UIButton()
-//    let tableView = UITableView()
-//
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//
-//        view.backgroundColor = .white
-//        topBarSetup()
-//        backButtonSetup()
-//        topLabelSetup()
-//        tableViewSetup()
-//        // Do any additional setup after loading the view.
-//        previewViewSetup()
-//        composedMessageSetup()
-//
-//    }
-//
-//}
 
 extension ChatVC {
 
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 10
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! ChatTableViewCell
-//        cell.textLabel?.text = "asdf"
-//        return cell
-//    }
-//
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return UITableView.automaticDimension
-//    }
-//
-//    func tableViewSetup() {
-//        view.addSubview(tableView)
-//        tableView.translatesAutoresizingMaskIntoConstraints = false
-//        tableView.topAnchor.constraint(equalTo: topBar.bottomAnchor).isActive = true
-//        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-//        tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-//        tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-//        tableView.register(ChatTableViewCell.self, forCellReuseIdentifier: "cell")
-//        tableView.separatorStyle = .none
-//        tableView.allowsSelection = false
-//        tableView.delegate = self
-//        tableView.dataSource = self
-//    }
 
     ///handles what happens when you send a message
     @objc func handleSendButton() {
@@ -401,34 +338,14 @@ extension ChatVC {
 		sendButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
 		sendButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         sendButton.setImage(#imageLiteral(resourceName: "send"), for: .normal)
+        sendButton.addTarget(self, action: #selector(handleSendButton), for: .touchUpInside)
 	}
 
-    func previewViewSetup() {
-//        view.addSubview(previewView)
-//        previewView.translatesAutoresizingMaskIntoConstraints = false
-//        previewView.widthAnchor.constraint(equalToConstant: 100).isActive = true
-//        previewView.heightAnchor.constraint(equalToConstant: 150).isActive = true
-//        previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8).isActive = true
-//        previewView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
-//        previewView.backgroundColor = .blue
-//
-//        previewView.layer.cornerRadius = 5
 
-        //going to make it the send button for now
-        //FIXME: Remove this and add a send button at some point
-    }
-
-    // MARK: Ep 8 for styling this stuff
-
-    //FIXME: Add placeholder logic manually since you can't use a text field here, won't expand vertically
-
-    //FIXME: Can we use enter to send a message and not go lower in the textview?
-
-    //FIXME: Fix issue with keyboard covering textview
     func composedMessageSetup() {
         view.addSubview(composedMessage)
         composedMessage.translatesAutoresizingMaskIntoConstraints = false
-        composedMessage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        composedMessage.leadingAnchor.constraint(equalTo: keyboardButton.trailingAnchor, constant: 10).isActive = true
 		composedMessage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
 //		composedMessage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8)
         composedMessage.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -10).isActive = true
@@ -437,7 +354,7 @@ extension ChatVC {
         composedMessage.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         composedMessage.layer.borderWidth = 1
         composedMessage.layer.cornerRadius = 10
-		composedMessage.inputView = Caboard(target: composedMessage)
+		composedMessage.inputView = CameraBoard(target: composedMessage)
         composedMessage.font = UIFont.systemFont(ofSize: 20)
         
         //composedMessage.delegate = self
@@ -486,6 +403,20 @@ extension ChatVC {
         topLabel.textColor = .white
     }
 
+    func keybaordButtonSetup(){
+        view.addSubview(keyboardButton)
+        keyboardButton.translatesAutoresizingMaskIntoConstraints = false
+        keyboardButton.leadingAnchor.constraint(lessThanOrEqualTo: view.leadingAnchor, constant: 10).isActive = true
+        keyboardButton.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -10).isActive = true
+        keyboardButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        keyboardButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        keyboardButton.setImage(#imageLiteral(resourceName: "keyboard-1"), for: .normal)
+        keyboardButton.addTarget(self, action: #selector(keyboardButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc func keyboardButtonTapped(){
+        composedMessage.inputView = nil
+    }
 }
 
 extension NSDate {
