@@ -113,16 +113,10 @@ extension Caboard: CameraFeedManagerDelegate {
                         self.prediction.removeAll()
                     }
                     
-                    print(self.prediction ?? "No completion found")
                 } else {
                     self.prediction.removeAll()
                 }
-                
-                print("gggg \(self.prediction.count)")
-                
                 self.updateStack(prediction: self.prediction)
-				
-
 			case "space":
                 self.stringCache.removeAll()
 				self.target?.insertText(" ")
@@ -282,7 +276,11 @@ extension Caboard {
             if sender == butt {
                 sender.backgroundColor =  #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.2)
                 let text = sender.titleLabel?.text
+                for x in 0...stringCache.count {
+                    self.target?.deleteBackward()
+                }
                 if text != nil { self.target?.insertText((sender.titleLabel?.text!)!) } else { self.target?.insertText("")}
+                
                 self.target?.insertText(" ")
             }
         }
