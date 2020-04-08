@@ -65,7 +65,6 @@ class Caboard: UIView {
         #endif
         cameraCapture.delegate = self
         //collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
-
     }
 
 	required init?(coder: NSCoder) {

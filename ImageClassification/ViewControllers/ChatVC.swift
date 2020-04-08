@@ -24,7 +24,8 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
     let topLabel = UILabel()
     let backButton = UIButton()
     let tableView = UITableView()
-
+    let sendButton = UIButton()
+    
     let messagesConstant: String = "messages"
 
     //so we know which user we are talking to
@@ -73,16 +74,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
 
     static let cellId = "cellId"
 
-    //FIXME: will probably delete this or relocate it
-    let sendButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Send", for: .normal)
-        button.backgroundColor = .clear
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitleColor(.systemPink, for: .normal)
-        button.addTarget(self, action: #selector(handleSendButton), for: .touchUpInside)
-        return button
-    }()
+
 
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -108,6 +100,9 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
 		composedMessageSetup()
 
         collectionViewSetup()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+           NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
 //		bottomConstraint = composedMessage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20)
 //		bottomConstraint?.isActive = true
 //		view.addConstraint(bottomConstraint!)
@@ -123,6 +118,20 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
 
     }
 
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
+    
     func observeMessages() {
 
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -385,11 +394,13 @@ extension ChatVC {
 
     func sendButtonSetup() {
         view.addSubview(sendButton)
-		 sendButton.translatesAutoresizingMaskIntoConstraints = false
-		sendButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
-		sendButton.heightAnchor.constraint(equalToConstant: 150).isActive = true
-		sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8).isActive = true
-		sendButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -215).isActive = true
+        sendButton.translatesAutoresizingMaskIntoConstraints = false
+        //sendButton.leadingAnchor.constraint(equalTo: composedMessage.leadingAnchor, constant: 5).isActive = true
+        sendButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
+        sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+		sendButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+		sendButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        sendButton.setImage(#imageLiteral(resourceName: "send"), for: .normal)
 	}
 
     func previewViewSetup() {
@@ -417,16 +428,18 @@ extension ChatVC {
     func composedMessageSetup() {
         view.addSubview(composedMessage)
         composedMessage.translatesAutoresizingMaskIntoConstraints = false
-        composedMessage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8).isActive = true
-		composedMessage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -215).isActive = true
+        composedMessage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+		composedMessage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
 //		composedMessage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8)
-        composedMessage.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -5).isActive = true
-        composedMessage.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        composedMessage.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -10).isActive = true
+        composedMessage.heightAnchor.constraint(equalToConstant: 40).isActive = true
 		composedMessage.center = view.center
         composedMessage.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         composedMessage.layer.borderWidth = 1
         composedMessage.layer.cornerRadius = 10
 		composedMessage.inputView = Caboard(target: composedMessage)
+        composedMessage.font = UIFont.systemFont(ofSize: 20)
+        
         //composedMessage.delegate = self
         //composedMessage.enablesReturnKeyAutomatically = false
     }
