@@ -22,6 +22,9 @@ pod 'SnapKit', '~> 5.0.0'
     pod 'Firebase/Messaging'
     pod 'SwiftLint'
     pod 'SwiftMonkeyPaws', '~> 2.1.0'
+
+    pod 'KeychainSwift'
+
 end
 target 'iASLUITests' do
   pod 'SwiftMonkey', '~> 2.1.0'

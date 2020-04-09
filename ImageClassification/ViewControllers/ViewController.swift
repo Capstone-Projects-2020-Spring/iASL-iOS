@@ -15,7 +15,8 @@
 import AVFoundation
 import UIKit
 import Speech
-import SnapKit
+import Firebase
+
 
 class ViewController: UIViewController {
 
@@ -396,6 +397,10 @@ extension ViewController {
     }
 
     @objc func remoteChatButtonTapped() {
+        
+        //check if user is logged in, if not go to login screen
+        checkIfLoggedOut()
+        
         let vc = RemoteConversationVC()
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .fullScreen
@@ -440,8 +445,25 @@ extension ViewController {
 
         notesButton.imageView?.contentMode = .scaleAspectFit
     }
+    
+    ///checks if there is a user logged in. If there is not, it opens the login VC
+    func checkIfLoggedOut() {
+        if Auth.auth().currentUser?.uid == nil {
+            //present the login screen
+            print("user is not signed in")
+            let loginController = LoginVC()
+            loginController.modalTransitionStyle = .crossDissolve
+            loginController.modalPresentationStyle = .fullScreen
+            present(loginController, animated: true, completion: nil)
+            return
+        }
+    }
 
     @objc func notesButtonTapped() {
+        
+        //check if user is logged in, if not go to login screen
+        checkIfLoggedOut()
+        
         notesButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         notesButton.setTitleColor(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1), for: .selected)
         let vc = NotesVC()
