@@ -30,7 +30,8 @@ class ViewController: UIViewController {
     let speakerButton = UIButton()
     let clearButton = UIButton()
     let keyboardButton = UIButton()
-
+	/// A temporary button for iASL beta to open a view controller that records users doing certain signs.
+	let trainButton = UIButton()
     var heightAnchor = NSLayoutConstraint()
 
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
@@ -117,6 +118,7 @@ class ViewController: UIViewController {
         speakerButtonSetup()
         clearButtonSetup()
         keyboardButtonSetup()
+		trainButtonSetup()
         //speak()
         if speakerButton.isSelected == true {
             speak()
@@ -545,31 +547,50 @@ extension ViewController {
         keyboardButton.layer.cornerRadius = 10
         keyboardButton.addTarget(self, action: #selector(keyboardButtonTapped), for: .touchUpInside)
     }
+	@objc func keyboardButtonTapped() {
+		   textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+		   textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
 
-    @objc func keyboardButtonTapped() {
-        textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+		   if keyboardButton.isSelected {
+			   print("ss")
+			   keyboardButton.isSelected = false
+			   UIView.animate(withDuration: 0.2, animations: {
+				   self.heightAnchor.constant = -self.view.frame.size.height/2
+				   self.textViewHolder.layer.cornerRadius = 10
+				   self.view.layoutIfNeeded()
+			   })
+		   } else {
+			   keyboardButton.isSelected = true
+			   outputTextView.topAnchor.constraint(equalTo: textViewHolder.topAnchor, constant: 30).isActive = true
+			   UIView.animate(withDuration: 0.2, animations: {
+				   self.heightAnchor.constant = -self.view.frame.size.height
+				   self.textViewHolder.backgroundColor = .white
+				   self.textViewHolder.layer.cornerRadius = 0
+				   self.view.layoutIfNeeded()
+			   })
+		   }
 
-        if keyboardButton.isSelected {
-            print("ss")
-            keyboardButton.isSelected = false
-            UIView.animate(withDuration: 0.2, animations: {
-                self.heightAnchor.constant = -self.view.frame.size.height/2
-                self.textViewHolder.layer.cornerRadius = 10
-                self.view.layoutIfNeeded()
-            })
-        } else {
-            keyboardButton.isSelected = true
-            outputTextView.topAnchor.constraint(equalTo: textViewHolder.topAnchor, constant: 30).isActive = true
-            UIView.animate(withDuration: 0.2, animations: {
-                self.heightAnchor.constant = -self.view.frame.size.height
-                self.textViewHolder.backgroundColor = .white
-                self.textViewHolder.layer.cornerRadius = 0
-                self.view.layoutIfNeeded()
-            })
-        }
-
+	   }
+	
+	func trainButtonSetup() {
+        view.addSubview(trainButton)
+        trainButton.translatesAutoresizingMaskIntoConstraints = false
+        trainButton.trailingAnchor.constraint(equalTo: keyboardButton.leadingAnchor, constant: -10).isActive = true
+        trainButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
+        trainButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        trainButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+		trainButton.backgroundColor = .systemYellow
+        trainButton.setTitle("Train", for: .normal)
+		trainButton.setTitleColor(.black, for: .normal)
+        trainButton.isSelected = true
+        trainButton.layer.cornerRadius = 10
+        trainButton.addTarget(self, action: #selector(trainButtonTapped), for: .touchUpInside)
     }
+	@objc func trainButtonTapped() {
+		let vc = LoginVC()
+		self.present(vc, animated: true, completion: nil)
+	   }
+   
 
     @objc func collapseButtonTapped() {
         //textViewHolder
