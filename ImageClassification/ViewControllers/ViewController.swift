@@ -33,7 +33,7 @@ class ViewController: UIViewController {
 	/// A temporary button for iASL beta to open a view controller that records users doing certain signs.
 	let trainButton = UIButton()
     var heightAnchor = NSLayoutConstraint()
-
+	var helpUsTrainConfig = helpTrainWelcomeConfiguration()
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
@@ -119,6 +119,7 @@ class ViewController: UIViewController {
         clearButtonSetup()
         keyboardButtonSetup()
 		trainButtonSetup()
+		helpUsWelcomeScreenSetup()
         //speak()
         if speakerButton.isSelected == true {
             speak()
@@ -587,7 +588,9 @@ extension ViewController {
         trainButton.addTarget(self, action: #selector(trainButtonTapped), for: .touchUpInside)
     }
 	@objc func trainButtonTapped() {
-		let vc = HelpUsTrain()
+		let vc = helpUsTrainWelcomeViewController()
+		vc.configuration = self.helpUsTrainConfig
+
 		self.present(vc, animated: true, completion: nil)
 	   }
    
@@ -631,5 +634,43 @@ extension ViewController {
 			}
 		}
 	}
+	fileprivate func helpUsWelcomeScreenSetup() {
+		helpUsTrainConfig.appName = "iASL (Beta)"
+		helpUsTrainConfig.appDescription = "iASL is still being developed and needs your help to make it better! With your permission, we will record you doing some example signs and send the recorded videos to our server for processing. "
+		helpUsTrainConfig.tintColor = .systemPink
+//
+//		var item1 = HelpTrainModelWelcomeItem()
+//		if #available(iOS 13.0, *) {
+//
+//			item1.image = UIImage(systemName: "hand.draw.fill")?.withTintColor(.systemPink, renderingMode: .alwaysOriginal)
+//		} else {
+//			// Fallback on earlier versions
+//		}
+//		item1.title = "ASL Finger Spelling Recognition"
+//		item1.description = "Spell words using American Sign Language letters."
+//
+//		var item2 = HelpTrainModelWelcomeItem()
+//		if #available(iOS 13.0, *) {
+//			item2.image = UIImage(systemName: "bubble.left.and.bubble.right.fill")?.withTintColor(.systemPink, renderingMode: .alwaysOriginal)
+//		} else {
+//			// Fallback on earlier versions
+//		}
+//		item2.title = "Messaging"
+//		item2.description = "Our chat feature lets you send messages to other iASL users using Sign Language instead of a keyboard."
+//
+//		var item3 = HelpTrainModelWelcomeItem()
+//		if #available(iOS 13.0, *) {
+//			item3.image = UIImage(systemName: "camera.on.rectangle.fill")?.withTintColor(.systemPink, renderingMode: .alwaysOriginal)
+//		} else {
+//			// Fallback on earlier versions
+//		}
+//		item3.title = "We need your help."
+//		item3.description = "We're working on supporting full American Sign Language words, and we need your help to train iASL. With your permission, we ask you to tap the train iASL button where you will be prompted with a video of the sign that you will perform and send to our server."
+//
+//		helpUsTrainConfig.items = [item1, item2, item3]
 
+		helpUsTrainConfig.continueButtonAction = {
+			self.dismiss(animated: true)
+		}
+	}
 }
