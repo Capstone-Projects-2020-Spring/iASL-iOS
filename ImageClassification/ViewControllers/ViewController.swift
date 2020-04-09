@@ -599,7 +599,9 @@ extension ViewController {
         controlButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor).isActive = true
         controlButton.topAnchor.constraint(equalTo: controlView.topAnchor).isActive = true
         controlButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        controlButton.backgroundColor = .blue
+        controlButton.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        controlButton.setTitle("Tap to Expand", for: .normal)
+        controlButton.setTitleColor(#colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), for: .normal)
         controlButton.addTarget(self, action: #selector(controlButtonTapped(_:)), for: .touchUpInside)
     }
     
