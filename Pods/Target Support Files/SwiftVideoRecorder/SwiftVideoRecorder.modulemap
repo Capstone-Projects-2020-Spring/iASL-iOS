@@ -1,0 +1,6 @@
+framework module SwiftVideoRecorder {
+  umbrella header "SwiftVideoRecorder-umbrella.h"
+
+  export *
+  module * { export * }
+}

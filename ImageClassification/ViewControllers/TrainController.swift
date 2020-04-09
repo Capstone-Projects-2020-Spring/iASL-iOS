@@ -8,7 +8,6 @@
 
 import UIKit
 import YouTubePlayer
-import CountdownLabel
 struct Train {
 	var signs: [String: String]?
 }
@@ -72,7 +71,7 @@ class TrainController: UIViewController,YouTubePlayerDelegate {
 		videoPlayerContainer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
 		
 	}
-	var countdownLabel : CountdownLabel?
+//	var countdownLabel : CountdownLabel?
 	override func viewDidLoad() {
         super.viewDidLoad()
 		if #available(iOS 13.0, *) {
@@ -112,28 +111,28 @@ class TrainController: UIViewController,YouTubePlayerDelegate {
 		print(video?.key)
 		guard let url : URL = URL(string: video!.value) else{return}
 		videoPlayer?.loadVideoURL(url)
-		countDownlabelSetup()
+//		countDownlabelSetup()
 		nextButtonSetup()
 	
 //		cameraCapture.delegate = self
 		
     }
-	func countDownlabelSetup()  {
-			countdownLabel = CountdownLabel(frame: .zero, minutes: 5)// you can use NSDate as well
-				
-				countdownLabel?.animationType = .Evaporate
-				self.view.addSubview(countdownLabel!)
-				countdownLabel?.translatesAutoresizingMaskIntoConstraints = false
-				countdownLabel!.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-				countdownLabel!.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
-				countdownLabel?.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-				countdownLabel?.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-				countdownLabel!.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
-				countdownLabel!.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-				countdownLabel?.textAlignment = .center
-				countdownLabel?.isHidden = true
-		//		countdownLabel?.font.
-	}
+//	func countDownlabelSetup()  {
+//			countdownLabel = CountdownLabel(frame: .zero, minutes: 5)// you can use NSDate as well
+//
+//				countdownLabel?.animationType = .Evaporate
+//				self.view.addSubview(countdownLabel!)
+//				countdownLabel?.translatesAutoresizingMaskIntoConstraints = false
+//				countdownLabel!.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+//				countdownLabel!.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+//				countdownLabel?.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+//				countdownLabel?.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+//				countdownLabel!.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
+//				countdownLabel!.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+//				countdownLabel?.textAlignment = .center
+//				countdownLabel?.isHidden = true
+//		//		countdownLabel?.font.
+//	}
 	override func viewDidAppear(_ animated: Bool) {
 		  let recordButtonSide = self.view.bounds.size.height/10
 			  recordButton = RecordButton(frame: CGRect(x: self.view.bounds.width/2-recordButtonSide/2,

@@ -17,59 +17,73 @@ import Speech
 import Firebase
 import FirebaseMessaging
 import FirebaseFirestore
+import KeychainSwift
 //import SwiftMonkeyPaws
 let navigationController = UINavigationController()
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
-    var window: UIWindow?
 
-    func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
-    ) -> Bool {
-        requestTranscribePermissions()
+  var window: UIWindow?
 
-        FirebaseApp.configure()
+  func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
+  ) -> Bool {
+    requestTranscribePermissions()
 
-        //initializes the firestore firebase
-        //let db = Firestore.firestore()
+    FirebaseApp.configure()
 
-        //FIXME: May need to reavaluate this solution
-        //changes the root view controller
+    let keychain = KeychainSwift(keyPrefix: "iasl_")
+
+    //need a local scope so code can continue afterwards
+
+
+
+    //if we can get email and password from keychain, skip sign in screen
+    if let email = keychain.get("email"), let password = keychain.get("password") {
+        print("Did not get email and password")
+
+        //sign in with username and password
+        Auth.auth().signIn(withEmail: email, password: password) { (_, err) in
+            if err != nil {
+                print(err!)
+                return
+            }
+
+            //successfully signed in
+            print("you signed in successfully")
+        }
+
+
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = ViewController()
         window?.makeKeyAndVisible()
 
-        //just for editing the chatVC
-        //    window = UIWindow(frame: UIScreen.main.bounds)
-        //    window?.rootViewController = ViewController()
-        //    window?.makeKeyAndVisible()
 
-        //just for editing the chatVC
-        //    window = UIWindow(frame: UIScreen.main.bounds)
-        //    window?.rootViewController = RemoteConversationVC()
-        //    window?.makeKeyAndVisible()
-
-        application.registerForRemoteNotifications()
-
-        Messaging.messaging().delegate = self
-
-        self.window?.makeKeyAndVisible()
-        //	if CommandLine.arguments.contains("--MonkeyPaws") {
-        //		paws = MonkeyPaws(view: window!)
-        //	}
-        return true
-
+    } else {
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = LoginVC()
+        window?.makeKeyAndVisible()
     }
 
-    func application(application: UIApplication, willChangeStatusBarFrame newStatusBarFrame: CGRect) {
-        let windows = UIApplication.shared.windows
+    //just for editing the chatVC
+//    window = UIWindow(frame: UIScreen.main.bounds)
+//    window?.rootViewController = NotesVC()
+//    window?.makeKeyAndVisible()
 
-        for window in windows {
-            window.removeConstraints(window.constraints)
-        }
-    }
+    application.registerForRemoteNotifications()
+
+    Messaging.messaging().delegate = self
+
+    self.window?.makeKeyAndVisible()
+//	if CommandLine.arguments.contains("--MonkeyPaws") {
+//		paws = MonkeyPaws(view: window!)
+//	}
+    return true
+
+  }
+
 
     func requestTranscribePermissions() {
         SFSpeechRecognizer.requestAuthorization { [unowned self] authStatus in
