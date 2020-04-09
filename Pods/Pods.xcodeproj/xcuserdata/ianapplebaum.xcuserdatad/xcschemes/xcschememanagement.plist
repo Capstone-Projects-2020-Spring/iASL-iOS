@@ -14,6 +14,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>CountdownLabel.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Firebase.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -145,6 +150,11 @@
 			<false/>
 		</dict>
 		<key>SwiftMonkeyPaws.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SwiftVideoRecorder.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

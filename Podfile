@@ -24,6 +24,8 @@ pod 'SnapKit', '~> 5.0.0'
     pod 'SwiftMonkeyPaws', '~> 2.1.0'
     pod 'AppleWelcomeScreen'
     pod 'YouTubePlayer', :git => 'https://github.com/weakfl/Swift-YouTube-Player.git', :branch => 'use-wkwebview' # replace with original pod after the pull request got merged
+    pod 'CountdownLabel'
+    pod 'SwiftVideoRecorder'
 end
 target 'iASLUITests' do
   pod 'SwiftMonkey', '~> 2.1.0'

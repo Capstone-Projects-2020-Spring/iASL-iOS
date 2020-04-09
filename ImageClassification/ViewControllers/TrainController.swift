@@ -8,8 +8,7 @@
 
 import UIKit
 import YouTubePlayer
-import WebKit
-
+import CountdownLabel
 struct Train {
 	var signs: [String: String]?
 }
@@ -19,14 +18,11 @@ class TrainController: UIViewController,YouTubePlayerDelegate {
 	let nextButton = UIButton()
 	let block = UIView()
 	var recordButton = RecordButton(frame: .zero)
-	var countDownImageThree = UIImageView(frame: .zero)
-	var countDownImageTwo = UIImageView(frame: .zero)
-	var countDownImageOne = UIImageView(frame: .zero)
-var videoPlayer: YouTubePlayerView?
+	var videoPlayer: YouTubePlayerView?
 	let previewView = PreviewView()
 	// MARK: Controllers that manage functionality
 	   // Handles all the camera related functionality
-	   private lazy var cameraCapture = CameraFeedManager(previewView: previewView)
+//	private lazy var cameraCapture = CameraFeedVideoManager(previewView: self.previewView)
 	fileprivate func nextButtonSetup() {
 		view.addSubview(nextButton)
 		nextButton.translatesAutoresizingMaskIntoConstraints = false
@@ -76,7 +72,7 @@ var videoPlayer: YouTubePlayerView?
 		videoPlayerContainer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
 		
 	}
-	
+	var countdownLabel : CountdownLabel?
 	override func viewDidLoad() {
         super.viewDidLoad()
 		if #available(iOS 13.0, *) {
@@ -116,40 +112,28 @@ var videoPlayer: YouTubePlayerView?
 		print(video?.key)
 		guard let url : URL = URL(string: video!.value) else{return}
 		videoPlayer?.loadVideoURL(url)
-		
+		countDownlabelSetup()
 		nextButtonSetup()
-		cameraCapture.delegate = self
-		view.addSubview(countDownImageThree)
-		countDownImageThree.translatesAutoresizingMaskIntoConstraints = false
-		countDownImageThree.heightAnchor.constraint(equalToConstant: view.bounds.width/2).isActive = true
-		countDownImageThree.widthAnchor.constraint(equalToConstant: view.bounds.width/2).isActive = true
-		countDownImageThree.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-		countDownImageThree.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-		countDownImageThree.isHidden = true
-		view.addSubview(countDownImageTwo)
-		countDownImageTwo.translatesAutoresizingMaskIntoConstraints = false
-		countDownImageTwo.heightAnchor.constraint(equalToConstant: view.bounds.width/2).isActive = true
-		countDownImageTwo.widthAnchor.constraint(equalToConstant: view.bounds.width/2).isActive = true
-		countDownImageTwo.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-		countDownImageTwo.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-		countDownImageTwo.isHidden = true
-		view.addSubview(countDownImageOne)
-		countDownImageOne.translatesAutoresizingMaskIntoConstraints = false
-		countDownImageOne.heightAnchor.constraint(equalToConstant: view.bounds.width/2).isActive = true
-		countDownImageOne.widthAnchor.constraint(equalToConstant: view.bounds.width/2).isActive = true
-		countDownImageOne.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-		countDownImageOne.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-		countDownImageOne.isHidden = true
-		if #available(iOS 13.0, *) {
-			countDownImageThree.image = UIImage(systemName: "3.circle.fill")
-			countDownImageTwo.image = UIImage(systemName: "2.circle.fill")
-			countDownImageOne.image = UIImage(systemName: "1.circle.fill")
-		} else {
-			// Fallback on earlier versions
-			
-		}
+	
+//		cameraCapture.delegate = self
 		
     }
+	func countDownlabelSetup()  {
+			countdownLabel = CountdownLabel(frame: .zero, minutes: 5)// you can use NSDate as well
+				
+				countdownLabel?.animationType = .Evaporate
+				self.view.addSubview(countdownLabel!)
+				countdownLabel?.translatesAutoresizingMaskIntoConstraints = false
+				countdownLabel!.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+				countdownLabel!.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+				countdownLabel?.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+				countdownLabel?.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+				countdownLabel!.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
+				countdownLabel!.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+				countdownLabel?.textAlignment = .center
+				countdownLabel?.isHidden = true
+		//		countdownLabel?.font.
+	}
 	override func viewDidAppear(_ animated: Bool) {
 		  let recordButtonSide = self.view.bounds.size.height/10
 			  recordButton = RecordButton(frame: CGRect(x: self.view.bounds.width/2-recordButtonSide/2,
@@ -166,14 +150,14 @@ var videoPlayer: YouTubePlayerView?
 		videoPlayer?.loadVideoURL(url)
 	}
 	override func viewWillAppear(_ animated: Bool) {
-		#if !targetEnvironment(simulator)
-		cameraCapture.checkCameraConfigurationAndStartSession()
-		#endif
+//		#if !targetEnvironment(simulator)
+//		cameraCapture.checkCameraConfigurationAndStartSession()
+//		#endif
 		}
 	#if !targetEnvironment(simulator)
 	   override func viewWillDisappear(_ animated: Bool) {
 		   super.viewWillDisappear(animated)
-		   cameraCapture.stopSession()
+//		   cameraCapture.stopSession()
 	   }
 	   #endif
 	func playerReady(_ videoPlayer: YouTubePlayerView) {
@@ -182,73 +166,47 @@ var videoPlayer: YouTubePlayerView?
 	func playerStateChanged(_ videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState) {
 		if playerState == .Ended {
 			videoPlayer.seekTo(0, seekAhead: false)
-			sleep(1)
+			
 			videoPlayer.play()
 		}
 	}
 
   
 
-}
-extension TrainController: CameraFeedManagerDelegate{
-	func didOutput(pixelBuffer: CVPixelBuffer) {
-		//
-	}
-	
-	func presentCameraPermissionsDeniedAlert() {
-		//
-	}
-	
-	func presentVideoConfigurationErrorAlert() {
-		//
-	}
-	
-	func sessionRunTimeErrorOccured() {
-		//
-	}
-	
-	func sessionWasInterrupted(canResumeManually resumeManually: Bool) {
-		//
-	}
-	
-	func sessionInterruptionEnded() {
-		//
-	}
-	
 	func previewViewSetup() {
-        view.addSubview(previewView)
-        previewView.translatesAutoresizingMaskIntoConstraints = false
-        previewView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+		view.addSubview(previewView)
+		previewView.translatesAutoresizingMaskIntoConstraints = false
+		previewView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+		previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
 		previewView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
 		let height = view.bounds.height
 		previewView.heightAnchor.constraint(equalToConstant: height/2).isActive = true
-//		previewView.bottomAnchor.constraint(equalTo: videoPlayer!.topAnchor).isActive = true
-    }
+		//		previewView.bottomAnchor.constraint(equalTo: videoPlayer!.topAnchor).isActive = true
+	}
 }
+
+	
+
 extension TrainController: RecordButtonDelegate{
 	func tapButton(isRecording: Bool) {
 		print("record")
-		DispatchQueue.main.async {
+		
+		
 			if isRecording == true{
-				print(3)
-				self.countDownImageThree.isHidden = false
-				sleep(1)
-				self.countDownImageThree.isHidden = true
-				print(2)
-				self.countDownImageTwo.isHidden = false
-				sleep(1)
-				self.countDownImageTwo.isHidden = true
-				self.countDownImageOne.isHidden = false
-				print(1)
-				sleep(1)
-				self.countDownImageOne.isHidden = true
+//				if countdownLabel?.timeRemaining == 0{
+//					countdownLabel?.setCountDownTime(minutes: 5)
+//				}
+//				countdownLabel?.start()
+//				self.countdownLabel!.start()
+				// from current Date, after 30 minutes.
+				
 				//			countDownImage.isHidden = true
+				
 				print("start recording")
 			}else{
 				print("stopped")
 			}
-		}
+		
 		
 	}
 	

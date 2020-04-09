@@ -1,3 +1,12 @@
+//
+//  VideRecording.swift
+//  ImageClassification
+//
+//  Created by Ian Applebaum on 4/9/20.
+//  Copyright © 2020 Y Media Labs. All rights reserved.
+//
+
+import Foundation
 // Copyright 2019 The TensorFlow Authors. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +25,7 @@ import UIKit
 import AVFoundation
 
 // MARK: CameraFeedManagerDelegate Declaration
-protocol CameraFeedManagerDelegate: class {
+protocol CameraFeedVideoManagerDelegate: class {
 
 	/**
 	This method delivers the pixel buffer of the current frame seen by the device's camera.
@@ -51,22 +60,11 @@ protocol CameraFeedManagerDelegate: class {
 
 }
 
-/**
-This enum holds the state of the camera initialization.
-*/
-enum CameraConfiguration {
-	/// camera was initialized succesfully
-	case success
-	/// camera did not initialize successfully
-	case failed
-	/// user has denied iASL access to camera
-	case permissionDenied
-}
 
 /**
 This class manages all camera related functionality
 */
-class CameraFeedManager: NSObject {
+class CameraFeedVideoManager: NSObject {
 
 	// MARK: Camera Related Instance Variables
 	private let session: AVCaptureSession = AVCaptureSession()
@@ -77,7 +75,7 @@ class CameraFeedManager: NSObject {
 	private var isSessionRunning = false
 
 	// MARK: CameraFeedManagerDelegate
-	weak var delegate: CameraFeedManagerDelegate?
+	weak var delegate: CameraFeedVideoManagerDelegate?
 
 	// MARK: Initializer
 	init(previewView: PreviewView) {
@@ -324,21 +322,22 @@ class CameraFeedManager: NSObject {
 /**
 AVCaptureVideoDataOutputSampleBufferDelegate
 */
-extension CameraFeedManager: AVCaptureVideoDataOutputSampleBufferDelegate {
+extension CameraFeedVideoManager: AVCaptureVideoDataOutputSampleBufferDelegate {
 
 	/** This method delegates the CVPixelBuffer of the frame seen by the camera currently.
 	*/
 	func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-
-		// Converts the CMSampleBuffer to a CVPixelBuffer.
-		let pixelBuffer: CVPixelBuffer? = CMSampleBufferGetImageBuffer(sampleBuffer)
-
-		guard let imagePixelBuffer = pixelBuffer else {
-			return
-		}
+//
+//		// Converts the CMSampleBuffer to a CVPixelBuffer.
+//		let pixelBuffer: CVPixelBuffer? = CMSampleBufferGetImageBuffer(sampleBuffer)
+//
+//		guard let imagePixelBuffer = pixelBuffer else {
+//			return
+//		}
+		
 
 		// Delegates the pixel buffer to the ViewController.
-		delegate?.didOutput(pixelBuffer: imagePixelBuffer)
+//		delegate?.didOutput(pixelBuffer: imagePixelBuffer)
 	}
 
 }
