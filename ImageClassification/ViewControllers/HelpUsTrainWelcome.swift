@@ -3,7 +3,7 @@ import UIKit
 import SnapKit
 
 /// An item to be displayed in the welcome screen, used to show off a feature of your app.
-public struct genericSplashItem {
+public struct HelpUsTrainItem {
     
     /// The icon of the item. This will appear on the left side of the item.
     public var image: UIImage!
@@ -27,14 +27,18 @@ public struct helpTrainWelcomeConfiguration {
     public var appDescription: String = ""
     
     /// The items that will appear on the welcome screen. Create and configure them using instances of `AWSItem`.
-    public var items: [genericSplashItem] = []
+    public var items: [HelpUsTrainItem] = []
     
     /// The text of the "Continue" button that appears at the bottom of the screen. By default this is set to `"Continue"`.
     public var continueButtonText: String = "Continue"
     
+	public var dismissButtonText: String = "No Thank You"
+	
     /// The closure to be executed when the "Continue" button is pressed.
     public var continueButtonAction: (() -> ())?
     
+	public var dismissButtonAction: (() ->())?
+	
     /// The tint of the welcome screen. This color will be reflected in the color of the app name and the "Continue" button.
     public var tintColor: UIColor = SystemColor.systemBlue
     
@@ -56,7 +60,7 @@ public class helpUsTrainWelcomeViewController: UIViewController {
     private let appDescriptionLabel = UILabel()
     private let itemsTableView = HelpUsTrainIntrinsicTableView()
     private let continueButton = HelpUsTrainFilledButton()
-    
+    private let dismissButton = HelpUsTrainFilledButton()
     private var marginSize: CGFloat = 0
     
     override public func viewDidLoad() {
@@ -84,7 +88,7 @@ public class helpUsTrainWelcomeViewController: UIViewController {
         self.contentView.addSubview(self.appDescriptionLabel)
         self.contentView.addSubview(self.itemsTableView)
         self.view.addSubview(self.continueButton)
-        
+		self.view.addSubview(self.dismissButton)
         // Scroll view
         self.scrollView.alwaysBounceVertical = true
         
@@ -157,22 +161,39 @@ public class helpUsTrainWelcomeViewController: UIViewController {
             make.bottom.equalTo(self.contentView.snp.bottom)
         }
         
-        // "Continue" button
-        self.continueButton.setTitle(self.configuration.continueButtonText, for: .normal)
-        self.continueButton.addTarget(self, action: #selector(self.continueButtonTapped), for: .touchUpInside)
-        self.continueButton.fillColor = self.configuration.tintColor
-        self.continueButton.clipsToBounds = true
-        self.continueButton.layer.cornerRadius = 8
-        self.continueButton.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner]
+		// "Continue" button
+		self.continueButton.setTitle(self.configuration.continueButtonText, for: .normal)
+		self.continueButton.addTarget(self, action: #selector(self.continueButtonTapped), for: .touchUpInside)
+		self.continueButton.fillColor = self.configuration.tintColor
+		self.continueButton.clipsToBounds = true
+		self.continueButton.layer.cornerRadius = 8
+		self.continueButton.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner]
+		
+		self.continueButton.snp.makeConstraints { (make) in
+			make.top.equalTo(self.scrollView.snp.bottom).offset(20)
+			make.left.equalTo(self.view.snp.leftMargin).offset(self.marginSize)
+			make.right.equalTo(self.view.snp.rightMargin).offset(-(self.marginSize))
+			make.bottom.equalTo(self.dismissButton.snp.topMargin).offset(-(self.marginSize + 24))
+			make.height.equalTo(self.getButtonSize())
+		}
+		
+        // "Dismiss" button
+        self.dismissButton.setTitle(self.configuration.dismissButtonText, for: .normal)
+        self.dismissButton.addTarget(self, action: #selector(self.dismissButtonTapped), for: .touchUpInside)
+		self.dismissButton.fillColor = .systemGray
+        self.dismissButton.clipsToBounds = true
+        self.dismissButton.layer.cornerRadius = 8
+        self.dismissButton.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner]
         
-        self.continueButton.snp.makeConstraints { (make) in
-            make.top.equalTo(self.scrollView.snp.bottom).offset(20)
+        self.dismissButton.snp.makeConstraints { (make) in
+            make.top.equalTo(self.continueButton.snp.bottom).offset(20)
             make.left.equalTo(self.view.snp.leftMargin).offset(self.marginSize)
             make.right.equalTo(self.view.snp.rightMargin).offset(-(self.marginSize))
             make.bottom.equalTo(self.view.snp.bottomMargin).offset(-(self.marginSize + 24))
             make.height.equalTo(self.getButtonSize())
-        }
-    }
+			
+		}
+	}
     
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -181,6 +202,10 @@ public class helpUsTrainWelcomeViewController: UIViewController {
     
     @objc private func continueButtonTapped() {
         self.configuration.continueButtonAction?()
+    }
+	
+	@objc private func dismissButtonTapped() {
+        self.configuration.dismissButtonAction?()
     }
     
     func getHeaderFontSize() -> CGFloat {
@@ -263,7 +288,7 @@ fileprivate class HelpUsTrainFilledButton: UIButton {
 
 fileprivate class HelpUsTrainItemsTableViewManager: NSObject, UITableViewDataSource, UITableViewDelegate {
     
-    var items: [genericSplashItem]!
+    var items: [HelpUsTrainItem]!
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.items.count
@@ -282,7 +307,7 @@ fileprivate class HelpUsTrainItemsTableViewManager: NSObject, UITableViewDataSou
 
 fileprivate class HelpTrainTableCell: UITableViewCell {
     
-    var item: genericSplashItem
+    var item: HelpUsTrainItem
     
     var itemImageView: UIImageView!
     var itemTitleLabel: UILabel!
@@ -290,7 +315,7 @@ fileprivate class HelpTrainTableCell: UITableViewCell {
     var topSpacerView: UIView!
     var bottomSpacerView: UIView!
     
-    init(item: genericSplashItem) {
+    init(item: HelpUsTrainItem) {
         self.item = item
         
         super.init(style: .default, reuseIdentifier: nil)
