@@ -57,7 +57,7 @@ class Caboard: UIView {
         //composedMessageSetup()
 
         #if targetEnvironment(simulator)
-        previewView.shouldUseClipboardImage = true
+        oldPreviewView.shouldUseClipboardImage = true
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(classifyPasteboardImage),
                                                name: UIApplication.didBecomeActiveNotification,

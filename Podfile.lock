@@ -311,7 +311,7 @@ PODS:
   - SwiftLint (0.39.2)
   - SwiftMonkey (2.1.1)
   - SwiftMonkeyPaws (2.1.1)
-  - SwiftVideoRecorder (0.4.3)
+  - SwiftyCam (4.0.0)
   - TensorFlowLiteC (2.1.0)
   - TensorFlowLiteSwift (2.1.0):
     - TensorFlowLiteC (= 2.1.0)
@@ -332,7 +332,7 @@ DEPENDENCIES:
   - SwiftLint
   - SwiftMonkey (~> 2.1.0)
   - SwiftMonkeyPaws (~> 2.1.0)
-  - SwiftVideoRecorder (from `https://github.com/ApplebaumIan/swift-video-recorder.git`, branch `master`)
+  - SwiftyCam
   - TensorFlowLiteSwift
   - YouTubePlayer (from `https://github.com/weakfl/Swift-YouTube-Player.git`, branch `use-wkwebview`)
 
@@ -371,21 +371,16 @@ SPEC REPOS:
     - SwiftLint
     - SwiftMonkey
     - SwiftMonkeyPaws
+    - SwiftyCam
     - TensorFlowLiteC
     - TensorFlowLiteSwift
 
 EXTERNAL SOURCES:
-  SwiftVideoRecorder:
-    :branch: master
-    :git: https://github.com/ApplebaumIan/swift-video-recorder.git
   YouTubePlayer:
     :branch: use-wkwebview
     :git: https://github.com/weakfl/Swift-YouTube-Player.git
 
 CHECKOUT OPTIONS:
-  SwiftVideoRecorder:
-    :commit: 60fe421c1f6d9f5d9a1647d8ca6a7a74a2a73a6a
-    :git: https://github.com/ApplebaumIan/swift-video-recorder.git
   YouTubePlayer:
     :commit: 778a01228d3917a665f3d52e3568eeee46468cbd
     :git: https://github.com/weakfl/Swift-YouTube-Player.git
@@ -424,11 +419,11 @@ SPEC CHECKSUMS:
   SwiftLint: 22ccbbe3b8008684be5955693bab135e0ed6a447
   SwiftMonkey: aea6f2707a4b7ab5277b4d2fd2f0723a083997b1
   SwiftMonkeyPaws: 655524bb402df5ac2be836f9f604aca1068fbde6
-  SwiftVideoRecorder: 839bef3ad2bc58af422e67b1ce0476fdb249c133
+  SwiftyCam: 6e57914771d972fbe508e759dc9d0150a44a93fd
   TensorFlowLiteC: 215603d4426d93810eace5947e317389554a4b66
   TensorFlowLiteSwift: 9d8137f18d5ac30ca89bba4fbe118e0949ac5743
   YouTubePlayer: c9581f0405e3240d1549b194bc1134bfc018a51d
 
-PODFILE CHECKSUM: 57d536cfe13b76e29ea445e73cf4bbdeeb1bb41e
+PODFILE CHECKSUM: fd3df11d192ac996ae6a9e8c78f390d3835aa896
 
 COCOAPODS: 1.9.1
