@@ -350,9 +350,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             if isRegisterButton {
                 if nameTextField.text != "" && emailTextField.text != "" && passwordTextField.text != "" {
                     handleRegister()
-                    //if login successful then exit the view controller
-                    //This switches this view controller to the main view controller in Main.storyboard
-                    handleLeaveLogin()
                 } else {
                     if nameTextField.text == "" {
                         //nameTextField.backgroundColor = UIColor.red.withAlphaComponent(0.2)
@@ -371,9 +368,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 
                 if emailTextField.text != "" && passwordTextField.text != "" {
                     handleLogin()
-                    //if login successful then exit the view controller
-                    //This switches this view controller to the main view controller in Main.storyboard
-                    handleLeaveLogin()
+
                 } else {
                     if emailTextField.text == "" {
                         view.shake(viewToShake: emailTextField)
@@ -411,6 +406,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
             if err != nil {
                 print(err!)
+                let alert = UIAlertController(title: "Alert", message: err?.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "Continue", style: UIAlertAction.Style.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
                 return
             }
 
@@ -434,16 +432,16 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             userReference.updateChildValues(dataToAdd) { (error, _) in
                 if error != nil {
                     print(error!)
+                    
                     return
+                } else {
+                    //you've successfully added user to realtime database
+                    print("saved user successfully into REALTIME")
+                    
+                    //if the user wants to save their email and password into keychain
+                    self.handleSaveKeychain(email: email, password: password)
+                    self.handleLeaveLogin()
                 }
-
-                //you've successfully added user to realtime database
-                print("saved user successfully into REALTIME")
-                
-                //if the user wants to save their email and password into keychain
-                self.handleSaveKeychain(email: email, password: password)
-                
-                
             }
         }
     }
@@ -475,15 +473,17 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         Auth.auth().signIn(withEmail: email, password: password) { (_, err) in
             if err != nil {
                 print(err!)
+                let alert = UIAlertController(title: "Alert", message: err?.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "Continue", style: UIAlertAction.Style.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
                 return
+            } else {
+                //add email and password into keychain if they want
+                self.handleSaveKeychain(email: email, password: password)
+                //successfully signed in
+                print("you signed in successfully")
+                self.handleLeaveLogin()
             }
-
-            //successfully signed in
-            print("you signed in successfully")
-            
-            //add email and password into keychain if they want
-            self.handleSaveKeychain(email: email, password: password)
-
         }
     }
 
