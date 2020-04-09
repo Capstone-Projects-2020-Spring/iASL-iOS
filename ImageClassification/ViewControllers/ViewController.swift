@@ -687,7 +687,17 @@ extension ViewController {
 
 		helpUsTrainConfig.continueButtonAction = {
 //			self.dismiss(animated: true)
-			
+//			DispatchQueue.main.async {
+			// Dismiss the Old
+			   if let presented = self.presentedViewController {
+//				presented.removeFromParent()
+				presented.dismiss(animated: false)
+				let vc = TrainController()
+				
+				vc.modalPresentationStyle = .fullScreen
+				self.present(vc, animated: true)
+			   }
+//			}
 		}
 		helpUsTrainConfig.dismissButtonAction = {
 			self.dismiss(animated: true)
