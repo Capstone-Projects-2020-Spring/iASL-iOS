@@ -19,6 +19,9 @@ class TrainController: UIViewController,YouTubePlayerDelegate {
 	let nextButton = UIButton()
 	let block = UIView()
 	var recordButton = RecordButton(frame: .zero)
+	var countDownImageThree = UIImageView(frame: .zero)
+	var countDownImageTwo = UIImageView(frame: .zero)
+	var countDownImageOne = UIImageView(frame: .zero)
 var videoPlayer: YouTubePlayerView?
 	let previewView = PreviewView()
 	// MARK: Controllers that manage functionality
@@ -116,15 +119,35 @@ var videoPlayer: YouTubePlayerView?
 		
 		nextButtonSetup()
 		cameraCapture.delegate = self
-//		view.addSubview(recordButton)
-//		recordButton.translatesAutoresizingMaskIntoConstraints = false
-//		recordButton.delegate = self
-//		recordButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30).isActive = true
-//		recordButton.heightAnchor.constraint(equalToConstant: 100).isActive = true
-//		recordButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
-		
-		
-//		recordButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+		view.addSubview(countDownImageThree)
+		countDownImageThree.translatesAutoresizingMaskIntoConstraints = false
+		countDownImageThree.heightAnchor.constraint(equalToConstant: view.bounds.width/2).isActive = true
+		countDownImageThree.widthAnchor.constraint(equalToConstant: view.bounds.width/2).isActive = true
+		countDownImageThree.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+		countDownImageThree.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+		countDownImageThree.isHidden = true
+		view.addSubview(countDownImageTwo)
+		countDownImageTwo.translatesAutoresizingMaskIntoConstraints = false
+		countDownImageTwo.heightAnchor.constraint(equalToConstant: view.bounds.width/2).isActive = true
+		countDownImageTwo.widthAnchor.constraint(equalToConstant: view.bounds.width/2).isActive = true
+		countDownImageTwo.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+		countDownImageTwo.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+		countDownImageTwo.isHidden = true
+		view.addSubview(countDownImageOne)
+		countDownImageOne.translatesAutoresizingMaskIntoConstraints = false
+		countDownImageOne.heightAnchor.constraint(equalToConstant: view.bounds.width/2).isActive = true
+		countDownImageOne.widthAnchor.constraint(equalToConstant: view.bounds.width/2).isActive = true
+		countDownImageOne.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+		countDownImageOne.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+		countDownImageOne.isHidden = true
+		if #available(iOS 13.0, *) {
+			countDownImageThree.image = UIImage(systemName: "3.circle.fill")
+			countDownImageTwo.image = UIImage(systemName: "2.circle.fill")
+			countDownImageOne.image = UIImage(systemName: "1.circle.fill")
+		} else {
+			// Fallback on earlier versions
+			
+		}
 		
     }
 	override func viewDidAppear(_ animated: Bool) {
@@ -206,6 +229,27 @@ extension TrainController: CameraFeedManagerDelegate{
 extension TrainController: RecordButtonDelegate{
 	func tapButton(isRecording: Bool) {
 		print("record")
+		DispatchQueue.main.async {
+			if isRecording == true{
+				print(3)
+				self.countDownImageThree.isHidden = false
+				sleep(1)
+				self.countDownImageThree.isHidden = true
+				print(2)
+				self.countDownImageTwo.isHidden = false
+				sleep(1)
+				self.countDownImageTwo.isHidden = true
+				self.countDownImageOne.isHidden = false
+				print(1)
+				sleep(1)
+				self.countDownImageOne.isHidden = true
+				//			countDownImage.isHidden = true
+				print("start recording")
+			}else{
+				print("stopped")
+			}
+		}
+		
 	}
 	
 	
