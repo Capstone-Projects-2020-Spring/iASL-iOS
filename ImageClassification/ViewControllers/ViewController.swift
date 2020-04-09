@@ -587,7 +587,7 @@ extension ViewController {
         trainButton.addTarget(self, action: #selector(trainButtonTapped), for: .touchUpInside)
     }
 	@objc func trainButtonTapped() {
-		let vc = LoginVC()
+		let vc = HelpUsTrain()
 		self.present(vc, animated: true, completion: nil)
 	   }
    
