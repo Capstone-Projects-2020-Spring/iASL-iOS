@@ -23,54 +23,54 @@ let navigationController = UINavigationController()
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
     var window: UIWindow?
-    
+
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
         requestTranscribePermissions()
-        
+
         FirebaseApp.configure()
-        
+
         //initializes the firestore firebase
         //let db = Firestore.firestore()
-        
+
         //FIXME: May need to reavaluate this solution
         //changes the root view controller
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = ViewController()
         window?.makeKeyAndVisible()
-        
+
         //just for editing the chatVC
         //    window = UIWindow(frame: UIScreen.main.bounds)
         //    window?.rootViewController = ViewController()
         //    window?.makeKeyAndVisible()
-        
+
         //just for editing the chatVC
         //    window = UIWindow(frame: UIScreen.main.bounds)
         //    window?.rootViewController = RemoteConversationVC()
         //    window?.makeKeyAndVisible()
-        
+
         application.registerForRemoteNotifications()
-        
+
         Messaging.messaging().delegate = self
-        
+
         self.window?.makeKeyAndVisible()
         //	if CommandLine.arguments.contains("--MonkeyPaws") {
         //		paws = MonkeyPaws(view: window!)
         //	}
         return true
-        
+
     }
-    
+
     func application(application: UIApplication, willChangeStatusBarFrame newStatusBarFrame: CGRect) {
         let windows = UIApplication.shared.windows
-        
+
         for window in windows {
             window.removeConstraints(window.constraints)
         }
     }
-    
+
     func requestTranscribePermissions() {
         SFSpeechRecognizer.requestAuthorization { [unowned self] authStatus in
             DispatchQueue.main.async {
@@ -83,5 +83,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
     //	var paws: MonkeyPaws?
-    
+
 }

@@ -129,7 +129,6 @@ class ViewController: UIViewController {
         //        view.addSubview(child.view)
         //        child.didMove(toParent: self)
 
-
         let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleLeftSwipeGesture(_:)))
         view.addGestureRecognizer(swipeLeftGestureRecognizer)
         swipeLeftGestureRecognizer.direction = .left
@@ -161,7 +160,6 @@ class ViewController: UIViewController {
 
     }
 
-
     @objc func handleSwipeUpGesture(_ sender: UISwipeGestureRecognizer) {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         //textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -173,8 +171,6 @@ class ViewController: UIViewController {
         })
 
     }
-
-
 
     @objc func handleDownSwipeGesture(_ sender: UISwipeGestureRecognizer) {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
@@ -467,9 +463,6 @@ extension ViewController {
 
     }
 
-
-
-
     func outputTextViewSetup() {
         textViewHolder.addSubview(outputTextView)
         outputTextView.translatesAutoresizingMaskIntoConstraints = false
@@ -535,7 +528,7 @@ extension ViewController {
         clearButton.addTarget(self, action: #selector(clearButtonTapped), for: .touchUpInside)
     }
 
-    @objc func clearButtonTapped(){
+    @objc func clearButtonTapped() {
         outputTextView.text.removeAll()
     }
 
@@ -553,7 +546,7 @@ extension ViewController {
         keyboardButton.addTarget(self, action: #selector(keyboardButtonTapped), for: .touchUpInside)
     }
 
-    @objc func keyboardButtonTapped(){
+    @objc func keyboardButtonTapped() {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
 
@@ -576,15 +569,9 @@ extension ViewController {
             })
         }
 
-
     }
 
-
-
-
-
-
-    @objc func collapseButtonTapped(){
+    @objc func collapseButtonTapped() {
         //textViewHolder
     }
 

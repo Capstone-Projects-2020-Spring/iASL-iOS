@@ -124,12 +124,12 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
 //                        self.messages.sorted { (message1, message2) -> Bool in
 //                            return message1.timestamp?.intValue > message2.timestamp?.intValue
 //                        }
-                        
+
                         //this sort actually works and the previous one does not
                         self.messages.sort { (message1, message2) -> Bool in
                             return message1.timestamp?.intValue > message2.timestamp?.intValue
                         }
-                        
+
                         //self.messages.sort(by: >)
                     }
 

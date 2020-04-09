@@ -35,7 +35,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 	var isFirstOpen = true
     let collectionUser: String = "users"
 	var welcomeScreenConfig = AWSConfigOptions()
-	
+
 	@objc func showWelcomeScreen() {
 		  let vc = AWSViewController()
 		vc.configuration = self.welcomeScreenConfig
@@ -54,43 +54,42 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 		welcomeScreenConfig.appName = "iASL (Beta)"
 		welcomeScreenConfig.appDescription = "iASL is a Temple University capstone project designed to transcribe American Sign Language to text using your iPhone's camera. We sincerely thank you for taking the time to test our app before public release. We are testing the following features."
 		welcomeScreenConfig.tintColor = .systemPink
-		
+
 		var item1 = AWSItem()
 		if #available(iOS 13.0, *) {
-			
-			item1.image = UIImage(systemName: "hand.draw.fill")?.withTintColor(.systemPink,renderingMode: .alwaysOriginal)
+
+			item1.image = UIImage(systemName: "hand.draw.fill")?.withTintColor(.systemPink, renderingMode: .alwaysOriginal)
 		} else {
 			// Fallback on earlier versions
 		}
 		item1.title = "ASL Finger Spelling Recognition"
 		item1.description = "Spell words using American Sign Language letters."
-		
+
 		var item2 = AWSItem()
 		if #available(iOS 13.0, *) {
-			item2.image = UIImage(systemName: "bubble.left.and.bubble.right.fill")?.withTintColor(.systemPink,renderingMode: .alwaysOriginal)
+			item2.image = UIImage(systemName: "bubble.left.and.bubble.right.fill")?.withTintColor(.systemPink, renderingMode: .alwaysOriginal)
 		} else {
 			// Fallback on earlier versions
 		}
 		item2.title = "Messaging"
 		item2.description = "Our chat feature lets you send messages to other iASL users using Sign Language instead of a keyboard."
-		
+
 		var item3 = AWSItem()
 		if #available(iOS 13.0, *) {
-			item3.image = UIImage(systemName: "camera.on.rectangle.fill")?.withTintColor(.systemPink,renderingMode: .alwaysOriginal)
+			item3.image = UIImage(systemName: "camera.on.rectangle.fill")?.withTintColor(.systemPink, renderingMode: .alwaysOriginal)
 		} else {
 			// Fallback on earlier versions
 		}
 		item3.title = "We need your help."
 		item3.description = "We're working on supporting full American Sign Language words, and we need your help to train iASL. With your permission, we ask you to tap the train iASL button where you will be prompted with a video of the sign that you will perform and send to our server."
-		
-		
+
 		welcomeScreenConfig.items = [item1, item2, item3]
-		
+
 		welcomeScreenConfig.continueButtonAction = {
 			self.dismiss(animated: true)
 		}
 	}
-	
+
 	///first function that is called
     override func viewDidLoad() {
         let view = UIView()
@@ -132,7 +131,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         setupInfoSubmitButton()
         setupCameraView()
         setupToggleRegisterLoginButton()
-			
+
 		welcomeScreenSetup()
         //print(toggleRegisterLoginButton.frame.origin.y)
     }
@@ -468,8 +467,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         mainVC.modalTransitionStyle = .crossDissolve
         mainVC.modalPresentationStyle = .fullScreen
         present(mainVC, animated: true, completion: nil)
-        
-        
+
 //        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
 //
 //        guard let destination = mainStoryboard.instantiateViewController(withIdentifier: "main") as? ViewController else {
