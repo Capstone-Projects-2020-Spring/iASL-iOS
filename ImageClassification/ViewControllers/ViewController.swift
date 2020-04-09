@@ -15,9 +15,9 @@
 import AVFoundation
 import UIKit
 import Speech
-
+import AppleWelcomeScreen
 class ViewController: UIViewController {
-
+//	var isFirstOpen = true
     let remoteChatButton = UIButton()
     let liveChatButton = UIButton()
     let notesButton = UIButton()
