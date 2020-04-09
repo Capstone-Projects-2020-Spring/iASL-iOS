@@ -18,6 +18,7 @@ class TrainController: UIViewController,YouTubePlayerDelegate {
 	var signVideos: Train? = Train()
 	let nextButton = UIButton()
 	let block = UIView()
+	var recordButton = RecordButton(frame: .zero)
 var videoPlayer: YouTubePlayerView?
 	let previewView = PreviewView()
 	// MARK: Controllers that manage functionality
@@ -115,8 +116,26 @@ var videoPlayer: YouTubePlayerView?
 		
 		nextButtonSetup()
 		cameraCapture.delegate = self
+//		view.addSubview(recordButton)
+//		recordButton.translatesAutoresizingMaskIntoConstraints = false
+//		recordButton.delegate = self
+//		recordButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30).isActive = true
+//		recordButton.heightAnchor.constraint(equalToConstant: 100).isActive = true
+//		recordButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
+		
+		
+//		recordButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
 		
     }
+	override func viewDidAppear(_ animated: Bool) {
+		  let recordButtonSide = self.view.bounds.size.height/10
+			  recordButton = RecordButton(frame: CGRect(x: self.view.bounds.width/2-recordButtonSide/2,
+															y: self.view.bounds.height-recordButtonSide,
+															width: recordButtonSide,
+															height: recordButtonSide))
+		recordButton.delegate = self
+		view.addSubview(recordButton)
+	}
 	@objc func nextButtonPressed(){
 		let video = signVideos?.signs?.popFirst()
 		print(video?.key)
@@ -183,4 +202,11 @@ extension TrainController: CameraFeedManagerDelegate{
 		previewView.heightAnchor.constraint(equalToConstant: height/2).isActive = true
 //		previewView.bottomAnchor.constraint(equalTo: videoPlayer!.topAnchor).isActive = true
     }
+}
+extension TrainController: RecordButtonDelegate{
+	func tapButton(isRecording: Bool) {
+		print("record")
+	}
+	
+	
 }
