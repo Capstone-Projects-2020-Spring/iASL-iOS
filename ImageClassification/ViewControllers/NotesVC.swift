@@ -22,32 +22,44 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let note1 = Note()
         note1.ownerId = "owner1"
         note1.text = "this is note 1"
-        note1.title = "title1"
+        note1.title = "title 1"
         note1.timestamp = 4
         
         let note2 = Note()
         note2.ownerId = "owner2"
         note2.text = "this is note 2"
-        note2.title = "title2"
+        note2.title = "title 2"
         note2.timestamp = 3
         
         
         let note3 = Note()
         note3.ownerId = "owner3"
         note3.text = "this is note 3"
-        note3.title = "title3"
+        note3.title = "title 3"
         note3.timestamp = 2
+        
+        let note4 = Note()
+        note4.ownerId = "owner4"
+        note4.text = "wwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+        note4.title = "fourth title"
+        note4.timestamp = 1
         
         
         testNotes.append(note1)
         testNotes.append(note2)
         testNotes.append(note3)
+        testNotes.append(note4)
     }
 
     let topBar = UIView()
     let topLabel = UILabel()
     let backButton = UIButton()
-    let tableView = UITableView()
+    let tableView: UITableView = {
+        let table = UITableView()
+        table.separatorStyle = .singleLine
+        table.separatorInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+        return table
+    }()
     let createNoteButton = UIButton()
 
     override func viewDidLoad() {
@@ -70,7 +82,7 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         return .all
     }
     
-    ///function for observing notes from firebase
+    ///function for observing notes from firebase (used to gather list of notes for user to see in their list of notes)
     func observeUserNotes() {
         guard let uid = Auth.auth().currentUser?.uid else {
             print("could not get UID")
@@ -78,12 +90,12 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         }
 
         //gets the id of the user inside the user-notes node
+        //userNotesConstant = "user-notes"
         let ref = Database.database().reference().child(self.userNotesConstant).child(uid)
-
+        //snapshot is a collection of things inside the node
         ref.observe(.childAdded, with: { (snapshot) in
 
-            print(snapshot)
-
+            //value of the node key
             let noteId = snapshot.key
 
             //get the notes of all the children nodes from the user-notes node
@@ -91,9 +103,7 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
             notesReference.observeSingleEvent(of: .value, with: { (snapshot) in
 
-                print(snapshot)
-
-                //this is where the old observe messages stuff goes
+                //gets a dictionary (key, value). You can see what is in the dictionary per snapshot.value below
                 if let dictionary = snapshot.value as? [String: AnyObject] {
 
                     //add this note to the notes array
@@ -104,6 +114,7 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                     note.timestamp = dictionary["timestamp"] as? NSNumber
                     note.id = snapshot.key
                     
+                    //creates an array of notes. this is where the list of notes gets presented to the user
                     self.notes.append(note)
                     
                     //sort the notes by timestamp
@@ -111,7 +122,6 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                         return note1.timestamp?.intValue > note2.timestamp?.intValue
                     }
                 }
-
 
                 //reload the table
                 DispatchQueue.main.async {
@@ -134,9 +144,21 @@ extension NotesVC {
 
     ///each cell in the table view
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
-        cell?.textLabel?.text = notes[indexPath.row].text
-        return cell!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "notesTableViewCell") as! NotesTableViewCell
+        
+        let note = notes[indexPath.row]
+        cell.note = note;
+        
+        //cell?.textLabel?.text = testNotes[indexPath.row].text
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
 
     ///selecting a specific row in the table view
@@ -153,7 +175,7 @@ extension NotesVC {
         present(vc, animated: true, completion: nil)
     }
     
-    //change the color of the status bar
+    ///change the color of the status bar
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNeedsStatusBarAppearanceUpdate()
@@ -171,7 +193,7 @@ extension NotesVC {
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(NotesTableViewCell.self, forCellReuseIdentifier: "notesTableViewCell")
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -225,7 +247,7 @@ extension NotesVC {
         vc.note = nil
         //vc.modalTransitionStyle = .crossDissolve
         //vc.modalPresentationStyle = .fullScreen
-        vc.noteTitle.text = "New Note"
+        //vc.noteTitle.text = "New Note"
         present(vc, animated: true, completion: nil)
     }
 

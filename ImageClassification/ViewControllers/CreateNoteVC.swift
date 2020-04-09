@@ -46,10 +46,67 @@ class CreateNoteVC: UIViewController {
         loadNote()
     }
     
-    ///if the note already exists, loads the contents into the VC
+    ///if the note already exists, loads the contents into the VC. if it does not exist, set placeholders
     func loadNote() {
-        noteTitle.text = note?.title
-        textView.text = note?.text
+        if note == nil {
+            noteTitle.placeholder = "Title"
+            textView.text = "Type note here..."
+            textView.textColor = UIColor.lightGray
+
+            textView.becomeFirstResponder()
+
+            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
+        } else {
+            noteTitle.text = note?.title
+            textView.text = note?.text
+        }
+    }
+    
+    ///this is here mostly for editing the placeholder logic for new notes
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+
+        // Combine the textView text and the replacement text to
+        // create the updated text string
+        let currentText:String = textView.text
+        let updatedText = (currentText as NSString).replacingCharacters(in: range, with: text)
+
+        // If updated text view will be empty, add the placeholder
+        // and set the cursor to the beginning of the text view
+        if updatedText.isEmpty {
+
+            textView.text = "Type note here..."
+            textView.textColor = UIColor.lightGray
+
+            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
+        }
+
+        // Else if the text view's placeholder is showing and the
+        // length of the replacement string is greater than 0, set
+        // the text color to black then set its text to the
+        // replacement string
+         else if textView.textColor == UIColor.lightGray && !text.isEmpty {
+            textView.textColor = UIColor.black
+            textView.text = text
+        }
+
+        // For every other case, the text should change with the usual
+        // behavior...
+        else {
+            return true
+        }
+
+        // ...otherwise return false since the updates have already
+        // been made
+        return false
+    }
+    
+    ///more placeholder logic
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        if self.view.window != nil {
+            if textView.textColor == UIColor.lightGray {
+                textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
+            }
+        }
     }
     
     ///handles what happens when a note is saved
@@ -60,6 +117,7 @@ class CreateNoteVC: UIViewController {
         //two cases: new note created and old note needs to be updated
         if note == nil {
             let newNote = Note()
+            newNote.title = "Title"
             note = newNote
             handleNewNote()
             dismiss(animated: true, completion: nil)
@@ -74,7 +132,6 @@ class CreateNoteVC: UIViewController {
         
         print("handle new note")
         toggleSaveButtonDisabled()
-        
 
         //need to save a message here, just like with messaging
         guard let noteText = textView.text, let title = noteTitle.text else {
@@ -82,7 +139,7 @@ class CreateNoteVC: UIViewController {
             return
         }
 
-
+        //get a reference ot the database at the "notes" node
         let ref = Database.database().reference().child(self.notesConstant)
         //gets an auto ID for each message
         let childRef = ref.childByAutoId()
@@ -96,29 +153,30 @@ class CreateNoteVC: UIViewController {
         //gets it in milliseconds
         let timestamp: NSNumber = NSNumber(value: NSDate().timeIntervalSince1970 * 1000)
 
+        //values to be added to the new node
         let values = ["id": childRef.key!, "title": title, "text": noteText, "timestamp": timestamp, "ownerId": owner] as [String: Any]
 
+        //add the values to the node
         childRef.updateChildValues(values) { (error, _) in
             if error != nil {
                 print(error!)
                 return
             }
-
             //you've added your message successfully\
             print("successfully added the note to the notes node")
-
             //need to also save to new node for cost related issues
+            //only looks at user-notes->ownerID
             let userNotesRef = Database.database().reference().child(self.userNotesConstant).child(owner)
-
+            //this is for a different root node
             let noteId = childRef.key
+            //value to be entered into the "user-notes" node
+            //there will be one of these for each note PER user
             let userValue = [noteId: 1] as! [String: Any]
-
             userNotesRef.updateChildValues(userValue) { (error2, _) in
                 if error2 != nil {
                     print(error2!)
                     return
                 }
-
                 //you've added to the user-messages node for message senders
                 print("you've added to the user-notes node for owners")
             }
@@ -144,19 +202,23 @@ class CreateNoteVC: UIViewController {
             return
         }
         
+        //key is the node at which we are updating the note
         guard let key = self.noteToUpdateKey else {
             return
         }
         
+        //gets a reference to the database at the "notes" node
         let ref = Database.database().reference().child(self.notesConstant)
-        //gets an auto ID for each message
+        //gets an auto ID for each note
         let childRef = ref.child(key)
         
         //gets it in milliseconds
         let timestamp: NSNumber = NSNumber(value: NSDate().timeIntervalSince1970 * 1000)
         
-        let values = ["id": childRef.key!,"title": title, "text": noteText, "timestamp": timestamp, "ownerId": owner] as [String: Any]
+        //values to be inserted into the node
+        let values = ["id": childRef.key!, "title": title, "text": noteText, "timestamp": timestamp, "ownerId": owner] as [String: Any]
         
+        //update the node with the values we just defined above
         childRef.updateChildValues(values) { (error, _) in
             if error != nil {
                 print(error!)
@@ -166,11 +228,6 @@ class CreateNoteVC: UIViewController {
             //you've updated your note successfully
             print("successfully updated the note in the notes node")
         }
-
-        
-        
-        
-        
         
     }
     
