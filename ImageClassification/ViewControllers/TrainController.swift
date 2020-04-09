@@ -76,7 +76,8 @@ var videoPlayer: YouTubePlayerView?
 	func playerStateChanged(_ videoPlayer: YouTubePlayerView, playerState: YouTubePlayerState) {
 		if playerState == .Ended {
 			videoPlayer.seekTo(0, seekAhead: false)
-//			videoPlayer.play()
+			sleep(1)
+			videoPlayer.play()
 		}
 	}
 
