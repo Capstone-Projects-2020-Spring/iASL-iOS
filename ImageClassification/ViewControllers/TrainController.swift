@@ -227,6 +227,7 @@ extension TrainController: RecordButtonDelegate{
 		
 		
 			if isRecording == true{
+				startVideoRecording()
 //				if countdownLabel?.timeRemaining == 0{
 //					countdownLabel?.setCountDownTime(minutes: 5)
 //				}
@@ -239,10 +240,19 @@ extension TrainController: RecordButtonDelegate{
 				print("start recording")
 			}else{
 				print("stopped")
+				stopVideoRecording()
 			}
 		
 		
 	}
 	
 	
+}
+extension TrainController{
+	func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
+		 // Called when stopVideoRecording() is called and the video is finished processing
+		 // Returns a URL in the temporary directory where video is stored
+		let newVC = VideoViewController(videoURL: url)
+		self.present(newVC, animated: true, completion: nil)
+	}
 }
