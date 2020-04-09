@@ -305,7 +305,8 @@ PODS:
   - nanopb/encode (0.3.9011)
   - PromisesObjC (1.2.8)
   - Protobuf (3.11.4)
-  - SwiftLint (0.39.1)
+  - SnapKit (5.0.1)
+  - SwiftLint (0.39.2)
   - SwiftMonkey (2.1.1)
   - SwiftMonkeyPaws (2.1.1)
   - TensorFlowLiteC (2.1.0)
@@ -322,6 +323,7 @@ DEPENDENCIES:
   - Firebase/Messaging
   - FirebaseFirestoreSwift
   - KeychainSwift
+  - SnapKit (~> 5.0.0)
   - SwiftLint
   - SwiftMonkey (~> 2.1.0)
   - SwiftMonkeyPaws (~> 2.1.0)
@@ -357,6 +359,7 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - Protobuf
+    - SnapKit
     - SwiftLint
     - SwiftMonkey
     - SwiftMonkeyPaws
@@ -392,12 +395,13 @@ SPEC CHECKSUMS:
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
-  SwiftLint: 55e96a4a4d537d4a3156859fc1c54bd24851a046
+  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
+  SwiftLint: 22ccbbe3b8008684be5955693bab135e0ed6a447
   SwiftMonkey: aea6f2707a4b7ab5277b4d2fd2f0723a083997b1
   SwiftMonkeyPaws: 655524bb402df5ac2be836f9f604aca1068fbde6
   TensorFlowLiteC: 215603d4426d93810eace5947e317389554a4b66
   TensorFlowLiteSwift: 9d8137f18d5ac30ca89bba4fbe118e0949ac5743
 
-PODFILE CHECKSUM: 722c81a2a74ea5d87020976f5f2259ba7329f663
+PODFILE CHECKSUM: e6e60c704cff2cdb1f1daa3f76314a59b0ccae45
 
 COCOAPODS: 1.9.1

@@ -23,6 +23,7 @@ let navigationController = UINavigationController()
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
+
   var window: UIWindow?
 
   func application(
@@ -54,10 +55,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             print("you signed in successfully")
         }
         
+
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = ViewController()
         window?.makeKeyAndVisible()
         
+
     } else {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = LoginVC()
@@ -81,6 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
   }
 
+
     func requestTranscribePermissions() {
         SFSpeechRecognizer.requestAuthorization { [unowned self] authStatus in
             DispatchQueue.main.async {
@@ -92,6 +96,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
     }
-//	var paws: MonkeyPaws?
-
+    //	var paws: MonkeyPaws?
+    
 }

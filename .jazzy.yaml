@@ -14,7 +14,7 @@ exclude:
 
 theme: jony
 min_acl: private
-docset_icon: /Users/ianapplebaum/Documents/github/iASL-iOS/ImageClassification/Assets.xcassets/AppIcon.appiconset/1024.png
+# docset_icon: /Users/ianapplebaum/Documents/github/iASL-iOS/ImageClassification/Assets.xcassets/AppIcon.appiconset/1024.png
 
 # custom_categories:
 #   - name: Resources
