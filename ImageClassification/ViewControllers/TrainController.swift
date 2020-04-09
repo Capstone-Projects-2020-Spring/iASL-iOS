@@ -24,19 +24,37 @@ var videoPlayer: YouTubePlayerView?
 			view.backgroundColor = .white
 		}
         // Do any additional setup after loading the view.
+		let videoPlayerContainer = UIView(frame: .zero)
 		videoPlayer = YouTubePlayerView(frame: CGRect.zero)
-		view.addSubview(videoPlayer!)
+		view.addSubview(videoPlayerContainer)
+		videoPlayerContainer.addSubview(videoPlayer!)
+		videoPlayerContainer.backgroundColor = .green
 		videoPlayer?.backgroundColor = .red
 		videoPlayer?.delegate = self
+		videoPlayerContainer.translatesAutoresizingMaskIntoConstraints = false
+		videoPlayerContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+		videoPlayerContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
+		videoPlayerContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+		videoPlayerContainer.heightAnchor.constraint(equalToConstant: 200).isActive = true
+		
 		videoPlayer?.translatesAutoresizingMaskIntoConstraints = false
-		videoPlayer?.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-		videoPlayer?.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20).isActive = true
-		videoPlayer?.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-		videoPlayer?.heightAnchor.constraint(equalToConstant: 200).isActive = true
+		videoPlayer?.topAnchor.constraint(equalTo: videoPlayerContainer.topAnchor).isActive = true
+		videoPlayer?.leadingAnchor.constraint(equalTo: videoPlayerContainer.leadingAnchor).isActive = true
+		videoPlayer?.trailingAnchor.constraint(equalTo: videoPlayerContainer.trailingAnchor).isActive = true
+//		videoPlayer?.heightAnchor.constraint(equalToConstant: 200).isActive = true
+		videoPlayer?.bottomAnchor.constraint(equalTo: videoPlayerContainer.bottomAnchor).isActive = true
 		guard let url: URL = URL(string: "https://www.youtube.com/watch?v=1N4DfFk01h8") else {return}
-		let webConfig = WKWebViewConfiguration()
-		webConfig.allowsInlineMediaPlayback = true
+//		if let playinline = videoPlayer?.playerVars["playsinline"] as? Int {
+////			return playinline == 1
+//			if playinline == 1{
+//
+//			}else{
+//				videoPlayer?.playerVars["playsinline"] = 1 as AnyObject
+//			}
+//		}
+		videoPlayer?.playerVars = ["playsinline": 1 as AnyObject]
 		videoPlayer?.loadVideoURL(url)
+		
 		previewViewSetup()
 		cameraCapture.delegate = self
 		
