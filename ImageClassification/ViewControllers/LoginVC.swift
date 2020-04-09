@@ -340,25 +340,61 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     @objc func infoSubmitButtonPressed() {
         //for now, just make the keyboard disappear
         print("info submit button pressed")
+        
+        
+            //hide the keyboard
+            hideKeyboard()
 
-        //hide the keyboard
-        hideKeyboard()
+            //if isRegister = true, then its on the register screen
+            //else if isRegister = false, then its on the login screen
+            if isRegisterButton {
+                if nameTextField.text != "" && emailTextField.text != "" && passwordTextField.text != "" {
+                    handleRegister()
+                    //if login successful then exit the view controller
+                    //This switches this view controller to the main view controller in Main.storyboard
+                    handleLeaveLogin()
+                } else {
+                    if nameTextField.text == "" {
+                        //nameTextField.backgroundColor = UIColor.red.withAlphaComponent(0.2)
+                        view.shake(viewToShake: nameTextField)
+                    }
+                    if emailTextField.text == "" {
+                        view.shake(viewToShake: emailTextField)
+                    }
+                    if passwordTextField.text == "" {
+                        view.shake(viewToShake: passwordTextField)
+                    }
+                }
+                
 
-        //if isRegister = true, then its on the register screen
-        //else if isRegister = false, then its on the login screen
-        if isRegisterButton {
+            } else {
 
-            handleRegister()
+                if emailTextField.text != "" && passwordTextField.text != "" {
+                    handleLogin()
+                    //if login successful then exit the view controller
+                    //This switches this view controller to the main view controller in Main.storyboard
+                    handleLeaveLogin()
+                } else {
+                    if emailTextField.text == "" {
+                        view.shake(viewToShake: emailTextField)
+                    }
+                    if passwordTextField.text == "" {
+                        view.shake(viewToShake: passwordTextField)
+                    }
+                }
+                
 
-        } else {
+            }
 
-            handleLogin()
+            
+        
+            
+        
+        
+        
+        
 
-        }
-
-        //if login successful then exit the view controller
-        //This switches this view controller to the main view controller in Main.storyboard
-        handleLeaveLogin()
+        
         
     }
 
