@@ -17,6 +17,7 @@ struct Train {
 class TrainController: UIViewController,YouTubePlayerDelegate {
 	var signVideos: Train? = Train()
 	let nextButton = UIButton()
+	let block = UIView()
 var videoPlayer: YouTubePlayerView?
 	let previewView = PreviewView()
 	// MARK: Controllers that manage functionality
@@ -25,12 +26,35 @@ var videoPlayer: YouTubePlayerView?
 	fileprivate func nextButtonSetup() {
 		view.addSubview(nextButton)
 		nextButton.translatesAutoresizingMaskIntoConstraints = false
-		nextButton.heightAnchor.constraint(equalToConstant: 20).isActive = true
-		nextButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
-		nextButton.bottomAnchor.constraint(equalTo: previewView.bottomAnchor,constant: -20).isActive = true
+		nextButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+		nextButton.widthAnchor.constraint(equalToConstant: 115).isActive = true
+		nextButton.bottomAnchor.constraint(equalTo: block.bottomAnchor,constant: -30).isActive = true
 		nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor ,constant: -10).isActive = true
 		nextButton.addTarget(self, action: #selector(nextButtonPressed), for: .touchUpInside)
-		nextButton.setTitle("Next Video 􀆊", for: .normal)
+		nextButton.setTitle("Next Video", for: .normal)
+		if #available(iOS 13.0, *) {
+			nextButton.setImage(UIImage(systemName: "chevron.left")?.withTintColor(.white,renderingMode: .alwaysOriginal), for: .normal)
+		} else {
+			// Fallback on earlier versions
+		}
+		let pink: UIColor = .systemPink
+		nextButton.backgroundColor = pink.withAlphaComponent(0.75)
+		nextButton.layer.cornerRadius = 10
+		nextButton.semanticContentAttribute = UIApplication.shared
+		.userInterfaceLayoutDirection == .rightToLeft ? .forceLeftToRight : .forceRightToLeft
+		
+	}
+	
+
+	fileprivate func blockVideoViewSetup() {
+		view.addSubview(block)
+		block.translatesAutoresizingMaskIntoConstraints = false
+		block.topAnchor.constraint(equalTo: previewView.bottomAnchor, constant: 0).isActive = true
+		block.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+		block.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+		//		block.heightAnchor.constraint(equalToConstant: 200).isActive = true
+		block.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+		block.backgroundColor = .clear
 	}
 	
 	fileprivate func videoPlayerContainerSetup(_ videoPlayerContainer: UIView) {
@@ -46,6 +70,7 @@ var videoPlayer: YouTubePlayerView?
 		videoPlayerContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
 //		videoPlayerContainer.heightAnchor.constraint(equalToConstant: 200).isActive = true
 		videoPlayerContainer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+		
 	}
 	
 	override func viewDidLoad() {
@@ -67,7 +92,8 @@ var videoPlayer: YouTubePlayerView?
 		videoPlayer?.leadingAnchor.constraint(equalTo: videoPlayerContainer.leadingAnchor).isActive = true
 		videoPlayer?.trailingAnchor.constraint(equalTo: videoPlayerContainer.trailingAnchor).isActive = true
 		videoPlayer?.bottomAnchor.constraint(equalTo: videoPlayerContainer.bottomAnchor).isActive = true
-		videoPlayer?.playerVars = ["playsinline": 1 as AnyObject]
+		videoPlayer?.playerVars = ["playsinline": 1 as AnyObject, "controls": 0 as AnyObject]
+		blockVideoViewSetup()
 		//get videos
 	if let path = Bundle.main.path(forResource: "signs", ofType: "json") {
 			do {
