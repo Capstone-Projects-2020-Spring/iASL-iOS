@@ -41,11 +41,11 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 	  }
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(true)
-		if !(self.isFirstOpen) {
+		if defaults.bool(forKey: "WelcomeVersion1.0.0") {
 					   return
 				   } else {
 					   self.showWelcomeScreen()
-					   self.isFirstOpen = false
+			
 			}
 	}
 	fileprivate func welcomeScreenSetup() {
@@ -84,6 +84,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 		welcomeScreenConfig.items = [item1, item2, item3]
 
 		welcomeScreenConfig.continueButtonAction = {
+			defaults.set(true, forKey: "WelcomeVersion1.0.0")
 			self.dismiss(animated: true)
 		}
 	}

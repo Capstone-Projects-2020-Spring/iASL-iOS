@@ -20,7 +20,7 @@ import FirebaseFirestore
 import KeychainSwift
 //import SwiftMonkeyPaws
 let navigationController = UINavigationController()
-
+let defaults = UserDefaults.standard
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
 

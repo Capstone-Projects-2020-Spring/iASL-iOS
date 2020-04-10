@@ -31,8 +31,6 @@ class ViewController: UIViewController {
     let speakerButton = UIButton()
     let clearButton = UIButton()
     let keyboardButton = UIButton()
-	/// A temporary button for iASL beta to open a view controller that records users doing certain signs.
-	let trainButton = UIButton()
     var heightAnchor = NSLayoutConstraint()
 	var helpUsTrainConfig = helpTrainWelcomeConfiguration()
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
@@ -119,8 +117,6 @@ class ViewController: UIViewController {
         speakerButtonSetup()
         clearButtonSetup()
         keyboardButtonSetup()
-		trainButtonSetup()
-		helpUsWelcomeScreenSetup()
         //speak()
         if speakerButton.isSelected == true {
             speak()
@@ -595,27 +591,8 @@ extension ViewController {
 
 	   }
 	
-	func trainButtonSetup() {
-        view.addSubview(trainButton)
-        trainButton.translatesAutoresizingMaskIntoConstraints = false
-        trainButton.trailingAnchor.constraint(equalTo: keyboardButton.leadingAnchor, constant: -10).isActive = true
-        trainButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
-        trainButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        trainButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-		trainButton.backgroundColor = .systemYellow
-        trainButton.setTitle("Train", for: .normal)
-		trainButton.setTitleColor(.black, for: .normal)
-        trainButton.isSelected = true
-        trainButton.layer.cornerRadius = 10
-        trainButton.addTarget(self, action: #selector(trainButtonTapped), for: .touchUpInside)
-    }
-	@objc func trainButtonTapped() {
-		let vc = helpUsTrainWelcomeViewController()
-		vc.configuration = self.helpUsTrainConfig
+	
 
-		self.present(vc, animated: true, completion: nil)
-	   }
-   
 
     @objc func collapseButtonTapped() {
         //textViewHolder
@@ -656,73 +633,5 @@ extension ViewController {
 			}
 		}
 	}
-	fileprivate func helpUsWelcomeScreenSetup() {
-		helpUsTrainConfig.appName = "iASL (Beta)"
-		helpUsTrainConfig.appDescription = "iASL is still being developed and needs your help to make it better! With your permission, we will record you doing some example signs and send the recorded videos to our server for processing. You will be asked to do the following"
-		helpUsTrainConfig.tintColor = .systemPink
-//
-		var item1 = HelpUsTrainItem()
-		if #available(iOS 13.0, *) {
 
-			item1.image = UIImage(systemName: "person.crop.square.fill")?.withTintColor(.systemPink, renderingMode: .alwaysOriginal)
-		} else {
-			// Fallback on earlier versions
-		}
-		item1.title = "Get yourself ready."
-		item1.description = "Make sure you are in a comfortable location and that your face, torso, and arms are visible in frame."
-
-		var item2 = HelpUsTrainItem()
-		if #available(iOS 13.0, *) {
-			item2.image = UIImage(systemName: "tv")?.withTintColor(.systemPink, renderingMode: .alwaysOriginal)
-		} else {
-			// Fallback on earlier versions
-		}
-		item2.title = "Watch ASL Video Carefully."
-		item2.description = "Watch the provided ASL Video carefully and try to repeat the sign yourself."
-
-		var item3 = HelpUsTrainItem()
-		if #available(iOS 13.0, *) {
-			item3.image = UIImage(systemName: "camera.circle.fill")?.withTintColor(.systemPink, renderingMode: .alwaysOriginal)
-		} else {
-			// Fallback on earlier versions
-		}
-		item3.title = "Press the start record button."
-		item3.description = "Press the record button, and wait for the count down. When finished signing wait a few seconds and press the stop recording button."
-		var item4 = HelpUsTrainItem()
-		if #available(iOS 13.0, *) {
-			item4.image = UIImage(systemName: "eyeglasses")?.withTintColor(.systemPink, renderingMode: .alwaysOriginal)
-		} else {
-			// Fallback on earlier versions
-		}
-		item4.title = "Review your recording."
-		item4.description = "Review your recording to make sure the sign is clear, and that it is to your liking."
-		var item5 = HelpUsTrainItem()
-		if #available(iOS 13.0, *) {
-			item5.image = UIImage(systemName: "square.and.arrow.up.on.square")?.withTintColor(.systemPink, renderingMode: .alwaysOriginal)
-		} else {
-			// Fallback on earlier versions
-		}
-		item5.title = "Share your recording."
-		item5.description = "Share your recording, and we will review it and add it to iASL's training resources!"
-
-		helpUsTrainConfig.items = [item1, item2, item3, item4, item5]
-
-		helpUsTrainConfig.continueButtonAction = {
-//			self.dismiss(animated: true)
-//			DispatchQueue.main.async {
-			// Dismiss the Old
-			   if let presented = self.presentedViewController {
-//				presented.removeFromParent()
-				presented.dismiss(animated: false)
-				let vc = TrainController()
-				
-				vc.modalPresentationStyle = .fullScreen
-				self.present(vc, animated: true)
-			   }
-//			}
-		}
-		helpUsTrainConfig.dismissButtonAction = {
-			self.dismiss(animated: true)
-		}
-	}
 }
