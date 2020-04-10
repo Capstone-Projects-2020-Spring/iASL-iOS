@@ -20,7 +20,7 @@ class CreateNoteVC: UIViewController {
     
     let notesConstant: String = "notes"
     let userNotesConstant: String = "user-notes"
-
+    
     let backButton = UIButton()
     let textView = KMPlaceholderTextView()
     let noteTitle = UITextField()
@@ -47,14 +47,7 @@ class CreateNoteVC: UIViewController {
         loadNote()
     }
     
-//    //need to check if the user has changed some text and did not save it
-//    override func viewWillDisappear(_ animated: Bool) {
-//
-//        if saveButton.isEnabled == true {
-//            print("save button is enabled and we are leaving")
-//        }
-//
-//    }
+
     
     ///if the note already exists, loads the contents into the VC. if it does not exist, set placeholders
     func loadNote() {
@@ -64,70 +57,14 @@ class CreateNoteVC: UIViewController {
         if note == nil {
             noteTitle.placeholder = "Title"
             textView.placeholder = "Type note here..."
-//            textView.text = "Type note here..."
-//            textView.textColor = UIColor.lightGray
-//
-//            textView.becomeFirstResponder()
-//
-//            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
+
         } else {
             noteTitle.text = note?.title
             textView.text = note?.text
         }
     }
 
-//    ///this is here mostly for editing the placeholder logic for new notes
-//    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-//
-//        // Combine the textView text and the replacement text to
-//        // create the updated text string
-//        let currentText:String = textView.text
-//        let updatedText = (currentText as NSString).replacingCharacters(in: range, with: text)
-//
-//        // If updated text view will be empty, add the placeholder
-//        // and set the cursor to the beginning of the text view
-//        if updatedText.isEmpty {
-//
-//            toggleSaveButtonDisabled()
-//
-//            textView.text = "Type note here..."
-//            textView.textColor = UIColor.lightGray
-//
-//            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
-//        }
-//
-//        // Else if the text view's placeholder is showing and the
-//        // length of the replacement string is greater than 0, set
-//        // the text color to black then set its text to the
-//        // replacement string
-//         else if textView.textColor == UIColor.lightGray && !text.isEmpty {
-//            textView.textColor = UIColor.black
-//            textView.text = text
-//        }
-//
-//        // For every other case, the text should change with the usual
-//        // behavior...
-//        else {
-//            return true
-//        }
-//
-//        // ...otherwise return false since the updates have already
-//        // been made
-//        return false
-//    }
-    
-//    ///more placeholder logic
-//    func textViewDidChangeSelection(_ textView: UITextView) {
-//
-//        print("textview did change")
-//        toggleSaveButtonEnabled()
-//
-//        if self.view.window != nil {
-//            if textView.textColor == UIColor.lightGray {
-//                textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
-//            }
-//        }
-//    }
+
     
     ///handles what happens when a note is saved
     @objc func handleSaveNote() {

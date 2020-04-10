@@ -149,10 +149,7 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                     self.notes.sort { (note1, note2) -> Bool in
                         return note1.timestamp?.intValue > note2.timestamp?.intValue
                     }
-                }
-
-                //reload the table
-                DispatchQueue.main.async {
+                    print("\(note.text)")
                     self.tableView.reloadData()
                 }
 

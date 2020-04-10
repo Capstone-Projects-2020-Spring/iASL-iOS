@@ -17,6 +17,7 @@ import UIKit
 import Speech
 import Firebase
 
+
 class ViewController: UIViewController {
 
     let remoteChatButton = UIButton()
@@ -28,8 +29,11 @@ class ViewController: UIViewController {
     let outputTextView = UITextView()
     let textViewHolder = UIView()
     let speakerButton = UIButton()
-    let topNotch = UIView()
-
+    let clearButton = UIButton()
+    let keyboardButton = UIButton()
+    
+    var heightAnchor = NSLayoutConstraint()
+    
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
@@ -102,17 +106,19 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         previewViewSetup()
+        textViewHolderSetup()
+        outputTextViewSetup()
         topBarSetup()
         cameraUnavailableLabelSetup()
         notesButtonSetup()
         remoteChatButtonSetup()
         resumeButtonSetup()
         liveButtonSetup()
-        textViewHolderSetup()
-        outputTextViewSetup()
+        
         speakerButtonSetup()
-        topNotchSetup()
-        speak()
+        clearButtonSetup()
+        keyboardButtonSetup()
+        //speak()
         if speakerButton.isSelected == true {
             speak()
         }
@@ -124,13 +130,19 @@ class ViewController: UIViewController {
         //        view.addSubview(child.view)
         //        child.didMove(toParent: self)
 
-        let panYGesture = UIPanGestureRecognizer(target: self, action: (#selector(self.handleYGesture(_:))))
-        self.textViewHolder.addGestureRecognizer(panYGesture)
 
         let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleLeftSwipeGesture(_:)))
         view.addGestureRecognizer(swipeLeftGestureRecognizer)
         swipeLeftGestureRecognizer.direction = .left
 
+        let swipeUpGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeUpGesture(_:)))
+        view.addGestureRecognizer(swipeUpGestureRecognizer)
+        swipeUpGestureRecognizer.direction = .up
+        
+        let swipeDownGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleDownSwipeGesture(_:)))
+        view.addGestureRecognizer(swipeDownGestureRecognizer)
+        swipeDownGestureRecognizer.direction = .down
+        
         let swipeRightGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleRightSwipeGesture(_:)))
         view.addGestureRecognizer(swipeRightGestureRecognizer)
         swipeRightGestureRecognizer.direction = .right
@@ -150,39 +162,32 @@ class ViewController: UIViewController {
 
     }
 
-    @objc func handleYGesture(_ gesture: UIPanGestureRecognizer) {
-        // 1
-        let translation = gesture.translation(in: view)
+    
+    @objc func handleSwipeUpGesture(_ sender: UISwipeGestureRecognizer) {
+        textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        //textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        
+        UIView.animate(withDuration: 0.2, animations: {
+            self.heightAnchor.constant = -self.view.frame.size.height/2
+            self.outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.6)
+            self.view.layoutIfNeeded()
+        })
 
-        // 2
-        guard let gestureView = gesture.view else {
-            return
-        }
-
-        if gestureView.center.y >= 675 && gestureView.center.y <= 950 {
-            gestureView.center = CGPoint(
-                x: gestureView.center.x,
-                y: gestureView.center.y + translation.y
-            )
-        } else {
-            if gestureView.center.y < 675 {
-                gestureView.center = CGPoint(
-                    x: gestureView.center.x,
-                    y: 675
-                )
-            } else if gestureView.center.y >= 675 && gestureView.center.y > 950 {
-                gestureView.center = CGPoint(
-                    x: gestureView.center.x,
-                    y: 950
-                )
-            }
-        }
-
-        print(gestureView.center.y)
-
-        // 3
-        gesture.setTranslation(.zero, in: view)
     }
+    
+    
+    
+    @objc func handleDownSwipeGesture(_ sender: UISwipeGestureRecognizer) {
+        textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        //textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        
+        UIView.animate(withDuration: 0.2, animations: {
+            self.heightAnchor.constant = -self.view.frame.size.height/4
+            self.outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.view.layoutIfNeeded()
+        })
+    }
+
     @objc func handleLeftSwipeGesture(_ sender: UISwipeGestureRecognizer) {
         let vc = NotesVC()
         vc.modalTransitionStyle = .crossDissolve
@@ -471,27 +476,32 @@ extension ViewController {
     func textViewHolderSetup() {
         view.addSubview(textViewHolder)
         textViewHolder.translatesAutoresizingMaskIntoConstraints = false
-        textViewHolder.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -200).isActive = true
+        heightAnchor = textViewHolder.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -view.frame.size.height/2)
+        //textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         textViewHolder.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         textViewHolder.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        textViewHolder.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5).isActive = true
-        textViewHolder.backgroundColor = #colorLiteral(red: 0.9596421632, green: 0.9596421632, blue: 0.9596421632, alpha: 1).withAlphaComponent(0.5)
+        textViewHolder.heightAnchor.constraint(equalToConstant: view.frame.size.height/2).isActive = true
+        heightAnchor.isActive = true
         textViewHolder.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         textViewHolder.layer.cornerRadius = 20
+        textViewHolder.clipsToBounds = true
         textViewHolder.isUserInteractionEnabled = true
 
     }
 
+
+    
+    
     func outputTextViewSetup() {
         textViewHolder.addSubview(outputTextView)
         outputTextView.translatesAutoresizingMaskIntoConstraints = false
-        outputTextView.bottomAnchor.constraint(equalTo: textViewHolder.bottomAnchor, constant: -50).isActive = true
+        outputTextView.bottomAnchor.constraint(equalTo: textViewHolder.bottomAnchor).isActive = true
         outputTextView.leadingAnchor.constraint(equalTo: textViewHolder.leadingAnchor).isActive = true
         outputTextView.trailingAnchor.constraint(equalTo: textViewHolder.trailingAnchor).isActive = true
-        outputTextView.topAnchor.constraint(equalTo: textViewHolder.topAnchor, constant: 30).isActive = true
+        outputTextView.topAnchor.constraint(equalTo: textViewHolder.topAnchor).isActive = true
         outputTextView.isEditable = false
         outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.8)
-        outputTextView.text = ""
+        outputTextView.text = "The quick brown fox jumps over the lazy dog"
         outputTextView.textColor = .black
         outputTextView.font = UIFont.boldSystemFont(ofSize: 30)
         outputTextView.isUserInteractionEnabled = true
@@ -507,20 +517,20 @@ extension ViewController {
     }
 
     func speakerButtonSetup() {
-        textViewHolder.addSubview(speakerButton)
+        view.addSubview(speakerButton)
         speakerButton.translatesAutoresizingMaskIntoConstraints = false
         speakerButton.trailingAnchor.constraint(equalTo: textViewHolder.trailingAnchor, constant: -20).isActive = true
-        speakerButton.bottomAnchor.constraint(equalTo: textViewHolder.bottomAnchor, constant: -5).isActive = true
-        speakerButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        speakerButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
+        speakerButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
         speakerButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        speakerButton.backgroundColor = .blue
+        speakerButton.backgroundColor = #colorLiteral(red: 0.2958290193, green: 0.29024376, blue: 1, alpha: 1)
+        speakerButton.setTitle("Speak", for: .normal)
+        speakerButton.setTitle("Mute", for: .selected)
         speakerButton.isSelected = true
-        speakerButton.setImage(#imageLiteral(resourceName: "speaker"), for: .selected)
-        speakerButton.setImage(#imageLiteral(resourceName: "mute"), for: .normal)
-        speakerButton.layer.cornerRadius = 20
+        speakerButton.layer.cornerRadius = 10
         speakerButton.addTarget(self, action: #selector(speakerButtonTapped), for: .touchUpInside)
     }
-
+    
     @objc func speakerButtonTapped() {
         if speakerButton.isSelected == true {
             speakerButton.isSelected = false
@@ -529,21 +539,77 @@ extension ViewController {
         } else {
             speakerButton.isSelected = true
             speak()
-            speakerButton.backgroundColor = .blue
+            speakerButton.backgroundColor = #colorLiteral(red: 0.2958290193, green: 0.29024376, blue: 1, alpha: 1)
         }
     }
-
-    func topNotchSetup() {
-        textViewHolder.addSubview(topNotch)
-        topNotch.translatesAutoresizingMaskIntoConstraints = false
-        topNotch.heightAnchor.constraint(equalToConstant: 5).isActive = true
-        topNotch.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        topNotch.centerXAnchor.constraint(equalTo: outputTextView.centerXAnchor).isActive = true
-        topNotch.topAnchor.constraint(equalTo: textViewHolder.topAnchor, constant: 10).isActive = true
-        topNotch.backgroundColor = .gray
-        topNotch.layer.cornerRadius = 2
+    
+    func clearButtonSetup() {
+        view.addSubview(clearButton)
+        clearButton.translatesAutoresizingMaskIntoConstraints = false
+        clearButton.trailingAnchor.constraint(equalTo: speakerButton.leadingAnchor, constant: -10).isActive = true
+        clearButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
+        clearButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        clearButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        clearButton.backgroundColor = #colorLiteral(red: 0.2958290193, green: 0.29024376, blue: 1, alpha: 1)
+        clearButton.setTitle("Clear", for: .normal)
+        clearButton.isSelected = true
+        clearButton.layer.cornerRadius = 10
+        clearButton.addTarget(self, action: #selector(clearButtonTapped), for: .touchUpInside)
     }
+    
+    @objc func clearButtonTapped(){
+        outputTextView.text.removeAll()
+    }
+    
+    func keyboardButtonSetup() {
+        view.addSubview(keyboardButton)
+        keyboardButton.translatesAutoresizingMaskIntoConstraints = false
+        keyboardButton.trailingAnchor.constraint(equalTo: clearButton.leadingAnchor, constant: -10).isActive = true
+        keyboardButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
+        keyboardButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        keyboardButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        keyboardButton.backgroundColor = #colorLiteral(red: 0.2958290193, green: 0.29024376, blue: 1, alpha: 1)
+        keyboardButton.setTitle("Keyboard", for: .normal)
+        keyboardButton.isSelected = true
+        keyboardButton.layer.cornerRadius = 10
+        keyboardButton.addTarget(self, action: #selector(keyboardButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc func keyboardButtonTapped(){
+        textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        
+        if keyboardButton.isSelected {
+            print("ss")
+            keyboardButton.isSelected = false
+            UIView.animate(withDuration: 0.2, animations: {
+                self.heightAnchor.constant = -self.view.frame.size.height/2
+                self.textViewHolder.layer.cornerRadius = 10
+                self.view.layoutIfNeeded()
+            })
+        } else {
+            keyboardButton.isSelected = true
+            outputTextView.topAnchor.constraint(equalTo: textViewHolder.topAnchor, constant: 30).isActive = true
+            UIView.animate(withDuration: 0.2, animations: {
+                self.heightAnchor.constant = -self.view.frame.size.height
+                self.textViewHolder.backgroundColor = .white
+                self.textViewHolder.layer.cornerRadius = 0
+                self.view.layoutIfNeeded()
+            })
+        }
+        
+        
+    }
+    
+    
 
+    
+
+    
+    @objc func collapseButtonTapped(){
+        //textViewHolder
+    }
+    
 }
 extension ViewController {
 	func deleteCharacter() {
@@ -579,4 +645,5 @@ extension ViewController {
 			}
 		}
 	}
+    
 }

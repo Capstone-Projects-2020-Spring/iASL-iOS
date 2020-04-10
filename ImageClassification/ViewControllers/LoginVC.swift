@@ -340,25 +340,56 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     @objc func infoSubmitButtonPressed() {
         //for now, just make the keyboard disappear
         print("info submit button pressed")
+        
+        
+            //hide the keyboard
+            hideKeyboard()
 
-        //hide the keyboard
-        hideKeyboard()
+            //if isRegister = true, then its on the register screen
+            //else if isRegister = false, then its on the login screen
+            if isRegisterButton {
+                if nameTextField.text != "" && emailTextField.text != "" && passwordTextField.text != "" {
+                    handleRegister()
+                } else {
+                    if nameTextField.text == "" {
+                        //nameTextField.backgroundColor = UIColor.red.withAlphaComponent(0.2)
+                        view.shake(viewToShake: nameTextField)
+                    }
+                    if emailTextField.text == "" {
+                        view.shake(viewToShake: emailTextField)
+                    }
+                    if passwordTextField.text == "" {
+                        view.shake(viewToShake: passwordTextField)
+                    }
+                }
+                
 
-        //if isRegister = true, then its on the register screen
-        //else if isRegister = false, then its on the login screen
-        if isRegisterButton {
+            } else {
 
-            handleRegister()
+                if emailTextField.text != "" && passwordTextField.text != "" {
+                    handleLogin()
 
-        } else {
+                } else {
+                    if emailTextField.text == "" {
+                        view.shake(viewToShake: emailTextField)
+                    }
+                    if passwordTextField.text == "" {
+                        view.shake(viewToShake: passwordTextField)
+                    }
+                }
+                
 
-            handleLogin()
+            }
 
-        }
+            
+        
+            
+        
+        
+        
+        
 
-        //if login successful then exit the view controller
-        //This switches this view controller to the main view controller in Main.storyboard
-        handleLeaveLogin()
+        
         
     }
 
@@ -375,6 +406,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
             if err != nil {
                 print(err!)
+                let alert = UIAlertController(title: "Alert", message: err?.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "Continue", style: UIAlertAction.Style.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
                 return
             }
 
@@ -398,16 +432,16 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             userReference.updateChildValues(dataToAdd) { (error, _) in
                 if error != nil {
                     print(error!)
+                    
                     return
+                } else {
+                    //you've successfully added user to realtime database
+                    print("saved user successfully into REALTIME")
+                    
+                    //if the user wants to save their email and password into keychain
+                    self.handleSaveKeychain(email: email, password: password)
+                    self.handleLeaveLogin()
                 }
-
-                //you've successfully added user to realtime database
-                print("saved user successfully into REALTIME")
-                
-                //if the user wants to save their email and password into keychain
-                self.handleSaveKeychain(email: email, password: password)
-                
-                
             }
         }
     }
@@ -439,15 +473,17 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         Auth.auth().signIn(withEmail: email, password: password) { (_, err) in
             if err != nil {
                 print(err!)
+                let alert = UIAlertController(title: "Alert", message: err?.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "Continue", style: UIAlertAction.Style.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
                 return
+            } else {
+                //add email and password into keychain if they want
+                self.handleSaveKeychain(email: email, password: password)
+                //successfully signed in
+                print("you signed in successfully")
+                self.handleLeaveLogin()
             }
-
-            //successfully signed in
-            print("you signed in successfully")
-            
-            //add email and password into keychain if they want
-            self.handleSaveKeychain(email: email, password: password)
-
         }
     }
 
