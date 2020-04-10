@@ -17,7 +17,6 @@
 		6023889C2426E3A40041E2C3 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6023889B2426E3A40041E2C3 /* Message.swift */; };
 		670E273924248A78003E129E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 670E273824248A77003E129E /* GoogleService-Info.plist */; };
 		670E273C2424904A003E129E /* model.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 670E273B2424904A003E129E /* model.tflite */; };
-		6746BE4B243ED0C500721403 /* signs.json in Resources */ = {isa = PBXBuildFile; fileRef = 6746BE4A243ED0C500721403 /* signs.json */; };
 		675FD1C1243EAD0600D53116 /* HelpUsTrainWelcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 675FD1C0243EAD0600D53116 /* HelpUsTrainWelcome.swift */; };
 		6765C7E623FB35F60083A5C5 /* ImageClassificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6765C7E523FB35F60083A5C5 /* ImageClassificationTests.swift */; };
 		67ABF92624301CCE00881646 /* ASLKeyboardUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67ABF92524301CCE00881646 /* ASLKeyboardUITests.swift */; };
@@ -74,7 +73,6 @@
 		6023889B2426E3A40041E2C3 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		670E273824248A77003E129E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		670E273B2424904A003E129E /* model.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = model.tflite; sourceTree = "<group>"; };
-		6746BE4A243ED0C500721403 /* signs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = signs.json; path = ../../../Downloads/signs.json; sourceTree = "<group>"; };
 		675FD1C0243EAD0600D53116 /* HelpUsTrainWelcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpUsTrainWelcome.swift; sourceTree = "<group>"; };
 		6765C7E323FB35F60083A5C5 /* ImageClassificationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageClassificationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6765C7E523FB35F60083A5C5 /* ImageClassificationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageClassificationTests.swift; sourceTree = "<group>"; };
@@ -268,7 +266,6 @@
 		AAE79E58213521DA00E7AC1F /* ImageClassification */ = {
 			isa = PBXGroup;
 			children = (
-				6746BE4A243ED0C500721403 /* signs.json */,
 				6ED11B8B2424145E000CF870 /* short_notification.mp3 */,
 				6ED11B8C242414A1000CF870 /* simple_notification.mp3 */,
 				6E23ACD62416CB4000495F02 /* iASL.entitlements */,
@@ -442,7 +439,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6746BE4B243ED0C500721403 /* signs.json in Resources */,
 				AAE79E64213521DB00E7AC1F /* LaunchScreen.storyboard in Resources */,
 				670E273C2424904A003E129E /* model.tflite in Resources */,
 				AAE79E61213521DB00E7AC1F /* Assets.xcassets in Resources */,
