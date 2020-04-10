@@ -38,8 +38,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     //need a local scope so code can continue afterwards
 
-
-
     //if we can get email and password from keychain, skip sign in screen
     if let email = keychain.get("email"), let password = keychain.get("password") {
         print("Did not get email and password")
@@ -55,11 +53,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             print("you signed in successfully")
         }
 
-
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = ViewController()
         window?.makeKeyAndVisible()
-
 
     } else {
         window = UIWindow(frame: UIScreen.main.bounds)
@@ -83,7 +79,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     return true
 
   }
-
 
     func requestTranscribePermissions() {
         SFSpeechRecognizer.requestAuthorization { [unowned self] authStatus in

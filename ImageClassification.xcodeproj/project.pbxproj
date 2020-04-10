@@ -328,6 +328,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6765C7EC23FB35F70083A5C5 /* Build configuration list for PBXNativeTarget "ImageClassificationTests" */;
 			buildPhases = (
+				6747911E24410B9900321A63 /* ShellScript */,
 				6765C7DF23FB35F60083A5C5 /* Sources */,
 				6765C7E023FB35F60083A5C5 /* Frameworks */,
 				6765C7E123FB35F60083A5C5 /* Resources */,
@@ -458,6 +459,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		6747911E24410B9900321A63 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 		67FFA552AA72A4E613645B4E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

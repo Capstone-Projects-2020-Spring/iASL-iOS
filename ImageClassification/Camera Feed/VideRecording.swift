@@ -57,9 +57,7 @@ protocol CameraFeedVideoManagerDelegate: class {
 	*/
 	func sessionInterruptionEnded()
 
-
 }
-
 
 /**
 This class manages all camera related functionality
@@ -334,11 +332,9 @@ extension CameraFeedVideoManager: AVCaptureVideoDataOutputSampleBufferDelegate {
 //		guard let imagePixelBuffer = pixelBuffer else {
 //			return
 //		}
-		
 
 		// Delegates the pixel buffer to the ViewController.
 //		delegate?.didOutput(pixelBuffer: imagePixelBuffer)
 	}
 
 }
-

@@ -48,7 +48,6 @@ protocol CameraFeedManagerDelegate: class {
 	*/
 	func sessionInterruptionEnded()
 
-
 }
 
 /**
@@ -342,4 +341,3 @@ extension CameraFeedManager: AVCaptureVideoDataOutputSampleBufferDelegate {
 	}
 
 }
-

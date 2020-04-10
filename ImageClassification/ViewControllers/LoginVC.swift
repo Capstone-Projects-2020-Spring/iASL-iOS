@@ -26,7 +26,7 @@ import AppleWelcomeScreen
  */
 class LoginVC: UIViewController, UITextFieldDelegate {
 
-    //MARK: VARIABLES
+    // MARK: VARIABLES
 
     ///boolean that determines if we are on the login screen or the register screen
     var isRegisterButton: Bool = true
@@ -45,7 +45,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 					   return
 				   } else {
 					   self.showWelcomeScreen()
-			
+
 			}
 	}
 	fileprivate func welcomeScreenSetup() {
@@ -252,7 +252,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         print("switched")
     }
 
-    //MARK: VIEW DID LOAD
+    // MARK: VIEW DID LOAD
 
     ///first function that is called
     override func viewDidLoad() {
@@ -275,7 +275,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         //false means login button is sent
         isRegisterButton = true
 
-
         view.addGestureRecognizer(removeKeyboardTap)
 
         self.view = view
@@ -293,7 +292,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         //print(toggleRegisterLoginButton.frame.origin.y)
     }
 
-    //MARK: LOGICY STUFF
+    // MARK: LOGICY STUFF
 
     ///called when this view controller needs to disappear and the main view controller needs to load
     func handleLeaveLogin() {
@@ -399,7 +398,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         //for now, just make the keyboard disappear
         print("info submit button pressed")
 
-
             //hide the keyboard
             hideKeyboard()
 
@@ -421,7 +419,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                     }
                 }
 
-
             } else {
 
                 if emailTextField.text != "" && passwordTextField.text != "" {
@@ -436,18 +433,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                     }
                 }
 
-
             }
-
-
-
-
-
-
-
-
-
-
 
     }
 
@@ -545,11 +531,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         }
     }
 
-
-
 }
 
-//MARK: SETUPS
+// MARK: SETUPS
 extension LoginVC {
 
     ///sets up the constraints for the input container
@@ -676,13 +660,12 @@ extension LoginVC {
     func setupSkipButton() {
         view.addSubview(skipButton)
 
-
         skipButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         skipButton.topAnchor.constraint(equalTo: toggleRegisterLoginButton.bottomAnchor, constant: 12).isActive = true
         skipButton.widthAnchor.constraint(equalTo: toggleRegisterLoginButton.widthAnchor).isActive = true
         skipButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
-    
+
     ///sets up the constraints of the toggle button
     func setupToggleRegisterLoginButton() {
         view.addSubview(toggleRegisterLoginButton)

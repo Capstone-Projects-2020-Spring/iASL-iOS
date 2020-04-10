@@ -20,7 +20,7 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
     var messages = [Message]()
     //for organizing messages by name and most recent
     var messagesDictionary = [String: Message]()
-    
+
     let keychain = KeychainSwift(keyPrefix: "iasl_")
 
     let topBar = UIView()
@@ -231,10 +231,10 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         } catch let logoutError {
             print(logoutError)
         }
-        
+
         //remove keys from keychain
         keychain.clear()
-        
+
         //present the login screen
         let loginController = LoginVC()
         loginController.modalTransitionStyle = .crossDissolve

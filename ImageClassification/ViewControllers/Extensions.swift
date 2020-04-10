@@ -18,10 +18,9 @@ extension UIView {
     }
 }
 
-
 extension UIView {
-    
-    func shake(viewToShake:UIView){
+
+    func shake(viewToShake: UIView) {
         let animation = CABasicAnimation(keyPath: "position")
         animation.duration = 0.07
         animation.repeatCount = 4
@@ -31,5 +30,5 @@ extension UIView {
 
         viewToShake.layer.add(animation, forKey: "position")
     }
-    
+
 }

@@ -10,20 +10,20 @@ import UIKit
 import Firebase
 
 class CreateNoteVC: UIViewController {
-    
+
     //this is the note that will be set from the NotesVC
     var note: Note?
-    
+
     //this is where the note to be updated can be found in firebase
     var noteToUpdateKey: String?
-    
+
     let notesConstant: String = "notes"
     let userNotesConstant: String = "user-notes"
 
     let backButton = UIButton()
     let textView = UITextView()
     let noteTitle = UITextField()
-    
+
     ///save button for saving notes
     let saveButton: UIButton = {
         let save = UIButton()
@@ -45,18 +45,18 @@ class CreateNoteVC: UIViewController {
         textViewSetup()
         loadNote()
     }
-    
+
     ///if the note already exists, loads the contents into the VC
     func loadNote() {
         noteTitle.text = note?.title
         textView.text = note?.text
     }
-    
+
     ///handles what happens when a note is saved
     @objc func handleSaveNote() {
         print("save note button pressed")
         //print("Here is the note: ", textView.text!)
-        
+
         //two cases: new note created and old note needs to be updated
         if note == nil {
             let newNote = Note()
@@ -66,22 +66,20 @@ class CreateNoteVC: UIViewController {
         } else {
             handleUpdateNote()
         }
-        
+
     }
-    
+
     ///handles what happens when a new note is made
     func handleNewNote() {
-        
+
         print("handle new note")
         toggleSaveButtonDisabled()
-        
 
         //need to save a message here, just like with messaging
         guard let noteText = textView.text, let title = noteTitle.text else {
             print("could not get message")
             return
         }
-
 
         let ref = Database.database().reference().child(self.notesConstant)
         //gets an auto ID for each message
@@ -125,38 +123,37 @@ class CreateNoteVC: UIViewController {
 
         }
     }
-    
+
     ///need to be able to overwrite an existing note
     func handleUpdateNote() {
         print("handle update note")
         toggleSaveButtonDisabled()
-        
-        
+
         //need to save a message here, just like with messaging
         guard let noteText = textView.text, let title = noteTitle.text else {
             print("could not get message")
             return
         }
-        
+
         //owner is the owner id of the note
         guard let owner = Auth.auth().currentUser?.uid else {
             print("could not get necessary message information")
             return
         }
-        
+
         guard let key = self.noteToUpdateKey else {
             return
         }
-        
+
         let ref = Database.database().reference().child(self.notesConstant)
         //gets an auto ID for each message
         let childRef = ref.child(key)
-        
+
         //gets it in milliseconds
         let timestamp: NSNumber = NSNumber(value: NSDate().timeIntervalSince1970 * 1000)
-        
-        let values = ["id": childRef.key!,"title": title, "text": noteText, "timestamp": timestamp, "ownerId": owner] as [String: Any]
-        
+
+        let values = ["id": childRef.key!, "title": title, "text": noteText, "timestamp": timestamp, "ownerId": owner] as [String: Any]
+
         childRef.updateChildValues(values) { (error, _) in
             if error != nil {
                 print(error!)
@@ -167,32 +164,27 @@ class CreateNoteVC: UIViewController {
             print("successfully updated the note in the notes node")
         }
 
-        
-        
-        
-        
-        
     }
-    
+
     ///handles the constraints and set up of the save button
     func setupSaveNoteButton() {
         view.addSubview(saveButton)
-        
+
         saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         saveButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         saveButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         saveButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
         //saveButton.widthAnchor.constraint(equalTo: noteTitle.widthAnchor).isActive = true
-        
+
         toggleSaveButtonEnabled()
     }
-    
+
     ///sets the save button to enabled and makes the color normal
     func toggleSaveButtonEnabled() {
         saveButton.isEnabled = true
         saveButton.alpha = 1
     }
-    
+
     ///sets the save button to disabled and makes the color of the bottom dim
     func toggleSaveButtonDisabled() {
         saveButton.isEnabled = false
@@ -243,10 +235,10 @@ extension CreateNoteVC: UITextViewDelegate {
         textView.topAnchor.constraint(equalTo: noteTitle.bottomAnchor, constant: 5).isActive = true
         textView.font = UIFont.systemFont(ofSize: 20)
 		textView.inputView = Caboard(target: textView)
-        
+
         textView.delegate = self
     }
-    
+
     ///if the text changed in the view controller, toggle the save button 
     func textViewDidChange(_ textView: UITextView) {
         print("textview did change")

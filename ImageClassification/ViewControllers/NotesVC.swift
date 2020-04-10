@@ -15,30 +15,28 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var testNotes = [Note]()
     var notes = [Note]()
     var notesDictionary = [String: Note]()
-    
+
     let userNotesConstant: String = "user-notes"
-    
+
     func setupFakeNotes() {
         let note1 = Note()
         note1.ownerId = "owner1"
         note1.text = "this is note 1"
         note1.title = "title1"
         note1.timestamp = 4
-        
+
         let note2 = Note()
         note2.ownerId = "owner2"
         note2.text = "this is note 2"
         note2.title = "title2"
         note2.timestamp = 3
-        
-        
+
         let note3 = Note()
         note3.ownerId = "owner3"
         note3.text = "this is note 3"
         note3.title = "title3"
         note3.timestamp = 2
-        
-        
+
         testNotes.append(note1)
         testNotes.append(note2)
         testNotes.append(note3)
@@ -53,23 +51,23 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
+
         setupFakeNotes()
-        
+
         topBarSetup()
         backButtonSetup()
         topLabelSetup()
         tableViewSetup()
         createNoteButtonSetup()
-        
+
         observeUserNotes()
-        
+
     }
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .all
     }
-    
+
     ///function for observing notes from firebase
     func observeUserNotes() {
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -103,15 +101,14 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                     note.text = dictionary["text"] as? String
                     note.timestamp = dictionary["timestamp"] as? NSNumber
                     note.id = snapshot.key
-                    
+
                     self.notes.append(note)
-                    
+
                     //sort the notes by timestamp
                     self.notes.sort { (note1, note2) -> Bool in
                         return note1.timestamp?.intValue > note2.timestamp?.intValue
                     }
                 }
-
 
                 //reload the table
                 DispatchQueue.main.async {
@@ -122,7 +119,7 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
         }, withCancel: nil)
     }
-    
+
 }
 
 extension NotesVC {
@@ -143,16 +140,16 @@ extension NotesVC {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = CreateNoteVC()
         vc.note = notes[indexPath.row]
-        
+
         //also need to send the key of the note so we know where to update it?
         vc.noteToUpdateKey = notes[indexPath.row].id
-        
+
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .crossDissolve
         vc.noteTitle.text = notes[indexPath.row].title
         present(vc, animated: true, completion: nil)
     }
-    
+
     //change the color of the status bar
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -218,9 +215,9 @@ extension NotesVC {
 
     ///handles the create note button being tapped
     @objc func createNoteButtonTapped() {
-        
+
         let vc = CreateNoteVC()
-        
+
         //need to send a nil note so it knows to make a new one and not overwrite an old one
         vc.note = nil
         //vc.modalTransitionStyle = .crossDissolve
@@ -277,4 +274,3 @@ private func > <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
         return rhs < lhs
     }
 }
-
