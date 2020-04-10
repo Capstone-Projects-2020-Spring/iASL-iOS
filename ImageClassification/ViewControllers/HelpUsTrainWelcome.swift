@@ -13,7 +13,6 @@ public struct HelpUsTrainItem {
 
     /// More information about the feature, displayed under the title.
     public var description: String!
-	
 	/** Empty initializer for the items in the Help us train view.
 	Each item can have:
 	- image
@@ -56,7 +55,7 @@ public struct HelpTrainWelcomeConfiguration {
 }
 
 /// The view controller that displayes the welcome screen.
-public class helpUsTrainWelcomeViewController: UIViewController {
+public class HelpUsTrainWelcomeViewController: UIViewController {
 
     /// The configuration for the welcome screen to use.
     public var configuration: HelpTrainWelcomeConfiguration!
