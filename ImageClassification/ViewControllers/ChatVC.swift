@@ -388,7 +388,7 @@ extension ChatVC {
 
     func sendButtonSetup() {
         view.addSubview(sendButton)
-		 sendButton.translatesAutoresizingMaskIntoConstraints = false
+        sendButton.translatesAutoresizingMaskIntoConstraints = false
 		sendButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
 		sendButton.heightAnchor.constraint(equalToConstant: 150).isActive = true
 		sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8).isActive = true
@@ -467,6 +467,7 @@ extension ChatVC {
     func topLabelSetup() {
         topBar.addSubview(topLabel)
         topLabel.translatesAutoresizingMaskIntoConstraints = false
+        topLabel.trailingAnchor.constraint(equalTo: topBar.trailingAnchor, constant: -20).isActive = true
         topLabel.leadingAnchor.constraint(equalTo: backButton.trailingAnchor, constant: 20).isActive = true
         topLabel.bottomAnchor.constraint(equalTo: topBar.bottomAnchor, constant: -10).isActive = true
         topLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true

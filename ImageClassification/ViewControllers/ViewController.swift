@@ -29,6 +29,8 @@ class ViewController: UIViewController {
     let textViewHolder = UIView()
     let speakerButton = UIButton()
     let topNotch = UIView()
+    
+    //var notesVC = NotesVC()
 
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
@@ -461,7 +463,9 @@ extension ViewController {
         
         notesButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         notesButton.setTitleColor(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1), for: .selected)
+        //let vc = notesVC
         let vc = NotesVC()
+        //vc.notesVC = vc
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .crossDissolve
         present(vc, animated: true, completion: nil)
