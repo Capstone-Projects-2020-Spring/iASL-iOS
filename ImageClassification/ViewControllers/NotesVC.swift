@@ -150,11 +150,11 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                         return note1.timestamp?.intValue > note2.timestamp?.intValue
                     }
                     print("\(note.text)")
-                    self.tableView.reloadData()
+                    
                 }
-
+                self.tableView.reloadData()
             }, withCancel: nil)
-
+            self.tableView.reloadData()
         }, withCancel: nil)
     }
     
