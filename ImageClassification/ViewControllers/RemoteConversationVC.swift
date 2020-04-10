@@ -274,7 +274,11 @@ extension RemoteConversationVC {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 72
+        return 100
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
 
     //FIXME: Make a custom user cell here
@@ -334,6 +338,7 @@ extension RemoteConversationVC {
     //FIXME: These two below need to change later once we have a working view controller in remote
     func showChatVCForUser(user: User) {
 
+        //remove messages
         messages.removeAll()
         messagesDictionary.removeAll()
         tableView.reloadData()

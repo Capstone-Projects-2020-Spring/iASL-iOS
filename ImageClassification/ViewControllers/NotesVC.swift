@@ -18,6 +18,8 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     let userNotesConstant: String = "user-notes"
     
+    private let refreshControl = UIRefreshControl()
+    
     func setupFakeNotes() {
         let note1 = Note()
         note1.ownerId = "owner1"
@@ -56,8 +58,8 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     let backButton = UIButton()
     let tableView: UITableView = {
         let table = UITableView()
-        table.separatorStyle = .singleLine
-        table.separatorInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+        //table.separatorStyle = .singleLine
+        //table.separatorInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         return table
     }()
     let createNoteButton = UIButton()
@@ -65,6 +67,8 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        
+        print("view did load")
         
         setupFakeNotes()
         
@@ -74,8 +78,32 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         tableViewSetup()
         createNoteButtonSetup()
         
-        observeUserNotes()
+        //observeUserNotes()
         
+    }
+    
+    @objc func refreshTableViewOnPull() {
+        print("refreshing table view thanks to pulling down")
+
+        self.tableView.reloadData()
+
+        refreshControl.endRefreshing()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        print("view will disappear")
+        notes.removeAll()
+        notesDictionary.removeAll()
+        tableView.reloadData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("view did appear")
+        notes.removeAll()
+        notesDictionary.removeAll()
+        tableView.reloadData()
+        observeUserNotes()
+        //tableView.reloadData()
     }
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
@@ -163,15 +191,36 @@ extension NotesVC {
 
     ///selecting a specific row in the table view
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+//        notes.removeAll()
+//        notesDictionary.removeAll()
+//        tableView.reloadData()
+//
+//        observeUserNotes()
+        
+        //observeUserNotes()
+        let note = notes[indexPath.row]
+        
+        showNoteFromTableView(note: note)
+
+    }
+    
+    func showNoteFromTableView(note: Note) {
+        notes.removeAll()
+        notesDictionary.removeAll()
+        tableView.reloadData()
+
+        observeUserNotes()
+        
         let vc = CreateNoteVC()
-        vc.note = notes[indexPath.row]
+        vc.note = note
         
         //also need to send the key of the note so we know where to update it?
-        vc.noteToUpdateKey = notes[indexPath.row].id
+        vc.noteToUpdateKey = note.id
         
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .crossDissolve
-        vc.noteTitle.text = notes[indexPath.row].title
+        vc.noteTitle.text = note.title
         present(vc, animated: true, completion: nil)
     }
     
@@ -196,6 +245,15 @@ extension NotesVC {
         tableView.register(NotesTableViewCell.self, forCellReuseIdentifier: "notesTableViewCell")
         tableView.delegate = self
         tableView.dataSource = self
+        
+        refreshControl.addTarget(self, action: #selector(refreshTableViewOnPull), for: .valueChanged)
+
+        //adding the pull to refresh
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl = refreshControl
+        } else {
+            tableView.addSubview(refreshControl)
+        }
     }
 
     ///setting up the top bar with constraints and such

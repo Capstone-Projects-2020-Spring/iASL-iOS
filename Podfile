@@ -22,6 +22,7 @@ target 'ImageClassification' do
     pod 'SwiftMonkeyPaws', '~> 2.1.0'
 
     pod 'KeychainSwift'
+    pod 'KMPlaceholderTextView', '~> 1.4.0'
 
 end
 target 'iASLUITests' do

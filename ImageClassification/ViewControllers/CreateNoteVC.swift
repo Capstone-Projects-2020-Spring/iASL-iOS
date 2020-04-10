@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import KMPlaceholderTextView
 
 class CreateNoteVC: UIViewController {
     
@@ -21,7 +22,7 @@ class CreateNoteVC: UIViewController {
     let userNotesConstant: String = "user-notes"
 
     let backButton = UIButton()
-    let textView = UITextView()
+    let textView = KMPlaceholderTextView()
     let noteTitle = UITextField()
     
     ///save button for saving notes
@@ -46,68 +47,87 @@ class CreateNoteVC: UIViewController {
         loadNote()
     }
     
+//    //need to check if the user has changed some text and did not save it
+//    override func viewWillDisappear(_ animated: Bool) {
+//
+//        if saveButton.isEnabled == true {
+//            print("save button is enabled and we are leaving")
+//        }
+//
+//    }
+    
     ///if the note already exists, loads the contents into the VC. if it does not exist, set placeholders
     func loadNote() {
+        
+        toggleSaveButtonDisabled()
+        
         if note == nil {
             noteTitle.placeholder = "Title"
-            textView.text = "Type note here..."
-            textView.textColor = UIColor.lightGray
-
-            textView.becomeFirstResponder()
-
-            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
+            textView.placeholder = "Type note here..."
+//            textView.text = "Type note here..."
+//            textView.textColor = UIColor.lightGray
+//
+//            textView.becomeFirstResponder()
+//
+//            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
         } else {
             noteTitle.text = note?.title
             textView.text = note?.text
         }
     }
+
+//    ///this is here mostly for editing the placeholder logic for new notes
+//    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+//
+//        // Combine the textView text and the replacement text to
+//        // create the updated text string
+//        let currentText:String = textView.text
+//        let updatedText = (currentText as NSString).replacingCharacters(in: range, with: text)
+//
+//        // If updated text view will be empty, add the placeholder
+//        // and set the cursor to the beginning of the text view
+//        if updatedText.isEmpty {
+//
+//            toggleSaveButtonDisabled()
+//
+//            textView.text = "Type note here..."
+//            textView.textColor = UIColor.lightGray
+//
+//            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
+//        }
+//
+//        // Else if the text view's placeholder is showing and the
+//        // length of the replacement string is greater than 0, set
+//        // the text color to black then set its text to the
+//        // replacement string
+//         else if textView.textColor == UIColor.lightGray && !text.isEmpty {
+//            textView.textColor = UIColor.black
+//            textView.text = text
+//        }
+//
+//        // For every other case, the text should change with the usual
+//        // behavior...
+//        else {
+//            return true
+//        }
+//
+//        // ...otherwise return false since the updates have already
+//        // been made
+//        return false
+//    }
     
-    ///this is here mostly for editing the placeholder logic for new notes
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-
-        // Combine the textView text and the replacement text to
-        // create the updated text string
-        let currentText:String = textView.text
-        let updatedText = (currentText as NSString).replacingCharacters(in: range, with: text)
-
-        // If updated text view will be empty, add the placeholder
-        // and set the cursor to the beginning of the text view
-        if updatedText.isEmpty {
-
-            textView.text = "Type note here..."
-            textView.textColor = UIColor.lightGray
-
-            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
-        }
-
-        // Else if the text view's placeholder is showing and the
-        // length of the replacement string is greater than 0, set
-        // the text color to black then set its text to the
-        // replacement string
-         else if textView.textColor == UIColor.lightGray && !text.isEmpty {
-            textView.textColor = UIColor.black
-            textView.text = text
-        }
-
-        // For every other case, the text should change with the usual
-        // behavior...
-        else {
-            return true
-        }
-
-        // ...otherwise return false since the updates have already
-        // been made
-        return false
-    }
-    
-    ///more placeholder logic
-    func textViewDidChangeSelection(_ textView: UITextView) {
-        if self.view.window != nil {
-            if textView.textColor == UIColor.lightGray {
-                textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
-            }
-        }
-    }
+//    ///more placeholder logic
+//    func textViewDidChangeSelection(_ textView: UITextView) {
+//
+//        print("textview did change")
+//        toggleSaveButtonEnabled()
+//
+//        if self.view.window != nil {
+//            if textView.textColor == UIColor.lightGray {
+//                textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
+//            }
+//        }
+//    }
     
     ///handles what happens when a note is saved
     @objc func handleSaveNote() {
@@ -258,7 +278,7 @@ class CreateNoteVC: UIViewController {
 
 }
 
-extension CreateNoteVC: UITextViewDelegate {
+extension CreateNoteVC: UITextViewDelegate, UITextFieldDelegate {
 
     ///set up for the back button
     func backButtonSetup() {
@@ -276,7 +296,37 @@ extension CreateNoteVC: UITextViewDelegate {
 
     ///what happens when the back button is tapped, dismisses the view controller
     @objc func backButtonTapped() {
-        dismiss(animated: true, completion: nil)
+        
+        //need to check if user has changed their note and not saved
+        if saveButton.isEnabled {
+            print("save button enabled")
+            
+            let saveResponse = UIAlertAction(title: "Save", style: .default) { (action) in
+                //respond to user selection of action
+                print("save pressed")
+                self.handleSaveNote()
+                self.dismiss(animated: true, completion: nil)
+            }
+            
+            let doNotSaveResponse = UIAlertAction(title: "Remove changes", style: .default) { (action) in
+                //respond to user selection
+                print("remove changes pressed")
+                self.dismiss(animated: true, completion: nil)
+            }
+            
+            let alert = UIAlertController(title: "You have not saved changes!", message: "Are you sure you want to leave?", preferredStyle: .alert)
+            alert.addAction(saveResponse)
+            alert.addAction(doNotSaveResponse)
+            
+            self.present(alert, animated: true) {
+                //alert was presented
+            }
+            
+        } else {
+            dismiss(animated: true, completion: nil)
+        }
+        
+        //
     }
 
     ///sets up the note title
@@ -294,6 +344,7 @@ extension CreateNoteVC: UITextViewDelegate {
     func textViewSetup() {
         view.addSubview(textView)
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.placeholder = ""
         textView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
         textView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
         textView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
@@ -304,10 +355,18 @@ extension CreateNoteVC: UITextViewDelegate {
         textView.delegate = self
     }
     
-    ///if the text changed in the view controller, toggle the save button 
+    ///if the text changed in the view controller, toggle the save button
     func textViewDidChange(_ textView: UITextView) {
-        print("textview did change")
+        //print("textview did change")
         toggleSaveButtonEnabled()
+        
+        
+
+        //print("textview empty: ", textView.text.isEmpty)
+        if textView.text.isEmpty {
+            self.textView.placeholder = "Type note here..."
+            toggleSaveButtonDisabled()
+        }
     }
 
 }

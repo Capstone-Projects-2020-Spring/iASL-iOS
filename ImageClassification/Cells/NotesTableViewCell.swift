@@ -17,12 +17,14 @@ class NotesTableViewCell: UITableViewCell {
             
             //need to manage the length of the noteLabel
             //let noteTextIndex = note?.text?.endIndex
-            if (note?.text!.count)! > 25 {
-                let noteTextNewEndIndex = note?.text?.index((note?.text!.startIndex)!, offsetBy: 25)
-                let shortenedNoteText = note?.text?[..<noteTextNewEndIndex!]
-                noteLabel.text = "\"" + String(shortenedNoteText!) + "...\""
-            } else {
-                noteLabel.text = "\"" + (note?.text)! + "...\""
+            if let noteText = note?.text {
+                if noteText.count > 25 {
+                    let noteTextNewEndIndex = noteText.index((noteText.startIndex), offsetBy: 25)
+                    let shortenedNoteText = noteText[..<noteTextNewEndIndex]
+                    noteLabel.text = "\"" + shortenedNoteText + "...\""
+                } else {
+                    noteLabel.text = "\"" + noteText + "...\""
+                }
             }
             
             //set the timestamp appropriately
@@ -41,39 +43,27 @@ class NotesTableViewCell: UITableViewCell {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        //label.backgroundColor = .blue
-        //label.textColor = .white
+        label.font = .boldSystemFont(ofSize: 20)
         return label
     }()
 
     let noteLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        //label.backgroundColor = .blue
-        //label.textColor = .white
+        label.textColor = .gray
         return label
     }()
 
     let timestampLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        //label.backgroundColor = .blue
-        //label.textColor = .white
+        label.textColor = .gray
         return label
     }()
     
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        //self.addSubview(titleLabel)
-        //self.addSubview(noteLabel)
-        //self.addSubview(timestampLabel)
-        
-        
-
-//        textLabel?.frame = CGRect(x: 64, y: (textLabel?.frame.origin.y)! - 2, width: (textLabel?.frame.width)!, height: (textLabel?.frame.height)!)
-//        detailTextLabel?.frame = CGRect(x: 64, y: (detailTextLabel?.frame.origin.y)! + 2, width: (detailTextLabel?.frame.width)!, height: (detailTextLabel?.frame.height)!)
 
     }
 
@@ -93,25 +83,19 @@ class NotesTableViewCell: UITableViewCell {
     
     func setupTitleLabel() {
         self.addSubview(titleLabel)
-        titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10).isActive = true
+        titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 20).isActive = true
         titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -10).isActive = true
-        //titleLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        //FIXME: might need a width constraint
     }
 
     func setupNoteLabel() {
         self.addSubview(noteLabel)
-        noteLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10).isActive = true
+        noteLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 20).isActive = true
         noteLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5).isActive = true
-        //noteLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -10).isActive = true
-        //noteLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
     }
 
     func setupTimestampLabel() {
         self.addSubview(timestampLabel)
         timestampLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
-        //timestampLabel.leftAnchor.constraint(equalTo: titleLabel.rightAnchor, constant: 5).isActive = true
         timestampLabel.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor).isActive = true
-        //timestampLabel.heightAnchor.constraint(equalTo: titleLabel.heightAnchor).isActive = true
     }
 }
