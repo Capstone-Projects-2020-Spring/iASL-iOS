@@ -23,7 +23,6 @@
 		67ABF92624301CCE00881646 /* ASLKeyboardUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67ABF92524301CCE00881646 /* ASLKeyboardUITests.swift */; };
 		67ABF9282430299200881646 /* ASLKeyboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67ABF9272430299200881646 /* ASLKeyboardTests.swift */; };
 		67B31A99242C038C00DC15C4 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B31A98242C038C00DC15C4 /* ChatVC.swift */; };
-		67C0E064243F01E2009C95F8 /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67C0E063243F01E1009C95F8 /* RecordButton.swift */; };
 		67CD6E9E242AE3380004D255 /* TranscribeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CD6E9D242AE3370004D255 /* TranscribeVC.swift */; };
 		6E23ACD52416BE8E00495F02 /* RemoteConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E23ACD42416BE8E00495F02 /* RemoteConversationVC.swift */; };
 		6E3469932421CD64009F1E7D /* SpeechToTextVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E3469922421CD64009F1E7D /* SpeechToTextVC.swift */; };
@@ -86,7 +85,6 @@
 		67ABF92524301CCE00881646 /* ASLKeyboardUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASLKeyboardUITests.swift; sourceTree = "<group>"; };
 		67ABF9272430299200881646 /* ASLKeyboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASLKeyboardTests.swift; sourceTree = "<group>"; };
 		67B31A98242C038C00DC15C4 /* ChatVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatVC.swift; sourceTree = "<group>"; };
-		67C0E063243F01E1009C95F8 /* RecordButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecordButton.swift; path = "../../../../Downloads/pablogsIO-RecordButton-0fd2f06/Source/RecordButton.swift"; sourceTree = "<group>"; };
 		67CD6E9D242AE3370004D255 /* TranscribeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranscribeVC.swift; sourceTree = "<group>"; };
 		6E23ACD42416BE8E00495F02 /* RemoteConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConversationVC.swift; sourceTree = "<group>"; };
 		6E23ACD62416CB4000495F02 /* iASL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iASL.entitlements; sourceTree = "<group>"; };
@@ -232,7 +230,6 @@
 		AAAB096C218981A30015A1F2 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				67C0E063243F01E1009C95F8 /* RecordButton.swift */,
 				AAAB096D218981FA0015A1F2 /* CVPixelBufferExtension.swift */,
 			);
 			path = Extensions;
@@ -565,7 +562,6 @@
 				6013906C2438F07200BFD61E /* Note.swift in Sources */,
 				AAE79E952135237A00E7AC1F /* ViewController.swift in Sources */,
 				675FD1C1243EAD0600D53116 /* HelpUsTrainWelcome.swift in Sources */,
-				67C0E064243F01E2009C95F8 /* RecordButton.swift in Sources */,
 				6E3469932421CD64009F1E7D /* SpeechToTextVC.swift in Sources */,
 				602388952425A43E0041E2C3 /* LoginVC.swift in Sources */,
 				6EF328FB24173A430071E430 /* NotesVC.swift in Sources */,
