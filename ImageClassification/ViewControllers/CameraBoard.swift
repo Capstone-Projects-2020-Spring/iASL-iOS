@@ -116,7 +116,7 @@ extension CameraBoard: CameraFeedManagerDelegate {
                 } else {
                     self.prediction.removeAll()
                 }
-                self.updateStack(prediction: self.prediction)
+                //self.updateStack(prediction: self.prediction)
 			case "space":
                 self.stringCache.removeAll()
 				self.target?.insertText(" ")
@@ -130,9 +130,9 @@ extension CameraBoard: CameraFeedManagerDelegate {
                 let spellChecker = UITextChecker()
                 //print(UITextChecker.availableLanguages)
                 print("printing text cache: \(self.stringCache)")
-                self.prediction = spellChecker.completions(forPartialWordRange: rangeForEndOfStr, in: self.stringCache, language: "en_US")!
+                //self.prediction = spellChecker.completions(forPartialWordRange: rangeForEndOfStr, in: self.stringCache, language: "en_US")!
                 print(self.prediction ?? "No completion found")
-                self.updateStack(prediction: self.prediction)
+                //self.updateStack(prediction: self.prediction)
 			}
 		}
 
@@ -238,55 +238,55 @@ extension CameraBoard {
     }
     
     func updateStack(prediction:[String]){
-        var range = 0
-        if prediction.count != 0 {
-            for butt in predictionButton {
-                butt.isEnabled = true
-            }
-            if prediction.count <= 3 {
-                range = prediction.count-1
-            } else {
-                range = predictionButton.count-1
-            }
-            
-            for x in 0...range {
-                predictionButton[x].setTitle(prediction[x], for: .normal)
-            }
-        } else {
-            for butt in predictionButton {
-                butt.setTitle("", for: .normal)
-                butt.isEnabled = false
-            }
-        }
-        
-        
+//        var range = 0
+//        if prediction.count != 0 {
+//            for butt in predictionButton {
+//                butt.isEnabled = true
+//            }
+//            if prediction.count <= 3 {
+//                range = prediction.count-1
+//            } else {
+//                range = predictionButton.count-1
+//            }
+//
+//            for x in 0...range {
+//                predictionButton[x].setTitle(prediction[x], for: .normal)
+//            }
+//        } else {
+//            for butt in predictionButton {
+//                butt.setTitle("", for: .normal)
+//                butt.isEnabled = false
+//            }
+//        }
+//
+//
         
     }
     
     @objc func predictionButtonHoldDown(_ sender:UIButton){
-        for butt in predictionButton {
-            if sender == butt {
-                sender.backgroundColor =  #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.8)
-            }
-        }
+//        for butt in predictionButton {
+//            if sender == butt {
+//                sender.backgroundColor =  #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.8)
+//            }
+//        }
     }
     
     @objc func predictionButtonTapped(_ sender:UIButton){
-        for butt in predictionButton {
-            if sender == butt {
-                sender.backgroundColor =  #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.2)
-                let text = sender.titleLabel?.text
-                for x in 0...stringCache.count {
-                    self.target?.deleteBackward()
-                }
-                if text != nil { self.target?.insertText((sender.titleLabel?.text!)!) } else { self.target?.insertText("")}
-                
-                self.target?.insertText(" ")
-            }
-        }
-        prediction.removeAll()
-        print(prediction.count)
-        updateStack(prediction: prediction)
+//        for butt in predictionButton {
+//            if sender == butt {
+//                sender.backgroundColor =  #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.2)
+//                let text = sender.titleLabel?.text
+//                for x in 0...stringCache.count {
+//                    self.target?.deleteBackward()
+//                }
+//                if text != nil { self.target?.insertText((sender.titleLabel?.text!)!) } else { self.target?.insertText("")}
+//
+//                self.target?.insertText(" ")
+//            }
+//        }
+//        prediction.removeAll()
+//        print(prediction.count)
+//        updateStack(prediction: prediction)
     }
     
     func caboardViewSetup() {

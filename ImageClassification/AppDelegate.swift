@@ -57,7 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
 
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = LoginVC()
+        window?.rootViewController = ViewController()
         window?.makeKeyAndVisible()
         
 
