@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Caboard: UIView {
+class CameraBoard: UIView {
 
     let caboardView = UIView()
     let previewView = PreviewView()
@@ -17,10 +17,13 @@ class Caboard: UIView {
     let cameraUnavailableLabel = UILabel()
     let resumeButton = UIButton()
     let buttonStack = UIStackView()
-    let predictionTable = UITableView()
     let keyboardChangeButton = UIButton()
+    var predictionButton = [UIButton]()
+    let predictionStack = UIStackView()
+    var stringCache = String()
 
-    var prediction = ["He", "Hey", "Here"]
+    var prediction = ["","",""]
+    //var prediction = Array<String>()
 	weak var target: UIKeyInput?
     // MARK: Constants
     private let animationDuration = 0.5
@@ -51,11 +54,8 @@ class Caboard: UIView {
         buttonStackSetup()
         deleteButtonSetup()
         nextButtonSetup()
-        predictionTableSetup()
         bottomCoverSetup()
-
-        //composedMessageSetup()
-
+        predictionStackSetup()
         #if targetEnvironment(simulator)
         previewView.shouldUseClipboardImage = true
         NotificationCenter.default.addObserver(self,
@@ -65,7 +65,6 @@ class Caboard: UIView {
         #endif
         cameraCapture.delegate = self
         //collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
-
     }
 
 	required init?(coder: NSCoder) {
@@ -87,7 +86,7 @@ class Caboard: UIView {
 
 }
 
-extension Caboard: CameraFeedManagerDelegate {
+extension CameraBoard: CameraFeedManagerDelegate {
     func didOutput(pixelBuffer: CVPixelBuffer) {
         let currentTimeMs = Date().timeIntervalSince1970 * 1000
         guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
@@ -98,18 +97,42 @@ extension Caboard: CameraFeedManagerDelegate {
 		DispatchQueue.main.async {
 			switch self.result?.inferences[0].label {
 			case "del":
-
-				self.target?.deleteBackward()
-
+                
+                self.target?.deleteBackward()
+                
+//                if self.stringCache.count != 0 {
+//                    self.stringCache.removeLast(1)
+//
+//                    let rangeForEndOfStr = NSMakeRange(0, self.stringCache.utf16.count)
+//                    let spellChecker = UITextChecker()
+//                    print("printing text cache: \(self.stringCache)")
+//                    let result = spellChecker.completions(forPartialWordRange: rangeForEndOfStr, in: self.stringCache, language: "en_US")
+//                    if result != nil {
+//                        self.prediction = result!
+//                    } else {
+//                        self.prediction.removeAll()
+//                    }
+//
+//                } else {
+//                    self.prediction.removeAll()
+//                }
+                //self.updateStack(prediction: self.prediction)
 			case "space":
-
+//                self.stringCache.removeAll()
 				self.target?.insertText(" ")
 			case "nothing":
 				break
 			default:
 
 				self.target?.insertText(self.result!.inferences[0].label.description)
-
+//                self.stringCache.append(self.result!.inferences[0].label.description)
+//                let rangeForEndOfStr = NSMakeRange(0, self.stringCache.utf16.count)     // You had inverted parameters ; could also use NSRange(0..<str.utf16.count)
+//                let spellChecker = UITextChecker()
+                //print(UITextChecker.availableLanguages)
+//                print("printing text cache: \(self.stringCache)")
+                //self.prediction = spellChecker.completions(forPartialWordRange: rangeForEndOfStr, in: self.stringCache, language: "en_US")!
+//                print(self.prediction ?? "No completion found")
+                //self.updateStack(prediction: self.prediction)
 			}
 		}
 
@@ -120,6 +143,10 @@ extension Caboard: CameraFeedManagerDelegate {
         }
     }
 
+    func predictWord(){
+        
+    }
+    
     func presentCameraPermissionsDeniedAlert() {
         let alertController = UIAlertController(title: "Camera Permissions Denied", message: "Camera permissions have been denied for this app. You can change this by going to Settings", preferredStyle: .alert)
 
@@ -173,33 +200,95 @@ extension Caboard: CameraFeedManagerDelegate {
 
 }
 
-extension Caboard: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return prediction.count
+
+
+extension CameraBoard {
+
+    func predictionStackSetup(){
+        addSubview(predictionStack)
+        predictionStack.translatesAutoresizingMaskIntoConstraints = false
+        predictionStack.leadingAnchor.constraint(equalTo: previewView.trailingAnchor, constant: 5).isActive = true
+        predictionStack.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
+        predictionStack.bottomAnchor.constraint(equalTo: deleteButton.topAnchor, constant: -5).isActive = true
+        predictionStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5).isActive = true
+        predictionStack.axis = .vertical
+        predictionStack.spacing = 5
+        predictionStack.distribution = .fillEqually
+        
+        var range = 0
+        if prediction.count > 3 {
+            range = prediction.count
+        } else {
+            range = predictionButton.count
+        }
+        var buttonIndex = 0
+        while buttonIndex < 3 {
+            predictionButton.append(UIButton())
+            predictionStack.addArrangedSubview(predictionButton[buttonIndex])
+            predictionStack.translatesAutoresizingMaskIntoConstraints = false
+            predictionButton[buttonIndex].titleLabel?.textAlignment = .left
+            predictionButton[buttonIndex].setTitle("", for: .normal)
+            predictionButton[buttonIndex].backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.2)
+            predictionButton[buttonIndex].setTitleColor(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1), for: .normal)
+            predictionButton[buttonIndex].addTarget(self, action: #selector(predictionButtonHoldDown(_:)), for: .touchDown)
+            predictionButton[buttonIndex].addTarget(self, action: #selector(predictionButtonTapped(_:)), for: .touchUpInside)
+            predictionButton[buttonIndex].addTarget(self, action: #selector(predictionButtonTapped(_:)), for: .touchDragExit)
+            buttonIndex += 1
+        }
     }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
-        cell?.textLabel?.text = prediction[indexPath.row]
-        cell?.textLabel?.textColor = .white
-        cell?.backgroundColor = .clear
-        return cell!
+    
+    func updateStack(prediction:[String]){
+//        var range = 0
+//        if prediction.count != 0 {
+//            for butt in predictionButton {
+//                butt.isEnabled = true
+//            }
+//            if prediction.count <= 3 {
+//                range = prediction.count-1
+//            } else {
+//                range = predictionButton.count-1
+//            }
+//
+//            for x in 0...range {
+//                predictionButton[x].setTitle(prediction[x], for: .normal)
+//            }
+//        } else {
+//            for butt in predictionButton {
+//                butt.setTitle("", for: .normal)
+//                butt.isEnabled = false
+//            }
+//        }
+//
+//
+        
     }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-//        outputText.append(prediction[indexPath.row])
-
-		DispatchQueue.main.async {
-//			print(self.outputText)
-			self.target?.insertText(self.prediction[indexPath.row])
-		}
+    
+    @objc func predictionButtonHoldDown(_ sender:UIButton){
+//        for butt in predictionButton {
+//            if sender == butt {
+//                sender.backgroundColor =  #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.8)
+//            }
+//        }
     }
-
-}
-
-extension Caboard {
-
+    
+    @objc func predictionButtonTapped(_ sender:UIButton){
+//        for butt in predictionButton {
+//            if sender == butt {
+//                sender.backgroundColor =  #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.2)
+//                let text = sender.titleLabel?.text
+//                for x in 0...stringCache.count {
+//                    self.target?.deleteBackward()
+//                }
+//                if text != nil { self.target?.insertText((sender.titleLabel?.text!)!) } else { self.target?.insertText("")}
+//
+//                self.target?.insertText(" ")
+//            }
+//        }
+//        prediction.removeAll()
+//        print(prediction.count)
+//        updateStack(prediction: prediction)
+    }
+    
     func caboardViewSetup() {
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -213,7 +302,6 @@ extension Caboard {
 //		caboardView.leadingAnchor.constraint(equalTo: viewDelagate!.leadingAnchor).isActive = true
 //		caboardView.trailingAnchor.constraint(equalTo: viewDelagate!.trailingAnchor).isActive = true
         caboardView.heightAnchor.constraint(equalToConstant: 230).isActive = true
-
         caboardView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
     }
 
@@ -253,19 +341,7 @@ extension Caboard {
         buttonStack.spacing = 5
     }
 
-    func predictionTableSetup() {
-        caboardView.addSubview(predictionTable)
-        predictionTable.translatesAutoresizingMaskIntoConstraints = false
-        predictionTable.leadingAnchor.constraint(equalTo: previewView.trailingAnchor, constant: 5).isActive = true
-        predictionTable.bottomAnchor.constraint(equalTo: buttonStack.topAnchor, constant: -5).isActive = true
-        predictionTable.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5).isActive = true
-        predictionTable.topAnchor.constraint(equalTo: self.topAnchor, constant: 5).isActive = true
-        predictionTable.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        predictionTable.backgroundColor = .clear
-        predictionTable.separatorColor = .white
-        predictionTable.delegate = self
-        predictionTable.dataSource = self
-    }
+
 
     func deleteButtonSetup() {
         buttonStack.addArrangedSubview(deleteButton)
@@ -282,9 +358,10 @@ extension Caboard {
 		let longPressGestureRecognizer = UILongPressGestureRecognizer(
 					target: self,
 					action: #selector(handleLongPress))
-
+        longPressGestureRecognizer.cancelsTouchesInView = false
 		self.addGestureRecognizer(longPressGestureRecognizer)
     }
+    
 	@objc func handleLongPress() {
 		deleteChar {
 			#if DEBUG
@@ -326,7 +403,7 @@ extension Caboard {
     }
 
 }
-extension Caboard {
+extension CameraBoard {
     @objc func classifyPasteboardImage() {
         guard let image = UIPasteboard.general.images?.first else {
             return
