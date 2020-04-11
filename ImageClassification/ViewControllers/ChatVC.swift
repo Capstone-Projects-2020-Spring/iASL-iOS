@@ -263,60 +263,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
 
 }
 
-//class ChatVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
-//
-//    let previewView = PreviewView()
-//    let composedMessage = UITextView()
-//    let topBar = UIView()
-//    let topLabel = UILabel()
-//    let backButton = UIButton()
-//    let tableView = UITableView()
-//
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//
-//        view.backgroundColor = .white
-//        topBarSetup()
-//        backButtonSetup()
-//        topLabelSetup()
-//        tableViewSetup()
-//        // Do any additional setup after loading the view.
-//        previewViewSetup()
-//        composedMessageSetup()
-//
-//    }
-//
-//}
-
 extension ChatVC {
-
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 10
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! ChatTableViewCell
-//        cell.textLabel?.text = "asdf"
-//        return cell
-//    }
-//
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return UITableView.automaticDimension
-//    }
-//
-//    func tableViewSetup() {
-//        view.addSubview(tableView)
-//        tableView.translatesAutoresizingMaskIntoConstraints = false
-//        tableView.topAnchor.constraint(equalTo: topBar.bottomAnchor).isActive = true
-//        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-//        tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-//        tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-//        tableView.register(ChatTableViewCell.self, forCellReuseIdentifier: "cell")
-//        tableView.separatorStyle = .none
-//        tableView.allowsSelection = false
-//        tableView.delegate = self
-//        tableView.dataSource = self
-//    }
 
     ///handles what happens when you send a message
     @objc func handleSendButton() {
