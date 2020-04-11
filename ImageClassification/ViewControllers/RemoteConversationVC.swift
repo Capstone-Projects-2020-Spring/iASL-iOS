@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import KeychainSwift
 
 class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -19,6 +20,11 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
     var messages = [Message]()
     //for organizing messages by name and most recent
     var messagesDictionary = [String: Message]()
+    
+    var messagesToDelete = [String]()
+    var partnerToDelete = ""
+    
+    let keychain = KeychainSwift(keyPrefix: "iasl_")
 
     let topBar = UIView()
     let topLabel = UILabel()
@@ -86,7 +92,7 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
 
         ref.observe(.childAdded, with: { (snapshot) in
 
-            print(snapshot)
+            //print(snapshot)
 
             let messageId = snapshot.key
 
@@ -94,7 +100,7 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
 
             messagesReference.observeSingleEvent(of: .value, with: { (snapshot) in
 
-                print(snapshot)
+                //print(snapshot)
 
                 //this is where the old observe messages stuff goes
                 if let dictionary = snapshot.value as? [String: AnyObject] {
@@ -103,11 +109,6 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
                     message.senderId = dictionary["senderId"] as? String
                     message.text = dictionary["text"] as? String
                     message.timestamp = dictionary["timestamp"] as? NSNumber
-                    //print(message.text)
-                    //print(message.timestamp)
-
-                    //add message to all the messages
-                    //self.messages.append(message)
 
                     //one message per receiver
 
@@ -119,36 +120,16 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
                         print("values: ", self.messagesDictionary.values)
 
                         self.messages = Array(self.messagesDictionary.values)
-
-                        //sort messages by most recent
-//                        self.messages.sorted { (message1, message2) -> Bool in
-//                            return message1.timestamp?.intValue > message2.timestamp?.intValue
-//                        }
                         
                         //this sort actually works and the previous one does not
                         self.messages.sort { (message1, message2) -> Bool in
                             return message1.timestamp?.intValue > message2.timestamp?.intValue
                         }
                         
-                        //self.messages.sort(by: >)
                     }
-
-//                    if let receiverId = message.receiverId {
-//                        self.messagesDictionary[receiverId] = message
-//
-//                        print("keys: ",self.messagesDictionary.keys)
-//                        print("values: ", self.messagesDictionary.values)
-//
-//                        self.messages = Array(self.messagesDictionary.values)
-//
-//                        //sort messages by most recent
-//                        self.messages.sorted { (message1, message2) -> Bool in
-//                            return message1.timestamp?.intValue > message2.timestamp?.intValue
-//                        }
-//                    }
                 }
 
-                print("dictionary length: ", self.messages.count)
+                //print("dictionary length: ", self.messages.count)
 
                 //reload the table
                 DispatchQueue.main.async {
@@ -160,44 +141,53 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         }, withCancel: nil)
 
     }
+    
+    
+    ///called when we need to figure out what needs to be deleted
+    func observeDeleteMessages(chatPartner: String, senderId: String, receiverId: String) {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("could not get UID")
+            return
+        }
+        
+        let ref = Database.database().reference().child("user-messages").child(uid)
 
-//    //gather all of the messages ever so we can organize them properly in the main table view
-//    func observeMessages() {
-//        let ref = Database.database().reference().child("messages")
-//        ref.observe(.childAdded, with: { (snapshot) in
-//
-//            if let dictionary = snapshot.value as? [String: AnyObject] {
-//                let message = Message()
-//                message.receiverId = dictionary["receiverId"] as? String
-//                message.senderId = dictionary["senderId"] as? String
-//                message.text = dictionary["text"] as? String
-//                message.timestamp = dictionary["timestamp"] as? NSNumber
-//                //print(message.text)
-//                //print(message.timestamp)
-//
-//                //add message to all the messages
-//                self.messages.append(message)
-//
-//                //one message per receiver
-//                if let receiverId = message.receiverId {
-//                    self.messagesDictionary[receiverId] = message
-//
-//                    self.messages = Array(self.messagesDictionary.values)
-//
-//                    //sort messages by most recent
-//                    self.messages.sorted { (message1, message2) -> Bool in
-//                        return message1.timestamp?.intValue > message2.timestamp?.intValue
-//                    }
+        ref.observe(.childAdded, with: { (snapshot) in
+
+            
+            let messageId = snapshot.key
+
+            let messagesReference = Database.database().reference().child("messages").child(messageId)
+
+            messagesReference.observeSingleEvent(of: .value, with: { (snapshot) in
+
+                //get a dictionary and use it to set a message from the values in firebase
+                if let dictionary = snapshot.value as? [String: AnyObject] {
+                    let message = Message()
+                    message.receiverId = dictionary["receiverId"] as? String
+                    message.senderId = dictionary["senderId"] as? String
+                    message.text = dictionary["text"] as? String
+                    message.timestamp = dictionary["timestamp"] as? NSNumber
+                    
+                    if message.receiverId == chatPartner || message.senderId == chatPartner {
+                        print("this is the message we should delete")
+                        print(snapshot)
+                        self.messagesToDelete.append(messageId)
+                        self.partnerToDelete = chatPartner
+                    }
+                }
+
+                //reload the table
+//                DispatchQueue.main.async {
+//                    self.tableView.reloadData()
 //                }
-//            }
-//
-//            //reload the table
-//            DispatchQueue.main.async {
-//                self.tableView.reloadData()
-//            }
-//
-//        }, withCancel: nil)
-//    }
+
+            }, withCancel: nil)
+
+        }, withCancel: nil)
+        
+        
+    }
 
     ///Add a user to a current conversation
     @objc func handleAddChat() {
@@ -228,6 +218,10 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         } catch let logoutError {
             print(logoutError)
         }
+        
+        //remove keys from keychain
+        keychain.clear()
+        
         //present the login screen
         let loginController = LoginVC()
         loginController.modalTransitionStyle = .crossDissolve
@@ -267,7 +261,11 @@ extension RemoteConversationVC {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 72
+        return 100
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
 
     //FIXME: Make a custom user cell here
@@ -299,7 +297,7 @@ extension RemoteConversationVC {
 
         let ref = Database.database().reference().child("users").child(chatPartnerId)
         ref.observeSingleEvent(of: .value, with: { (snapshot) in
-            //print(snapshot)
+            print(snapshot)
 
             guard let dictionary = snapshot.value as? [String: AnyObject] else {
                 return
@@ -316,17 +314,100 @@ extension RemoteConversationVC {
 
         }, withCancel: nil)
 
-//        guard let name = cell.textLabel?.text else {
-//            print("could not find name")
-//            return
-//        }
-//        showChatVC(name: name)
-        //navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    ///used for deleting a particular row in the table view
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            let message = messages[indexPath.row]
+            let senderId = message.senderId!
+            let receiverId = message.receiverId!
+            
+            guard let chatPartnerId = message.chatPartnerId() else {
+                return
+            }
+            
+            observeDeleteMessages(chatPartner: chatPartnerId, senderId: senderId, receiverId: receiverId)
+            
+            handleDeleteNoteAreYouSure(indexPath: indexPath)
+        }
+    }
+    
+    ///handles the deleting of the note
+    func handleDeleteNote() {
+        
+        //need to find the user ID since we are only deleting the USERS versions of these notes
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("could not get UID")
+            return
+        }
+        
+        //remove the messages for the current user
+        for messageIdToRemove in self.messagesToDelete {
+            print(messageIdToRemove)
+            
+            //need to delete it from the user's user-message node
+            let userMessagesRef = Database.database().reference().child("user-messages").child(uid).child(messageIdToRemove)
+            userMessagesRef.removeValue()
+            
+        }
+        
+        //if the other user has also gotten rid of these messages, remove them everywhere
+        for messageIdToRemoveEverywhere in self.messagesToDelete {
+            let otherUserMessagesRef = Database.database().reference().child("user-messages").child(partnerToDelete)
+            otherUserMessagesRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                if snapshot.hasChild(messageIdToRemoveEverywhere) {
+                    //print(snapshot.childSnapshot(forPath: messageIdToRemoveEverywhere))
+                    //print("other user has child: ", true)
+                } else {
+                    print(false)
+                    print(snapshot.childSnapshot(forPath: messageIdToRemoveEverywhere))
+                    let messageToDeleteRef = Database.database().reference().child("messages").child(messageIdToRemoveEverywhere)
+                    messageToDeleteRef.removeValue()
+                }
+            }, withCancel: nil)
+        }
+        
+        //erase the array and string to start over with a new delete next time
+        partnerToDelete = ""
+        messagesToDelete.removeAll()
+        
+    }
+    
+    ///asks the users in an alert if they would like to proceed with deleting their conversation
+    func handleDeleteNoteAreYouSure(indexPath: IndexPath) {
+        
+        let saveResponse = UIAlertAction(title: "Save", style: .default) { (action) in
+            //respond to user selection of action
+            print("save pressed")
+        }
+        
+        let doNotSaveResponse = UIAlertAction(title: "Delete", style: .default) { (action) in
+            //respond to user selection
+            print("remove changes pressed")
+            print("indexpath.row: ", indexPath.row)
+            
+            self.handleDeleteNote()
+            
+            self.messages.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .bottom)
+            self.tableView.reloadData()
+        }
+        
+        let alert = UIAlertController(title: "This is permanent!", message: "Are you sure you want to delete this?", preferredStyle: .alert)
+        alert.addAction(saveResponse)
+        alert.addAction(doNotSaveResponse)
+        
+        self.present(alert, animated: true) {
+            //alert was presented
+        }
     }
 
     //FIXME: These two below need to change later once we have a working view controller in remote
     func showChatVCForUser(user: User) {
 
+        //remove messages
         messages.removeAll()
         messagesDictionary.removeAll()
         tableView.reloadData()

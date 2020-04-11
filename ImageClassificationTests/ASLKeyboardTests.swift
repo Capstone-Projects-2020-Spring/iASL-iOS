@@ -23,7 +23,7 @@ class ASLKeyboardTests: XCTestCase {
     func testKeyboardDelete() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
-		let keyboard = Caboard(target: noteVC!.textView)
+		let keyboard = CameraBoard(target: noteVC!.textView)
 		noteVC?.textView.inputView = keyboard
 		DispatchQueue.main.async {
 			keyboard.deleteChar {
@@ -34,7 +34,7 @@ class ASLKeyboardTests: XCTestCase {
 
     }
 	func testTestAddReturn() {
-		let keyboard = Caboard(target: noteVC!.textView)
+		let keyboard = CameraBoard(target: noteVC!.textView)
 		noteVC?.textView.inputView = keyboard
 		DispatchQueue.main.async {
 			keyboard.returnKeyPressed()
