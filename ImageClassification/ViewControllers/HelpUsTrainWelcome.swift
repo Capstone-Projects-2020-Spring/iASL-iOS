@@ -43,13 +43,13 @@ public struct HelpTrainWelcomeConfiguration {
 
     /// The closure to be executed when the "Continue" button is pressed.
     public var continueButtonAction: (() -> Void)?
-	
+
 	/// The closure to be executed when the "No Thank You" dissmiss button is pressed.
-	public var dismissButtonAction: (() ->Void)?
+	public var dismissButtonAction: (() -> Void)?
 
     /// The tint of the welcome screen. This color will be reflected in the color of the app name and the "Continue" button.
     public var tintColor: UIColor = SystemColor.systemBlue
-	
+
 	/// empty initializer to initialize configuration of the help us train welcome screen
     public init() { }
 }

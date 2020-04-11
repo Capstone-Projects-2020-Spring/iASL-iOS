@@ -27,6 +27,7 @@ pod 'SnapKit', '~> 5.0.0'
     # pod 'SwiftVideoRecorder',:git => 'https://github.com/ApplebaumIan/swift-video-recorder.git', :branch => 'master'
     pod "SwiftyCam"
     pod 'KeychainSwift'
+    pod 'KMPlaceholderTextView', '~> 1.4.0'
 
 end
 target 'iASLUITests' do
