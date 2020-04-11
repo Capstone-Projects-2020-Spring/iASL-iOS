@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import KMPlaceholderTextView
 
 class CreateNoteVC: UIViewController {
     
@@ -19,9 +20,9 @@ class CreateNoteVC: UIViewController {
     
     let notesConstant: String = "notes"
     let userNotesConstant: String = "user-notes"
-
+    
     let backButton = UIButton()
-    let textView = UITextView()
+    let textView = KMPlaceholderTextView()
     let noteTitle = UITextField()
     
     ///save button for saving notes
@@ -46,11 +47,26 @@ class CreateNoteVC: UIViewController {
         loadNote()
     }
     
-    ///if the note already exists, loads the contents into the VC
+
+    
+    ///if the note already exists, loads the contents into the VC. if it does not exist, set placeholders
     func loadNote() {
-        noteTitle.text = note?.title
-        textView.text = note?.text
+        
+        toggleSaveButtonDisabled()
+        
+        if note == nil {
+            noteTitle.placeholder = "Title"
+            textView.placeholder = "Type note here..."
+
+        } else {
+            noteTitle.text = note?.title
+            textView.text = note?.text
+        }
     }
+
+
+
+
     
     ///handles what happens when a note is saved
     @objc func handleSaveNote() {
@@ -60,11 +76,22 @@ class CreateNoteVC: UIViewController {
         //two cases: new note created and old note needs to be updated
         if note == nil {
             let newNote = Note()
+            newNote.title = "Title"
             note = newNote
             handleNewNote()
-            dismiss(animated: true, completion: nil)
+            
+            dismiss(animated: true, completion: { () in
+                print("completion handler new note")
+                //self.NotesVC?.notes.removeAll()
+                //self.NotesVC?.observeUserNotes()
+                //self.NotesVC?.tableView.reloadData()
+                
+            })
         } else {
             handleUpdateNote()
+//            self.NotesVC?.notes.removeAll()
+//            self.NotesVC?.tableView.reloadData()
+//            self.NotesVC?.observeUserNotes()
         }
         
     }
@@ -74,7 +101,6 @@ class CreateNoteVC: UIViewController {
         
         print("handle new note")
         toggleSaveButtonDisabled()
-        
 
         //need to save a message here, just like with messaging
         guard let noteText = textView.text, let title = noteTitle.text else {
@@ -82,7 +108,7 @@ class CreateNoteVC: UIViewController {
             return
         }
 
-
+        //get a reference ot the database at the "notes" node
         let ref = Database.database().reference().child(self.notesConstant)
         //gets an auto ID for each message
         let childRef = ref.childByAutoId()
@@ -96,29 +122,30 @@ class CreateNoteVC: UIViewController {
         //gets it in milliseconds
         let timestamp: NSNumber = NSNumber(value: NSDate().timeIntervalSince1970 * 1000)
 
+        //values to be added to the new node
         let values = ["id": childRef.key!, "title": title, "text": noteText, "timestamp": timestamp, "ownerId": owner] as [String: Any]
 
+        //add the values to the node
         childRef.updateChildValues(values) { (error, _) in
             if error != nil {
                 print(error!)
                 return
             }
-
             //you've added your message successfully\
             print("successfully added the note to the notes node")
-
             //need to also save to new node for cost related issues
+            //only looks at user-notes->ownerID
             let userNotesRef = Database.database().reference().child(self.userNotesConstant).child(owner)
-
+            //this is for a different root node
             let noteId = childRef.key
+            //value to be entered into the "user-notes" node
+            //there will be one of these for each note PER user
             let userValue = [noteId: 1] as! [String: Any]
-
             userNotesRef.updateChildValues(userValue) { (error2, _) in
                 if error2 != nil {
                     print(error2!)
                     return
                 }
-
                 //you've added to the user-messages node for message senders
                 print("you've added to the user-notes node for owners")
             }
@@ -144,19 +171,23 @@ class CreateNoteVC: UIViewController {
             return
         }
         
+        //key is the node at which we are updating the note
         guard let key = self.noteToUpdateKey else {
             return
         }
         
+        //gets a reference to the database at the "notes" node
         let ref = Database.database().reference().child(self.notesConstant)
-        //gets an auto ID for each message
+        //gets an auto ID for each note
         let childRef = ref.child(key)
         
         //gets it in milliseconds
         let timestamp: NSNumber = NSNumber(value: NSDate().timeIntervalSince1970 * 1000)
         
-        let values = ["id": childRef.key!,"title": title, "text": noteText, "timestamp": timestamp, "ownerId": owner] as [String: Any]
+        //values to be inserted into the node
+        let values = ["id": childRef.key!, "title": title, "text": noteText, "timestamp": timestamp, "ownerId": owner] as [String: Any]
         
+        //update the node with the values we just defined above
         childRef.updateChildValues(values) { (error, _) in
             if error != nil {
                 print(error!)
@@ -166,11 +197,6 @@ class CreateNoteVC: UIViewController {
             //you've updated your note successfully
             print("successfully updated the note in the notes node")
         }
-
-        
-        
-        
-        
         
     }
     
@@ -182,7 +208,6 @@ class CreateNoteVC: UIViewController {
         saveButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         saveButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         saveButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
-        //saveButton.widthAnchor.constraint(equalTo: noteTitle.widthAnchor).isActive = true
         
         toggleSaveButtonEnabled()
     }
@@ -201,7 +226,7 @@ class CreateNoteVC: UIViewController {
 
 }
 
-extension CreateNoteVC: UITextViewDelegate {
+extension CreateNoteVC: UITextViewDelegate, UITextFieldDelegate {
 
     ///set up for the back button
     func backButtonSetup() {
@@ -219,7 +244,43 @@ extension CreateNoteVC: UITextViewDelegate {
 
     ///what happens when the back button is tapped, dismisses the view controller
     @objc func backButtonTapped() {
-        dismiss(animated: true, completion: nil)
+        
+        //need to check if user has changed their note and not saved
+        if saveButton.isEnabled {
+            print("save button enabled")
+            
+            let saveResponse = UIAlertAction(title: "Save", style: .default) { (action) in
+                //respond to user selection of action
+                print("save pressed")
+                self.handleSaveNote()
+                self.dismiss(animated: true, completion: nil)
+            }
+            
+            let doNotSaveResponse = UIAlertAction(title: "Remove changes", style: .default) { (action) in
+                //respond to user selection
+                print("remove changes pressed")
+                self.dismiss(animated: true, completion: nil)
+            }
+            
+            let alert = UIAlertController(title: "You have not saved changes!", message: "Are you sure you want to leave?", preferredStyle: .alert)
+            alert.addAction(saveResponse)
+            alert.addAction(doNotSaveResponse)
+            
+            self.present(alert, animated: true) {
+                //alert was presented
+            }
+            
+        } else {
+            
+            //this is where the back button is tapped
+            dismiss(animated: true, completion: { () in
+                print("completion handler back button")
+//                self.NotesVC?.notes.removeAll()
+//                self.NotesVC?.observeUserNotes()
+//                self.NotesVC?.tableView.reloadData()
+                
+            })
+        }
     }
 
     ///sets up the note title
@@ -237,20 +298,28 @@ extension CreateNoteVC: UITextViewDelegate {
     func textViewSetup() {
         view.addSubview(textView)
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.placeholder = ""
         textView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
         textView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
         textView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         textView.topAnchor.constraint(equalTo: noteTitle.bottomAnchor, constant: 5).isActive = true
         textView.font = UIFont.systemFont(ofSize: 20)
 		textView.inputView = Caboard(target: textView)
-        
         textView.delegate = self
     }
     
-    ///if the text changed in the view controller, toggle the save button 
+    ///if the text changed in the view controller, toggle the save button
     func textViewDidChange(_ textView: UITextView) {
-        print("textview did change")
+        //print("textview did change")
         toggleSaveButtonEnabled()
+        
+        
+
+        //print("textview empty: ", textView.text.isEmpty)
+        if textView.text.isEmpty {
+            self.textView.placeholder = "Type note here..."
+            toggleSaveButtonDisabled()
+        }
     }
 
 }
