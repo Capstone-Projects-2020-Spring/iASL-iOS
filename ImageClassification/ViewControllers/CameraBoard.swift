@@ -100,38 +100,38 @@ extension CameraBoard: CameraFeedManagerDelegate {
                 
                 self.target?.deleteBackward()
                 
-                if self.stringCache.count != 0 {
-                    self.stringCache.removeLast(1)
-                    
-                    let rangeForEndOfStr = NSMakeRange(0, self.stringCache.utf16.count)
-                    let spellChecker = UITextChecker()
-                    print("printing text cache: \(self.stringCache)")
-                    let result = spellChecker.completions(forPartialWordRange: rangeForEndOfStr, in: self.stringCache, language: "en_US")
-                    if result != nil {
-                        self.prediction = result!
-                    } else {
-                        self.prediction.removeAll()
-                    }
-                    
-                } else {
-                    self.prediction.removeAll()
-                }
+//                if self.stringCache.count != 0 {
+//                    self.stringCache.removeLast(1)
+//
+//                    let rangeForEndOfStr = NSMakeRange(0, self.stringCache.utf16.count)
+//                    let spellChecker = UITextChecker()
+//                    print("printing text cache: \(self.stringCache)")
+//                    let result = spellChecker.completions(forPartialWordRange: rangeForEndOfStr, in: self.stringCache, language: "en_US")
+//                    if result != nil {
+//                        self.prediction = result!
+//                    } else {
+//                        self.prediction.removeAll()
+//                    }
+//
+//                } else {
+//                    self.prediction.removeAll()
+//                }
                 //self.updateStack(prediction: self.prediction)
 			case "space":
-                self.stringCache.removeAll()
+//                self.stringCache.removeAll()
 				self.target?.insertText(" ")
 			case "nothing":
 				break
 			default:
 
 				self.target?.insertText(self.result!.inferences[0].label.description)
-                self.stringCache.append(self.result!.inferences[0].label.description)
-                let rangeForEndOfStr = NSMakeRange(0, self.stringCache.utf16.count)     // You had inverted parameters ; could also use NSRange(0..<str.utf16.count)
-                let spellChecker = UITextChecker()
+//                self.stringCache.append(self.result!.inferences[0].label.description)
+//                let rangeForEndOfStr = NSMakeRange(0, self.stringCache.utf16.count)     // You had inverted parameters ; could also use NSRange(0..<str.utf16.count)
+//                let spellChecker = UITextChecker()
                 //print(UITextChecker.availableLanguages)
-                print("printing text cache: \(self.stringCache)")
+//                print("printing text cache: \(self.stringCache)")
                 //self.prediction = spellChecker.completions(forPartialWordRange: rangeForEndOfStr, in: self.stringCache, language: "en_US")!
-                print(self.prediction ?? "No completion found")
+//                print(self.prediction ?? "No completion found")
                 //self.updateStack(prediction: self.prediction)
 			}
 		}
@@ -221,19 +221,19 @@ extension CameraBoard {
         } else {
             range = predictionButton.count
         }
-        var theXThatKilledSwiftLint = 0
-        while theXThatKilledSwiftLint < 3 {
+        var buttonIndex = 0
+        while buttonIndex < 3 {
             predictionButton.append(UIButton())
-            predictionStack.addArrangedSubview(predictionButton[theXThatKilledSwiftLint])
+            predictionStack.addArrangedSubview(predictionButton[buttonIndex])
             predictionStack.translatesAutoresizingMaskIntoConstraints = false
-            predictionButton[theXThatKilledSwiftLint].titleLabel?.textAlignment = .left
-            predictionButton[theXThatKilledSwiftLint].setTitle("", for: .normal)
-            predictionButton[theXThatKilledSwiftLint].backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.2)
-            predictionButton[theXThatKilledSwiftLint].setTitleColor(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1), for: .normal)
-            predictionButton[theXThatKilledSwiftLint].addTarget(self, action: #selector(predictionButtonHoldDown(_:)), for: .touchDown)
-            predictionButton[theXThatKilledSwiftLint].addTarget(self, action: #selector(predictionButtonTapped(_:)), for: .touchUpInside)
-            predictionButton[theXThatKilledSwiftLint].addTarget(self, action: #selector(predictionButtonTapped(_:)), for: .touchDragExit)
-            theXThatKilledSwiftLint += 1
+            predictionButton[buttonIndex].titleLabel?.textAlignment = .left
+            predictionButton[buttonIndex].setTitle("", for: .normal)
+            predictionButton[buttonIndex].backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.2)
+            predictionButton[buttonIndex].setTitleColor(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1), for: .normal)
+            predictionButton[buttonIndex].addTarget(self, action: #selector(predictionButtonHoldDown(_:)), for: .touchDown)
+            predictionButton[buttonIndex].addTarget(self, action: #selector(predictionButtonTapped(_:)), for: .touchUpInside)
+            predictionButton[buttonIndex].addTarget(self, action: #selector(predictionButtonTapped(_:)), for: .touchDragExit)
+            buttonIndex += 1
         }
     }
     
