@@ -26,7 +26,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
     let tableView = UITableView()
     let sendButton = UIButton()
     let keyboardButton = UIButton()
-    
+
     let messagesConstant: String = "messages"
 
     //so we know which user we are talking to
@@ -90,7 +90,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         super.viewDidLoad()
         view.backgroundColor = .white
         hideKeyboardWhenTappedAround()
-        
+
         topBarSetup()
         backButtonSetup()
         topLabelSetup()
@@ -100,7 +100,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
 		composedMessageSetup()
 
         collectionViewSetup()
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
 
@@ -119,10 +119,10 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
             self.view.frame.origin.y = 0
         }
     }
-    
-    
-    
-    
+
+
+
+
     func observeMessages() {
 
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -193,7 +193,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         //this is where you will set the text of each message
         let message = messages[indexPath.row]
         cell.textView.text = message.text
-        
+
         print(message.timestamp!)
 
         setupCell(cell: cell, message: message)
@@ -289,7 +289,7 @@ extension ChatVC {
 
         //gets it in milliseconds
         let timestamp: NSNumber = NSNumber(value: NSDate().timeIntervalSince1970 * 1000)
-        
+
         let values = ["receiverId": receiverId, "senderId": senderId, "text": messageText, "timestamp": timestamp] as [String: Any]
 
         childRef.updateChildValues(values) { (error, _) in
@@ -330,6 +330,9 @@ extension ChatVC {
 
         }
         //this is where it needs to send the message to firebase
+
+        //clear the composed message part
+        composedMessage.text = ""
     }
 
     func sendButtonSetup() {
@@ -397,6 +400,7 @@ extension ChatVC {
     func topLabelSetup() {
         topBar.addSubview(topLabel)
         topLabel.translatesAutoresizingMaskIntoConstraints = false
+        topLabel.trailingAnchor.constraint(equalTo: topBar.trailingAnchor, constant: -20).isActive = true
         topLabel.leadingAnchor.constraint(equalTo: backButton.trailingAnchor, constant: 20).isActive = true
         topLabel.bottomAnchor.constraint(equalTo: topBar.bottomAnchor, constant: -10).isActive = true
         topLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
@@ -417,7 +421,7 @@ extension ChatVC {
         keyboardButton.setImage(#imageLiteral(resourceName: "yoBlack"), for: .selected)
         keyboardButton.addTarget(self, action: #selector(keyboardButtonTapped), for: .touchUpInside)
     }
-    
+
     @objc func keyboardButtonTapped(){
         if keyboardButton.isSelected {
             keyboardButton.isSelected = false
@@ -428,8 +432,8 @@ extension ChatVC {
             composedMessage.inputView = nil
             composedMessage.reloadInputViews()
         }
-        
-        
+
+
     }
 }
 

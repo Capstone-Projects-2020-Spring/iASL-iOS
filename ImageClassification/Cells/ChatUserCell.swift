@@ -27,86 +27,100 @@ class ChatUserCell: UITableViewCell {
 
                         let name = dictionary["name"] as? String
 
-                        self.textLabel?.text = name
+                        //self.textLabel?.text = name
+                        self.nameLabel.text = name
 
                     }
 
                 }, withCancel: nil)
             }
+            
+            //get the message text
+            if let messageText = message?.text {
+                if messageText.count > 25 {
+                    let messageTextNewEndIndex = messageText.index((messageText.startIndex), offsetBy: 25)
+                    let shortenedMessageText = messageText[..<messageTextNewEndIndex]
+                    self.mostRecentMessageLabel.text = "\"" + shortenedMessageText + "...\""
+                } else {
+                    self.mostRecentMessageLabel.text = "\"" + messageText + "...\""
+                }
+            }
 
             //getting the timestamp and making it look nice
-            if let seconds = message?.timestamp?.doubleValue {
+            if let milliseconds = message?.timestamp?.doubleValue {
+                let seconds = milliseconds / 1000
                 let timestampDate = NSDate(timeIntervalSince1970: seconds)
 
                 let dateFormat = DateFormatter()
                 //FIXME: Get rid of the seconds later
-                dateFormat.dateFormat = "hh:mm:ss a"
+                dateFormat.dateFormat = "hh:mm a"
 
-                detailTextLabel?.text = dateFormat.string(from: timestampDate as Date)
-
+                //detailTextLabel?.text = dateFormat.string(from: timestampDate as Date)
+                self.timestampLabel.text = dateFormat.string(from: timestampDate as Date)
             }
 
-            detailTextLabel?.text = message?.text
+            //detailTextLabel?.text = message?.text
 
         }
     }
 
-//    let name: UILabel = {
-//        let label = UILabel()
-//
-//        return label
-//    }()
-//
-//    let mostRecentMessage: UILabel = {
-//        let label = UILabel()
-//
-//        return label
-//    }()
-//
-//    let timestampLabel: UILabel = {
-//        let label = UILabel()
-//
-//        return label
-//    }()
+    let nameLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .boldSystemFont(ofSize: 25)
+        return label
+    }()
+
+    let mostRecentMessageLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .gray
+        return label
+    }()
+
+    let timestampLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .gray
+        return label
+    }()
 
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        textLabel?.frame = CGRect(x: 64, y: (textLabel?.frame.origin.y)! - 2, width: (textLabel?.frame.width)!, height: (textLabel?.frame.height)!)
-        detailTextLabel?.frame = CGRect(x: 64, y: (detailTextLabel?.frame.origin.y)! + 2, width: (detailTextLabel?.frame.width)!, height: (detailTextLabel?.frame.height)!)
+//        textLabel?.frame = CGRect(x: 64, y: (textLabel?.frame.origin.y)! - 2, width: (textLabel?.frame.width)!, height: (textLabel?.frame.height)!)
+//        detailTextLabel?.frame = CGRect(x: 64, y: (detailTextLabel?.frame.origin.y)! + 2, width: (detailTextLabel?.frame.width)!, height: (detailTextLabel?.frame.height)!)
 
     }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
 
-//        setupNameLabel()
-//        setupMessageLabel()
-//        setupTimestampLabel()
+        setupNameLabel()
+        setupMessageLabel()
+        setupTimestampLabel()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-//    func setupNameLabel() {
-//        name.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10).isActive = true
-//        name.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -10).isActive = true
-//        name.heightAnchor.constraint(equalToConstant: 50).isActive = true
-//        //FIXME: might need a width constraint
-//    }
-//
-//    func setupMessageLabel() {
-//        mostRecentMessage.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 10).isActive = true
-//        mostRecentMessage.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 5).isActive = true
-//        //mostRecentMessage.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -10).isActive = true
-//        mostRecentMessage.heightAnchor.constraint(equalToConstant: 50).isActive = true
-//    }
-//
-//    func setupTimestampLabel() {
-//        timestampLabel.leftAnchor.constraint(equalTo: name.rightAnchor, constant: 5).isActive = true
-//        timestampLabel.centerYAnchor.constraint(equalTo: name.centerYAnchor).isActive = true
-//        timestampLabel.heightAnchor.constraint(equalTo: name.heightAnchor).isActive = true
-//    }
+    func setupNameLabel() {
+        self.addSubview(nameLabel)
+        nameLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 20).isActive = true
+        nameLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -10).isActive = true
+    }
+
+    func setupMessageLabel() {
+        self.addSubview(mostRecentMessageLabel)
+        mostRecentMessageLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 20).isActive = true
+        mostRecentMessageLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 5).isActive = true
+    }
+
+    func setupTimestampLabel() {
+        self.addSubview(timestampLabel)
+        timestampLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true
+        timestampLabel.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor).isActive = true
+    }
 
 }
