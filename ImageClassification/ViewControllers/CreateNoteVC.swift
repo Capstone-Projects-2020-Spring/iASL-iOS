@@ -65,6 +65,8 @@ class CreateNoteVC: UIViewController {
     }
 
 
+
+
     
     ///handles what happens when a note is saved
     @objc func handleSaveNote() {
@@ -77,9 +79,19 @@ class CreateNoteVC: UIViewController {
             newNote.title = "Title"
             note = newNote
             handleNewNote()
-            dismiss(animated: true, completion: nil)
+            
+            dismiss(animated: true, completion: { () in
+                print("completion handler new note")
+                //self.NotesVC?.notes.removeAll()
+                //self.NotesVC?.observeUserNotes()
+                //self.NotesVC?.tableView.reloadData()
+                
+            })
         } else {
             handleUpdateNote()
+//            self.NotesVC?.notes.removeAll()
+//            self.NotesVC?.tableView.reloadData()
+//            self.NotesVC?.observeUserNotes()
         }
         
     }
@@ -196,7 +208,6 @@ class CreateNoteVC: UIViewController {
         saveButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         saveButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         saveButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
-        //saveButton.widthAnchor.constraint(equalTo: noteTitle.widthAnchor).isActive = true
         
         toggleSaveButtonEnabled()
     }
@@ -260,10 +271,16 @@ extension CreateNoteVC: UITextViewDelegate, UITextFieldDelegate {
             }
             
         } else {
-            dismiss(animated: true, completion: nil)
+            
+            //this is where the back button is tapped
+            dismiss(animated: true, completion: { () in
+                print("completion handler back button")
+//                self.NotesVC?.notes.removeAll()
+//                self.NotesVC?.observeUserNotes()
+//                self.NotesVC?.tableView.reloadData()
+                
+            })
         }
-        
-        //
     }
 
     ///sets up the note title
@@ -288,7 +305,6 @@ extension CreateNoteVC: UITextViewDelegate, UITextFieldDelegate {
         textView.topAnchor.constraint(equalTo: noteTitle.bottomAnchor, constant: 5).isActive = true
         textView.font = UIFont.systemFont(ofSize: 20)
 		textView.inputView = Caboard(target: textView)
-        
         textView.delegate = self
     }
     

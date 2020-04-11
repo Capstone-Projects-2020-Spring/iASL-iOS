@@ -29,11 +29,13 @@ class ViewController: UIViewController {
     let outputTextView = UITextView()
     let textViewHolder = UIView()
     let speakerButton = UIButton()
+
     let clearButton = UIButton()
     let keyboardButton = UIButton()
     
     var heightAnchor = NSLayoutConstraint()
     
+
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
@@ -122,13 +124,7 @@ class ViewController: UIViewController {
         if speakerButton.isSelected == true {
             speak()
         }
-        //speak()
 
-        //        let child = CardView()
-        //        addChild(child)
-        //        child.view.frame = CGRect(x: 0, y: 0, width: 300, height: 300)
-        //        view.addSubview(child.view)
-        //        child.didMove(toParent: self)
 
 
         let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleLeftSwipeGesture(_:)))
@@ -466,7 +462,9 @@ extension ViewController {
         
         notesButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         notesButton.setTitleColor(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1), for: .selected)
+        //let vc = notesVC
         let vc = NotesVC()
+        //vc.notesVC = vc
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .crossDissolve
         present(vc, animated: true, completion: nil)
