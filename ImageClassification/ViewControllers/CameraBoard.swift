@@ -221,19 +221,19 @@ extension CameraBoard {
         } else {
             range = predictionButton.count
         }
-        var x = 0
-        while x < 3 {
+        var theXThatKilledSwiftLint = 0
+        while theXThatKilledSwiftLint < 3 {
             predictionButton.append(UIButton())
-            predictionStack.addArrangedSubview(predictionButton[x])
+            predictionStack.addArrangedSubview(predictionButton[theXThatKilledSwiftLint])
             predictionStack.translatesAutoresizingMaskIntoConstraints = false
-            predictionButton[x].titleLabel?.textAlignment = .left
-            predictionButton[x].setTitle("", for: .normal)
-            predictionButton[x].backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.2)
-            predictionButton[x].setTitleColor(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1), for: .normal)
-            predictionButton[x].addTarget(self, action: #selector(predictionButtonHoldDown(_:)), for: .touchDown)
-            predictionButton[x].addTarget(self, action: #selector(predictionButtonTapped(_:)), for: .touchUpInside)
-            predictionButton[x].addTarget(self, action: #selector(predictionButtonTapped(_:)), for: .touchDragExit)
-            x += 1
+            predictionButton[theXThatKilledSwiftLint].titleLabel?.textAlignment = .left
+            predictionButton[theXThatKilledSwiftLint].setTitle("", for: .normal)
+            predictionButton[theXThatKilledSwiftLint].backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.2)
+            predictionButton[theXThatKilledSwiftLint].setTitleColor(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1), for: .normal)
+            predictionButton[theXThatKilledSwiftLint].addTarget(self, action: #selector(predictionButtonHoldDown(_:)), for: .touchDown)
+            predictionButton[theXThatKilledSwiftLint].addTarget(self, action: #selector(predictionButtonTapped(_:)), for: .touchUpInside)
+            predictionButton[theXThatKilledSwiftLint].addTarget(self, action: #selector(predictionButtonTapped(_:)), for: .touchDragExit)
+            theXThatKilledSwiftLint += 1
         }
     }
     
