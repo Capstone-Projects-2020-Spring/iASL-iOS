@@ -39,6 +39,7 @@ class ViewController: UIViewController {
     let controlView = UIView()
     let controlButton = UIButton()
     let slider = UISlider()
+    var speechSpeedDegree = Float()
     @objc let predictionAssistButton = UIButton()
 
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
@@ -514,7 +515,7 @@ extension ViewController {
         outputTextView.topAnchor.constraint(equalTo: textViewHolder.topAnchor).isActive = true
         outputTextView.isEditable = false
         outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.8)
-        outputTextView.text = ""
+        outputTextView.text = "The quick brown fox jumps over the lazy dog"
         outputTextView.textColor = .black
         outputTextView.font = UIFont.boldSystemFont(ofSize: 30)
         outputTextView.isUserInteractionEnabled = true
@@ -523,8 +524,8 @@ extension ViewController {
     func speak() {
         let utterance = AVSpeechUtterance(string: outputTextView.text!)
         utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
-        utterance.rate = 0.4
-
+        utterance.rate = 0.4 + (speechSpeedDegree/500)
+        print("utterance rate: \(utterance)")
         synthesizer = AVSpeechSynthesizer()
         synthesizer.speak(utterance)
     }
@@ -750,7 +751,7 @@ extension ViewController {
     
     @objc func changeValue(_ sender: UISlider) {
         print("value is" , Int(sender.value));
-        
+        speechSpeedDegree = sender.value
     }
     
     
