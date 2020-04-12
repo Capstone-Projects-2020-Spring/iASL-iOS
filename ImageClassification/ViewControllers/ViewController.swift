@@ -141,7 +141,7 @@ class ViewController: UIViewController {
         
 
         let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleLeftSwipeGesture(_:)))
-        view.addGestureRecognizer(swipeLeftGestureRecognizer)
+        previewView.addGestureRecognizer(swipeLeftGestureRecognizer)
         swipeLeftGestureRecognizer.direction = .left
 
         let swipeUpGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeUpGesture(_:)))
@@ -153,7 +153,7 @@ class ViewController: UIViewController {
         swipeDownGestureRecognizer.direction = .down
         
         let swipeRightGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleRightSwipeGesture(_:)))
-        view.addGestureRecognizer(swipeRightGestureRecognizer)
+        previewView.addGestureRecognizer(swipeRightGestureRecognizer)
         swipeRightGestureRecognizer.direction = .right
 
         guard modelDataHandler != nil else {
