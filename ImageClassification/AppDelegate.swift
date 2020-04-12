@@ -96,6 +96,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
     }
-    //	var paws: MonkeyPaws?
     
 }

@@ -32,6 +32,8 @@ class ViewController: UIViewController {
 
     let clearButton = UIButton()
     let keyboardButton = UIButton()
+    let speechSpeedStepper = UIStepper()
+    
     
     var heightAnchor = NSLayoutConstraint()
     
@@ -126,6 +128,8 @@ class ViewController: UIViewController {
         }
 
 
+        
+        
 
         let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleLeftSwipeGesture(_:)))
         view.addGestureRecognizer(swipeLeftGestureRecognizer)
@@ -499,7 +503,7 @@ extension ViewController {
         outputTextView.topAnchor.constraint(equalTo: textViewHolder.topAnchor).isActive = true
         outputTextView.isEditable = false
         outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.8)
-        outputTextView.text = "The quick brown fox jumps over the lazy dog"
+        outputTextView.text = ""
         outputTextView.textColor = .black
         outputTextView.font = UIFont.boldSystemFont(ofSize: 30)
         outputTextView.isUserInteractionEnabled = true
@@ -573,12 +577,19 @@ extension ViewController {
         keyboardButton.addTarget(self, action: #selector(keyboardButtonTapped), for: .touchUpInside)
     }
     
+    func speechStepperSetup(){
+        view.addSubview(speechSpeedStepper)
+        speechSpeedStepper.translatesAutoresizingMaskIntoConstraints = false
+        
+    }
+    
     @objc func keyboardButtonTapped(){
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         
         if keyboardButton.isSelected {
             print("ss")
+            outputTextView.isEditable = false
             keyboardButton.isSelected = false
             UIView.animate(withDuration: 0.2, animations: {
                 self.heightAnchor.constant = -self.view.frame.size.height/2
@@ -588,6 +599,7 @@ extension ViewController {
         } else {
             keyboardButton.isSelected = true
             outputTextView.topAnchor.constraint(equalTo: textViewHolder.topAnchor, constant: 30).isActive = true
+            outputTextView.isEditable = true
             UIView.animate(withDuration: 0.2, animations: {
                 self.heightAnchor.constant = -self.view.frame.size.height
                 self.textViewHolder.backgroundColor = .white
@@ -598,8 +610,6 @@ extension ViewController {
         
         
     }
-    
-    
 
     
 
