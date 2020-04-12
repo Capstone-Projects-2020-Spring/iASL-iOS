@@ -120,8 +120,9 @@ class ViewController: UIViewController {
         resumeButtonSetup()
         liveButtonSetup()
         controlViewSetup()
-        controlButtonSetup()
+        
         controlButtonStackSetup()
+        controlButtonSetup()
         speakerButtonSetup()
         clearButtonSetup()
         keyboardButtonSetup()
@@ -524,13 +525,14 @@ extension ViewController {
         synthesizer.speak(utterance)
     }
 
+    
+    //MARK: Control View
     func speakerButtonSetup() {
 
         speakerButton.backgroundColor = #colorLiteral(red: 0.2958290193, green: 0.29024376, blue: 1, alpha: 1)
         speakerButton.setTitle("Speak", for: .normal)
         speakerButton.setTitle("Mute", for: .selected)
         speakerButton.isSelected = true
-        speakerButton.layer.cornerRadius = 10
         speakerButton.addTarget(self, action: #selector(speakerButtonTapped), for: .touchUpInside)
     }
     
@@ -551,7 +553,6 @@ extension ViewController {
         clearButton.backgroundColor = #colorLiteral(red: 0.2958290193, green: 0.29024376, blue: 1, alpha: 1)
         clearButton.setTitle("Clear", for: .normal)
         clearButton.isSelected = true
-        clearButton.layer.cornerRadius = 10
         clearButton.addTarget(self, action: #selector(clearButtonTapped), for: .touchUpInside)
     }
     
@@ -562,15 +563,17 @@ extension ViewController {
     func controlButtonStackSetup(){
         controlView.addSubview(controlButtonStack)
         controlButtonStack.translatesAutoresizingMaskIntoConstraints = false
-        controlButtonStack.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
-        controlButtonStack.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -10).isActive = true
-        controlButtonStack.topAnchor.constraint(equalTo: controlButton.bottomAnchor, constant: 10).isActive = true
+        controlButtonStack.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 5).isActive = true
+        controlButtonStack.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -5).isActive = true
+        controlButtonStack.topAnchor.constraint(equalTo: controlView.topAnchor, constant: 5).isActive = true
         controlButtonStack.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        controlButtonStack.addArrangedSubview(controlButton)
         controlButtonStack.addArrangedSubview(keyboardButton)
         controlButtonStack.addArrangedSubview(clearButton)
         controlButtonStack.addArrangedSubview(speakerButton)
         controlButtonStack.distribution = .fillEqually
-        controlButtonStack.spacing = 10
+        controlButtonStack.spacing = 2
+        controlButtonStack.layer.cornerRadius = 10
     }
     
     
@@ -579,7 +582,6 @@ extension ViewController {
         keyboardButton.backgroundColor = #colorLiteral(red: 0.2958290193, green: 0.29024376, blue: 1, alpha: 1)
         keyboardButton.setTitle("Keyboard", for: .normal)
         keyboardButton.isSelected = true
-        keyboardButton.layer.cornerRadius = 10
         keyboardButton.addTarget(self, action: #selector(keyboardButtonTapped), for: .touchUpInside)
     }
     
@@ -615,45 +617,40 @@ extension ViewController {
     func controlViewSetup() {
         view.addSubview(controlView)
         controlView.translatesAutoresizingMaskIntoConstraints = false
-        controlViewHeightAnchor = controlView.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -40)
+        controlViewHeightAnchor = controlView.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
         controlView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         controlView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         controlView.heightAnchor.constraint(equalToConstant: view.frame.size.height/2).isActive = true
         controlViewHeightAnchor.isActive = true
         controlView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        controlView.layer.cornerRadius = 20
         controlView.clipsToBounds = true
         controlView.backgroundColor = .white
         controlView.isUserInteractionEnabled = true
     }
     
-    func controlButtonSetup(){
-        view.addSubview(controlButton)
-        controlButton.translatesAutoresizingMaskIntoConstraints = false
-        controlButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor).isActive = true
-        controlButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor).isActive = true
-        controlButton.topAnchor.constraint(equalTo: controlView.topAnchor).isActive = true
-        controlButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        controlButton.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        controlButton.setTitle("Tap to Expand", for: .normal)
-        controlButton.setTitleColor(#colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1), for: .normal)
+    
+    
+    func controlButtonSetup() {
+
+        controlButton.backgroundColor = #colorLiteral(red: 0.2958290193, green: 0.29024376, blue: 1, alpha: 1)
+        controlButton.setTitle("More", for: .normal)
+        //controlButton.isSelected = true
         controlButton.addTarget(self, action: #selector(controlButtonTapped(_:)), for: .touchUpInside)
     }
+    
     
     @objc func controlButtonTapped(_ sender: UIButton) {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         if sender.isSelected {
             sender.isSelected = false
             UIView.animate(withDuration: 0.2, animations: {
-                self.controlViewHeightAnchor.constant = -40
-                self.outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.6)
+                self.controlViewHeightAnchor.constant = -50
                 self.view.layoutIfNeeded()
             })
         } else {
             sender.isSelected = true
             UIView.animate(withDuration: 0.2, animations: {
                 self.controlViewHeightAnchor.constant = -self.view.frame.size.height/2
-                self.outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.6)
                 self.view.layoutIfNeeded()
             })
         }
