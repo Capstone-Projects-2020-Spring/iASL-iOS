@@ -29,7 +29,7 @@ class ViewController: UIViewController {
     let outputTextView = UITextView()
     let textViewHolder = UIView()
     let speakerButton = UIButton()
-
+    let controlButtonStack = UIStackView()
     let clearButton = UIButton()
     let keyboardButton = UIButton()
 
@@ -38,7 +38,7 @@ class ViewController: UIViewController {
     
     let controlView = UIView()
     let controlButton = UIButton()
-    
+    let slider = UISlider()
 
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
@@ -121,10 +121,11 @@ class ViewController: UIViewController {
         liveButtonSetup()
         controlViewSetup()
         controlButtonSetup()
-        
+        controlButtonStackSetup()
         speakerButtonSetup()
         clearButtonSetup()
         keyboardButtonSetup()
+        sliderSetup()
         //speak()
         if speakerButton.isSelected == true {
             speak()
@@ -524,12 +525,7 @@ extension ViewController {
     }
 
     func speakerButtonSetup() {
-        view.addSubview(speakerButton)
-        speakerButton.translatesAutoresizingMaskIntoConstraints = false
-        speakerButton.trailingAnchor.constraint(equalTo: textViewHolder.trailingAnchor, constant: -20).isActive = true
-        speakerButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
-        speakerButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        speakerButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+
         speakerButton.backgroundColor = #colorLiteral(red: 0.2958290193, green: 0.29024376, blue: 1, alpha: 1)
         speakerButton.setTitle("Speak", for: .normal)
         speakerButton.setTitle("Mute", for: .selected)
@@ -551,12 +547,7 @@ extension ViewController {
     }
     
     func clearButtonSetup() {
-        view.addSubview(clearButton)
-        clearButton.translatesAutoresizingMaskIntoConstraints = false
-        clearButton.trailingAnchor.constraint(equalTo: speakerButton.leadingAnchor, constant: -10).isActive = true
-        clearButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
-        clearButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        clearButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+
         clearButton.backgroundColor = #colorLiteral(red: 0.2958290193, green: 0.29024376, blue: 1, alpha: 1)
         clearButton.setTitle("Clear", for: .normal)
         clearButton.isSelected = true
@@ -568,13 +559,23 @@ extension ViewController {
         outputTextView.text.removeAll()
     }
     
+    func controlButtonStackSetup(){
+        controlView.addSubview(controlButtonStack)
+        controlButtonStack.translatesAutoresizingMaskIntoConstraints = false
+        controlButtonStack.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
+        controlButtonStack.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -10).isActive = true
+        controlButtonStack.topAnchor.constraint(equalTo: controlButton.bottomAnchor, constant: 10).isActive = true
+        controlButtonStack.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        controlButtonStack.addArrangedSubview(keyboardButton)
+        controlButtonStack.addArrangedSubview(clearButton)
+        controlButtonStack.addArrangedSubview(speakerButton)
+        controlButtonStack.distribution = .fillEqually
+        controlButtonStack.spacing = 10
+    }
+    
+    
     func keyboardButtonSetup() {
-        view.addSubview(keyboardButton)
-        keyboardButton.translatesAutoresizingMaskIntoConstraints = false
-        keyboardButton.trailingAnchor.constraint(equalTo: clearButton.leadingAnchor, constant: -10).isActive = true
-        keyboardButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
-        keyboardButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        keyboardButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+
         keyboardButton.backgroundColor = #colorLiteral(red: 0.2958290193, green: 0.29024376, blue: 1, alpha: 1)
         keyboardButton.setTitle("Keyboard", for: .normal)
         keyboardButton.isSelected = true
@@ -582,11 +583,7 @@ extension ViewController {
         keyboardButton.addTarget(self, action: #selector(keyboardButtonTapped), for: .touchUpInside)
     }
     
-    func speechStepperSetup(){
-        view.addSubview(speechSpeedStepper)
-        speechSpeedStepper.translatesAutoresizingMaskIntoConstraints = false
-        
-    }
+    
     
     @objc func keyboardButtonTapped(){
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
@@ -661,11 +658,7 @@ extension ViewController {
             })
         }
         
-        
-        
-        
-        
-        
+
     }
 
     
@@ -674,6 +667,35 @@ extension ViewController {
     @objc func collapseButtonTapped(){
         //textViewHolder
     }
+    
+    func sliderSetup() {
+        controlView.addSubview(slider)
+        //slider.frame = CGRect(x: 0, y: 0, width: 250, height: 35)
+        slider.translatesAutoresizingMaskIntoConstraints = false
+        slider.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 40).isActive = true
+        slider.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -40).isActive = true
+        slider.bottomAnchor.constraint(equalTo: controlView.bottomAnchor, constant: -10).isActive = true
+        slider.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        slider.center = self.view.center
+        
+        slider.minimumTrackTintColor = .red
+        slider.maximumTrackTintColor = .green
+        slider.thumbTintColor = .purple
+        
+        slider.maximumValue = 100
+        slider.minimumValue = 0
+        slider.setValue(50, animated: false)
+        
+        slider.addTarget(self, action: #selector(changeValue(_:)), for: .valueChanged)
+        
+        
+    }
+    
+    @objc func changeValue(_ sender: UISlider) {
+        print("value is" , Int(sender.value));
+        
+    }
+    
     
 }
 extension ViewController {
