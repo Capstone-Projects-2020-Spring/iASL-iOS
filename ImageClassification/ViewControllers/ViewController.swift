@@ -40,6 +40,7 @@ class ViewController: UIViewController {
     let controlButton = UIButton()
     let slider = UISlider()
     var speechSpeedDegree = Float()
+    var controlButtonStackBottomAnchor = NSLayoutConstraint()
     @objc let predictionAssistButton = UIButton()
 
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
@@ -170,8 +171,23 @@ class ViewController: UIViewController {
         #endif
         cameraCapture.delegate = self
 
+
+        
     }
 
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
     
     @objc func handleSwipeUpGesture(_ sender: UISwipeGestureRecognizer) {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
@@ -612,24 +628,26 @@ extension ViewController {
     
     @objc func keyboardButtonTapped(){
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        
         
         if keyboardButton.isSelected {
-            print("ss")
-            outputTextView.isEditable = false
             keyboardButton.isSelected = false
+            print("switched to keyboard mode")
+            outputTextView.isEditable = true
             UIView.animate(withDuration: 0.2, animations: {
-                self.heightAnchor.constant = -self.view.frame.size.height/2
+                self.heightAnchor.constant = -self.view.frame.size.height+70
                 self.textViewHolder.layer.cornerRadius = 10
+                self.textViewHolder.backgroundColor = .white
                 self.view.layoutIfNeeded()
             })
         } else {
+            print("switched to ASL mode")
             keyboardButton.isSelected = true
-            outputTextView.topAnchor.constraint(equalTo: textViewHolder.topAnchor, constant: 30).isActive = true
-            outputTextView.isEditable = true
+            outputTextView.isEditable = false
+            dismissKeyboard()
             UIView.animate(withDuration: 0.2, animations: {
-                self.heightAnchor.constant = -self.view.frame.size.height
-                self.textViewHolder.backgroundColor = .white
+                self.heightAnchor.constant = -self.view.frame.size.height/2
+                self.textViewHolder.backgroundColor = UIColor.white.withAlphaComponent(0.5)
                 self.textViewHolder.layer.cornerRadius = 0
                 self.view.layoutIfNeeded()
             })
