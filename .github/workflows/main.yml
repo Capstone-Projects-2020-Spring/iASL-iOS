@@ -17,7 +17,8 @@ jobs:
         uses: actions/checkout@master
       - name: Build and test
         run: |
-          ./RunScripts/download_models.sh
+         pod install
+         ./RunScripts/download_models.sh
           xcodebuild clean test -workspace ImageClassification.xcworkspace -scheme ImageClassification -destination "${destination}" -enableCodeCoverage YES CODE_SIGNING_ALLOWED=NO ONLY_ACTIVE_ARCH=NO -derivedDataPath DerivedData
         env:
          destination: ${{ matrix.destination }}
