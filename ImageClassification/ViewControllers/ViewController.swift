@@ -17,8 +17,9 @@ import UIKit
 import Speech
 import Firebase
 
+
 class ViewController: UIViewController {
-//	var isFirstOpen = true
+
     let remoteChatButton = UIButton()
     let liveChatButton = UIButton()
     let notesButton = UIButton()
@@ -31,7 +32,12 @@ class ViewController: UIViewController {
 
     let clearButton = UIButton()
     let keyboardButton = UIButton()
+    let speechSpeedStepper = UIStepper()
+    
+    
     var heightAnchor = NSLayoutConstraint()
+    
+
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
@@ -112,7 +118,7 @@ class ViewController: UIViewController {
         remoteChatButtonSetup()
         resumeButtonSetup()
         liveButtonSetup()
-
+        
         speakerButtonSetup()
         clearButtonSetup()
         keyboardButtonSetup()
@@ -121,6 +127,10 @@ class ViewController: UIViewController {
             speak()
         }
 
+
+        
+        
+
         let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleLeftSwipeGesture(_:)))
         view.addGestureRecognizer(swipeLeftGestureRecognizer)
         swipeLeftGestureRecognizer.direction = .left
@@ -128,11 +138,11 @@ class ViewController: UIViewController {
         let swipeUpGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeUpGesture(_:)))
         view.addGestureRecognizer(swipeUpGestureRecognizer)
         swipeUpGestureRecognizer.direction = .up
-
+        
         let swipeDownGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleDownSwipeGesture(_:)))
         view.addGestureRecognizer(swipeDownGestureRecognizer)
         swipeDownGestureRecognizer.direction = .down
-
+        
         let swipeRightGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleRightSwipeGesture(_:)))
         view.addGestureRecognizer(swipeRightGestureRecognizer)
         swipeRightGestureRecognizer.direction = .right
@@ -152,10 +162,11 @@ class ViewController: UIViewController {
 
     }
 
+    
     @objc func handleSwipeUpGesture(_ sender: UISwipeGestureRecognizer) {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         //textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-
+        
         UIView.animate(withDuration: 0.2, animations: {
             self.heightAnchor.constant = -self.view.frame.size.height/2
             self.outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.6)
@@ -163,11 +174,13 @@ class ViewController: UIViewController {
         })
 
     }
-
+    
+    
+    
     @objc func handleDownSwipeGesture(_ sender: UISwipeGestureRecognizer) {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         //textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-
+        
         UIView.animate(withDuration: 0.2, animations: {
             self.heightAnchor.constant = -self.view.frame.size.height/4
             self.outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -384,10 +397,10 @@ extension ViewController {
     }
 
     @objc func remoteChatButtonTapped() {
-
+        
         //check if user is logged in, if not go to login screen
         checkIfLoggedOut()
-
+        
         let vc = RemoteConversationVC()
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .fullScreen
@@ -432,7 +445,7 @@ extension ViewController {
 
         notesButton.imageView?.contentMode = .scaleAspectFit
     }
-
+    
     ///checks if there is a user logged in. If there is not, it opens the login VC
     func checkIfLoggedOut() {
         if Auth.auth().currentUser?.uid == nil {
@@ -447,10 +460,10 @@ extension ViewController {
     }
 
     @objc func notesButtonTapped() {
-
+        
         //check if user is logged in, if not go to login screen
         checkIfLoggedOut()
-
+        
         notesButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         notesButton.setTitleColor(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1), for: .selected)
         //let vc = notesVC
@@ -478,6 +491,9 @@ extension ViewController {
 
     }
 
+
+    
+    
     func outputTextViewSetup() {
         textViewHolder.addSubview(outputTextView)
         outputTextView.translatesAutoresizingMaskIntoConstraints = false
@@ -487,7 +503,7 @@ extension ViewController {
         outputTextView.topAnchor.constraint(equalTo: textViewHolder.topAnchor).isActive = true
         outputTextView.isEditable = false
         outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.8)
-        outputTextView.text = "The quick brown fox jumps over the lazy dog"
+        outputTextView.text = ""
         outputTextView.textColor = .black
         outputTextView.font = UIFont.boldSystemFont(ofSize: 30)
         outputTextView.isUserInteractionEnabled = true
@@ -516,7 +532,7 @@ extension ViewController {
         speakerButton.layer.cornerRadius = 10
         speakerButton.addTarget(self, action: #selector(speakerButtonTapped), for: .touchUpInside)
     }
-
+    
     @objc func speakerButtonTapped() {
         if speakerButton.isSelected == true {
             speakerButton.isSelected = false
@@ -528,7 +544,7 @@ extension ViewController {
             speakerButton.backgroundColor = #colorLiteral(red: 0.2958290193, green: 0.29024376, blue: 1, alpha: 1)
         }
     }
-
+    
     func clearButtonSetup() {
         view.addSubview(clearButton)
         clearButton.translatesAutoresizingMaskIntoConstraints = false
@@ -542,11 +558,11 @@ extension ViewController {
         clearButton.layer.cornerRadius = 10
         clearButton.addTarget(self, action: #selector(clearButtonTapped), for: .touchUpInside)
     }
-
-    @objc func clearButtonTapped() {
+    
+    @objc func clearButtonTapped(){
         outputTextView.text.removeAll()
     }
-
+    
     func keyboardButtonSetup() {
         view.addSubview(keyboardButton)
         keyboardButton.translatesAutoresizingMaskIntoConstraints = false
@@ -560,35 +576,48 @@ extension ViewController {
         keyboardButton.layer.cornerRadius = 10
         keyboardButton.addTarget(self, action: #selector(keyboardButtonTapped), for: .touchUpInside)
     }
-	@objc func keyboardButtonTapped() {
-		   textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-		   textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-
-		   if keyboardButton.isSelected {
-			   print("ss")
-			   keyboardButton.isSelected = false
-			   UIView.animate(withDuration: 0.2, animations: {
-				   self.heightAnchor.constant = -self.view.frame.size.height/2
-				   self.textViewHolder.layer.cornerRadius = 10
-				   self.view.layoutIfNeeded()
-			   })
-		   } else {
-			   keyboardButton.isSelected = true
-			   outputTextView.topAnchor.constraint(equalTo: textViewHolder.topAnchor, constant: 30).isActive = true
-			   UIView.animate(withDuration: 0.2, animations: {
-				   self.heightAnchor.constant = -self.view.frame.size.height
-				   self.textViewHolder.backgroundColor = .white
-				   self.textViewHolder.layer.cornerRadius = 0
-				   self.view.layoutIfNeeded()
-			   })
-		   }
-
-	   }
-
-    @objc func collapseButtonTapped() {
-        //textViewHolder
+    
+    func speechStepperSetup(){
+        view.addSubview(speechSpeedStepper)
+        speechSpeedStepper.translatesAutoresizingMaskIntoConstraints = false
+        
+    }
+    
+    @objc func keyboardButtonTapped(){
+        textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        
+        if keyboardButton.isSelected {
+            print("ss")
+            outputTextView.isEditable = false
+            keyboardButton.isSelected = false
+            UIView.animate(withDuration: 0.2, animations: {
+                self.heightAnchor.constant = -self.view.frame.size.height/2
+                self.textViewHolder.layer.cornerRadius = 10
+                self.view.layoutIfNeeded()
+            })
+        } else {
+            keyboardButton.isSelected = true
+            outputTextView.topAnchor.constraint(equalTo: textViewHolder.topAnchor, constant: 30).isActive = true
+            outputTextView.isEditable = true
+            UIView.animate(withDuration: 0.2, animations: {
+                self.heightAnchor.constant = -self.view.frame.size.height
+                self.textViewHolder.backgroundColor = .white
+                self.textViewHolder.layer.cornerRadius = 0
+                self.view.layoutIfNeeded()
+            })
+        }
+        
+        
     }
 
+    
+
+    
+    @objc func collapseButtonTapped(){
+        //textViewHolder
+    }
+    
 }
 extension ViewController {
 	func deleteCharacter() {
@@ -624,5 +653,5 @@ extension ViewController {
 			}
 		}
 	}
-
+    
 }
