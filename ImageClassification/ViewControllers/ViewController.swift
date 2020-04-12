@@ -32,7 +32,7 @@ class ViewController: UIViewController {
     let controlButtonStack = UIStackView()
     let clearButton = UIButton()
     let keyboardButton = UIButton()
-
+    let trainButton = UIButton()
     var heightAnchor = NSLayoutConstraint()
     var controlViewHeightAnchor = NSLayoutConstraint()
     
@@ -126,6 +126,7 @@ class ViewController: UIViewController {
         speakerButtonSetup()
         clearButtonSetup()
         keyboardButtonSetup()
+        trainButtonSetup()
         sliderSetup()
         //speak()
         if speakerButton.isSelected == true {
@@ -529,7 +530,7 @@ extension ViewController {
     //MARK: Control View
     func speakerButtonSetup() {
 
-        speakerButton.backgroundColor = #colorLiteral(red: 0.2958290193, green: 0.29024376, blue: 1, alpha: 1)
+        speakerButton.backgroundColor = .systemOrange
         speakerButton.setTitle("Speak", for: .normal)
         speakerButton.setTitle("Mute", for: .selected)
         speakerButton.isSelected = true
@@ -539,20 +540,39 @@ extension ViewController {
     @objc func speakerButtonTapped() {
         if speakerButton.isSelected == true {
             speakerButton.isSelected = false
-            speakerButton.backgroundColor = .gray
+            speakerButton.backgroundColor = .systemOrange
             synthesizer.stopSpeaking(at: .word)
         } else {
             speakerButton.isSelected = true
             speak()
-            speakerButton.backgroundColor = #colorLiteral(red: 0.2958290193, green: 0.29024376, blue: 1, alpha: 1)
+            speakerButton.backgroundColor = .systemRed
         }
+    }
+    
+    
+    
+    func trainButtonSetup(){
+        controlView.addSubview(trainButton)
+        trainButton.translatesAutoresizingMaskIntoConstraints = false
+        trainButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 5).isActive = true
+        trainButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -5).isActive = true
+        trainButton.topAnchor.constraint(equalTo: controlButtonStack.bottomAnchor, constant: 20).isActive = true
+        trainButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        trainButton.setTitle("Help Us Learn ASL", for: .normal)
+        trainButton.setTitleColor(.black, for: .normal)
+        trainButton.layer.cornerRadius = 10
+        trainButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        trainButton.backgroundColor = .systemYellow
     }
     
     func clearButtonSetup() {
 
-        clearButton.backgroundColor = #colorLiteral(red: 0.2958290193, green: 0.29024376, blue: 1, alpha: 1)
+        clearButton.backgroundColor = .systemRed
         clearButton.setTitle("Clear", for: .normal)
         clearButton.isSelected = true
+        clearButton.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+        clearButton.layer.cornerRadius = 10
+        clearButton.clipsToBounds = true
         clearButton.addTarget(self, action: #selector(clearButtonTapped), for: .touchUpInside)
     }
     
@@ -566,11 +586,11 @@ extension ViewController {
         controlButtonStack.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 5).isActive = true
         controlButtonStack.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -5).isActive = true
         controlButtonStack.topAnchor.constraint(equalTo: controlView.topAnchor, constant: 5).isActive = true
-        controlButtonStack.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        controlButtonStack.heightAnchor.constraint(equalToConstant: 50).isActive = true
         controlButtonStack.addArrangedSubview(controlButton)
         controlButtonStack.addArrangedSubview(keyboardButton)
-        controlButtonStack.addArrangedSubview(clearButton)
         controlButtonStack.addArrangedSubview(speakerButton)
+        controlButtonStack.addArrangedSubview(clearButton)
         controlButtonStack.distribution = .fillEqually
         controlButtonStack.spacing = 2
         controlButtonStack.layer.cornerRadius = 10
@@ -579,7 +599,7 @@ extension ViewController {
     
     func keyboardButtonSetup() {
 
-        keyboardButton.backgroundColor = #colorLiteral(red: 0.2958290193, green: 0.29024376, blue: 1, alpha: 1)
+        keyboardButton.backgroundColor = .systemOrange
         keyboardButton.setTitle("Keyboard", for: .normal)
         keyboardButton.isSelected = true
         keyboardButton.addTarget(self, action: #selector(keyboardButtonTapped), for: .touchUpInside)
@@ -617,12 +637,12 @@ extension ViewController {
     func controlViewSetup() {
         view.addSubview(controlView)
         controlView.translatesAutoresizingMaskIntoConstraints = false
-        controlViewHeightAnchor = controlView.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
+        controlViewHeightAnchor = controlView.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -54)
         controlView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         controlView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         controlView.heightAnchor.constraint(equalToConstant: view.frame.size.height/2).isActive = true
         controlViewHeightAnchor.isActive = true
-        controlView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        controlView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         controlView.clipsToBounds = true
         controlView.backgroundColor = .white
         controlView.isUserInteractionEnabled = true
@@ -632,9 +652,11 @@ extension ViewController {
     
     func controlButtonSetup() {
 
-        controlButton.backgroundColor = #colorLiteral(red: 0.2958290193, green: 0.29024376, blue: 1, alpha: 1)
+        controlButton.backgroundColor = .systemBlue
         controlButton.setTitle("More", for: .normal)
-        //controlButton.isSelected = true
+        controlButton.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
+        controlButton.layer.cornerRadius = 10
+        controlButton.clipsToBounds = true
         controlButton.addTarget(self, action: #selector(controlButtonTapped(_:)), for: .touchUpInside)
     }
     
@@ -644,7 +666,7 @@ extension ViewController {
         if sender.isSelected {
             sender.isSelected = false
             UIView.animate(withDuration: 0.2, animations: {
-                self.controlViewHeightAnchor.constant = -50
+                self.controlViewHeightAnchor.constant = -54
                 self.view.layoutIfNeeded()
             })
         } else {
@@ -669,15 +691,15 @@ extension ViewController {
         controlView.addSubview(slider)
         //slider.frame = CGRect(x: 0, y: 0, width: 250, height: 35)
         slider.translatesAutoresizingMaskIntoConstraints = false
-        slider.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 40).isActive = true
-        slider.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -40).isActive = true
-        slider.bottomAnchor.constraint(equalTo: controlView.bottomAnchor, constant: -10).isActive = true
+        slider.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 20).isActive = true
+        slider.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -20).isActive = true
+        slider.bottomAnchor.constraint(equalTo: controlView.bottomAnchor, constant: -20).isActive = true
         slider.heightAnchor.constraint(equalToConstant: 20).isActive = true
         slider.center = self.view.center
         
-        slider.minimumTrackTintColor = .red
-        slider.maximumTrackTintColor = .green
-        slider.thumbTintColor = .purple
+        slider.minimumTrackTintColor = .black
+        slider.maximumTrackTintColor = .black
+        slider.thumbTintColor = .systemOrange
         
         slider.maximumValue = 100
         slider.minimumValue = 0
@@ -721,6 +743,7 @@ extension ViewController {
 			deleteCharacter()
 		case "space":
 			addSpace()
+            speak()
 		case "nothing":
 			print("")
 		default:
