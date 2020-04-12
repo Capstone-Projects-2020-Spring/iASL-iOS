@@ -35,10 +35,11 @@ class ViewController: UIViewController {
     let trainButton = UIButton()
     var heightAnchor = NSLayoutConstraint()
     var controlViewHeightAnchor = NSLayoutConstraint()
-    
+    let chatLogButton = UIButton()
     let controlView = UIView()
     let controlButton = UIButton()
     let slider = UISlider()
+    @objc let predictionAssistButton = UIButton()
 
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
@@ -127,6 +128,8 @@ class ViewController: UIViewController {
         clearButtonSetup()
         keyboardButtonSetup()
         trainButtonSetup()
+        chatLogButtonSetup()
+        predictionAssistButtonSetup()
         sliderSetup()
         //speak()
         if speakerButton.isSelected == true {
@@ -549,13 +552,12 @@ extension ViewController {
         }
     }
     
-    
-    
+        
     func trainButtonSetup(){
         controlView.addSubview(trainButton)
         trainButton.translatesAutoresizingMaskIntoConstraints = false
-        trainButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 5).isActive = true
-        trainButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -5).isActive = true
+        trainButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
+        trainButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -10).isActive = true
         trainButton.topAnchor.constraint(equalTo: controlButtonStack.bottomAnchor, constant: 20).isActive = true
         trainButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         trainButton.setTitle("Help Us Learn ASL", for: .normal)
@@ -654,11 +656,13 @@ extension ViewController {
 
         controlButton.backgroundColor = .systemBlue
         controlButton.setTitle("More", for: .normal)
+        controlButton.setTitle("Less", for: .selected)
         controlButton.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         controlButton.layer.cornerRadius = 10
         controlButton.clipsToBounds = true
         controlButton.addTarget(self, action: #selector(controlButtonTapped(_:)), for: .touchUpInside)
     }
+    
     
     
     @objc func controlButtonTapped(_ sender: UIButton) {
@@ -680,8 +684,42 @@ extension ViewController {
 
     }
 
-    
+    func chatLogButtonSetup(){
+        controlView.addSubview(chatLogButton)
+        chatLogButton.translatesAutoresizingMaskIntoConstraints = false
+        chatLogButton.topAnchor.constraint(equalTo: trainButton.bottomAnchor, constant: 20).isActive = true
+        chatLogButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
+        chatLogButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -10).isActive = true
+        chatLogButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        chatLogButton.setTitle("Conversation Log", for: .normal)
+        chatLogButton.backgroundColor = .systemOrange
+        chatLogButton.layer.cornerRadius = 10
+    }
 
+    func predictionAssistButtonSetup(){
+        controlView.addSubview(predictionAssistButton)
+        predictionAssistButton.translatesAutoresizingMaskIntoConstraints = false
+        predictionAssistButton.topAnchor.constraint(equalTo: chatLogButton.bottomAnchor, constant: 20).isActive = true
+        predictionAssistButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
+        predictionAssistButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -10).isActive = true
+        predictionAssistButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        predictionAssistButton.setTitle("Prediction Assist: on", for: .selected)
+        predictionAssistButton.setTitle("Prediction Assist: off", for: .normal)
+        predictionAssistButton.backgroundColor = .systemGreen
+        predictionAssistButton.isSelected = true
+        predictionAssistButton.layer.cornerRadius = 10
+        predictionAssistButton.addTarget(self, action: #selector(predictionAssistButtonTapped), for: .touchUpInside)
+    }
+
+    @objc func predictionAssistButtonTapped() {
+        if predictionAssistButton.isSelected {
+            predictionAssistButton.isSelected = false
+            predictionAssistButton.backgroundColor = .systemGray
+        } else {
+            predictionAssistButton.isSelected = true
+            predictionAssistButton.backgroundColor = .systemGreen
+        }
+    }
     
     @objc func collapseButtonTapped(){
         //textViewHolder
