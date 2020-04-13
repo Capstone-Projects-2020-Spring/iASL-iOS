@@ -66,6 +66,12 @@ class ViewController: UIViewController {
     private var initialBottomSpace: CGFloat = 0.0
     private var previousInferenceTimeMs: TimeInterval = Date.distantPast.timeIntervalSince1970 * 1000
 
+	//Viet inspired variables
+	var lastLetter, lastNonLetter: String?
+	var recurCount = 0
+	var recurCountNonLetter = 0
+	let minimumConfidence: Float = 0.89
+	
     // MARK: Controllers that manage functionality
     // Handles all the camera related functionality
     private lazy var cameraCapture = CameraFeedManager(previewView: previewView)
@@ -777,9 +783,26 @@ extension ViewController {
 			print("")
 		default:
 			DispatchQueue.main.async {
-				self.outputTextView.text += self.result!.inferences[0].label.description
+				let confidence = self.result!.inferences[0].confidence
+				let prediction: String = self.result!.inferences[0].label.description
+				if prediction == self.lastLetter && confidence > self.minimumConfidence {
+					print(prediction)
+					self.recurCount += 1
+				} else {
+					self.lastLetter = prediction
+					print("reset count")
+					
+					self.recurCount = 0
+				}
+				if self.recurCount > 3 {
+					self.outputTextView.text += self.result!.inferences[0].label.description
+					self.recurCount = 0
+					
+				}
 			}
 		}
+		
 	}
-
 }
+
+
