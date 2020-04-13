@@ -21,8 +21,13 @@ class CameraBoard: UIView {
     var predictionButton = [UIButton]()
     let predictionStack = UIStackView()
     var stringCache = String()
+	//Viet inspired variables
+	var lastLetter, lastNonLetter: String?
+	var recurCount = 0
+	var recurCountNonLetter = 0
+	let minimumConfidence: Float = 0.89
 
-    var prediction = ["","",""]
+    var prediction = ["", "", ""]
     //var prediction = Array<String>()
 	weak var target: UIKeyInput?
     // MARK: Constants
@@ -87,7 +92,34 @@ class CameraBoard: UIView {
 }
 
 extension CameraBoard: CameraFeedManagerDelegate {
-    func didOutput(pixelBuffer: CVPixelBuffer) {
+	fileprivate func showPredictionLetterInStack(_ prediction: String, _ confidence: Float, _ count: Int) {
+		if count > 2 {
+
+		} else {
+			self.predictionButton[count].setTitle("\(prediction) \(confidence)", for: .normal)
+		}
+	}
+
+	fileprivate func setPredictionToDelete() {
+		self.predictionButton[0].setTitle("delete", for: .normal)
+		self.predictionButton[1].setTitle("delete", for: .normal)
+		self.predictionButton[2].setTitle("delete", for: .normal)
+	}
+
+	fileprivate func setPredictiontoSpace() {
+		//                self.stringCache.removeAll()
+		self.predictionButton[0].setTitle("space", for: .normal)
+		self.predictionButton[1].setTitle("space", for: .normal)
+		self.predictionButton[2].setTitle("space", for: .normal)
+	}
+
+	fileprivate func setPredictionToNothing() {
+		self.predictionButton[0].setTitle("", for: .normal)
+		self.predictionButton[1].setTitle("", for: .normal)
+		self.predictionButton[2].setTitle("", for: .normal)
+	}
+
+	func didOutput(pixelBuffer: CVPixelBuffer) {
         let currentTimeMs = Date().timeIntervalSince1970 * 1000
         guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
         previousInferenceTimeMs = currentTimeMs
@@ -97,9 +129,9 @@ extension CameraBoard: CameraFeedManagerDelegate {
 		DispatchQueue.main.async {
 			switch self.result?.inferences[0].label {
 			case "del":
-                
+				self.setPredictionToDelete()
                 self.target?.deleteBackward()
-                
+
 //                if self.stringCache.count != 0 {
 //                    self.stringCache.removeLast(1)
 //
@@ -118,13 +150,33 @@ extension CameraBoard: CameraFeedManagerDelegate {
 //                }
                 //self.updateStack(prediction: self.prediction)
 			case "space":
-//                self.stringCache.removeAll()
+				self.setPredictiontoSpace()
 				self.target?.insertText(" ")
+
 			case "nothing":
+				self.setPredictionToNothing()
 				break
 			default:
+				let confidence = self.result!.inferences[0].confidence
+				let prediction: String = self.result!.inferences[0].label.description
+				if prediction == self.lastLetter && confidence > self.minimumConfidence {
+					print(prediction)
 
-				self.target?.insertText(self.result!.inferences[0].label.description)
+					self.showPredictionLetterInStack(prediction, confidence, self.recurCount)
+
+					self.recurCount += 1
+				} else {
+					self.lastLetter = prediction
+					print("reset count")
+					self.setPredictionToNothing()
+					self.recurCount = 0
+				}
+				if self.recurCount > 3 {
+					self.target?.insertText(self.lastLetter!)
+					self.recurCount = 0
+					self.setPredictionToNothing()
+				}
+//
 //                self.stringCache.append(self.result!.inferences[0].label.description)
 //                let rangeForEndOfStr = NSMakeRange(0, self.stringCache.utf16.count)     // You had inverted parameters ; could also use NSRange(0..<str.utf16.count)
 //                let spellChecker = UITextChecker()
@@ -143,10 +195,10 @@ extension CameraBoard: CameraFeedManagerDelegate {
         }
     }
 
-    func predictWord(){
-        
+    func predictWord() {
+
     }
-    
+
     func presentCameraPermissionsDeniedAlert() {
         let alertController = UIAlertController(title: "Camera Permissions Denied", message: "Camera permissions have been denied for this app. You can change this by going to Settings", preferredStyle: .alert)
 
@@ -200,11 +252,9 @@ extension CameraBoard: CameraFeedManagerDelegate {
 
 }
 
-
-
 extension CameraBoard {
 
-    func predictionStackSetup(){
+    func predictionStackSetup() {
         addSubview(predictionStack)
         predictionStack.translatesAutoresizingMaskIntoConstraints = false
         predictionStack.leadingAnchor.constraint(equalTo: previewView.trailingAnchor, constant: 5).isActive = true
@@ -214,7 +264,7 @@ extension CameraBoard {
         predictionStack.axis = .vertical
         predictionStack.spacing = 5
         predictionStack.distribution = .fillEqually
-        
+
         var range = 0
         if prediction.count > 3 {
             range = prediction.count
@@ -236,8 +286,8 @@ extension CameraBoard {
             buttonIndex += 1
         }
     }
-    
-    func updateStack(prediction:[String]){
+
+    func updateStack(prediction: [String]) {
 //        var range = 0
 //        if prediction.count != 0 {
 //            for butt in predictionButton {
@@ -260,18 +310,18 @@ extension CameraBoard {
 //        }
 //
 //
-        
+
     }
-    
-    @objc func predictionButtonHoldDown(_ sender:UIButton){
+
+    @objc func predictionButtonHoldDown(_ sender: UIButton) {
 //        for butt in predictionButton {
 //            if sender == butt {
 //                sender.backgroundColor =  #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.8)
 //            }
 //        }
     }
-    
-    @objc func predictionButtonTapped(_ sender:UIButton){
+
+    @objc func predictionButtonTapped(_ sender: UIButton) {
 //        for butt in predictionButton {
 //            if sender == butt {
 //                sender.backgroundColor =  #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.2)
@@ -288,7 +338,7 @@ extension CameraBoard {
 //        print(prediction.count)
 //        updateStack(prediction: prediction)
     }
-    
+
     func caboardViewSetup() {
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -341,8 +391,6 @@ extension CameraBoard {
         buttonStack.spacing = 5
     }
 
-
-
     func deleteButtonSetup() {
         buttonStack.addArrangedSubview(deleteButton)
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
@@ -361,7 +409,7 @@ extension CameraBoard {
         longPressGestureRecognizer.cancelsTouchesInView = false
 		self.addGestureRecognizer(longPressGestureRecognizer)
     }
-    
+
 	@objc func handleLongPress() {
 		deleteChar {
 			#if DEBUG

@@ -17,7 +17,6 @@ import UIKit
 import Speech
 import Firebase
 
-
 class ViewController: UIViewController {
 
     let remoteChatButton = UIButton()
@@ -29,14 +28,19 @@ class ViewController: UIViewController {
     let outputTextView = UITextView()
     let textViewHolder = UIView()
     let speakerButton = UIButton()
-
+    let controlButtonStack = UIStackView()
     let clearButton = UIButton()
     let keyboardButton = UIButton()
-    let speechSpeedStepper = UIStepper()
-    
-    
+    let trainButton = UIButton()
     var heightAnchor = NSLayoutConstraint()
-    
+    var controlViewHeightAnchor = NSLayoutConstraint()
+    let chatLogButton = UIButton()
+    let controlView = UIView()
+    let controlButton = UIButton()
+    let slider = UISlider()
+    var speechSpeedDegree = Float()
+    var controlButtonStackBottomAnchor = NSLayoutConstraint()
+    @objc let predictionAssistButton = UIButton()
 
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
@@ -62,6 +66,12 @@ class ViewController: UIViewController {
     private var initialBottomSpace: CGFloat = 0.0
     private var previousInferenceTimeMs: TimeInterval = Date.distantPast.timeIntervalSince1970 * 1000
 
+	//Viet inspired variables
+	var lastLetter, lastNonLetter: String?
+	var recurCount = 0
+	var recurCountNonLetter = 0
+	let minimumConfidence: Float = 0.89
+	
     // MARK: Controllers that manage functionality
     // Handles all the camera related functionality
     private lazy var cameraCapture = CameraFeedManager(previewView: previewView)
@@ -84,7 +94,6 @@ class ViewController: UIViewController {
 
             }
         }
-
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -118,33 +127,36 @@ class ViewController: UIViewController {
         remoteChatButtonSetup()
         resumeButtonSetup()
         liveButtonSetup()
-        
+        controlViewSetup()
+
+        controlButtonStackSetup()
+        controlButtonSetup()
         speakerButtonSetup()
         clearButtonSetup()
         keyboardButtonSetup()
+        trainButtonSetup()
+        chatLogButtonSetup()
+        predictionAssistButtonSetup()
+        sliderSetup()
         //speak()
         if speakerButton.isSelected == true {
             speak()
         }
 
-
-        
-        
-
         let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleLeftSwipeGesture(_:)))
-        view.addGestureRecognizer(swipeLeftGestureRecognizer)
+        previewView.addGestureRecognizer(swipeLeftGestureRecognizer)
         swipeLeftGestureRecognizer.direction = .left
 
         let swipeUpGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeUpGesture(_:)))
         view.addGestureRecognizer(swipeUpGestureRecognizer)
         swipeUpGestureRecognizer.direction = .up
-        
+
         let swipeDownGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleDownSwipeGesture(_:)))
         view.addGestureRecognizer(swipeDownGestureRecognizer)
         swipeDownGestureRecognizer.direction = .down
-        
+
         let swipeRightGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleRightSwipeGesture(_:)))
-        view.addGestureRecognizer(swipeRightGestureRecognizer)
+        previewView.addGestureRecognizer(swipeRightGestureRecognizer)
         swipeRightGestureRecognizer.direction = .right
 
         guard modelDataHandler != nil else {
@@ -162,11 +174,24 @@ class ViewController: UIViewController {
 
     }
 
-    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
+
     @objc func handleSwipeUpGesture(_ sender: UISwipeGestureRecognizer) {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         //textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        
+
         UIView.animate(withDuration: 0.2, animations: {
             self.heightAnchor.constant = -self.view.frame.size.height/2
             self.outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.6)
@@ -174,13 +199,11 @@ class ViewController: UIViewController {
         })
 
     }
-    
-    
-    
+
     @objc func handleDownSwipeGesture(_ sender: UISwipeGestureRecognizer) {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         //textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        
+
         UIView.animate(withDuration: 0.2, animations: {
             self.heightAnchor.constant = -self.view.frame.size.height/4
             self.outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -397,10 +420,10 @@ extension ViewController {
     }
 
     @objc func remoteChatButtonTapped() {
-        
+
         //check if user is logged in, if not go to login screen
         checkIfLoggedOut()
-        
+
         let vc = RemoteConversationVC()
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .fullScreen
@@ -445,7 +468,7 @@ extension ViewController {
 
         notesButton.imageView?.contentMode = .scaleAspectFit
     }
-    
+
     ///checks if there is a user logged in. If there is not, it opens the login VC
     func checkIfLoggedOut() {
         if Auth.auth().currentUser?.uid == nil {
@@ -460,10 +483,10 @@ extension ViewController {
     }
 
     @objc func notesButtonTapped() {
-        
+
         //check if user is logged in, if not go to login screen
         checkIfLoggedOut()
-        
+
         notesButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         notesButton.setTitleColor(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1), for: .selected)
         //let vc = notesVC
@@ -491,9 +514,6 @@ extension ViewController {
 
     }
 
-
-    
-    
     func outputTextViewSetup() {
         textViewHolder.addSubview(outputTextView)
         outputTextView.translatesAutoresizingMaskIntoConstraints = false
@@ -512,112 +532,225 @@ extension ViewController {
     func speak() {
         let utterance = AVSpeechUtterance(string: outputTextView.text!)
         utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
-        utterance.rate = 0.4
-
+        utterance.rate = 0.4 + (speechSpeedDegree/500)
+        print("utterance rate: \(utterance)")
         synthesizer = AVSpeechSynthesizer()
         synthesizer.speak(utterance)
     }
 
+    // MARK: Control View
     func speakerButtonSetup() {
-        view.addSubview(speakerButton)
-        speakerButton.translatesAutoresizingMaskIntoConstraints = false
-        speakerButton.trailingAnchor.constraint(equalTo: textViewHolder.trailingAnchor, constant: -20).isActive = true
-        speakerButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
-        speakerButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        speakerButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        speakerButton.backgroundColor = #colorLiteral(red: 0.2958290193, green: 0.29024376, blue: 1, alpha: 1)
+
+        speakerButton.backgroundColor = .systemOrange
         speakerButton.setTitle("Speak", for: .normal)
         speakerButton.setTitle("Mute", for: .selected)
         speakerButton.isSelected = true
-        speakerButton.layer.cornerRadius = 10
         speakerButton.addTarget(self, action: #selector(speakerButtonTapped), for: .touchUpInside)
     }
-    
+
     @objc func speakerButtonTapped() {
         if speakerButton.isSelected == true {
             speakerButton.isSelected = false
-            speakerButton.backgroundColor = .gray
+            speakerButton.backgroundColor = .systemOrange
             synthesizer.stopSpeaking(at: .word)
         } else {
             speakerButton.isSelected = true
             speak()
-            speakerButton.backgroundColor = #colorLiteral(red: 0.2958290193, green: 0.29024376, blue: 1, alpha: 1)
+            speakerButton.backgroundColor = .systemRed
         }
     }
-    
+
+    func trainButtonSetup() {
+        controlView.addSubview(trainButton)
+        trainButton.translatesAutoresizingMaskIntoConstraints = false
+        trainButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
+        trainButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -10).isActive = true
+        trainButton.topAnchor.constraint(equalTo: controlButtonStack.bottomAnchor, constant: 20).isActive = true
+        trainButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        trainButton.setTitle("Help Us Learn ASL", for: .normal)
+        trainButton.setTitleColor(.black, for: .normal)
+        trainButton.layer.cornerRadius = 10
+        trainButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        trainButton.backgroundColor = .systemYellow
+    }
+
     func clearButtonSetup() {
-        view.addSubview(clearButton)
-        clearButton.translatesAutoresizingMaskIntoConstraints = false
-        clearButton.trailingAnchor.constraint(equalTo: speakerButton.leadingAnchor, constant: -10).isActive = true
-        clearButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
-        clearButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        clearButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        clearButton.backgroundColor = #colorLiteral(red: 0.2958290193, green: 0.29024376, blue: 1, alpha: 1)
+
+        clearButton.backgroundColor = .systemRed
         clearButton.setTitle("Clear", for: .normal)
         clearButton.isSelected = true
+        clearButton.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
         clearButton.layer.cornerRadius = 10
+        clearButton.clipsToBounds = true
         clearButton.addTarget(self, action: #selector(clearButtonTapped), for: .touchUpInside)
     }
-    
-    @objc func clearButtonTapped(){
+
+    @objc func clearButtonTapped() {
         outputTextView.text.removeAll()
     }
-    
+
+    func controlButtonStackSetup() {
+        controlView.addSubview(controlButtonStack)
+        controlButtonStack.translatesAutoresizingMaskIntoConstraints = false
+        controlButtonStack.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 5).isActive = true
+        controlButtonStack.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -5).isActive = true
+        controlButtonStack.topAnchor.constraint(equalTo: controlView.topAnchor, constant: 5).isActive = true
+        controlButtonStack.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        controlButtonStack.addArrangedSubview(controlButton)
+        controlButtonStack.addArrangedSubview(keyboardButton)
+        controlButtonStack.addArrangedSubview(speakerButton)
+        controlButtonStack.addArrangedSubview(clearButton)
+        controlButtonStack.distribution = .fillEqually
+        controlButtonStack.spacing = 2
+        controlButtonStack.layer.cornerRadius = 10
+    }
+
     func keyboardButtonSetup() {
-        view.addSubview(keyboardButton)
-        keyboardButton.translatesAutoresizingMaskIntoConstraints = false
-        keyboardButton.trailingAnchor.constraint(equalTo: clearButton.leadingAnchor, constant: -10).isActive = true
-        keyboardButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
-        keyboardButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
-        keyboardButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        keyboardButton.backgroundColor = #colorLiteral(red: 0.2958290193, green: 0.29024376, blue: 1, alpha: 1)
+
+        keyboardButton.backgroundColor = .systemOrange
         keyboardButton.setTitle("Keyboard", for: .normal)
         keyboardButton.isSelected = true
-        keyboardButton.layer.cornerRadius = 10
         keyboardButton.addTarget(self, action: #selector(keyboardButtonTapped), for: .touchUpInside)
     }
-    
-    func speechStepperSetup(){
-        view.addSubview(speechSpeedStepper)
-        speechSpeedStepper.translatesAutoresizingMaskIntoConstraints = false
-        
-    }
-    
-    @objc func keyboardButtonTapped(){
+
+    @objc func keyboardButtonTapped() {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        
+
         if keyboardButton.isSelected {
-            print("ss")
-            outputTextView.isEditable = false
             keyboardButton.isSelected = false
+            print("switched to keyboard mode")
+            outputTextView.isEditable = true
             UIView.animate(withDuration: 0.2, animations: {
-                self.heightAnchor.constant = -self.view.frame.size.height/2
+                self.heightAnchor.constant = -self.view.frame.size.height+70
                 self.textViewHolder.layer.cornerRadius = 10
+                self.textViewHolder.backgroundColor = .white
                 self.view.layoutIfNeeded()
             })
         } else {
+            print("switched to ASL mode")
             keyboardButton.isSelected = true
-            outputTextView.topAnchor.constraint(equalTo: textViewHolder.topAnchor, constant: 30).isActive = true
-            outputTextView.isEditable = true
+            outputTextView.isEditable = false
+            dismissKeyboard()
             UIView.animate(withDuration: 0.2, animations: {
-                self.heightAnchor.constant = -self.view.frame.size.height
-                self.textViewHolder.backgroundColor = .white
+                self.heightAnchor.constant = -self.view.frame.size.height/2
+                self.textViewHolder.backgroundColor = UIColor.white.withAlphaComponent(0.5)
                 self.textViewHolder.layer.cornerRadius = 0
                 self.view.layoutIfNeeded()
             })
         }
-        
-        
     }
 
-    
+    func controlViewSetup() {
+        view.addSubview(controlView)
+        controlView.translatesAutoresizingMaskIntoConstraints = false
+        controlViewHeightAnchor = controlView.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -54)
+        controlView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        controlView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        controlView.heightAnchor.constraint(equalToConstant: view.frame.size.height/2).isActive = true
+        controlViewHeightAnchor.isActive = true
+        controlView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
+        controlView.clipsToBounds = true
+        controlView.backgroundColor = .white
+        controlView.isUserInteractionEnabled = true
+    }
 
-    
-    @objc func collapseButtonTapped(){
+    func controlButtonSetup() {
+
+        controlButton.backgroundColor = .systemBlue
+        controlButton.setTitle("More", for: .normal)
+        controlButton.setTitle("Less", for: .selected)
+        controlButton.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
+        controlButton.layer.cornerRadius = 10
+        controlButton.clipsToBounds = true
+        controlButton.addTarget(self, action: #selector(controlButtonTapped(_:)), for: .touchUpInside)
+    }
+
+    @objc func controlButtonTapped(_ sender: UIButton) {
+        textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        if sender.isSelected {
+            sender.isSelected = false
+            UIView.animate(withDuration: 0.2, animations: {
+                self.controlViewHeightAnchor.constant = -54
+                self.view.layoutIfNeeded()
+            })
+        } else {
+            sender.isSelected = true
+            UIView.animate(withDuration: 0.2, animations: {
+                self.controlViewHeightAnchor.constant = -self.view.frame.size.height/2
+                self.view.layoutIfNeeded()
+            })
+        }
+
+    }
+
+    func chatLogButtonSetup() {
+        controlView.addSubview(chatLogButton)
+        chatLogButton.translatesAutoresizingMaskIntoConstraints = false
+        chatLogButton.topAnchor.constraint(equalTo: trainButton.bottomAnchor, constant: 20).isActive = true
+        chatLogButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
+        chatLogButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -10).isActive = true
+        chatLogButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        chatLogButton.setTitle("Conversation Log", for: .normal)
+        chatLogButton.backgroundColor = .systemOrange
+        chatLogButton.layer.cornerRadius = 10
+    }
+
+    func predictionAssistButtonSetup() {
+        controlView.addSubview(predictionAssistButton)
+        predictionAssistButton.translatesAutoresizingMaskIntoConstraints = false
+        predictionAssistButton.topAnchor.constraint(equalTo: chatLogButton.bottomAnchor, constant: 20).isActive = true
+        predictionAssistButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
+        predictionAssistButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -10).isActive = true
+        predictionAssistButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        predictionAssistButton.setTitle("Prediction Assist: on", for: .selected)
+        predictionAssistButton.setTitle("Prediction Assist: off", for: .normal)
+        predictionAssistButton.backgroundColor = .systemGreen
+        predictionAssistButton.isSelected = true
+        predictionAssistButton.layer.cornerRadius = 10
+        predictionAssistButton.addTarget(self, action: #selector(predictionAssistButtonTapped), for: .touchUpInside)
+    }
+
+    @objc func predictionAssistButtonTapped() {
+        if predictionAssistButton.isSelected {
+            predictionAssistButton.isSelected = false
+            predictionAssistButton.backgroundColor = .systemGray
+        } else {
+            predictionAssistButton.isSelected = true
+            predictionAssistButton.backgroundColor = .systemGreen
+        }
+    }
+
+    @objc func collapseButtonTapped() {
         //textViewHolder
     }
-    
+
+    func sliderSetup() {
+        controlView.addSubview(slider)
+        //slider.frame = CGRect(x: 0, y: 0, width: 250, height: 35)
+        slider.translatesAutoresizingMaskIntoConstraints = false
+        slider.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 20).isActive = true
+        slider.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -20).isActive = true
+        slider.bottomAnchor.constraint(equalTo: controlView.bottomAnchor, constant: -20).isActive = true
+        slider.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        slider.center = self.view.center
+
+        slider.minimumTrackTintColor = .black
+        slider.maximumTrackTintColor = .black
+        slider.thumbTintColor = .systemOrange
+
+        slider.maximumValue = 100
+        slider.minimumValue = 0
+        slider.setValue(50, animated: false)
+
+        slider.addTarget(self, action: #selector(changeValue(_:)), for: .valueChanged)
+
+    }
+
+    @objc func changeValue(_ sender: UISlider) {
+        print("value is", Int(sender.value))
+        speechSpeedDegree = sender.value
+    }
+
 }
 extension ViewController {
 	func deleteCharacter() {
@@ -645,13 +778,31 @@ extension ViewController {
 			deleteCharacter()
 		case "space":
 			addSpace()
+            speak()
 		case "nothing":
 			print("")
 		default:
 			DispatchQueue.main.async {
-				self.outputTextView.text += self.result!.inferences[0].label.description
+				let confidence = self.result!.inferences[0].confidence
+				let prediction: String = self.result!.inferences[0].label.description
+				if prediction == self.lastLetter && confidence > self.minimumConfidence {
+					print(prediction)
+					self.recurCount += 1
+				} else {
+					self.lastLetter = prediction
+					print("reset count")
+					
+					self.recurCount = 0
+				}
+				if self.recurCount > 3 {
+					self.outputTextView.text += self.result!.inferences[0].label.description
+					self.recurCount = 0
+					
+				}
 			}
 		}
+		
 	}
-    
 }
+
+

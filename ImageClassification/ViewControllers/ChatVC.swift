@@ -75,8 +75,6 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
 
     static let cellId = "cellId"
 
-
-
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -119,9 +117,6 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
             self.view.frame.origin.y = 0
         }
     }
-
-
-
 
     func observeMessages() {
 
@@ -263,9 +258,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
 
 }
 
-
 extension ChatVC {
-
 
     ///handles what happens when you send a message
     @objc func handleSendButton() {
@@ -347,7 +340,6 @@ extension ChatVC {
         sendButton.addTarget(self, action: #selector(handleSendButton), for: .touchUpInside)
 	}
 
-
     func composedMessageSetup() {
         view.addSubview(composedMessage)
         composedMessage.translatesAutoresizingMaskIntoConstraints = false
@@ -410,7 +402,7 @@ extension ChatVC {
         topLabel.textColor = .white
     }
 
-    func keybaordButtonSetup(){
+    func keybaordButtonSetup() {
         view.addSubview(keyboardButton)
         keyboardButton.translatesAutoresizingMaskIntoConstraints = false
         keyboardButton.leadingAnchor.constraint(lessThanOrEqualTo: view.leadingAnchor, constant: 10).isActive = true
@@ -422,7 +414,7 @@ extension ChatVC {
         keyboardButton.addTarget(self, action: #selector(keyboardButtonTapped), for: .touchUpInside)
     }
 
-    @objc func keyboardButtonTapped(){
+    @objc func keyboardButtonTapped() {
         if keyboardButton.isSelected {
             keyboardButton.isSelected = false
             composedMessage.inputView = CameraBoard(target: composedMessage)
@@ -432,7 +424,6 @@ extension ChatVC {
             composedMessage.inputView = nil
             composedMessage.reloadInputViews()
         }
-
 
     }
 }

@@ -47,8 +47,6 @@ class CreateNoteVC: UIViewController {
         loadNote()
     }
 
-
-
     ///if the note already exists, loads the contents into the VC. if it does not exist, set placeholders
     func loadNote() {
 
@@ -63,10 +61,6 @@ class CreateNoteVC: UIViewController {
             textView.text = note?.text
         }
     }
-
-
-
-
 
     ///handles what happens when a note is saved
     @objc func handleSaveNote() {
@@ -158,7 +152,6 @@ class CreateNoteVC: UIViewController {
         print("handle update note")
         toggleSaveButtonDisabled()
 
-
         //need to save a message here, just like with messaging
         guard let noteText = textView.text, let title = noteTitle.text else {
             print("could not get message")
@@ -249,14 +242,14 @@ extension CreateNoteVC: UITextViewDelegate, UITextFieldDelegate {
         if saveButton.isEnabled {
             print("save button enabled")
 
-            let saveResponse = UIAlertAction(title: "Save", style: .default) { (action) in
+            let saveResponse = UIAlertAction(title: "Save", style: .default) { (_) in
                 //respond to user selection of action
                 print("save pressed")
                 self.handleSaveNote()
                 self.dismiss(animated: true, completion: nil)
             }
 
-            let doNotSaveResponse = UIAlertAction(title: "Remove changes", style: .default) { (action) in
+            let doNotSaveResponse = UIAlertAction(title: "Remove changes", style: .default) { (_) in
                 //respond to user selection
                 print("remove changes pressed")
                 self.dismiss(animated: true, completion: nil)
@@ -312,8 +305,6 @@ extension CreateNoteVC: UITextViewDelegate, UITextFieldDelegate {
     func textViewDidChange(_ textView: UITextView) {
         //print("textview did change")
         toggleSaveButtonEnabled()
-
-
 
         //print("textview empty: ", textView.text.isEmpty)
         if textView.text.isEmpty {
