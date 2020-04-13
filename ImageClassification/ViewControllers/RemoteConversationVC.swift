@@ -20,10 +20,10 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
     var messages = [Message]()
     //for organizing messages by name and most recent
     var messagesDictionary = [String: Message]()
-    
+
     var messagesToDelete = [String]()
     var partnerToDelete = ""
-    
+
     let keychain = KeychainSwift(keyPrefix: "iasl_")
 
     let topBar = UIView()
@@ -120,12 +120,12 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
                         print("values: ", self.messagesDictionary.values)
 
                         self.messages = Array(self.messagesDictionary.values)
-                        
+
                         //this sort actually works and the previous one does not
                         self.messages.sort { (message1, message2) -> Bool in
                             return message1.timestamp?.intValue > message2.timestamp?.intValue
                         }
-                        
+
                     }
                 }
 
@@ -141,20 +141,18 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         }, withCancel: nil)
 
     }
-    
-    
+
     ///called when we need to figure out what needs to be deleted
     func observeDeleteMessages(chatPartner: String, senderId: String, receiverId: String) {
         guard let uid = Auth.auth().currentUser?.uid else {
             print("could not get UID")
             return
         }
-        
+
         let ref = Database.database().reference().child("user-messages").child(uid)
 
         ref.observe(.childAdded, with: { (snapshot) in
 
-            
             let messageId = snapshot.key
 
             let messagesReference = Database.database().reference().child("messages").child(messageId)
@@ -168,7 +166,7 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
                     message.senderId = dictionary["senderId"] as? String
                     message.text = dictionary["text"] as? String
                     message.timestamp = dictionary["timestamp"] as? NSNumber
-                    
+
                     if message.receiverId == chatPartner || message.senderId == chatPartner {
                         print("this is the message we should delete")
                         print(snapshot)
@@ -185,8 +183,7 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
             }, withCancel: nil)
 
         }, withCancel: nil)
-        
-        
+
     }
 
     ///Add a user to a current conversation
@@ -218,10 +215,10 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         } catch let logoutError {
             print(logoutError)
         }
-        
+
         //remove keys from keychain
         keychain.clear()
-        
+
         //present the login screen
         let loginController = LoginVC()
         loginController.modalTransitionStyle = .crossDissolve
@@ -263,7 +260,7 @@ extension RemoteConversationVC {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
-    
+
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
@@ -315,44 +312,44 @@ extension RemoteConversationVC {
         }, withCancel: nil)
 
     }
-    
+
     ///used for deleting a particular row in the table view
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            
+
             let message = messages[indexPath.row]
             let senderId = message.senderId!
             let receiverId = message.receiverId!
-            
+
             guard let chatPartnerId = message.chatPartnerId() else {
                 return
             }
-            
+
             observeDeleteMessages(chatPartner: chatPartnerId, senderId: senderId, receiverId: receiverId)
-            
+
             handleDeleteNoteAreYouSure(indexPath: indexPath)
         }
     }
-    
+
     ///handles the deleting of the note
     func handleDeleteNote() {
-        
+
         //need to find the user ID since we are only deleting the USERS versions of these notes
         guard let uid = Auth.auth().currentUser?.uid else {
             print("could not get UID")
             return
         }
-        
+
         //remove the messages for the current user
         for messageIdToRemove in self.messagesToDelete {
             print(messageIdToRemove)
-            
+
             //need to delete it from the user's user-message node
             let userMessagesRef = Database.database().reference().child("user-messages").child(uid).child(messageIdToRemove)
             userMessagesRef.removeValue()
-            
+
         }
-        
+
         //if the other user has also gotten rid of these messages, remove them everywhere
         for messageIdToRemoveEverywhere in self.messagesToDelete {
             let otherUserMessagesRef = Database.database().reference().child("user-messages").child(partnerToDelete)
@@ -368,37 +365,37 @@ extension RemoteConversationVC {
                 }
             }, withCancel: nil)
         }
-        
+
         //erase the array and string to start over with a new delete next time
         partnerToDelete = ""
         messagesToDelete.removeAll()
-        
+
     }
-    
+
     ///asks the users in an alert if they would like to proceed with deleting their conversation
     func handleDeleteNoteAreYouSure(indexPath: IndexPath) {
-        
-        let saveResponse = UIAlertAction(title: "Save", style: .default) { (action) in
+
+        let saveResponse = UIAlertAction(title: "Save", style: .default) { (_) in
             //respond to user selection of action
             print("save pressed")
         }
-        
-        let doNotSaveResponse = UIAlertAction(title: "Delete", style: .default) { (action) in
+
+        let doNotSaveResponse = UIAlertAction(title: "Delete", style: .default) { (_) in
             //respond to user selection
             print("remove changes pressed")
             print("indexpath.row: ", indexPath.row)
-            
+
             self.handleDeleteNote()
-            
+
             self.messages.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .bottom)
             self.tableView.reloadData()
         }
-        
+
         let alert = UIAlertController(title: "This is permanent!", message: "Are you sure you want to delete this?", preferredStyle: .alert)
         alert.addAction(saveResponse)
         alert.addAction(doNotSaveResponse)
-        
+
         self.present(alert, animated: true) {
             //alert was presented
         }

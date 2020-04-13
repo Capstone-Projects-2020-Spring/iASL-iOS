@@ -26,16 +26,16 @@ import KeychainSwift
  */
 class LoginVC: UIViewController, UITextFieldDelegate {
 
-    //MARK: VARIABLES
-    
+    // MARK: VARIABLES
+
     ///boolean that determines if we are on the login screen or the register screen
     var isRegisterButton: Bool = true
 
     let collectionUser: String = "users"
     let usersStringConstant: String = "users"
-    
+
     let keychain = KeychainSwift(keyPrefix: "iasl_")
-    
+
     ///creates a reference to the input container height anchor to be altered later
     var inputsContainerViewHeightAnchor: NSLayoutConstraint?
     ///creates a reference to the name text field
@@ -44,7 +44,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     var emailTextFieldHeightAnchor: NSLayoutConstraint?
     ///creates a reference to the password text field
     var passwordTextFieldHeightAnchor: NSLayoutConstraint?
-    
+
     let skipButton: UIButton = {
         let skip = UIButton(type: .system)
         skip.backgroundColor = .clear
@@ -56,7 +56,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         skip.addTarget(self, action: #selector(handleSkipButton), for: .touchUpInside)
         return skip
     }()
-    
+
     let keychainToggle: UISwitch = {
         let toggle = UISwitch()
         toggle.translatesAutoresizingMaskIntoConstraints = false
@@ -64,7 +64,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         toggle.onTintColor = .black
         return toggle
     }()
-    
+
     lazy var keychainToggleLabel: UILabel = {
         let toggle = UILabel()
         toggle.backgroundColor = .clear
@@ -74,7 +74,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         toggle.translatesAutoresizingMaskIntoConstraints = false
         return toggle
     }()
-    
+
     //need a camera container view
     ///container for where I'd like the camera to go
     let cameraContainerView: UIView = {
@@ -85,7 +85,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         cameraView.layer.masksToBounds = true
         return cameraView
     }()
-    
+
     //need to add some text fields inside the container view
     // FIXME: Liam you need to fix these linting issues
     // swiftlint:disable identifier_name
@@ -150,7 +150,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
+
     ///a logo for the login screen
     let logoView: UIImageView = {
         let imageView = UIImageView()
@@ -173,7 +173,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         toggleButton.addTarget(self, action: #selector(toggleRegisterLoginButtonPressed), for: .touchUpInside)
         return toggleButton
     }()
-    
+
     //need a segmented control for switching between login and register
     //for this, also need to change the size of the input container view
     //maybe just use a button for this? Have a register button and then below that use a
@@ -189,13 +189,13 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         submitButton.addTarget(self, action: #selector(infoSubmitButtonPressed), for: .touchUpInside)
         return submitButton
     }()
-    
+
     @objc func switchChanged() {
         print("switched")
     }
 
-    //MARK: VIEW DID LOAD
-    
+    // MARK: VIEW DID LOAD
+
     ///first function that is called
     override func viewDidLoad() {
         let view = UIView()
@@ -216,7 +216,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         //true means register button is sent
         //false means login button is sent
         isRegisterButton = true
-        
 
         view.addGestureRecognizer(removeKeyboardTap)
 
@@ -231,12 +230,11 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         setupToggleRegisterLoginButton()
         setupSkipButton()
 
-        
         //print(toggleRegisterLoginButton.frame.origin.y)
     }
-    
-    //MARK: LOGICY STUFF
-    
+
+    // MARK: LOGICY STUFF
+
     ///called when this view controller needs to disappear and the main view controller needs to load
     func handleLeaveLogin() {
         let mainVC = ViewController()
@@ -244,7 +242,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         mainVC.modalPresentationStyle = .fullScreen
         present(mainVC, animated: true, completion: nil)
     }
-    
+
     ///handles what happens with the skip button is pressed
     @objc func handleSkipButton() {
         //print("handle skip button pressed")
@@ -340,8 +338,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     @objc func infoSubmitButtonPressed() {
         //for now, just make the keyboard disappear
         print("info submit button pressed")
-        
-        
+
             //hide the keyboard
             hideKeyboard()
 
@@ -362,7 +359,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         view.shake(viewToShake: passwordTextField)
                     }
                 }
-                
 
             } else {
 
@@ -377,20 +373,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         view.shake(viewToShake: passwordTextField)
                     }
                 }
-                
 
             }
 
-            
-        
-            
-        
-        
-        
-        
-
-        
-        
     }
 
     ///handles what happens when the user decides to register an account
@@ -432,12 +417,12 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             userReference.updateChildValues(dataToAdd) { (error, _) in
                 if error != nil {
                     print(error!)
-                    
+
                     return
                 } else {
                     //you've successfully added user to realtime database
                     print("saved user successfully into REALTIME")
-                    
+
                     //if the user wants to save their email and password into keychain
                     self.handleSaveKeychain(email: email, password: password)
                     self.handleLeaveLogin()
@@ -445,7 +430,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             }
         }
     }
-    
+
     ///handles the saving of the user's email and password into keychain
     func handleSaveKeychain(email: String, password: String) {
         if self.keychainToggle.isOn {
@@ -463,9 +448,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         //get email and password and name
         guard let email = emailTextField.text, let password = passwordTextField.text else {
             print("Did not get email and password")
-            
+
             //FIXME: Add some kind of error handling for when a password/email is not entered or if the account can't be found
-            
+
             return
         }
 
@@ -487,13 +472,11 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         }
     }
 
-
-
 }
 
-//MARK: SETUPS
+// MARK: SETUPS
 extension LoginVC {
-    
+
     ///sets up the constraints for the input container
     func setupInputContainerView() {
         view.addSubview(inputContainerView)
@@ -584,20 +567,20 @@ extension LoginVC {
     func setupCameraView() {
         view.addSubview(cameraContainerView)
         view.addSubview(logoView)
-        
+
         //sets up the container for the background, helps with visualizing
         cameraContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         cameraContainerView.bottomAnchor.constraint(equalTo: inputContainerView.topAnchor, constant: -12).isActive = true
         cameraContainerView.widthAnchor.constraint(equalTo: inputContainerView.widthAnchor, multiplier: 0.5).isActive = true
         cameraContainerView.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        
+
         //adds the logo to the view
         logoView.centerXAnchor.constraint(equalTo: cameraContainerView.centerXAnchor).isActive = true
         logoView.bottomAnchor.constraint(equalTo: cameraContainerView.bottomAnchor).isActive = true
         logoView.widthAnchor.constraint(equalTo: cameraContainerView.widthAnchor).isActive = true
         logoView.heightAnchor.constraint(equalTo: cameraContainerView.heightAnchor).isActive = true
     }
-    
+
     func setupKeychainToggleLabel() {
         view.addSubview(keychainToggleLabel)
 
@@ -607,38 +590,37 @@ extension LoginVC {
         keychainToggleLabel.topAnchor.constraint(equalTo: inputContainerView.bottomAnchor, constant: 12).isActive = true
         keychainToggleLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
-    
+
     func setupKeychainToggle() {
         view.addSubview(keychainToggle)
 
         keychainToggle.topAnchor.constraint(equalTo: keychainToggleLabel.topAnchor).isActive = true
         keychainToggle.leftAnchor.constraint(equalTo: keychainToggleLabel.rightAnchor, constant: 12).isActive = true
     }
-    
+
     func setupSkipButton() {
         view.addSubview(skipButton)
 
-        
         skipButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         skipButton.topAnchor.constraint(equalTo: toggleRegisterLoginButton.bottomAnchor, constant: 12).isActive = true
         skipButton.widthAnchor.constraint(equalTo: toggleRegisterLoginButton.widthAnchor).isActive = true
         skipButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
-    
+
     ///sets up the constraints of the toggle button
     func setupToggleRegisterLoginButton() {
         view.addSubview(toggleRegisterLoginButton)
-        
+
         toggleRegisterLoginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         toggleRegisterLoginButton.topAnchor.constraint(equalTo: infoSubmitButton.bottomAnchor, constant: 12).isActive = true
         toggleRegisterLoginButton.widthAnchor.constraint(equalTo: infoSubmitButton.widthAnchor).isActive = true
         toggleRegisterLoginButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
-    
+
     ///sets up the constraints of the submit button
     func setupInfoSubmitButton() {
         view.addSubview(infoSubmitButton)
-        
+
         infoSubmitButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         infoSubmitButton.topAnchor.constraint(equalTo: keychainToggleLabel.bottomAnchor, constant: 12).isActive = true
         infoSubmitButton.widthAnchor.constraint(equalTo: inputContainerView.widthAnchor).isActive = true

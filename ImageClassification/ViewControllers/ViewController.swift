@@ -17,7 +17,6 @@ import UIKit
 import Speech
 import Firebase
 
-
 class ViewController: UIViewController {
 
     let remoteChatButton = UIButton()
@@ -123,7 +122,7 @@ class ViewController: UIViewController {
         resumeButtonSetup()
         liveButtonSetup()
         controlViewSetup()
-        
+
         controlButtonStackSetup()
         controlButtonSetup()
         speakerButtonSetup()
@@ -138,10 +137,6 @@ class ViewController: UIViewController {
             speak()
         }
 
-
-        
-        
-
         let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleLeftSwipeGesture(_:)))
         previewView.addGestureRecognizer(swipeLeftGestureRecognizer)
         swipeLeftGestureRecognizer.direction = .left
@@ -149,11 +144,11 @@ class ViewController: UIViewController {
         let swipeUpGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeUpGesture(_:)))
         view.addGestureRecognizer(swipeUpGestureRecognizer)
         swipeUpGestureRecognizer.direction = .up
-        
+
         let swipeDownGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleDownSwipeGesture(_:)))
         view.addGestureRecognizer(swipeDownGestureRecognizer)
         swipeDownGestureRecognizer.direction = .down
-        
+
         let swipeRightGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleRightSwipeGesture(_:)))
         previewView.addGestureRecognizer(swipeRightGestureRecognizer)
         swipeRightGestureRecognizer.direction = .right
@@ -171,8 +166,6 @@ class ViewController: UIViewController {
         #endif
         cameraCapture.delegate = self
 
-
-        
     }
 
     @objc func keyboardWillShow(notification: NSNotification) {
@@ -188,11 +181,11 @@ class ViewController: UIViewController {
             self.view.frame.origin.y = 0
         }
     }
-    
+
     @objc func handleSwipeUpGesture(_ sender: UISwipeGestureRecognizer) {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         //textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        
+
         UIView.animate(withDuration: 0.2, animations: {
             self.heightAnchor.constant = -self.view.frame.size.height/2
             self.outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.6)
@@ -200,15 +193,11 @@ class ViewController: UIViewController {
         })
 
     }
-    
-    
-    
-    
-    
+
     @objc func handleDownSwipeGesture(_ sender: UISwipeGestureRecognizer) {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         //textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        
+
         UIView.animate(withDuration: 0.2, animations: {
             self.heightAnchor.constant = -self.view.frame.size.height/4
             self.outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -425,10 +414,10 @@ extension ViewController {
     }
 
     @objc func remoteChatButtonTapped() {
-        
+
         //check if user is logged in, if not go to login screen
         checkIfLoggedOut()
-        
+
         let vc = RemoteConversationVC()
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .fullScreen
@@ -473,7 +462,7 @@ extension ViewController {
 
         notesButton.imageView?.contentMode = .scaleAspectFit
     }
-    
+
     ///checks if there is a user logged in. If there is not, it opens the login VC
     func checkIfLoggedOut() {
         if Auth.auth().currentUser?.uid == nil {
@@ -488,10 +477,10 @@ extension ViewController {
     }
 
     @objc func notesButtonTapped() {
-        
+
         //check if user is logged in, if not go to login screen
         checkIfLoggedOut()
-        
+
         notesButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         notesButton.setTitleColor(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1), for: .selected)
         //let vc = notesVC
@@ -519,9 +508,6 @@ extension ViewController {
 
     }
 
-
-    
-    
     func outputTextViewSetup() {
         textViewHolder.addSubview(outputTextView)
         outputTextView.translatesAutoresizingMaskIntoConstraints = false
@@ -546,8 +532,7 @@ extension ViewController {
         synthesizer.speak(utterance)
     }
 
-    
-    //MARK: Control View
+    // MARK: Control View
     func speakerButtonSetup() {
 
         speakerButton.backgroundColor = .systemOrange
@@ -556,7 +541,7 @@ extension ViewController {
         speakerButton.isSelected = true
         speakerButton.addTarget(self, action: #selector(speakerButtonTapped), for: .touchUpInside)
     }
-    
+
     @objc func speakerButtonTapped() {
         if speakerButton.isSelected == true {
             speakerButton.isSelected = false
@@ -568,9 +553,8 @@ extension ViewController {
             speakerButton.backgroundColor = .systemRed
         }
     }
-    
-        
-    func trainButtonSetup(){
+
+    func trainButtonSetup() {
         controlView.addSubview(trainButton)
         trainButton.translatesAutoresizingMaskIntoConstraints = false
         trainButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
@@ -583,7 +567,7 @@ extension ViewController {
         trainButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         trainButton.backgroundColor = .systemYellow
     }
-    
+
     func clearButtonSetup() {
 
         clearButton.backgroundColor = .systemRed
@@ -594,12 +578,12 @@ extension ViewController {
         clearButton.clipsToBounds = true
         clearButton.addTarget(self, action: #selector(clearButtonTapped), for: .touchUpInside)
     }
-    
-    @objc func clearButtonTapped(){
+
+    @objc func clearButtonTapped() {
         outputTextView.text.removeAll()
     }
-    
-    func controlButtonStackSetup(){
+
+    func controlButtonStackSetup() {
         controlView.addSubview(controlButtonStack)
         controlButtonStack.translatesAutoresizingMaskIntoConstraints = false
         controlButtonStack.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 5).isActive = true
@@ -614,8 +598,7 @@ extension ViewController {
         controlButtonStack.spacing = 2
         controlButtonStack.layer.cornerRadius = 10
     }
-    
-    
+
     func keyboardButtonSetup() {
 
         keyboardButton.backgroundColor = .systemOrange
@@ -623,13 +606,10 @@ extension ViewController {
         keyboardButton.isSelected = true
         keyboardButton.addTarget(self, action: #selector(keyboardButtonTapped), for: .touchUpInside)
     }
-    
-    
-    
-    @objc func keyboardButtonTapped(){
+
+    @objc func keyboardButtonTapped() {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        
-        
+
         if keyboardButton.isSelected {
             keyboardButton.isSelected = false
             print("switched to keyboard mode")
@@ -654,7 +634,6 @@ extension ViewController {
         }
     }
 
-    
     func controlViewSetup() {
         view.addSubview(controlView)
         controlView.translatesAutoresizingMaskIntoConstraints = false
@@ -668,9 +647,7 @@ extension ViewController {
         controlView.backgroundColor = .white
         controlView.isUserInteractionEnabled = true
     }
-    
-    
-    
+
     func controlButtonSetup() {
 
         controlButton.backgroundColor = .systemBlue
@@ -681,9 +658,7 @@ extension ViewController {
         controlButton.clipsToBounds = true
         controlButton.addTarget(self, action: #selector(controlButtonTapped(_:)), for: .touchUpInside)
     }
-    
-    
-    
+
     @objc func controlButtonTapped(_ sender: UIButton) {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         if sender.isSelected {
@@ -699,11 +674,10 @@ extension ViewController {
                 self.view.layoutIfNeeded()
             })
         }
-        
 
     }
 
-    func chatLogButtonSetup(){
+    func chatLogButtonSetup() {
         controlView.addSubview(chatLogButton)
         chatLogButton.translatesAutoresizingMaskIntoConstraints = false
         chatLogButton.topAnchor.constraint(equalTo: trainButton.bottomAnchor, constant: 20).isActive = true
@@ -715,7 +689,7 @@ extension ViewController {
         chatLogButton.layer.cornerRadius = 10
     }
 
-    func predictionAssistButtonSetup(){
+    func predictionAssistButtonSetup() {
         controlView.addSubview(predictionAssistButton)
         predictionAssistButton.translatesAutoresizingMaskIntoConstraints = false
         predictionAssistButton.topAnchor.constraint(equalTo: chatLogButton.bottomAnchor, constant: 20).isActive = true
@@ -739,11 +713,11 @@ extension ViewController {
             predictionAssistButton.backgroundColor = .systemGreen
         }
     }
-    
-    @objc func collapseButtonTapped(){
+
+    @objc func collapseButtonTapped() {
         //textViewHolder
     }
-    
+
     func sliderSetup() {
         controlView.addSubview(slider)
         //slider.frame = CGRect(x: 0, y: 0, width: 250, height: 35)
@@ -753,26 +727,24 @@ extension ViewController {
         slider.bottomAnchor.constraint(equalTo: controlView.bottomAnchor, constant: -20).isActive = true
         slider.heightAnchor.constraint(equalToConstant: 20).isActive = true
         slider.center = self.view.center
-        
+
         slider.minimumTrackTintColor = .black
         slider.maximumTrackTintColor = .black
         slider.thumbTintColor = .systemOrange
-        
+
         slider.maximumValue = 100
         slider.minimumValue = 0
         slider.setValue(50, animated: false)
-        
+
         slider.addTarget(self, action: #selector(changeValue(_:)), for: .valueChanged)
-        
-        
+
     }
-    
+
     @objc func changeValue(_ sender: UISlider) {
-        print("value is" , Int(sender.value));
+        print("value is", Int(sender.value))
         speechSpeedDegree = sender.value
     }
-    
-    
+
 }
 extension ViewController {
 	func deleteCharacter() {
@@ -809,5 +781,5 @@ extension ViewController {
 			}
 		}
 	}
-    
+
 }

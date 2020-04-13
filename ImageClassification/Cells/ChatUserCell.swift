@@ -34,7 +34,7 @@ class ChatUserCell: UITableViewCell {
 
                 }, withCancel: nil)
             }
-            
+
             //get the message text
             if let messageText = message?.text {
                 if messageText.count > 25 {

@@ -10,14 +10,13 @@ import Foundation
 import UIKit
 import Firebase
 
-
 ///this will hold each note that is saved in Firebase
 class Note: NSObject {
-    
+
     var id: String?
     var title: String?
     var text: String?
     var timestamp: NSNumber?
     var ownerId: String?
-    
+
 }

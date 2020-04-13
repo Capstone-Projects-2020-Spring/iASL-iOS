@@ -15,37 +15,36 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var testNotes = [Note]()
     var notes = [Note]()
     //var notesDictionary = [String: Note]()
-    
+
     let userNotesConstant: String = "user-notes"
-    
+
     private let refreshControl = UIRefreshControl()
-    
+
     func setupFakeNotes() {
         let note1 = Note()
         note1.ownerId = "owner1"
         note1.text = "this is note 1"
         note1.title = "title 1"
         note1.timestamp = 4
-        
+
         let note2 = Note()
         note2.ownerId = "owner2"
         note2.text = "this is note 2"
         note2.title = "title 2"
         note2.timestamp = 3
-        
+
         let note3 = Note()
         note3.ownerId = "owner3"
         note3.text = "this is note 3"
         note3.title = "title 3"
         note3.timestamp = 2
-        
+
         let note4 = Note()
         note4.ownerId = "owner4"
         note4.text = "wwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
         note4.title = "fourth title"
         note4.timestamp = 1
-        
-        
+
         testNotes.append(note1)
         testNotes.append(note2)
         testNotes.append(note3)
@@ -66,33 +65,32 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
+
         print("view did load")
-        
+
         setupFakeNotes()
-        
+
         topBarSetup()
         backButtonSetup()
         topLabelSetup()
         tableViewSetup()
         createNoteButtonSetup()
             //observeUserNotes()
-        
+
     }
-    
+
     //var notesVC: NotesVC?
-    
+
     @objc func refreshTableViewOnPull() {
         print("refreshing table view thanks to pulling down")
-        
+
         notes.removeAll()
         self.tableView.reloadData()
         observeUserNotes()
-        
 
         refreshControl.endRefreshing()
     }
-    
+
     //these two below are like a wack way of solving the reload table view issue
     override func viewWillDisappear(_ animated: Bool) {
         print("view will disappear")
@@ -113,7 +111,7 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .all
     }
-    
+
 //    func getCurrentUser() {
 //        guard let uid = Auth.auth().currentUser?.uid else {
 //            print("could not get UID")
@@ -129,7 +127,7 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 //            }
 //        }
 //    }
-    
+
     ///function for observing notes from firebase (used to gather list of notes for user to see in their list of notes)
     func observeUserNotes() {
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -161,70 +159,70 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                     note.text = dictionary["text"] as? String
                     note.timestamp = dictionary["timestamp"] as? NSNumber
                     note.id = snapshot.key
-                    
+
                     //creates an array of notes. this is where the list of notes gets presented to the user
                     self.notes.append(note)
                     print("num of notes: ", self.notes.count)
-                    
+
                     //sort the notes by timestamp
                     self.notes.sort { (note1, note2) -> Bool in
                         return note1.timestamp?.intValue > note2.timestamp?.intValue
                     }
                     print("\(note.text)")
-                    
+
                 }
                 self.tableView.reloadData()
             }, withCancel: nil)
             self.tableView.reloadData()
         }, withCancel: nil)
     }
-    
+
     func handleDeleteNote(noteId: String) {
-        
+
         //need to get the ID of the user
         guard let uid = Auth.auth().currentUser?.uid else {
             print("could not get UID")
             return
         }
-        
+
         //need to get a reference to their user-notes node
         let userNotesRef = Database.database().reference().child(self.userNotesConstant).child(uid).child(noteId)
         userNotesRef.removeValue()
-        
+
         //need to get a reference to their notes-node
         let notesRef = Database.database().reference().child("notes").child(noteId)
         notesRef.removeValue()
-        
+
     }
-    
+
     func handleDeleteNoteAreYouSure(noteId: String, indexPath: IndexPath) {
-        
-        let saveResponse = UIAlertAction(title: "Save", style: .default) { (action) in
+
+        let saveResponse = UIAlertAction(title: "Save", style: .default) { (_) in
             //respond to user selection of action
             print("save pressed")
         }
-        
-        let doNotSaveResponse = UIAlertAction(title: "Delete", style: .default) { (action) in
+
+        let doNotSaveResponse = UIAlertAction(title: "Delete", style: .default) { (_) in
             //respond to user selection
             print("remove changes pressed")
             print("noteId", noteId)
             print("indexpath.row: ", indexPath.row)
-            
+
             self.notes.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .bottom)
             self.tableView.reloadData()
             self.handleDeleteNote(noteId: noteId)
         }
-        
+
         let alert = UIAlertController(title: "This is permanent!", message: "Are you sure you want to delete this?", preferredStyle: .alert)
         alert.addAction(saveResponse)
         alert.addAction(doNotSaveResponse)
-        
+
         self.present(alert, animated: true) {
             //alert was presented
         }
     }
-    
+
 }
 
 extension NotesVC {
@@ -237,72 +235,72 @@ extension NotesVC {
     ///each cell in the table view
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "notesTableViewCell") as! NotesTableViewCell
-        
+
         let note = notes[indexPath.row]
-        cell.note = note;
-        
+        cell.note = note
+
         //cell?.textLabel?.text = testNotes[indexPath.row].text
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            
+
             let noteToDelete = notes[indexPath.row]
             let noteId = noteToDelete.id!
             print("ready to delete")
             //print(noteToDelete.text!)
-            
+
             handleDeleteNoteAreYouSure(noteId: noteId, indexPath: indexPath)
-            
+
             //notes.remove(at: indexPath.row)
             //tableView.deleteRows(at: [indexPath], with: .bottom)
             //handleDeleteNote(noteId: noteId!)
         }
     }
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
-    
+
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
 
     ///selecting a specific row in the table view
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+
 //        notes.removeAll()
 //        tableView.reloadData()
 //
 //        observeUserNotes()
-        
+
         //observeUserNotes()
         let note = notes[indexPath.row]
-        
+
         showNoteFromTableView(note: note)
 
     }
-    
+
     func showNoteFromTableView(note: Note) {
 //        notes.removeAll()
 //        tableView.reloadData()
 //
 //        observeUserNotes()
-        
+
         let vc = CreateNoteVC()
         vc.note = note
         //vc.NotesVC = notesVC
-        
+
         //also need to send the key of the note so we know where to update it?
         vc.noteToUpdateKey = note.id
-        
+
         vc.modalPresentationStyle = .fullScreen
         vc.modalTransitionStyle = .crossDissolve
         vc.noteTitle.text = note.title
         present(vc, animated: true, completion: nil)
     }
-    
+
     ///change the color of the status bar
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -325,7 +323,7 @@ extension NotesVC {
         tableView.register(NotesTableViewCell.self, forCellReuseIdentifier: "notesTableViewCell")
         tableView.delegate = self
         tableView.dataSource = self
-        
+
         refreshControl.addTarget(self, action: #selector(refreshTableViewOnPull), for: .valueChanged)
 
         //adding the pull to refresh
@@ -378,9 +376,9 @@ extension NotesVC {
 
     ///handles the create note button being tapped
     @objc func createNoteButtonTapped() {
-        
+
         let vc = CreateNoteVC()
-        
+
         //need to send a nil note so it knows to make a new one and not overwrite an old one
         vc.note = nil
         vc.modalTransitionStyle = .crossDissolve
@@ -437,4 +435,3 @@ private func > <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
         return rhs < lhs
     }
 }
-
