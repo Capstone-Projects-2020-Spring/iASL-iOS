@@ -100,6 +100,25 @@ extension CameraBoard: CameraFeedManagerDelegate {
 		}
 	}
 	
+	fileprivate func setPredictionToDelete() {
+		self.predictionButton[0].setTitle("delete", for: .normal)
+		self.predictionButton[1].setTitle("delete", for: .normal)
+		self.predictionButton[2].setTitle("delete", for: .normal)
+	}
+	
+	fileprivate func setPredictiontoSpace() {
+		//                self.stringCache.removeAll()
+		self.predictionButton[0].setTitle("space", for: .normal)
+		self.predictionButton[1].setTitle("space", for: .normal)
+		self.predictionButton[2].setTitle("space", for: .normal)
+	}
+	
+	fileprivate func setPredictionToNothing() {
+		self.predictionButton[0].setTitle("", for: .normal)
+		self.predictionButton[1].setTitle("", for: .normal)
+		self.predictionButton[2].setTitle("", for: .normal)
+	}
+	
 	func didOutput(pixelBuffer: CVPixelBuffer) {
         let currentTimeMs = Date().timeIntervalSince1970 * 1000
         guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
@@ -110,9 +129,7 @@ extension CameraBoard: CameraFeedManagerDelegate {
 		DispatchQueue.main.async {
 			switch self.result?.inferences[0].label {
 			case "del":
-                self.predictionButton[0].setTitle("delete", for: .normal)
-				self.predictionButton[1].setTitle("delete", for: .normal)
-				self.predictionButton[2].setTitle("delete", for: .normal)
+				self.setPredictionToDelete()
                 self.target?.deleteBackward()
                 
 //                if self.stringCache.count != 0 {
@@ -133,16 +150,11 @@ extension CameraBoard: CameraFeedManagerDelegate {
 //                }
                 //self.updateStack(prediction: self.prediction)
 			case "space":
-//                self.stringCache.removeAll()
-				self.predictionButton[0].setTitle("space", for: .normal)
-				self.predictionButton[1].setTitle("space", for: .normal)
-				self.predictionButton[2].setTitle("space", for: .normal)
+				self.setPredictiontoSpace()
 				self.target?.insertText(" ")
 				
 			case "nothing":
-				self.predictionButton[0].setTitle("", for: .normal)
-				self.predictionButton[1].setTitle("", for: .normal)
-				self.predictionButton[2].setTitle("", for: .normal)
+				self.setPredictionToNothing()
 				break
 			default:
 				let confidence = self.result!.inferences[0].confidence
@@ -156,17 +168,13 @@ extension CameraBoard: CameraFeedManagerDelegate {
 				} else {
 					self.lastLetter = prediction;
 					print("reset count")
-					self.predictionButton[0].setTitle("", for: .normal)
-					self.predictionButton[1].setTitle("", for: .normal)
-					self.predictionButton[2].setTitle("", for: .normal)
+					self.setPredictionToNothing()
 					self.recurCount = 0;
 				}
 				if (self.recurCount > 3) {
 					self.target?.insertText(self.lastLetter!)
 					self.recurCount = 0;
-					self.predictionButton[0].setTitle("", for: .normal)
-					self.predictionButton[1].setTitle("", for: .normal)
-					self.predictionButton[2].setTitle("", for: .normal)
+					self.setPredictionToNothing()
 				}
 //
 //                self.stringCache.append(self.result!.inferences[0].label.description)
