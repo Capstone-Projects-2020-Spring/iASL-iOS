@@ -33,33 +33,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     requestTranscribePermissions()
 
     FirebaseApp.configure()
-    
+
     let keychain = KeychainSwift(keyPrefix: "iasl_")
-    
+
     //need a local scope so code can continue afterwards
-    
-    
-    
+
     //if we can get email and password from keychain, skip sign in screen
     if let email = keychain.get("email"), let password = keychain.get("password") {
         print("Did not get email and password")
-        
+
         //sign in with username and password
         Auth.auth().signIn(withEmail: email, password: password) { (_, err) in
             if err != nil {
                 print(err!)
                 return
             }
-            
+
             //successfully signed in
             print("you signed in successfully")
         }
-        
 
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = ViewController()
         window?.makeKeyAndVisible()
-        
 
     } else {
         window = UIWindow(frame: UIScreen.main.bounds)
@@ -84,7 +80,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
   }
 
-
     func requestTranscribePermissions() {
         SFSpeechRecognizer.requestAuthorization { [unowned self] authStatus in
             DispatchQueue.main.async {
@@ -96,5 +91,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
     }
-    
+
 }

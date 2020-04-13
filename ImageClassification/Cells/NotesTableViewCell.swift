@@ -10,11 +10,11 @@ import Foundation
 import UIKit
 
 class NotesTableViewCell: UITableViewCell {
-    
+
     var note: Note? {
         didSet {
             titleLabel.text = note?.title
-            
+
             //need to manage the length of the noteLabel
             //let noteTextIndex = note?.text?.endIndex
             if let noteText = note?.text {
@@ -26,7 +26,7 @@ class NotesTableViewCell: UITableViewCell {
                     noteLabel.text = "\"" + noteText + "...\""
                 }
             }
-            
+
             //set the timestamp appropriately
             if let milliseconds = note?.timestamp?.doubleValue {
                 let seconds = milliseconds / 1000
@@ -39,7 +39,7 @@ class NotesTableViewCell: UITableViewCell {
             }
         }
     }
-    
+
     let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -60,8 +60,7 @@ class NotesTableViewCell: UITableViewCell {
         label.textColor = .gray
         return label
     }()
-    
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -69,7 +68,7 @@ class NotesTableViewCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
-        
+
             //self.backgroundColor = .red
 
         setupTitleLabel()
@@ -80,7 +79,7 @@ class NotesTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func setupTitleLabel() {
         self.addSubview(titleLabel)
         titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 20).isActive = true
