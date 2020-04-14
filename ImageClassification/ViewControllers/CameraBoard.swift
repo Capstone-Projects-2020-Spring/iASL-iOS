@@ -182,6 +182,7 @@ extension CameraBoard: CameraFeedManagerDelegate {
 			default:
 				let confidence = self.result!.inferences[0].confidence
 				let prediction: String = self.result!.inferences[0].label.description
+				// check confidence and reoccurence here before inserting into textview.
 				self.checkConfidenceAndReoccurrenceOfLetter(prediction, confidence)
 			}
 		}
