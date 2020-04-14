@@ -92,7 +92,7 @@ class CameraBoard: UIView {
 }
 
 extension CameraBoard: CameraFeedManagerDelegate {
-	/// This is a temporary function to visualize the current letter being predicted, and show the confidence associated. The letter predicted is shown on the prediction buttons at the specific button index associated to count. If count is greater than the numebr of buttons, the prediction is not shown to avoid Segfault. 
+	/// This is a temporary function to visualize the current letter being predicted, and show the confidence associated. The letter predicted is shown on the prediction buttons at the specific button index associated to count. If count is greater than the numebr of buttons, the prediction is not shown to avoid Segfault.
 	/// - Parameters:
 	///   - prediction: The current prediction from the model
 	///   - confidence: The confidence value associated
@@ -107,23 +107,22 @@ extension CameraBoard: CameraFeedManagerDelegate {
 	//Temporary functions
 	/// This is a temporary function to visualize that delete is being predicted.
 	fileprivate func setPredictionToDelete() {
-		self.predictionButton[0].setTitle("delete", for: .normal)
-		self.predictionButton[1].setTitle("delete", for: .normal)
-		self.predictionButton[2].setTitle("delete", for: .normal)
+		for button in predictionButton{
+			button.setTitle("delete", for: .normal)
+		}
 	}
 	
 	/// This is a temporary function to visualize that space was predicted.
 	fileprivate func setPredictiontoSpace() {
-		//                self.stringCache.removeAll()
-		self.predictionButton[0].setTitle("space", for: .normal)
-		self.predictionButton[1].setTitle("space", for: .normal)
-		self.predictionButton[2].setTitle("space", for: .normal)
+		for button in predictionButton{
+			button.setTitle("space", for: .normal)
+		}
 	}
 	/// This may or may not be a temporary function to clear the prediction buttons to an empty string.
 	fileprivate func setPredictionToNothing() {
-		self.predictionButton[0].setTitle("", for: .normal)
-		self.predictionButton[1].setTitle("", for: .normal)
-		self.predictionButton[2].setTitle("", for: .normal)
+		for button in predictionButton{
+			button.setTitle("", for: .normal)
+		}
 	}
 	
 	/// Function that checks the letter result from the model. If the prediction occurs more than the `reoccurenceConstant` the prediction is inserted into the TextView.
