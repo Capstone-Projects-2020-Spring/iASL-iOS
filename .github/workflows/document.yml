@@ -15,3 +15,4 @@ jobs:
       uses: steven0351/publish-jazzy-docs@v1
       with:
         personal_access_token: ${{ secrets.ACCESS_TOKEN }}
+        version: 0.13.1
