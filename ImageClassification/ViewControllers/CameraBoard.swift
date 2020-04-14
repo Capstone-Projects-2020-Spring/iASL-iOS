@@ -21,12 +21,21 @@ class CameraBoard: UIView {
     var predictionButton = [UIButton]()
     let predictionStack = UIStackView()
     var stringCache = String()
+	
 	//Viet inspired variables
-	var lastLetter, lastNonLetter: String?
+	/// The lastLetter predicted.
+	var lastLetter:String?
+	/// Space, del, or nothing predicted.
+	var lastNonLetter: String?
+	/// The number of times a letter reoccured in a prediction
 	var recurCount = 0
+	/// The number of times a nonLetter (Space, del, or nothing) were predicted.
 	var recurCountNonLetter = 0
+	/// the minimum confidence value needed to be inserted into the text view
 	let minimumConfidence: Float = 0.89
-	let reoccurenceConstant: Int = 1
+	/// the minimum number of reoccurrence is a letter needed to be inserted into the text view
+	let minimumReoccurence: Int = 1
+	
     var prediction = ["", "", ""]
     //var prediction = Array<String>()
 	weak var target: UIKeyInput?
@@ -142,7 +151,7 @@ extension CameraBoard: CameraFeedManagerDelegate {
 			self.setPredictionToNothing()
 			self.recurCount = 0
 		}
-		if self.recurCount > reoccurenceConstant {
+		if self.recurCount > minimumReoccurence {
 			self.target?.insertText(self.lastLetter!)
 			self.recurCount = 0
 			self.setPredictionToNothing()
