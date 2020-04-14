@@ -150,10 +150,13 @@ extension CameraBoard: CameraFeedManagerDelegate {
 	}
 	
 	func didOutput(pixelBuffer: CVPixelBuffer) {
-//        let currentTimeMs = Date().timeIntervalSince1970 * 1000
-//        guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
-//        previousInferenceTimeMs = currentTimeMs
-
+		// This block of code set a delay between inferences.
+		/*
+        let currentTimeMs = Date().timeIntervalSince1970 * 1000
+        guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
+        previousInferenceTimeMs = currentTimeMs
+		*/
+		
         // Pass the pixel buffer to TensorFlow Lite to perform inference.
         result = modelDataHandler?.runModel(onFrame: pixelBuffer)
 		DispatchQueue.main.async {
