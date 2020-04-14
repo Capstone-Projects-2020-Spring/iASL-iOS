@@ -26,7 +26,7 @@ class CameraBoard: UIView {
 	var recurCount = 0
 	var recurCountNonLetter = 0
 	let minimumConfidence: Float = 0.89
-
+	let reoccurenceConstant: Int = 1
     var prediction = ["", "", ""]
     //var prediction = Array<String>()
 	weak var target: UIKeyInput?
@@ -34,13 +34,13 @@ class CameraBoard: UIView {
     private let animationDuration = 0.5
     private let collapseTransitionThreshold: CGFloat = -40.0
     private let expandThransitionThreshold: CGFloat = 40.0
-    private let delayBetweenInferencesMs: Double = 1000
+    private let delayBetweenInferencesMs: Double = 10
 
     // MARK: Instance Variables
     // Holds the results at any time
     private var result: Result?
     private var initialBottomSpace: CGFloat = 0.0
-    private var previousInferenceTimeMs: TimeInterval = Date.distantPast.timeIntervalSince1970 * 1000
+    private var previousInferenceTimeMs: TimeInterval = Date.distantPast.timeIntervalSince1970 * 10
 
     // MARK: Controllers that manage functionality
     // Handles all the camera related functionality
@@ -92,6 +92,11 @@ class CameraBoard: UIView {
 }
 
 extension CameraBoard: CameraFeedManagerDelegate {
+	/// This is a temporary function to visualize the current letter being predicted, and show the confidence associated. The letter predicted is shown on the prediction buttons at the specific button index associated to count. If count is greater than the numebr of buttons, the prediction is not shown to avoid Segfault. 
+	/// - Parameters:
+	///   - prediction: The current prediction from the model
+	///   - confidence: The confidence value associated
+	///   - count: the number of times the model predicted the current letter.
 	fileprivate func showPredictionLetterInStack(_ prediction: String, _ confidence: Float, _ count: Int) {
 		if count > 2 {
 
@@ -99,30 +104,56 @@ extension CameraBoard: CameraFeedManagerDelegate {
 			self.predictionButton[count].setTitle("\(prediction) \(confidence)", for: .normal)
 		}
 	}
-
+	//Temporary functions
+	/// This is a temporary function to visualize that delete is being predicted.
 	fileprivate func setPredictionToDelete() {
 		self.predictionButton[0].setTitle("delete", for: .normal)
 		self.predictionButton[1].setTitle("delete", for: .normal)
 		self.predictionButton[2].setTitle("delete", for: .normal)
 	}
-
+	
+	/// This is a temporary function to visualize that space was predicted.
 	fileprivate func setPredictiontoSpace() {
 		//                self.stringCache.removeAll()
 		self.predictionButton[0].setTitle("space", for: .normal)
 		self.predictionButton[1].setTitle("space", for: .normal)
 		self.predictionButton[2].setTitle("space", for: .normal)
 	}
-
+	/// This may or may not be a temporary function to clear the prediction buttons to an empty string.
 	fileprivate func setPredictionToNothing() {
 		self.predictionButton[0].setTitle("", for: .normal)
 		self.predictionButton[1].setTitle("", for: .normal)
 		self.predictionButton[2].setTitle("", for: .normal)
 	}
-
+	
+	/// Function that checks the letter result from the model. If the prediction occurs more than the `reoccurenceConstant` the prediction is inserted into the TextView.
+	/// - Parameters:
+	///   - prediction: The topmost prediction from the model.
+	///   - confidence: The confidence value associated to the prediction.
+	fileprivate func checkConfidenceAndReoccurrenceOfLetter(_ prediction: String, _ confidence: Float) {
+		if prediction == self.lastLetter && confidence > self.minimumConfidence {
+			//					print(prediction)
+			
+			self.showPredictionLetterInStack(prediction, confidence, self.recurCount)
+			
+			self.recurCount += 1
+		} else {
+			self.lastLetter = prediction
+			//					print("reset count")
+			self.setPredictionToNothing()
+			self.recurCount = 0
+		}
+		if self.recurCount > reoccurenceConstant {
+			self.target?.insertText(self.lastLetter!)
+			self.recurCount = 0
+			self.setPredictionToNothing()
+		}
+	}
+	
 	func didOutput(pixelBuffer: CVPixelBuffer) {
-        let currentTimeMs = Date().timeIntervalSince1970 * 1000
-        guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
-        previousInferenceTimeMs = currentTimeMs
+//        let currentTimeMs = Date().timeIntervalSince1970 * 1000
+//        guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
+//        previousInferenceTimeMs = currentTimeMs
 
         // Pass the pixel buffer to TensorFlow Lite to perform inference.
         result = modelDataHandler?.runModel(onFrame: pixelBuffer)
@@ -131,60 +162,16 @@ extension CameraBoard: CameraFeedManagerDelegate {
 			case "del":
 				self.setPredictionToDelete()
                 self.target?.deleteBackward()
-
-//                if self.stringCache.count != 0 {
-//                    self.stringCache.removeLast(1)
-//
-//                    let rangeForEndOfStr = NSMakeRange(0, self.stringCache.utf16.count)
-//                    let spellChecker = UITextChecker()
-//                    print("printing text cache: \(self.stringCache)")
-//                    let result = spellChecker.completions(forPartialWordRange: rangeForEndOfStr, in: self.stringCache, language: "en_US")
-//                    if result != nil {
-//                        self.prediction = result!
-//                    } else {
-//                        self.prediction.removeAll()
-//                    }
-//
-//                } else {
-//                    self.prediction.removeAll()
-//                }
-                //self.updateStack(prediction: self.prediction)
 			case "space":
 				self.setPredictiontoSpace()
 				self.target?.insertText(" ")
-
 			case "nothing":
 				self.setPredictionToNothing()
 				break
 			default:
 				let confidence = self.result!.inferences[0].confidence
 				let prediction: String = self.result!.inferences[0].label.description
-				if prediction == self.lastLetter && confidence > self.minimumConfidence {
-					print(prediction)
-
-					self.showPredictionLetterInStack(prediction, confidence, self.recurCount)
-
-					self.recurCount += 1
-				} else {
-					self.lastLetter = prediction
-					print("reset count")
-					self.setPredictionToNothing()
-					self.recurCount = 0
-				}
-				if self.recurCount > 3 {
-					self.target?.insertText(self.lastLetter!)
-					self.recurCount = 0
-					self.setPredictionToNothing()
-				}
-//
-//                self.stringCache.append(self.result!.inferences[0].label.description)
-//                let rangeForEndOfStr = NSMakeRange(0, self.stringCache.utf16.count)     // You had inverted parameters ; could also use NSRange(0..<str.utf16.count)
-//                let spellChecker = UITextChecker()
-                //print(UITextChecker.availableLanguages)
-//                print("printing text cache: \(self.stringCache)")
-                //self.prediction = spellChecker.completions(forPartialWordRange: rangeForEndOfStr, in: self.stringCache, language: "en_US")!
-//                print(self.prediction ?? "No completion found")
-                //self.updateStack(prediction: self.prediction)
+				self.checkConfidenceAndReoccurrenceOfLetter(prediction, confidence)
 			}
 		}
 
