@@ -71,7 +71,7 @@ class ViewController: UIViewController {
 	var recurCount = 0
 	var recurCountNonLetter = 0
 	let minimumConfidence: Float = 0.89
-	
+
     // MARK: Controllers that manage functionality
     // Handles all the camera related functionality
     private lazy var cameraCapture = CameraFeedManager(previewView: previewView)
@@ -791,18 +791,16 @@ extension ViewController {
 				} else {
 					self.lastLetter = prediction
 					print("reset count")
-					
+
 					self.recurCount = 0
 				}
 				if self.recurCount > 3 {
 					self.outputTextView.text += self.result!.inferences[0].label.description
 					self.recurCount = 0
-					
+
 				}
 			}
 		}
-		
+
 	}
 }
-
-

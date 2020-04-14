@@ -21,10 +21,10 @@ class CameraBoard: UIView {
     var predictionButton = [UIButton]()
     let predictionStack = UIStackView()
     var stringCache = String()
-	
+
 	//Viet inspired variables
 	/// The lastLetter predicted.
-	var lastLetter:String?
+	var lastLetter: String?
 	/// Space, del, or nothing predicted.
 	var lastNonLetter: String?
 	/// The number of times a letter reoccured in a prediction
@@ -35,7 +35,7 @@ class CameraBoard: UIView {
 	let minimumConfidence: Float = 0.89
 	/// the minimum number of reoccurrence is a letter needed to be inserted into the text view
 	let minimumReoccurence: Int = 1
-	
+
     var prediction = ["", "", ""]
     //var prediction = Array<String>()
 	weak var target: UIKeyInput?
@@ -116,24 +116,24 @@ extension CameraBoard: CameraFeedManagerDelegate {
 	//Temporary functions
 	/// This is a temporary function to visualize that delete is being predicted.
 	fileprivate func setPredictionToDelete() {
-		for button in predictionButton{
+		for button in predictionButton {
 			button.setTitle("delete", for: .normal)
 		}
 	}
-	
+
 	/// This is a temporary function to visualize that space was predicted.
 	fileprivate func setPredictiontoSpace() {
-		for button in predictionButton{
+		for button in predictionButton {
 			button.setTitle("space", for: .normal)
 		}
 	}
 	/// This may or may not be a temporary function to clear the prediction buttons to an empty string.
 	fileprivate func setPredictionToNothing() {
-		for button in predictionButton{
+		for button in predictionButton {
 			button.setTitle("", for: .normal)
 		}
 	}
-	
+
 	/// Function that checks the letter result from the model. If the prediction occurs more than the `reoccurenceConstant` the prediction is inserted into the TextView.
 	/// - Parameters:
 	///   - prediction: The topmost prediction from the model.
@@ -141,9 +141,9 @@ extension CameraBoard: CameraFeedManagerDelegate {
 	fileprivate func checkConfidenceAndReoccurrenceOfLetter(_ prediction: String, _ confidence: Float) {
 		if prediction == self.lastLetter && confidence > self.minimumConfidence {
 			//					print(prediction)
-			
+
 			self.showPredictionLetterInStack(prediction, confidence, self.recurCount)
-			
+
 			self.recurCount += 1
 		} else {
 			self.lastLetter = prediction
@@ -157,7 +157,7 @@ extension CameraBoard: CameraFeedManagerDelegate {
 			self.setPredictionToNothing()
 		}
 	}
-	
+
 	func didOutput(pixelBuffer: CVPixelBuffer) {
 		// This block of code set a delay between inferences.
 		/*
@@ -165,7 +165,7 @@ extension CameraBoard: CameraFeedManagerDelegate {
         guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
         previousInferenceTimeMs = currentTimeMs
 		*/
-		
+
         // Pass the pixel buffer to TensorFlow Lite to perform inference.
         result = modelDataHandler?.runModel(onFrame: pixelBuffer)
 		DispatchQueue.main.async {
