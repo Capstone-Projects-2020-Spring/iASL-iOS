@@ -29,6 +29,7 @@
 		6E6D14D1241845D900A185E9 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6D14D0241845D900A185E9 /* ChatTableViewCell.swift */; };
 		6EB03F7C24251C6D009C0843 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB03F7B24251C6D009C0843 /* Extensions.swift */; };
 		6EB03F7E24253489009C0843 /* CameraBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB03F7D24253489009C0843 /* CameraBoard.swift */; };
+		6EB8C85B2447A9DC0071F251 /* PredictionLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB8C85A2447A9DC0071F251 /* PredictionLayer.swift */; };
 		6EF328FB24173A430071E430 /* NotesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF328FA24173A430071E430 /* NotesVC.swift */; };
 		AA16E5A22180843800D9E153 /* InfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA16E5A12180843700D9E153 /* InfoCell.swift */; };
 		AA5FEB7E21355CCC00F9BD4B /* labels.txt in Resources */ = {isa = PBXBuildFile; fileRef = AA5FEB7C21355CCC00F9BD4B /* labels.txt */; };
@@ -93,6 +94,7 @@
 		6E6D14D0241845D900A185E9 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
 		6EB03F7B24251C6D009C0843 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		6EB03F7D24253489009C0843 /* CameraBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraBoard.swift; sourceTree = "<group>"; };
+		6EB8C85A2447A9DC0071F251 /* PredictionLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictionLayer.swift; sourceTree = "<group>"; };
 		6ED11B8B2424145E000CF870 /* short_notification.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = short_notification.mp3; sourceTree = "<group>"; };
 		6ED11B8C242414A1000CF870 /* simple_notification.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = simple_notification.mp3; sourceTree = "<group>"; };
 		6EF328FA24173A430071E430 /* NotesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesVC.swift; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 				6E23ACD62416CB4000495F02 /* iASL.entitlements */,
 				670E273824248A77003E129E /* GoogleService-Info.plist */,
 				AAE79E59213521DA00E7AC1F /* AppDelegate.swift */,
+				6EB8C85A2447A9DC0071F251 /* PredictionLayer.swift */,
 				602388982426E01B0041E2C3 /* Object Models */,
 				AAAB096C218981A30015A1F2 /* Extensions */,
 				AA16E5A02180843700D9E153 /* Cells */,
@@ -554,6 +557,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				67CD6E9E242AE3380004D255 /* TranscribeVC.swift in Sources */,
+				6EB8C85B2447A9DC0071F251 /* PredictionLayer.swift in Sources */,
 				602388972426D9A40041E2C3 /* ChatMessageCell.swift in Sources */,
 				6013906C2438F07200BFD61E /* Note.swift in Sources */,
 				AAE79E952135237A00E7AC1F /* ViewController.swift in Sources */,
