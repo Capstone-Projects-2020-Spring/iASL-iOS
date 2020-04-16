@@ -15,11 +15,11 @@ jobs:
         uses: Applebaumian/swift-doc@master
         with:
           inputs: "ImageClassification"
-          module-name: MyLibrary
-          output: "Documentation"
-      - name: Upload Documentation to Wiki
-        uses: SwiftDocOrg/github-wiki-publish-action@v1
+          module-name: iASL
+          format: "html"
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
-          path: "Documentation"
-        env:
-          GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: .build/documentation # The folder the action should deploy.
