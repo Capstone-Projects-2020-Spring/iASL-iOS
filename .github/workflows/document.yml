@@ -1,5 +1,4 @@
 name: Document Code
-
 on:
   # Trigger the workflow on push or pull request,
   # but only for the master branch
@@ -7,12 +6,20 @@ on:
     branches:
       - master
 jobs:
-  deploy_docs:
-    runs-on: macos
+  build:
+    runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v1
-    - name: Publish Jazzy Docs
-      uses: steven0351/publish-jazzy-docs@v1
-      with:
-        personal_access_token: ${{ secrets.ACCESS_TOKEN }}
-        version: 0.13.1
+      - uses: actions/checkout@v1
+      - name: Generate Documentation
+        uses: Applebaumian/swift-doc@master
+        with:
+          inputs: "ImageClassification"
+          module-name: iASL
+          format: "html"
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: .build/documentation # The folder the action should deploy.
