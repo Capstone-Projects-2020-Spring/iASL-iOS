@@ -27,7 +27,18 @@ class CameraBoard: UIView {
 	var recurCountNonLetter = 0
 	let minimumConfidence: Float = 0.89
 
-    var prediction = ["", "", ""]
+	/*
+	      ?  (__)  ?
+		 ?   (oo)   ?
+	  /-------\/
+	 / |     ||
+	*  ||----||
+	   ^^    ^^
+	  Where Cow	*/
+	/// Array to hopefully collect frames.
+	var frames:[CVPixelBuffer] = []
+
+	var prediction = ["", "", ""]
     //var prediction = Array<String>()
 	weak var target: UIKeyInput?
     // MARK: Constants
@@ -120,7 +131,32 @@ extension CameraBoard: CameraFeedManagerDelegate {
 	}
 
 	func didOutput(pixelBuffer: CVPixelBuffer) {
-        let currentTimeMs = Date().timeIntervalSince1970 * 1000
+		
+		if frames.count == 13 {
+			print("GOT EM")
+			frames.removeAll()
+		}
+		
+		frames.append(pixelBuffer)
+		print(frames.count)
+		/*
+		                        (*)                  (*)
+		   (__)                  ^                    ^                (__)
+		   (oo)                  |      |             |               @(oo)@
+		   [..]                  |      =             |                [..]@@
+		\ |  U           (-)     |     | |            | (-)             U  @@@@
+		 ||   ==<_\=====/_|______=_____|=|____________=__|____\====/_>==   ||
+		 ||   )  ||||||||||||||||||||||||||||||||||||||||||||||||||||  (   ||
+		 ||___)==||||||||||||||||||||||||||||||||||||||||||||||||||||==(___||
+		 |\====| |||||||||||||||||||||||||||||||||||||||||||||||||||| |====/|
+		 |  \  |     |                                          |     |  /  |
+		 =   * =     =                                          =     = *   =
+						   cows having candlelight dinner
+		
+		Also below is the code for the finger spelling classification.
+		*/
+       /*
+		let currentTimeMs = Date().timeIntervalSince1970 * 1000
         guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
         previousInferenceTimeMs = currentTimeMs
 
@@ -193,6 +229,8 @@ extension CameraBoard: CameraFeedManagerDelegate {
             let resolution = CGSize(width: CVPixelBufferGetWidth(pixelBuffer), height: CVPixelBufferGetHeight(pixelBuffer))
 
         }
+*/
+		
     }
 
     func predictWord() {
