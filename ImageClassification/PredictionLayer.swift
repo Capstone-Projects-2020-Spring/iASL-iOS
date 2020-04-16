@@ -17,22 +17,25 @@ class PredictionLayer {
     ["k","p"],
     ["u","v"]]
     
+    var word = String()
+    var cache = [String]()
+    
     init(){}
     
     ///Finds the closest match for the word and ignores alphabet that doesn't match
-    func letterProximitySwap(inputWord:String, inputChar:String) -> String {
+    func letterProximitySwap(inputChar:String) -> String {
         var ret = ""
         let index = isSimilarLetter(inputChar: inputChar)
         print("a")
         if index != -1 {
             print("b")
-            let predictedWord = fetchPossibleWord(str: inputWord+inputChar)
+            let predictedWord = fetchPossibleWord(str: self.word+inputChar)
             if predictedWord?.count != 0 {
                 ret = inputChar
                 print("c : \(predictedWord)")
             } else {
                 for alphabet in similarAlphabets[index] {
-                    let predictedWord = fetchPossibleWord(str: inputWord+alphabet)
+                    let predictedWord = fetchPossibleWord(str: self.word+alphabet)
                     if predictedWord?.count != 0 {
                         print("second if statement: \(predictedWord)")
                         ret = alphabet
@@ -43,8 +46,20 @@ class PredictionLayer {
         } else {
             ret = inputChar
         }
+        self.word += ret
         return ret
     }
+    
+    func loadToCache(word:String){
+        cache.append(word)
+    }
+    
+    func checkInCache(word:String){
+        for cachedWord in cache {
+            //if
+        }
+    }
+    
     
     func fetchPossibleWord(str:String) -> [String]? {
         let rangeForEndOfStr = NSMakeRange(0, str.utf16.count)     // You had inverted parameters ; could also use NSRange(0..<str.utf16.count)
@@ -73,6 +88,13 @@ class PredictionLayer {
         return ret
     }
     
+    func clearWord(){
+        word = ""
+    }
     
-    
+    func removeLastLetterFromWord() {
+        if word.count != 0 {
+            word.removeLast()
+        }
+    }
 }

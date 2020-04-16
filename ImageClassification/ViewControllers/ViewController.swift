@@ -41,7 +41,7 @@ class ViewController: UIViewController {
     var speechSpeedDegree = Float()
     var controlButtonStackBottomAnchor = NSLayoutConstraint()
     @objc let predictionAssistButton = UIButton()
-
+    let predictionLayer = PredictionLayer()
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
@@ -726,7 +726,6 @@ extension ViewController {
 
     func sliderSetup() {
         controlView.addSubview(slider)
-        //slider.frame = CGRect(x: 0, y: 0, width: 250, height: 35)
         slider.translatesAutoresizingMaskIntoConstraints = false
         slider.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 20).isActive = true
         slider.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -20).isActive = true
@@ -785,20 +784,9 @@ extension ViewController {
 			DispatchQueue.main.async {
 				let confidence = self.result!.inferences[0].confidence
 				let prediction: String = self.result!.inferences[0].label.description
-				if prediction == self.lastLetter && confidence > self.minimumConfidence {
-					print(prediction)
-					self.recurCount += 1
-				} else {
-					self.lastLetter = prediction
-					print("reset count")
-					
-					self.recurCount = 0
-				}
-				if self.recurCount > 3 {
-					self.outputTextView.text += self.result!.inferences[0].label.description
-					self.recurCount = 0
-					
-				}
+                print("actual \(prediction) output \(self.predictionLayer.letterProximitySwap(inputChar: prediction))")
+                self.outputTextView.text.append(self.predictionLayer.letterProximitySwap(inputChar: prediction))
+				print(prediction)
 			}
 		}
 		
