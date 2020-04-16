@@ -47,7 +47,8 @@ class ViewController: UIViewController {
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
     var synthesizer = AVSpeechSynthesizer()
-
+    var verificationCount = 0
+    var verificationCache = ""
     let topBar = UIView()
     // MARK: Storyboards Connections
     var previewView = PreviewView()
@@ -295,13 +296,39 @@ class ViewController: UIViewController {
 extension ViewController: CameraFeedManagerDelegate {
 
 	func didOutput(pixelBuffer: CVPixelBuffer) {
-        let currentTimeMs = Date().timeIntervalSince1970 * 1000
-        guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
-        previousInferenceTimeMs = currentTimeMs
-        // Pass the pixel buffer to TensorFlow Lite to perform inference.
+//        let currentTimeMs = Date().timeIntervalSince1970 * 1000
+//        guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
+//        previousInferenceTimeMs = currentTimeMs
+        
+        /// Pass the pixel buffer to TensorFlow Lite to perform inference.
         result = modelDataHandler?.runModel(onFrame: pixelBuffer)
-		executeASLtoText()
-        print("hello from the view controller")
+        if let output = result {
+            if output.inferences[0].label != "nothing" {
+                print(output.inferences[0].label)
+            }
+            
+            if verificationCount == 0 {
+                verificationCache = output.inferences[0].label
+            }
+            
+            print("\(verificationCount) \(verificationCache) == \(output.inferences[0].label)")
+            if verificationCount == 2 && verificationCache == output.inferences[0].label {
+                verificationCount = 0
+                executeASLtoText()
+            } else if verificationCount < 2 {
+                verificationCount += 1
+            } else if verificationCache != output.inferences[0].label {
+                verificationCache = ""
+                verificationCount = 0
+            }
+            
+            
+        }
+        //print(result?.inferences[0].label)
+        
+        
+        
+		
         // Display results by handing off to the InferenceViewController.
         DispatchQueue.main.async {
             let resolution = CGSize(width: CVPixelBufferGetWidth(pixelBuffer), height: CVPixelBufferGetHeight(pixelBuffer))
@@ -530,12 +557,14 @@ extension ViewController {
     }
 
     func speak() {
-        let utterance = AVSpeechUtterance(string: outputTextView.text!)
-        utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
-        utterance.rate = 0.4 + (speechSpeedDegree/500)
-        print("utterance rate: \(utterance)")
-        synthesizer = AVSpeechSynthesizer()
-        synthesizer.speak(utterance)
+        DispatchQueue.main.async {
+            let utterance = AVSpeechUtterance(string: self.outputTextView.text!)
+            utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
+            utterance.rate = 0.4 + (self.speechSpeedDegree/500)
+            print("utterance rate: \(utterance)")
+            self.synthesizer = AVSpeechSynthesizer()
+            self.synthesizer.speak(utterance)
+        }
     }
 
     // MARK: Control View
@@ -779,14 +808,13 @@ extension ViewController {
 			addSpace()
             speak()
 		case "nothing":
-			print("")
+            if true {}
 		default:
 			DispatchQueue.main.async {
 				let confidence = self.result!.inferences[0].confidence
 				let prediction: String = self.result!.inferences[0].label.description
                 print("actual \(prediction) output \(self.predictionLayer.letterProximitySwap(inputChar: prediction))")
                 self.outputTextView.text.append(self.predictionLayer.letterProximitySwap(inputChar: prediction))
-				print(prediction)
 			}
 		}
 		

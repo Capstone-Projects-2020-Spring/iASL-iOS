@@ -47,7 +47,7 @@ protocol CameraFeedManagerDelegate: class {
 	This method initimates that the session interruption has ended.
 	*/
 	func sessionInterruptionEnded()
-
+    
 }
 
 /**
@@ -66,7 +66,8 @@ enum CameraConfiguration {
 This class manages all camera related functionality
 */
 class CameraFeedManager: NSObject {
-
+    var count = 0
+    var tempOutput = ""
 	// MARK: Camera Related Instance Variables
 	private let session: AVCaptureSession = AVCaptureSession()
 	private let previewView: PreviewView
@@ -336,11 +337,20 @@ extension CameraFeedManager: AVCaptureVideoDataOutputSampleBufferDelegate {
 		guard let imagePixelBuffer = pixelBuffer else {
 			return
 		}
-        var modelDataHandler: ModelDataHandler? =
-        ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo, threadCount: 2)
-        if let result = modelDataHandler?.runModel(onFrame: imagePixelBuffer) {
-            print(result.inferences[0].label)
-        }
+//        var modelDataHandler: ModelDataHandler? =
+//        ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo, threadCount: 2)
+//
+//        var output = ""
+//        if let result = modelDataHandler?.runModel(onFrame: imagePixelBuffer) {
+//            output = result.inferences[0].label
+//        }
+//        
+//        if count == 3 && tempOutput == output {
+//            print("output confirmed \(output)")
+//        }
+//
+//        count += 1
+        
         
         
         //executeASLtoText()
