@@ -12,19 +12,20 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Generate Documentation
-        uses: Applebaumian/swift-doc@master
+        uses: SwiftDocOrg/swift-doc@master
         with:
           inputs: "ImageClassification"
           module-name: iASL
-#       - name: Deploy 🚀
-#         uses: JamesIves/github-pages-deploy-action@releases/v3
-#         with:
-#           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-#           BRANCH: gh-pages # The branch the action should deploy to.
-#           FOLDER: .build/documentation # The folder the action should deploy.
-      - name: Upload Documentation to Wiki
-        uses: SwiftDocOrg/github-wiki-publish-action@v1
+          format: "html"
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
-          path: ".build/documentation"
-        env:
-          GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: .build/documentation # The folder the action should deploy.
+#       - name: Upload Documentation to Wiki
+#         uses: SwiftDocOrg/github-wiki-publish-action@v1
+#         with:
+#           path: ".build/documentation"
+#         env:
+#           GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
