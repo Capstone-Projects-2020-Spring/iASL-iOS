@@ -329,13 +329,21 @@ extension CameraFeedManager: AVCaptureVideoDataOutputSampleBufferDelegate {
 	*/
 	func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
 
+        var result: Result?
 		// Converts the CMSampleBuffer to a CVPixelBuffer.
 		let pixelBuffer: CVPixelBuffer? = CMSampleBufferGetImageBuffer(sampleBuffer)
 
 		guard let imagePixelBuffer = pixelBuffer else {
 			return
 		}
-
+        var modelDataHandler: ModelDataHandler? =
+        ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo, threadCount: 2)
+        if let result = modelDataHandler?.runModel(onFrame: imagePixelBuffer) {
+            print(result.inferences[0].label)
+        }
+        
+        
+        //executeASLtoText()
 		// Delegates the pixel buffer to the ViewController.
 		delegate?.didOutput(pixelBuffer: imagePixelBuffer)
 	}

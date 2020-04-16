@@ -298,10 +298,10 @@ extension ViewController: CameraFeedManagerDelegate {
         let currentTimeMs = Date().timeIntervalSince1970 * 1000
         guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
         previousInferenceTimeMs = currentTimeMs
-
         // Pass the pixel buffer to TensorFlow Lite to perform inference.
         result = modelDataHandler?.runModel(onFrame: pixelBuffer)
 		executeASLtoText()
+        print("hello from the view controller")
         // Display results by handing off to the InferenceViewController.
         DispatchQueue.main.async {
             let resolution = CGSize(width: CVPixelBufferGetWidth(pixelBuffer), height: CVPixelBufferGetHeight(pixelBuffer))

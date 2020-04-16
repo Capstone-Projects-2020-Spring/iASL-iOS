@@ -181,7 +181,7 @@ class ModelDataHandler {
 
     // Process the results.
     let topNInferences = getTopN(results: results)
-    print("inference time \(interval)")
+
     // Return the inference time and inference results.
     return Result(inferenceTime: interval, inferences: topNInferences)
   }
