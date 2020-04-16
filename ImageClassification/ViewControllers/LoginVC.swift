@@ -18,7 +18,7 @@ import Firebase
 import FirebaseAuth
 import FirebaseFirestore
 import KeychainSwift
-
+import AppleWelcomeScreen
 /**
  This view controller is for the login screen that a user will see when they first open the app.
  The user should be able to enter their name, email, and password if they have not registered before or
@@ -30,8 +30,66 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 
     ///boolean that determines if we are on the login screen or the register screen
     var isRegisterButton: Bool = true
-
+	var isFirstOpen = true
     let collectionUser: String = "users"
+	var welcomeScreenConfig = AWSConfigOptions()
+
+	@objc func showWelcomeScreen() {
+		  let vc = AWSViewController()
+		vc.configuration = self.welcomeScreenConfig
+		  self.present(vc, animated: true)
+	  }
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(true)
+		if defaults.bool(forKey: "WelcomeVersion1.0.0") {
+					   return
+				   } else {
+					   self.showWelcomeScreen()
+
+			}
+	}
+	fileprivate func welcomeScreenSetup() {
+		welcomeScreenConfig.appName = "iASL (Beta)"
+		welcomeScreenConfig.appDescription = "iASL is a Temple University capstone project designed to transcribe American Sign Language to text using your iPhone's camera. We sincerely thank you for taking the time to test our app before public release. We are testing the following features."
+		welcomeScreenConfig.tintColor = .systemPink
+
+		var item1 = AWSItem()
+		if #available(iOS 13.0, *) {
+
+			item1.image = UIImage(systemName: "hand.draw.fill")?.withTintColor(.systemPink, renderingMode: .alwaysOriginal)
+		} else {
+			// Fallback on earlier versions
+		}
+		item1.title = "ASL Finger Spelling Recognition"
+		item1.description = "Spell words using American Sign Language letters."
+
+		var item2 = AWSItem()
+		if #available(iOS 13.0, *) {
+			item2.image = UIImage(systemName: "bubble.left.and.bubble.right.fill")?.withTintColor(.systemPink, renderingMode: .alwaysOriginal)
+		} else {
+			// Fallback on earlier versions
+		}
+		item2.title = "Messaging"
+		item2.description = "Our chat feature lets you send messages to other iASL users using Sign Language instead of a keyboard."
+
+		var item3 = AWSItem()
+		if #available(iOS 13.0, *) {
+			item3.image = UIImage(systemName: "camera.on.rectangle.fill")?.withTintColor(.systemPink, renderingMode: .alwaysOriginal)
+		} else {
+			// Fallback on earlier versions
+		}
+		item3.title = "We need your help."
+		item3.description = "We're working on supporting full American Sign Language words, and we need your help to train iASL. With your permission, we ask you to tap the train iASL button where you will be prompted with a video of the sign that you will perform and send to our server."
+
+		welcomeScreenConfig.items = [item1, item2, item3]
+
+		welcomeScreenConfig.continueButtonAction = {
+			defaults.set(true, forKey: "WelcomeVersion1.0.0")
+			self.dismiss(animated: true)
+		}
+	}
+
+	///first function that is called
     let usersStringConstant: String = "users"
 
     let keychain = KeychainSwift(keyPrefix: "iasl_")
@@ -230,6 +288,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         setupToggleRegisterLoginButton()
         setupSkipButton()
 
+		welcomeScreenSetup()
         //print(toggleRegisterLoginButton.frame.origin.y)
     }
 
