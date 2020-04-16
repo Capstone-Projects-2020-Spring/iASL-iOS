@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iASL - iASL</title>
+    <title>iASL - CameraBoard</title>
     <base href="/"/>
     <style type="text/css">
     :root {
@@ -1198,370 +1198,444 @@ nav li[class] {
     <nav>
         <div class="wrapper">
             <h2>On This Page</h2>
-            <ol><li><a href="#classes">Classes</a></li><li><a href="#structures">Structures</a></li><li><a href="#enumerations">Enumerations</a></li><li><a href="#protocols">Protocols</a></li></ol>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#cameraboard.init(target:)">init(target:​)</a></li><li class="initializer"><a href="#cameraboard.init?(coder:)">init?(coder:​)</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="property"><a href="#cameraboard.caboardview">caboard​View</a></li><li class="property"><a href="#cameraboard.previewview">preview​View</a></li><li class="property"><a href="#cameraboard.nextbutton">next​Button</a></li><li class="property"><a href="#cameraboard.deletebutton">delete​Button</a></li><li class="property"><a href="#cameraboard.cameraunavailablelabel">camera​Unavailable​Label</a></li><li class="property"><a href="#cameraboard.resumebutton">resume​Button</a></li><li class="property"><a href="#cameraboard.buttonstack">button​Stack</a></li><li class="property"><a href="#cameraboard.keyboardchangebutton">keyboard​Change​Button</a></li><li class="property"><a href="#cameraboard.predictionbutton">prediction​Button</a></li><li class="property"><a href="#cameraboard.predictionstack">prediction​Stack</a></li><li class="property"><a href="#cameraboard.stringcache">string​Cache</a></li><li class="property"><a href="#cameraboard.lastletter">last​Letter</a></li><li class="property"><a href="#cameraboard.lastnonletter">last​Non​Letter</a></li><li class="property"><a href="#cameraboard.recurcount">recur​Count</a></li><li class="property"><a href="#cameraboard.recurcountnonletter">recur​Count​Non​Letter</a></li><li class="property"><a href="#cameraboard.minimumconfidence">minimum​Confidence</a></li><li class="property"><a href="#cameraboard.prediction">prediction</a></li><li class="property"><a href="#cameraboard.target">target</a></li><li class="property"><a href="#cameraboard.animationduration">animation​Duration</a></li><li class="property"><a href="#cameraboard.collapsetransitionthreshold">collapse​Transition​Threshold</a></li><li class="property"><a href="#cameraboard.expandthransitionthreshold">expand​Thransition​Threshold</a></li><li class="property"><a href="#cameraboard.delaybetweeninferencesms">delay​Between​Inferences​Ms</a></li><li class="property"><a href="#cameraboard.result">result</a></li><li class="property"><a href="#cameraboard.initialbottomspace">initial​Bottom​Space</a></li><li class="property"><a href="#cameraboard.previousinferencetimems">previous​Inference​Time​Ms</a></li><li class="property"><a href="#cameraboard.cameracapture">camera​Capture</a></li><li class="property"><a href="#cameraboard.modeldatahandler">model​Data​Handler</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="method"><a href="#cameraboard.willmove(tosuperview:)">will​Move(to​Superview:​)</a></li><li class="method"><a href="#cameraboard.willremovesubview(_:)">will​Remove​Subview(_:​)</a></li><li class="method"><a href="#cameraboard.showpredictionletterinstack(_:_:_:)">show​Prediction​Letter​InStack(_:​_:​_:​)</a></li><li class="method"><a href="#cameraboard.setpredictiontodelete()">set​Prediction​ToDelete()</a></li><li class="method"><a href="#cameraboard.setpredictiontospace()">set​Predictionto​Space()</a></li><li class="method"><a href="#cameraboard.setpredictiontonothing()">set​Prediction​ToNothing()</a></li><li class="method"><a href="#cameraboard.didoutput(pixelbuffer:)">did​Output(pixel​Buffer:​)</a></li><li class="method"><a href="#cameraboard.predictword()">predict​Word()</a></li><li class="method"><a href="#cameraboard.presentcamerapermissionsdeniedalert()">present​Camera​Permissions​Denied​Alert()</a></li><li class="method"><a href="#cameraboard.presentvideoconfigurationerroralert()">present​Video​Configuration​Error​Alert()</a></li><li class="method"><a href="#cameraboard.sessionruntimeerroroccured()">session​Run​Time​Error​Occured()</a></li><li class="method"><a href="#cameraboard.sessionwasinterrupted(canresumemanually:)">session​Was​Interrupted(can​Resume​Manually:​)</a></li><li class="method"><a href="#cameraboard.sessioninterruptionended()">session​Interruption​Ended()</a></li><li class="method"><a href="#cameraboard.predictionstacksetup()">prediction​Stack​Setup()</a></li><li class="method"><a href="#cameraboard.updatestack(prediction:)">update​Stack(prediction:​)</a></li><li class="method"><a href="#cameraboard.predictionbuttonholddown(_:)">prediction​Button​Hold​Down(_:​)</a></li><li class="method"><a href="#cameraboard.predictionbuttontapped(_:)">prediction​Button​Tapped(_:​)</a></li><li class="method"><a href="#cameraboard.caboardviewsetup()">caboard​View​Setup()</a></li><li class="method"><a href="#cameraboard.previewviewsetup()">preview​View​Setup()</a></li><li class="method"><a href="#cameraboard.nextbuttonsetup()">next​Button​Setup()</a></li><li class="method"><a href="#cameraboard.returnkeypressed()">return​Key​Pressed()</a></li><li class="method"><a href="#cameraboard.buttonstacksetup()">button​Stack​Setup()</a></li><li class="method"><a href="#cameraboard.deletebuttonsetup()">delete​Button​Setup()</a></li><li class="method"><a href="#cameraboard.handlelongpress()">handle​Long​Press()</a></li><li class="method"><a href="#cameraboard.deletechar(completion:)">delete​Char(completion:​)</a></li><li class="method"><a href="#cameraboard.keyboardbuttonsetup()">keyboard​Button​Setup()</a></li><li class="method"><a href="#cameraboard.bottomcoversetup()">bottom​Cover​Setup()</a></li><li class="method"><a href="#cameraboard.classifypasteboardimage()">classify​Pasteboard​Image()</a></li></ul></li></ol>
         </div>
     </nav>
 
     <main>
         <article>
-                <section id="classes">
-        <h2>Classes</h2>
-        <dl>
-            <dt class="class">
-    <a href="AppDelegate" title="class - AppDelegate">
-        App​Delegate
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="CameraFeedManager" title="class - CameraFeedManager">
-        Camera​Feed​Manager
-    </a>
-</dt>
-<dd>
-    <p>This class manages all camera related functionality</p>
+            <h1>
+    <small>Class</small>
+    <code class="name">Camera​Board</code>
+</h1>
 
-</dd>
-<dt class="class">
-    <a href="PreviewView" title="class - PreviewView">
-        Preview​View
-    </a>
-</dt>
-<dd>
-    <p>Displays a preview of the image being processed. By default, this uses the device's camera frame,
-but will use a still image copied from clipboard if <code>shouldUseClipboardImage</code> is set to true.</p>
+<html><body><pre class="highlight"><code><span class="keyword">class</span> <span class="type">CameraBoard</span>: <span class="type">UIView</span></code></pre></body></html>
+<section id="relationships">
+    <h2 hidden>Relationships</h2>
+        <figure>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.42.3 (20191010.1750)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="873pt" height="116pt"
+ viewBox="0.00 0.00 872.67 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>%3</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 868.67,-112 868.67,4 -4,4"/>
+<!-- CameraBoard -->
+<g id="node1" class="node class current">
+<title>CameraBoard</title>
+<g id="a_node1"><a xlink:href="/CameraBoard" xlink:title="CameraBoard">
+<path fill="none" stroke="black" stroke-width="3" d="M532.43,-108C532.43,-108 340.43,-108 340.43,-108 334.43,-108 328.43,-102 328.43,-96 328.43,-96 328.43,-84 328.43,-84 328.43,-78 334.43,-72 340.43,-72 340.43,-72 532.43,-72 532.43,-72 538.43,-72 544.43,-78 544.43,-84 544.43,-84 544.43,-96 544.43,-96 544.43,-102 538.43,-108 532.43,-108"/>
+<text text-anchor="middle" x="436.43" y="-86.95" font-family="Menlo" font-size="14.00">CameraBoard</text>
+</a>
+</g>
+</g>
+<!-- CameraFeedManagerDelegate -->
+<g id="node2" class="node protocol">
+<title>CameraFeedManagerDelegate</title>
+<g id="a_node2"><a xlink:href="/CameraFeedManagerDelegate" xlink:title="CameraFeedManagerDelegate">
+<path fill="none" stroke="black" d="M313.65,-36C313.65,-36 111.21,-36 111.21,-36 105.21,-36 99.21,-30 99.21,-24 99.21,-24 99.21,-12 99.21,-12 99.21,-6 105.21,0 111.21,0 111.21,0 313.65,0 313.65,0 319.65,0 325.65,-6 325.65,-12 325.65,-12 325.65,-24 325.65,-24 325.65,-30 319.65,-36 313.65,-36"/>
+<text text-anchor="middle" x="212.43" y="-14.95" font-family="Menlo" font-size="14.00">CameraFeedManagerDelegate</text>
+</a>
+</g>
+</g>
+<!-- CameraBoard&#45;&gt;CameraFeedManagerDelegate -->
+<g id="edge1" class="edge conformsTo">
+<title>CameraBoard&#45;&gt;CameraFeedManagerDelegate</title>
+<path fill="none" stroke="black" d="M381.92,-71.97C350.21,-62.06 310.08,-49.51 276.82,-39.12"/>
+<polygon fill="black" stroke="black" points="277.77,-35.75 267.19,-36.11 275.69,-42.43 277.77,-35.75"/>
+</g>
+<!-- UIView -->
+<g id="node3" class="node unknown">
+<title>UIView</title>
+<path fill="none" stroke="black" d="M757.43,-36C757.43,-36 565.43,-36 565.43,-36 559.43,-36 553.43,-30 553.43,-24 553.43,-24 553.43,-12 553.43,-12 553.43,-6 559.43,0 565.43,0 565.43,0 757.43,0 757.43,0 763.43,0 769.43,-6 769.43,-12 769.43,-12 769.43,-24 769.43,-24 769.43,-30 763.43,-36 757.43,-36"/>
+<text text-anchor="middle" x="661.43" y="-14.95" font-family="Menlo" font-size="14.00">UIView</text>
+</g>
+<!-- CameraBoard&#45;&gt;UIView -->
+<g id="edge2" class="edge conformsTo">
+<title>CameraBoard&#45;&gt;UIView</title>
+<path fill="none" stroke="black" d="M491.18,-71.97C523.03,-62.06 563.35,-49.51 596.76,-39.12"/>
+<polygon fill="black" stroke="black" points="597.92,-42.42 606.43,-36.11 595.84,-35.74 597.92,-42.42"/>
+</g>
+</g>
+</svg>
 
-</dd>
-<dt class="class">
-    <a href="CameraFeedVideoManager" title="class - CameraFeedVideoManager">
-        Camera​Feed​Video​Manager
-    </a>
-</dt>
-<dd>
-    <p>This class manages all camera related functionality</p>
 
-</dd>
-<dt class="class">
-    <a href="ChatMessageCell" title="class - ChatMessageCell">
-        Chat​Message​Cell
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="ChatUserCell" title="class - ChatUserCell">
-        Chat​User​Cell
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="InfoCell" title="class - InfoCell">
-        Info​Cell
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="NotesTableViewCell" title="class - NotesTableViewCell">
-        Notes​Table​View​Cell
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="ModelDataHandler" title="class - ModelDataHandler">
-        Model​Data​Handler
-    </a>
-</dt>
-<dd>
-    <p>This class handles all data preprocessing and makes calls to run inference on a given frame
-by invoking the <code>Interpreter</code>. It then formats the inferences obtained and returns the top N
-results for a successful inference.</p>
+    <figcaption hidden>Inheritance graph for CameraBoard.</figcaption>
+</figure>
+        <h3>Conforms To</h3>
+<dl>
+    <dt class="protocol"><code><a href="CameraFeedManagerDelegate">CameraFeedManagerDelegate</a></code></dt>
+<dd></dd>
+<dt class="unknown"><code>UIView</code></dt>
+</dl>
+</section>
+    <section id="initializers">
+        <h2>Initializers</h2>
 
-</dd>
-<dt class="class">
-    <a href="Message" title="class - Message">
-        Message
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="Note" title="class - Note">
-        Note
-    </a>
-</dt>
-<dd>
-    <p>this will hold each note that is saved in Firebase</p>
-
-</dd>
-<dt class="class">
-    <a href="User" title="class - User">
-        User
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="AddChatVC" title="class - AddChatVC">
-        Add​Chat​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="CameraBoard" title="class - CameraBoard">
-        Camera​Board
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="CardView" title="class - CardView">
-        Card​View
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="ChatTableViewCell" title="class - ChatTableViewCell">
-        Chat​Table​View​Cell
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="ChatVC" title="class - ChatVC">
-        Chat​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="CreateNoteVC" title="class - CreateNoteVC">
-        Create​Note​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="HelpUsTrainWelcomeViewController" title="class - HelpUsTrainWelcomeViewController">
-        Help​UsTrain​Welcome​View​Controller
-    </a>
-</dt>
-<dd>
-    <p>The view controller that displayes the welcome screen.</p>
-
-</dd>
-<dt class="class">
-    <a href="HelpUsTrainIntrinsicTableView" title="class - HelpUsTrainIntrinsicTableView">
-        Help​UsTrain​Intrinsic​Table​View
-    </a>
-</dt>
-<dd>
-    <p>Modified version of <a href="https://stackoverflow.com/a/48623673/5569234">https://stackoverflow.com/a/48623673/5569234</a></p>
-
-</dd>
-<dt class="class">
-    <a href="HelpUsTrainFilledButton" title="class - HelpUsTrainFilledButton">
-        Help​UsTrain​Filled​Button
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="HelpUsTrainItemsTableViewManager" title="class - HelpUsTrainItemsTableViewManager">
-        Help​UsTrain​Items​Table​View​Manager
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="HelpTrainTableCell" title="class - HelpTrainTableCell">
-        Help​Train​Table​Cell
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="LoginVC" title="class - LoginVC">
-        Login​VC
-    </a>
-</dt>
-<dd>
-    <p>This view controller is for the login screen that a user will see when they first open the app.
-The user should be able to enter their name, email, and password if they have not registered before or
-just their email and password if they are a returning user.</p>
-
-</dd>
-<dt class="class">
-    <a href="NotesVC" title="class - NotesVC">
-        Notes​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="RemoteConversationVC" title="class - RemoteConversationVC">
-        Remote​Conversation​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="SpeechToTextVC" title="class - SpeechToTextVC">
-        Speech​ToText​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="TranscribeVC" title="class - TranscribeVC">
-        Transcribe​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="ViewController" title="class - ViewController">
-        View​Controller
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="SpeechToTextVC" title="class - SpeechToTextVC">
-        Speech​ToText​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-        </dl>
+        <div role="article" class="class" id="cameraboard.init(target:)">
+    <h3>
+        <code>init(target:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">init</span>(<span class="variable">target</span>: <span class="type">UIKeyInput</span>)</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.init?(coder:)">
+    <h3>
+        <code>init?(coder:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">required</span> <span class="keyword">init</span>?(<span class="variable">coder</span>: <span class="type">NSCoder</span>)</code></pre></body></html>
+</div>
     </section>
-    <section id="structures">
-        <h2>Structures</h2>
-        <dl>
-            <dt class="structure">
-    <a href="Result" title="structure - Result">
-        Result
-    </a>
-</dt>
-<dd>
-    <p>A result from invoking the <code>Interpreter</code>.</p>
+    <section id="properties">
+        <h2>Properties</h2>
 
-</dd>
-<dt class="structure">
-    <a href="Inference" title="structure - Inference">
-        Inference
-    </a>
-</dt>
-<dd>
-    <p>An inference from invoking the <code>Interpreter</code>.</p>
-
-</dd>
-<dt class="structure">
-    <a href="HelpUsTrainItem" title="structure - HelpUsTrainItem">
-        Help​UsTrain​Item
-    </a>
-</dt>
-<dd>
-    <p>An item to be displayed in the welcome screen, used to show off a feature of your app.</p>
-
-</dd>
-<dt class="structure">
-    <a href="HelpTrainWelcomeConfiguration" title="structure - HelpTrainWelcomeConfiguration">
-        Help​Train​Welcome​Configuration
-    </a>
-</dt>
-<dd>
-    <p>Use this to manage the configuration options of the welcome screen.</p>
-
-</dd>
-        </dl>
+        <div role="article" class="class" id="cameraboard.caboardview">
+    <h3>
+        <code>caboard​View</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">caboardView</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.previewview">
+    <h3>
+        <code>preview​View</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">previewView</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.nextbutton">
+    <h3>
+        <code>next​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">nextButton</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.deletebutton">
+    <h3>
+        <code>delete​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">deleteButton</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.cameraunavailablelabel">
+    <h3>
+        <code>camera​Unavailable​Label</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">cameraUnavailableLabel</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.resumebutton">
+    <h3>
+        <code>resume​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">resumeButton</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.buttonstack">
+    <h3>
+        <code>button​Stack</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">buttonStack</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.keyboardchangebutton">
+    <h3>
+        <code>keyboard​Change​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">keyboardChangeButton</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.predictionbutton">
+    <h3>
+        <code>prediction​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">predictionButton</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.predictionstack">
+    <h3>
+        <code>prediction​Stack</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">predictionStack</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.stringcache">
+    <h3>
+        <code>string​Cache</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">stringCache</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.lastletter">
+    <h3>
+        <code>last​Letter</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">lastLetter</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.lastnonletter">
+    <h3>
+        <code>last​Non​Letter</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">lastNonLetter</span>: <span class="type">String</span>?</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.recurcount">
+    <h3>
+        <code>recur​Count</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">recurCount</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.recurcountnonletter">
+    <h3>
+        <code>recur​Count​Non​Letter</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">recurCountNonLetter</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.minimumconfidence">
+    <h3>
+        <code>minimum​Confidence</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">minimumConfidence</span>: <span class="type">Float</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.prediction">
+    <h3>
+        <code>prediction</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">prediction</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.target">
+    <h3>
+        <code>target</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">target</span>: <span class="type">UIKeyInput</span>?</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.animationduration">
+    <h3>
+        <code>animation​Duration</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">animationDuration</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.collapsetransitionthreshold">
+    <h3>
+        <code>collapse​Transition​Threshold</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">collapseTransitionThreshold</span>: <span class="type">CGFloat</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.expandthransitionthreshold">
+    <h3>
+        <code>expand​Thransition​Threshold</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">expandThransitionThreshold</span>: <span class="type">CGFloat</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.delaybetweeninferencesms">
+    <h3>
+        <code>delay​Between​Inferences​Ms</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">delayBetweenInferencesMs</span>: <span class="type">Double</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.result">
+    <h3>
+        <code>result</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">result</span>: <a href="Result"><span class="type">Result</span></a>?</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.initialbottomspace">
+    <h3>
+        <code>initial​Bottom​Space</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">initialBottomSpace</span>: <span class="type">CGFloat</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.previousinferencetimems">
+    <h3>
+        <code>previous​Inference​Time​Ms</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">previousInferenceTimeMs</span>: <span class="type">TimeInterval</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.cameracapture">
+    <h3>
+        <code>camera​Capture</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">cameraCapture</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.modeldatahandler">
+    <h3>
+        <code>model​Data​Handler</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">modelDataHandler</span>: <a href="ModelDataHandler"><span class="type">ModelDataHandler</span></a>?</code></pre></body></html>
+</div>
     </section>
-    <section id="enumerations">
-        <h2>Enumerations</h2>
-        <dl>
-            <dt class="enumeration">
-    <a href="CameraConfiguration" title="enumeration - CameraConfiguration">
-        Camera​Configuration
-    </a>
-</dt>
-<dd>
-    <p>This enum holds the state of the camera initialization.</p>
+    <section id="methods">
+        <h2>Methods</h2>
 
-</dd>
-<dt class="enumeration">
-    <a href="MobileNet" title="enumeration - MobileNet">
-        Mobile​Net
-    </a>
-</dt>
-<dd>
-    <p>Information about the MobileNet model.</p>
-
-</dd>
-<dt class="enumeration">
-    <a href="SystemColor" title="enumeration - SystemColor">
-        System​Color
-    </a>
-</dt>
-<dd>
-    <p>Adapted from https://github.com/Wilsonator5000/SystemColor</p>
-
-</dd>
-        </dl>
+        <div role="article" class="class" id="cameraboard.willmove(tosuperview:)">
+    <h3>
+        <code>will​Move(to​Superview:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">willMove</span>(<span class="variable">toSuperview</span> <span class="variable">newSuperview</span>: <span class="type">UIView</span>?)</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.willremovesubview(_:)">
+    <h3>
+        <code>will​Remove​Subview(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">willRemoveSubview</span>(<span class="keyword">_</span> <span class="variable">subview</span>: <span class="type">UIView</span>)</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.showpredictionletterinstack(_:_:_:)">
+    <h3>
+        <code>show​Prediction​Letter​InStack(_:​_:​_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">fileprivate</span> <span class="keyword">func</span> <span class="function">showPredictionLetterInStack</span>(<span class="keyword">_</span> <span class="variable">prediction</span>: <span class="type">String</span>, <span class="keyword">_</span> <span class="variable">confidence</span>: <span class="type">Float</span>, <span class="keyword">_</span> <span class="variable">count</span>: <span class="type">Int</span>)</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.setpredictiontodelete()">
+    <h3>
+        <code>set​Prediction​ToDelete()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">fileprivate</span> <span class="keyword">func</span> <span class="function">setPredictionToDelete</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.setpredictiontospace()">
+    <h3>
+        <code>set​Predictionto​Space()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">fileprivate</span> <span class="keyword">func</span> <span class="function">setPredictiontoSpace</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.setpredictiontonothing()">
+    <h3>
+        <code>set​Prediction​ToNothing()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">fileprivate</span> <span class="keyword">func</span> <span class="function">setPredictionToNothing</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.didoutput(pixelbuffer:)">
+    <h3>
+        <code>did​Output(pixel​Buffer:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">didOutput</span>(<span class="variable">pixelBuffer</span>: <span class="type">CVPixelBuffer</span>)</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.predictword()">
+    <h3>
+        <code>predict​Word()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">predictWord</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.presentcamerapermissionsdeniedalert()">
+    <h3>
+        <code>present​Camera​Permissions​Denied​Alert()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">presentCameraPermissionsDeniedAlert</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.presentvideoconfigurationerroralert()">
+    <h3>
+        <code>present​Video​Configuration​Error​Alert()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">presentVideoConfigurationErrorAlert</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.sessionruntimeerroroccured()">
+    <h3>
+        <code>session​Run​Time​Error​Occured()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">sessionRunTimeErrorOccured</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.sessionwasinterrupted(canresumemanually:)">
+    <h3>
+        <code>session​Was​Interrupted(can​Resume​Manually:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">sessionWasInterrupted</span>(<span class="variable">canResumeManually</span> <span class="variable">resumeManually</span>: <span class="type">Bool</span>)</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.sessioninterruptionended()">
+    <h3>
+        <code>session​Interruption​Ended()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">sessionInterruptionEnded</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.predictionstacksetup()">
+    <h3>
+        <code>prediction​Stack​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">predictionStackSetup</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.updatestack(prediction:)">
+    <h3>
+        <code>update​Stack(prediction:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">updateStack</span>(<span class="variable">prediction</span>: [<span class="type">String</span>])</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.predictionbuttonholddown(_:)">
+    <h3>
+        <code>prediction​Button​Hold​Down(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">predictionButtonHoldDown</span>(<span class="keyword">_</span> <span class="variable">sender</span>: <span class="type">UIButton</span>)</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.predictionbuttontapped(_:)">
+    <h3>
+        <code>prediction​Button​Tapped(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">predictionButtonTapped</span>(<span class="keyword">_</span> <span class="variable">sender</span>: <span class="type">UIButton</span>)</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.caboardviewsetup()">
+    <h3>
+        <code>caboard​View​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">caboardViewSetup</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.previewviewsetup()">
+    <h3>
+        <code>preview​View​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">previewViewSetup</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.nextbuttonsetup()">
+    <h3>
+        <code>next​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">nextButtonSetup</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.returnkeypressed()">
+    <h3>
+        <code>return​Key​Pressed()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">returnKeyPressed</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.buttonstacksetup()">
+    <h3>
+        <code>button​Stack​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">buttonStackSetup</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.deletebuttonsetup()">
+    <h3>
+        <code>delete​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">deleteButtonSetup</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.handlelongpress()">
+    <h3>
+        <code>handle​Long​Press()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">handleLongPress</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.deletechar(completion:)">
+    <h3>
+        <code>delete​Char(completion:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">deleteChar</span>(<span class="variable">completion</span>: <span class="attribute">@</span><span class="attribute">escaping</span> () -&gt; <span class="type">Void</span>)</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.keyboardbuttonsetup()">
+    <h3>
+        <code>keyboard​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">keyboardButtonSetup</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.bottomcoversetup()">
+    <h3>
+        <code>bottom​Cover​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">bottomCoverSetup</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="cameraboard.classifypasteboardimage()">
+    <h3>
+        <code>classify​Pasteboard​Image()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">classifyPasteboardImage</span>()</code></pre></body></html>
+</div>
     </section>
-    <section id="protocols">
-        <h2>Protocols</h2>
-        <dl>
-            <dt class="protocol">
-    <a href="CameraFeedManagerDelegate" title="protocol - CameraFeedManagerDelegate">
-        Camera​Feed​Manager​Delegate
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="protocol">
-    <a href="CameraFeedVideoManagerDelegate" title="protocol - CameraFeedVideoManagerDelegate">
-        Camera​Feed​Video​Manager​Delegate
-    </a>
-</dt>
-<dd>
-    
-</dd>
-        </dl>
-    </section>
+
+
+
         </article>
     </main>
 
     <footer>
         <p>
-    Generated on <time datetime="2020-04-16T19:55:49-0400">April 16, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
+    Generated on <time datetime="2020-04-16T19:55:50-0400">April 16, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
 </p>
     </footer>
 </body>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iASL - iASL</title>
+    <title>iASL - LoginVC</title>
     <base href="/"/>
     <style type="text/css">
     :root {
@@ -1198,370 +1198,540 @@ nav li[class] {
     <nav>
         <div class="wrapper">
             <h2>On This Page</h2>
-            <ol><li><a href="#classes">Classes</a></li><li><a href="#structures">Structures</a></li><li><a href="#enumerations">Enumerations</a></li><li><a href="#protocols">Protocols</a></li></ol>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="property"><a href="#loginvc.isregisterbutton">is​Register​Button</a></li><li class="property"><a href="#loginvc.isfirstopen">is​First​Open</a></li><li class="property"><a href="#loginvc.collectionuser">collection​User</a></li><li class="property"><a href="#loginvc.welcomescreenconfig">welcome​Screen​Config</a></li><li class="property"><a href="#loginvc.usersstringconstant">users​String​Constant</a></li><li class="property"><a href="#loginvc.keychain">keychain</a></li><li class="property"><a href="#loginvc.inputscontainerviewheightanchor">inputs​Container​View​Height​Anchor</a></li><li class="property"><a href="#loginvc.nametextfieldheightanchor">name​Text​Field​Height​Anchor</a></li><li class="property"><a href="#loginvc.emailtextfieldheightanchor">email​Text​Field​Height​Anchor</a></li><li class="property"><a href="#loginvc.passwordtextfieldheightanchor">password​Text​Field​Height​Anchor</a></li><li class="property"><a href="#loginvc.skipbutton">skip​Button</a></li><li class="property"><a href="#loginvc.keychaintoggle">keychain​Toggle</a></li><li class="property"><a href="#loginvc.keychaintogglelabel">keychain​Toggle​Label</a></li><li class="property"><a href="#loginvc.cameracontainerview">camera​Container​View</a></li><li class="property"><a href="#loginvc.nametextfield">name​Text​Field</a></li><li class="property"><a href="#loginvc.emailtextfield">email​Text​Field</a></li><li class="property"><a href="#loginvc.passwordtextfield">password​Text​Field</a></li><li class="property"><a href="#loginvc.inputcontainerview">input​Container​View</a></li><li class="property"><a href="#loginvc.nameseparatorview">name​Separator​View</a></li><li class="property"><a href="#loginvc.emailseparatorview">email​Separator​View</a></li><li class="property"><a href="#loginvc.logoview">logo​View</a></li><li class="property"><a href="#loginvc.toggleregisterloginbutton">toggle​Register​Login​Button</a></li><li class="property"><a href="#loginvc.infosubmitbutton">info​Submit​Button</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="method"><a href="#loginvc.showwelcomescreen()">show​Welcome​Screen()</a></li><li class="method"><a href="#loginvc.viewdidappear(_:)">view​Did​Appear(_:​)</a></li><li class="method"><a href="#loginvc.welcomescreensetup()">welcome​Screen​Setup()</a></li><li class="method"><a href="#loginvc.switchchanged()">switch​Changed()</a></li><li class="method"><a href="#loginvc.viewdidload()">view​Did​Load()</a></li><li class="method"><a href="#loginvc.handleleavelogin()">handle​Leave​Login()</a></li><li class="method"><a href="#loginvc.handleskipbutton()">handle​Skip​Button()</a></li><li class="method"><a href="#loginvc.hidekeyboard()">hide​Keyboard()</a></li><li class="method"><a href="#loginvc.hidekeyboardontap()">hide​Keyboard​OnTap()</a></li><li class="method"><a href="#loginvc.keyboardwillchange(notification:)">keyboard​Will​Change(notification:​)</a></li><li class="method"><a href="#loginvc.toggleregisterloginbuttonpressed()">toggle​Register​Login​Button​Pressed()</a></li><li class="method"><a href="#loginvc.infosubmitbuttonpressed()">info​Submit​Button​Pressed()</a></li><li class="method"><a href="#loginvc.handleregister()">handle​Register()</a></li><li class="method"><a href="#loginvc.handlesavekeychain(email:password:)">handle​Save​Keychain(email:​password:​)</a></li><li class="method"><a href="#loginvc.handlelogin()">handle​Login()</a></li><li class="method"><a href="#loginvc.setupinputcontainerview()">setup​Input​Container​View()</a></li><li class="method"><a href="#loginvc.setupnametextfieldconstraints()">setup​Name​Text​Field​Constraints()</a></li><li class="method"><a href="#loginvc.setupemailtextfieldconstraints()">setup​Email​Text​Field​Constraints()</a></li><li class="method"><a href="#loginvc.setuppasswordtextfieldconstraints()">setup​Password​Text​Field​Constraints()</a></li><li class="method"><a href="#loginvc.setupnameseparatorviewconstraints()">setup​Name​Separator​View​Constraints()</a></li><li class="method"><a href="#loginvc.setupemailseparatorviewconstraints()">setup​Email​Separator​View​Constraints()</a></li><li class="method"><a href="#loginvc.setupcameraview()">setup​Camera​View()</a></li><li class="method"><a href="#loginvc.setupkeychaintogglelabel()">setup​Keychain​Toggle​Label()</a></li><li class="method"><a href="#loginvc.setupkeychaintoggle()">setup​Keychain​Toggle()</a></li><li class="method"><a href="#loginvc.setupskipbutton()">setup​Skip​Button()</a></li><li class="method"><a href="#loginvc.setuptoggleregisterloginbutton()">setup​Toggle​Register​Login​Button()</a></li><li class="method"><a href="#loginvc.setupinfosubmitbutton()">setup​Info​Submit​Button()</a></li></ul></li></ol>
         </div>
     </nav>
 
     <main>
         <article>
-                <section id="classes">
-        <h2>Classes</h2>
-        <dl>
-            <dt class="class">
-    <a href="AppDelegate" title="class - AppDelegate">
-        App​Delegate
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="CameraFeedManager" title="class - CameraFeedManager">
-        Camera​Feed​Manager
-    </a>
-</dt>
-<dd>
-    <p>This class manages all camera related functionality</p>
+            <h1>
+    <small>Class</small>
+    <code class="name">Login​VC</code>
+</h1>
 
-</dd>
-<dt class="class">
-    <a href="PreviewView" title="class - PreviewView">
-        Preview​View
-    </a>
-</dt>
-<dd>
-    <p>Displays a preview of the image being processed. By default, this uses the device's camera frame,
-but will use a still image copied from clipboard if <code>shouldUseClipboardImage</code> is set to true.</p>
-
-</dd>
-<dt class="class">
-    <a href="CameraFeedVideoManager" title="class - CameraFeedVideoManager">
-        Camera​Feed​Video​Manager
-    </a>
-</dt>
-<dd>
-    <p>This class manages all camera related functionality</p>
-
-</dd>
-<dt class="class">
-    <a href="ChatMessageCell" title="class - ChatMessageCell">
-        Chat​Message​Cell
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="ChatUserCell" title="class - ChatUserCell">
-        Chat​User​Cell
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="InfoCell" title="class - InfoCell">
-        Info​Cell
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="NotesTableViewCell" title="class - NotesTableViewCell">
-        Notes​Table​View​Cell
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="ModelDataHandler" title="class - ModelDataHandler">
-        Model​Data​Handler
-    </a>
-</dt>
-<dd>
-    <p>This class handles all data preprocessing and makes calls to run inference on a given frame
-by invoking the <code>Interpreter</code>. It then formats the inferences obtained and returns the top N
-results for a successful inference.</p>
-
-</dd>
-<dt class="class">
-    <a href="Message" title="class - Message">
-        Message
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="Note" title="class - Note">
-        Note
-    </a>
-</dt>
-<dd>
-    <p>this will hold each note that is saved in Firebase</p>
-
-</dd>
-<dt class="class">
-    <a href="User" title="class - User">
-        User
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="AddChatVC" title="class - AddChatVC">
-        Add​Chat​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="CameraBoard" title="class - CameraBoard">
-        Camera​Board
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="CardView" title="class - CardView">
-        Card​View
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="ChatTableViewCell" title="class - ChatTableViewCell">
-        Chat​Table​View​Cell
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="ChatVC" title="class - ChatVC">
-        Chat​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="CreateNoteVC" title="class - CreateNoteVC">
-        Create​Note​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="HelpUsTrainWelcomeViewController" title="class - HelpUsTrainWelcomeViewController">
-        Help​UsTrain​Welcome​View​Controller
-    </a>
-</dt>
-<dd>
-    <p>The view controller that displayes the welcome screen.</p>
-
-</dd>
-<dt class="class">
-    <a href="HelpUsTrainIntrinsicTableView" title="class - HelpUsTrainIntrinsicTableView">
-        Help​UsTrain​Intrinsic​Table​View
-    </a>
-</dt>
-<dd>
-    <p>Modified version of <a href="https://stackoverflow.com/a/48623673/5569234">https://stackoverflow.com/a/48623673/5569234</a></p>
-
-</dd>
-<dt class="class">
-    <a href="HelpUsTrainFilledButton" title="class - HelpUsTrainFilledButton">
-        Help​UsTrain​Filled​Button
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="HelpUsTrainItemsTableViewManager" title="class - HelpUsTrainItemsTableViewManager">
-        Help​UsTrain​Items​Table​View​Manager
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="HelpTrainTableCell" title="class - HelpTrainTableCell">
-        Help​Train​Table​Cell
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="LoginVC" title="class - LoginVC">
-        Login​VC
-    </a>
-</dt>
-<dd>
+<html><body><pre class="highlight"><code><span class="keyword">class</span> <span class="type">LoginVC</span>: <span class="type">UIViewController</span>, <span class="type">UITextFieldDelegate</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
     <p>This view controller is for the login screen that a user will see when they first open the app.
 The user should be able to enter their name, email, and password if they have not registered before or
 just their email and password if they are a returning user.</p>
 
-</dd>
-<dt class="class">
-    <a href="NotesVC" title="class - NotesVC">
-        Notes​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="RemoteConversationVC" title="class - RemoteConversationVC">
-        Remote​Conversation​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="SpeechToTextVC" title="class - SpeechToTextVC">
-        Speech​ToText​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="TranscribeVC" title="class - TranscribeVC">
-        Transcribe​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="ViewController" title="class - ViewController">
-        View​Controller
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="SpeechToTextVC" title="class - SpeechToTextVC">
-        Speech​ToText​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-        </dl>
+</div>
+<section id="relationships">
+    <h2 hidden>Relationships</h2>
+        <figure>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.42.3 (20191010.1750)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="872pt" height="116pt"
+ viewBox="0.00 0.00 872.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>%3</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 868,-112 868,4 -4,4"/>
+<!-- LoginVC -->
+<g id="node1" class="node class current">
+<title>LoginVC</title>
+<g id="a_node1"><a xlink:href="/LoginVC" xlink:title="LoginVC">
+<path fill="none" stroke="black" stroke-width="3" d="M528,-108C528,-108 336,-108 336,-108 330,-108 324,-102 324,-96 324,-96 324,-84 324,-84 324,-78 330,-72 336,-72 336,-72 528,-72 528,-72 534,-72 540,-78 540,-84 540,-84 540,-96 540,-96 540,-102 534,-108 528,-108"/>
+<text text-anchor="middle" x="432" y="-86.95" font-family="Menlo" font-size="14.00">LoginVC</text>
+</a>
+</g>
+</g>
+<!-- UIViewController -->
+<g id="node2" class="node unknown">
+<title>UIViewController</title>
+<path fill="none" stroke="black" d="M303,-36C303,-36 111,-36 111,-36 105,-36 99,-30 99,-24 99,-24 99,-12 99,-12 99,-6 105,0 111,0 111,0 303,0 303,0 309,0 315,-6 315,-12 315,-12 315,-24 315,-24 315,-30 309,-36 303,-36"/>
+<text text-anchor="middle" x="207" y="-14.95" font-family="Menlo" font-size="14.00">UIViewController</text>
+</g>
+<!-- LoginVC&#45;&gt;UIViewController -->
+<g id="edge2" class="edge conformsTo">
+<title>LoginVC&#45;&gt;UIViewController</title>
+<path fill="none" stroke="black" d="M377.25,-71.97C345.4,-62.06 305.08,-49.51 271.67,-39.12"/>
+<polygon fill="black" stroke="black" points="272.59,-35.74 262,-36.11 270.51,-42.42 272.59,-35.74"/>
+</g>
+<!-- UITextFieldDelegate -->
+<g id="node3" class="node unknown">
+<title>UITextFieldDelegate</title>
+<path fill="none" stroke="black" d="M753,-36C753,-36 561,-36 561,-36 555,-36 549,-30 549,-24 549,-24 549,-12 549,-12 549,-6 555,0 561,0 561,0 753,0 753,0 759,0 765,-6 765,-12 765,-12 765,-24 765,-24 765,-30 759,-36 753,-36"/>
+<text text-anchor="middle" x="657" y="-14.95" font-family="Menlo" font-size="14.00">UITextFieldDelegate</text>
+</g>
+<!-- LoginVC&#45;&gt;UITextFieldDelegate -->
+<g id="edge1" class="edge conformsTo">
+<title>LoginVC&#45;&gt;UITextFieldDelegate</title>
+<path fill="none" stroke="black" d="M486.75,-71.97C518.6,-62.06 558.92,-49.51 592.33,-39.12"/>
+<polygon fill="black" stroke="black" points="593.49,-42.42 602,-36.11 591.41,-35.74 593.49,-42.42"/>
+</g>
+</g>
+</svg>
+
+
+    <figcaption hidden>Inheritance graph for LoginVC.</figcaption>
+</figure>
+        <h3>Conforms To</h3>
+<dl>
+    <dt class="unknown"><code>UITextFieldDelegate</code></dt>
+<dt class="unknown"><code>UIViewController</code></dt>
+</dl>
+</section>
+    <section id="properties">
+        <h2>Properties</h2>
+
+        <div role="article" class="class" id="loginvc.isregisterbutton">
+    <h3>
+        <code>is​Register​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">isRegisterButton</span>: <span class="type">Bool</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>boolean that determines if we are on the login screen or the register screen</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.isfirstopen">
+    <h3>
+        <code>is​First​Open</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">isFirstOpen</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="loginvc.collectionuser">
+    <h3>
+        <code>collection​User</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">collectionUser</span>: <span class="type">String</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="loginvc.welcomescreenconfig">
+    <h3>
+        <code>welcome​Screen​Config</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">welcomeScreenConfig</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="loginvc.usersstringconstant">
+    <h3>
+        <code>users​String​Constant</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">usersStringConstant</span>: <span class="type">String</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>first function that is called</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.keychain">
+    <h3>
+        <code>keychain</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">keychain</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="loginvc.inputscontainerviewheightanchor">
+    <h3>
+        <code>inputs​Container​View​Height​Anchor</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">inputsContainerViewHeightAnchor</span>: <span class="type">NSLayoutConstraint</span>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>creates a reference to the input container height anchor to be altered later</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.nametextfieldheightanchor">
+    <h3>
+        <code>name​Text​Field​Height​Anchor</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">nameTextFieldHeightAnchor</span>: <span class="type">NSLayoutConstraint</span>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>creates a reference to the name text field</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.emailtextfieldheightanchor">
+    <h3>
+        <code>email​Text​Field​Height​Anchor</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">emailTextFieldHeightAnchor</span>: <span class="type">NSLayoutConstraint</span>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>creates a reference to the email text field</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.passwordtextfieldheightanchor">
+    <h3>
+        <code>password​Text​Field​Height​Anchor</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">passwordTextFieldHeightAnchor</span>: <span class="type">NSLayoutConstraint</span>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>creates a reference to the password text field</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.skipbutton">
+    <h3>
+        <code>skip​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">skipButton</span>: <span class="type">UIButton</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="loginvc.keychaintoggle">
+    <h3>
+        <code>keychain​Toggle</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">keychainToggle</span>: <span class="type">UISwitch</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="loginvc.keychaintogglelabel">
+    <h3>
+        <code>keychain​Toggle​Label</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">keychainToggleLabel</span>: <span class="type">UILabel</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="loginvc.cameracontainerview">
+    <h3>
+        <code>camera​Container​View</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">cameraContainerView</span>: <span class="type">UIView</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>container for where I'd like the camera to go</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.nametextfield">
+    <h3>
+        <code>name​Text​Field</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">nameTextField</span>: <span class="type">UITextField</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>the textfield where the user can enter their name when they are registering</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.emailtextfield">
+    <h3>
+        <code>email​Text​Field</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">emailTextField</span>: <span class="type">UITextField</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>the textfield where the user can enter their email when they are registering</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.passwordtextfield">
+    <h3>
+        <code>password​Text​Field</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">passwordTextField</span>: <span class="type">UITextField</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>the textfield where the user can enter their password when they are registering</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.inputcontainerview">
+    <h3>
+        <code>input​Container​View</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">inputContainerView</span>: <span class="type">UIView</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>container that holds the three textviews</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.nameseparatorview">
+    <h3>
+        <code>name​Separator​View</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">nameSeparatorView</span>: <span class="type">UIView</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>creates the orange lines between the name and the email</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.emailseparatorview">
+    <h3>
+        <code>email​Separator​View</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">emailSeparatorView</span>: <span class="type">UIView</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>creates the orange line between the email and the password</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.logoview">
+    <h3>
+        <code>logo​View</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">logoView</span>: <span class="type">UIImageView</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>a logo for the login screen</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.toggleregisterloginbutton">
+    <h3>
+        <code>toggle​Register​Login​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">toggleRegisterLoginButton</span>: <span class="type">UIButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>the button that changes the view from register mode to login mode</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.infosubmitbutton">
+    <h3>
+        <code>info​Submit​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">infoSubmitButton</span>: <span class="type">UIButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>when this button is pressed, the information entered will be sent to firebase</p>
+
+</div>
+</div>
     </section>
-    <section id="structures">
-        <h2>Structures</h2>
-        <dl>
-            <dt class="structure">
-    <a href="Result" title="structure - Result">
-        Result
-    </a>
-</dt>
-<dd>
-    <p>A result from invoking the <code>Interpreter</code>.</p>
+    <section id="methods">
+        <h2>Methods</h2>
 
-</dd>
-<dt class="structure">
-    <a href="Inference" title="structure - Inference">
-        Inference
-    </a>
-</dt>
-<dd>
-    <p>An inference from invoking the <code>Interpreter</code>.</p>
+        <div role="article" class="class" id="loginvc.showwelcomescreen()">
+    <h3>
+        <code>show​Welcome​Screen()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">showWelcomeScreen</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="loginvc.viewdidappear(_:)">
+    <h3>
+        <code>view​Did​Appear(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewDidAppear</span>(<span class="keyword">_</span> <span class="variable">animated</span>: <span class="type">Bool</span>)</code></pre></body></html>
+</div>
+<div role="article" class="class" id="loginvc.welcomescreensetup()">
+    <h3>
+        <code>welcome​Screen​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">fileprivate</span> <span class="keyword">func</span> <span class="function">welcomeScreenSetup</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="loginvc.switchchanged()">
+    <h3>
+        <code>switch​Changed()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">switchChanged</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="loginvc.viewdidload()">
+    <h3>
+        <code>view​Did​Load()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewDidLoad</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>first function that is called</p>
 
-</dd>
-<dt class="structure">
-    <a href="HelpUsTrainItem" title="structure - HelpUsTrainItem">
-        Help​UsTrain​Item
-    </a>
-</dt>
-<dd>
-    <p>An item to be displayed in the welcome screen, used to show off a feature of your app.</p>
+</div>
+</div>
+<div role="article" class="class" id="loginvc.handleleavelogin()">
+    <h3>
+        <code>handle​Leave​Login()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">handleLeaveLogin</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>called when this view controller needs to disappear and the main view controller needs to load</p>
 
-</dd>
-<dt class="structure">
-    <a href="HelpTrainWelcomeConfiguration" title="structure - HelpTrainWelcomeConfiguration">
-        Help​Train​Welcome​Configuration
-    </a>
-</dt>
-<dd>
-    <p>Use this to manage the configuration options of the welcome screen.</p>
+</div>
+</div>
+<div role="article" class="class" id="loginvc.handleskipbutton()">
+    <h3>
+        <code>handle​Skip​Button()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">handleSkipButton</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>handles what happens with the skip button is pressed</p>
 
-</dd>
-        </dl>
+</div>
+</div>
+<div role="article" class="class" id="loginvc.hidekeyboard()">
+    <h3>
+        <code>hide​Keyboard()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">hideKeyboard</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This gets called when the register or login button is pressed</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.hidekeyboardontap()">
+    <h3>
+        <code>hide​Keyboard​OnTap()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">hideKeyboardOnTap</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>when the user taps anywhere else on the screen, it hides the keyboard</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.keyboardwillchange(notification:)">
+    <h3>
+        <code>keyboard​Will​Change(notification:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">keyboardWillChange</span>(<span class="variable">notification</span>: <span class="type">Notification</span>)</code></pre></body></html>
+</div>
+<div role="article" class="class" id="loginvc.toggleregisterloginbuttonpressed()">
+    <h3>
+        <code>toggle​Register​Login​Button​Pressed()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">toggleRegisterLoginButtonPressed</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>handles the toggle button</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.infosubmitbuttonpressed()">
+    <h3>
+        <code>info​Submit​Button​Pressed()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">infoSubmitButtonPressed</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>When this is pressed, the info should be sent to Firebase and the keyboard should disappear, and the view should disappear</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.handleregister()">
+    <h3>
+        <code>handle​Register()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">handleRegister</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>handles what happens when the user decides to register an account</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.handlesavekeychain(email:password:)">
+    <h3>
+        <code>handle​Save​Keychain(email:​password:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">handleSaveKeychain</span>(<span class="variable">email</span>: <span class="type">String</span>, <span class="variable">password</span>: <span class="type">String</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>handles the saving of the user's email and password into keychain</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.handlelogin()">
+    <h3>
+        <code>handle​Login()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">handleLogin</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>handles what happens when the user logins in with an existing account</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.setupinputcontainerview()">
+    <h3>
+        <code>setup​Input​Container​View()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">setupInputContainerView</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>sets up the constraints for the input container</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.setupnametextfieldconstraints()">
+    <h3>
+        <code>setup​Name​Text​Field​Constraints()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">setupNameTextFieldConstraints</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>sets up the constraints of the name text field</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.setupemailtextfieldconstraints()">
+    <h3>
+        <code>setup​Email​Text​Field​Constraints()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">setupEmailTextFieldConstraints</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>sets up the constraints of the email text field</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.setuppasswordtextfieldconstraints()">
+    <h3>
+        <code>setup​Password​Text​Field​Constraints()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">setupPasswordTextFieldConstraints</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>sets up the constraints of the password text field</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.setupnameseparatorviewconstraints()">
+    <h3>
+        <code>setup​Name​Separator​View​Constraints()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">setupNameSeparatorViewConstraints</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>sets up the constraints of the top orange separator</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.setupemailseparatorviewconstraints()">
+    <h3>
+        <code>setup​Email​Separator​View​Constraints()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">setupEmailSeparatorViewConstraints</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>sets up the constraints of the bottom orange separator</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.setupcameraview()">
+    <h3>
+        <code>setup​Camera​View()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">setupCameraView</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>sets up the constraints of the camera view</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.setupkeychaintogglelabel()">
+    <h3>
+        <code>setup​Keychain​Toggle​Label()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">setupKeychainToggleLabel</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="loginvc.setupkeychaintoggle()">
+    <h3>
+        <code>setup​Keychain​Toggle()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">setupKeychainToggle</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="loginvc.setupskipbutton()">
+    <h3>
+        <code>setup​Skip​Button()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">setupSkipButton</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="loginvc.setuptoggleregisterloginbutton()">
+    <h3>
+        <code>setup​Toggle​Register​Login​Button()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">setupToggleRegisterLoginButton</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>sets up the constraints of the toggle button</p>
+
+</div>
+</div>
+<div role="article" class="class" id="loginvc.setupinfosubmitbutton()">
+    <h3>
+        <code>setup​Info​Submit​Button()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">setupInfoSubmitButton</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>sets up the constraints of the submit button</p>
+
+</div>
+</div>
     </section>
-    <section id="enumerations">
-        <h2>Enumerations</h2>
-        <dl>
-            <dt class="enumeration">
-    <a href="CameraConfiguration" title="enumeration - CameraConfiguration">
-        Camera​Configuration
-    </a>
-</dt>
-<dd>
-    <p>This enum holds the state of the camera initialization.</p>
 
-</dd>
-<dt class="enumeration">
-    <a href="MobileNet" title="enumeration - MobileNet">
-        Mobile​Net
-    </a>
-</dt>
-<dd>
-    <p>Information about the MobileNet model.</p>
 
-</dd>
-<dt class="enumeration">
-    <a href="SystemColor" title="enumeration - SystemColor">
-        System​Color
-    </a>
-</dt>
-<dd>
-    <p>Adapted from https://github.com/Wilsonator5000/SystemColor</p>
 
-</dd>
-        </dl>
-    </section>
-    <section id="protocols">
-        <h2>Protocols</h2>
-        <dl>
-            <dt class="protocol">
-    <a href="CameraFeedManagerDelegate" title="protocol - CameraFeedManagerDelegate">
-        Camera​Feed​Manager​Delegate
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="protocol">
-    <a href="CameraFeedVideoManagerDelegate" title="protocol - CameraFeedVideoManagerDelegate">
-        Camera​Feed​Video​Manager​Delegate
-    </a>
-</dt>
-<dd>
-    
-</dd>
-        </dl>
-    </section>
         </article>
     </main>
 
     <footer>
         <p>
-    Generated on <time datetime="2020-04-16T19:55:49-0400">April 16, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
+    Generated on <time datetime="2020-04-16T19:55:50-0400">April 16, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
 </p>
     </footer>
 </body>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iASL - iASL</title>
+    <title>iASL - ChatVC</title>
     <base href="/"/>
     <style type="text/css">
     :root {
@@ -1198,370 +1198,364 @@ nav li[class] {
     <nav>
         <div class="wrapper">
             <h2>On This Page</h2>
-            <ol><li><a href="#classes">Classes</a></li><li><a href="#structures">Structures</a></li><li><a href="#enumerations">Enumerations</a></li><li><a href="#protocols">Protocols</a></li></ol>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="property"><a href="#chatvc.composedmessage">composed​Message</a></li><li class="property"><a href="#chatvc.topbar">top​Bar</a></li><li class="property"><a href="#chatvc.toplabel">top​Label</a></li><li class="property"><a href="#chatvc.backbutton">back​Button</a></li><li class="property"><a href="#chatvc.tableview">table​View</a></li><li class="property"><a href="#chatvc.sendbutton">send​Button</a></li><li class="property"><a href="#chatvc.keyboardbutton">keyboard​Button</a></li><li class="property"><a href="#chatvc.messagesconstant">messages​Constant</a></li><li class="property"><a href="#chatvc.chatpartner">chat​Partner</a></li><li class="property"><a href="#chatvc.messages">messages</a></li><li class="property"><a href="#chatvc.tempmessages">temp​Messages</a></li><li class="property"><a href="#chatvc.tempmessage1">temp​Message1</a></li><li class="property"><a href="#chatvc.tempmessage2">temp​Message2</a></li><li class="property"><a href="#chatvc.tempmessage3">temp​Message3</a></li><li class="property"><a href="#chatvc.tempmessage4">temp​Message4</a></li><li class="property"><a href="#chatvc.cellid">cell​Id</a></li><li class="property"><a href="#chatvc.collectionview">collection​View</a></li><li class="property"><a href="#chatvc.preferredstatusbarstyle">preferred​Status​Bar​Style</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="method"><a href="#chatvc.loadtempmessage()">load​Temp​Message()</a></li><li class="method"><a href="#chatvc.viewdidload()">view​Did​Load()</a></li><li class="method"><a href="#chatvc.keyboardwillshow(notification:)">keyboard​Will​Show(notification:​)</a></li><li class="method"><a href="#chatvc.keyboardwillhide(notification:)">keyboard​Will​Hide(notification:​)</a></li><li class="method"><a href="#chatvc.observemessages()">observe​Messages()</a></li><li class="method"><a href="#chatvc.collectionviewsetup()">collection​View​Setup()</a></li><li class="method"><a href="#chatvc.collectionview(_:numberofitemsinsection:)">collection​View(_:​number​OfItems​InSection:​)</a></li><li class="method"><a href="#chatvc.collectionview(_:cellforitemat:)">collection​View(_:​cell​For​Item​At:​)</a></li><li class="method"><a href="#chatvc.setupcell(cell:message:)">setup​Cell(cell:​message:​)</a></li><li class="method"><a href="#chatvc.collectionview(_:layout:sizeforitemat:)">collection​View(_:​layout:​size​For​Item​At:​)</a></li><li class="method"><a href="#chatvc.estimateframefortext(text:)">estimate​Frame​For​Text(text:​)</a></li><li class="method"><a href="#chatvc.viewwillappear(_:)">view​Will​Appear(_:​)</a></li><li class="method"><a href="#chatvc.viewwilldisappear(_:)">view​Will​Disappear(_:​)</a></li><li class="method"><a href="#chatvc.handlesendbutton()">handle​Send​Button()</a></li><li class="method"><a href="#chatvc.sendbuttonsetup()">send​Button​Setup()</a></li><li class="method"><a href="#chatvc.composedmessagesetup()">composed​Message​Setup()</a></li><li class="method"><a href="#chatvc.topbarsetup()">top​Bar​Setup()</a></li><li class="method"><a href="#chatvc.backbuttonsetup()">back​Button​Setup()</a></li><li class="method"><a href="#chatvc.backbuttontapped()">back​Button​Tapped()</a></li><li class="method"><a href="#chatvc.toplabelsetup()">top​Label​Setup()</a></li><li class="method"><a href="#chatvc.keybaordbuttonsetup()">keybaord​Button​Setup()</a></li><li class="method"><a href="#chatvc.keyboardbuttontapped()">keyboard​Button​Tapped()</a></li></ul></li></ol>
         </div>
     </nav>
 
     <main>
         <article>
-                <section id="classes">
-        <h2>Classes</h2>
-        <dl>
-            <dt class="class">
-    <a href="AppDelegate" title="class - AppDelegate">
-        App​Delegate
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="CameraFeedManager" title="class - CameraFeedManager">
-        Camera​Feed​Manager
-    </a>
-</dt>
-<dd>
-    <p>This class manages all camera related functionality</p>
+            <h1>
+    <small>Class</small>
+    <code class="name">Chat​VC</code>
+</h1>
 
-</dd>
-<dt class="class">
-    <a href="PreviewView" title="class - PreviewView">
-        Preview​View
-    </a>
-</dt>
-<dd>
-    <p>Displays a preview of the image being processed. By default, this uses the device's camera frame,
-but will use a still image copied from clipboard if <code>shouldUseClipboardImage</code> is set to true.</p>
+<html><body><pre class="highlight"><code><span class="keyword">class</span> <span class="type">ChatVC</span>: <span class="type">UIViewController</span>, <span class="type">UITextViewDelegate</span>, <span class="type">UICollectionViewDataSource</span>, <span class="type">UICollectionViewDelegateFlowLayout</span></code></pre></body></html>
+<section id="relationships">
+    <h2 hidden>Relationships</h2>
+        <figure>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.42.3 (20191010.1750)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="1117pt" height="243pt"
+ viewBox="0.00 0.00 1117.43 243.49" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 239.49)">
+<title>%3</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-239.49 1113.43,-239.49 1113.43,4 -4,4"/>
+<!-- ChatVC -->
+<g id="node1" class="node class current">
+<title>ChatVC</title>
+<g id="a_node1"><a xlink:href="/ChatVC" xlink:title="ChatVC">
+<path fill="none" stroke="black" stroke-width="3" d="M654,-136.04C654,-136.04 462,-136.04 462,-136.04 456,-136.04 450,-130.04 450,-124.04 450,-124.04 450,-112.04 450,-112.04 450,-106.04 456,-100.04 462,-100.04 462,-100.04 654,-100.04 654,-100.04 660,-100.04 666,-106.04 666,-112.04 666,-112.04 666,-124.04 666,-124.04 666,-130.04 660,-136.04 654,-136.04"/>
+<text text-anchor="middle" x="558" y="-114.99" font-family="Menlo" font-size="14.00">ChatVC</text>
+</a>
+</g>
+</g>
+<!-- UITextViewDelegate -->
+<g id="node2" class="node unknown">
+<title>UITextViewDelegate</title>
+<path fill="none" stroke="black" d="M1097.43,-71.16C1097.43,-71.16 905.43,-71.16 905.43,-71.16 899.43,-71.16 893.43,-65.16 893.43,-59.16 893.43,-59.16 893.43,-47.16 893.43,-47.16 893.43,-41.16 899.43,-35.16 905.43,-35.16 905.43,-35.16 1097.43,-35.16 1097.43,-35.16 1103.43,-35.16 1109.43,-41.16 1109.43,-47.16 1109.43,-47.16 1109.43,-59.16 1109.43,-59.16 1109.43,-65.16 1103.43,-71.16 1097.43,-71.16"/>
+<text text-anchor="middle" x="1001.43" y="-50.11" font-family="Menlo" font-size="14.00">UITextViewDelegate</text>
+</g>
+<!-- ChatVC&#45;&gt;UITextViewDelegate -->
+<g id="edge1" class="edge conformsTo">
+<title>ChatVC&#45;&gt;UITextViewDelegate</title>
+<path fill="none" stroke="black" d="M666.19,-102.21C731.79,-92.61 815.55,-80.36 882.93,-70.5"/>
+<polygon fill="black" stroke="black" points="883.79,-73.91 893.17,-69 882.77,-66.99 883.79,-73.91"/>
+</g>
+<!-- UICollectionViewDelegateFlowLayout -->
+<g id="node3" class="node unknown">
+<title>UICollectionViewDelegateFlowLayout</title>
+<path fill="none" stroke="black" d="M410.28,-36C410.28,-36 132.13,-36 132.13,-36 126.13,-36 120.13,-30 120.13,-24 120.13,-24 120.13,-12 120.13,-12 120.13,-6 126.13,0 132.13,0 132.13,0 410.28,0 410.28,0 416.28,0 422.28,-6 422.28,-12 422.28,-12 422.28,-24 422.28,-24 422.28,-30 416.28,-36 410.28,-36"/>
+<text text-anchor="middle" x="271.21" y="-14.95" font-family="Menlo" font-size="14.00">UICollectionViewDelegateFlowLayout</text>
+</g>
+<!-- ChatVC&#45;&gt;UICollectionViewDelegateFlowLayout -->
+<g id="edge2" class="edge conformsTo">
+<title>ChatVC&#45;&gt;UICollectionViewDelegateFlowLayout</title>
+<path fill="none" stroke="black" d="M506.39,-100.04C457.61,-83.02 384.37,-57.48 332.61,-39.42"/>
+<polygon fill="black" stroke="black" points="333.47,-36.01 322.88,-36.02 331.17,-42.62 333.47,-36.01"/>
+</g>
+<!-- UICollectionViewDataSource -->
+<g id="node4" class="node unknown">
+<title>UICollectionViewDataSource</title>
+<path fill="none" stroke="black" d="M223.22,-201.78C223.22,-201.78 11.93,-201.78 11.93,-201.78 5.93,-201.78 -0.07,-195.78 -0.07,-189.78 -0.07,-189.78 -0.07,-177.78 -0.07,-177.78 -0.07,-171.78 5.93,-165.78 11.93,-165.78 11.93,-165.78 223.22,-165.78 223.22,-165.78 229.22,-165.78 235.22,-171.78 235.22,-177.78 235.22,-177.78 235.22,-189.78 235.22,-189.78 235.22,-195.78 229.22,-201.78 223.22,-201.78"/>
+<text text-anchor="middle" x="117.57" y="-180.73" font-family="Menlo" font-size="14.00">UICollectionViewDataSource</text>
+</g>
+<!-- ChatVC&#45;&gt;UICollectionViewDataSource -->
+<g id="edge3" class="edge conformsTo">
+<title>ChatVC&#45;&gt;UICollectionViewDataSource</title>
+<path fill="none" stroke="black" d="M449.97,-134.16C388.21,-143.38 310.37,-155 245.55,-164.68"/>
+<polygon fill="black" stroke="black" points="244.64,-161.27 235.27,-166.21 245.67,-168.2 244.64,-161.27"/>
+</g>
+<!-- UIViewController -->
+<g id="node5" class="node unknown">
+<title>UIViewController</title>
+<path fill="none" stroke="black" d="M945.54,-235.49C945.54,-235.49 753.54,-235.49 753.54,-235.49 747.54,-235.49 741.54,-229.49 741.54,-223.49 741.54,-223.49 741.54,-211.49 741.54,-211.49 741.54,-205.49 747.54,-199.49 753.54,-199.49 753.54,-199.49 945.54,-199.49 945.54,-199.49 951.54,-199.49 957.54,-205.49 957.54,-211.49 957.54,-211.49 957.54,-223.49 957.54,-223.49 957.54,-229.49 951.54,-235.49 945.54,-235.49"/>
+<text text-anchor="middle" x="849.54" y="-214.44" font-family="Menlo" font-size="14.00">UIViewController</text>
+</g>
+<!-- ChatVC&#45;&gt;UIViewController -->
+<g id="edge4" class="edge conformsTo">
+<title>ChatVC&#45;&gt;UIViewController</title>
+<path fill="none" stroke="black" d="M610.79,-136.05C660.38,-152.97 734.6,-178.28 787.1,-196.19"/>
+<polygon fill="black" stroke="black" points="786.05,-199.53 796.64,-199.45 788.31,-192.91 786.05,-199.53"/>
+</g>
+</g>
+</svg>
 
-</dd>
-<dt class="class">
-    <a href="CameraFeedVideoManager" title="class - CameraFeedVideoManager">
-        Camera​Feed​Video​Manager
-    </a>
-</dt>
-<dd>
-    <p>This class manages all camera related functionality</p>
 
-</dd>
-<dt class="class">
-    <a href="ChatMessageCell" title="class - ChatMessageCell">
-        Chat​Message​Cell
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="ChatUserCell" title="class - ChatUserCell">
-        Chat​User​Cell
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="InfoCell" title="class - InfoCell">
-        Info​Cell
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="NotesTableViewCell" title="class - NotesTableViewCell">
-        Notes​Table​View​Cell
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="ModelDataHandler" title="class - ModelDataHandler">
-        Model​Data​Handler
-    </a>
-</dt>
-<dd>
-    <p>This class handles all data preprocessing and makes calls to run inference on a given frame
-by invoking the <code>Interpreter</code>. It then formats the inferences obtained and returns the top N
-results for a successful inference.</p>
+    <figcaption hidden>Inheritance graph for ChatVC.</figcaption>
+</figure>
+        <h3>Conforms To</h3>
+<dl>
+    <dt class="unknown"><code>UICollectionViewDataSource</code></dt>
+<dt class="unknown"><code>UICollectionViewDelegateFlowLayout</code></dt>
+<dt class="unknown"><code>UITextViewDelegate</code></dt>
+<dt class="unknown"><code>UIViewController</code></dt>
+</dl>
+</section>
+    <section id="properties">
+        <h2>Properties</h2>
 
-</dd>
-<dt class="class">
-    <a href="Message" title="class - Message">
-        Message
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="Note" title="class - Note">
-        Note
-    </a>
-</dt>
-<dd>
-    <p>this will hold each note that is saved in Firebase</p>
-
-</dd>
-<dt class="class">
-    <a href="User" title="class - User">
-        User
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="AddChatVC" title="class - AddChatVC">
-        Add​Chat​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="CameraBoard" title="class - CameraBoard">
-        Camera​Board
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="CardView" title="class - CardView">
-        Card​View
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="ChatTableViewCell" title="class - ChatTableViewCell">
-        Chat​Table​View​Cell
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="ChatVC" title="class - ChatVC">
-        Chat​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="CreateNoteVC" title="class - CreateNoteVC">
-        Create​Note​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="HelpUsTrainWelcomeViewController" title="class - HelpUsTrainWelcomeViewController">
-        Help​UsTrain​Welcome​View​Controller
-    </a>
-</dt>
-<dd>
-    <p>The view controller that displayes the welcome screen.</p>
-
-</dd>
-<dt class="class">
-    <a href="HelpUsTrainIntrinsicTableView" title="class - HelpUsTrainIntrinsicTableView">
-        Help​UsTrain​Intrinsic​Table​View
-    </a>
-</dt>
-<dd>
-    <p>Modified version of <a href="https://stackoverflow.com/a/48623673/5569234">https://stackoverflow.com/a/48623673/5569234</a></p>
-
-</dd>
-<dt class="class">
-    <a href="HelpUsTrainFilledButton" title="class - HelpUsTrainFilledButton">
-        Help​UsTrain​Filled​Button
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="HelpUsTrainItemsTableViewManager" title="class - HelpUsTrainItemsTableViewManager">
-        Help​UsTrain​Items​Table​View​Manager
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="HelpTrainTableCell" title="class - HelpTrainTableCell">
-        Help​Train​Table​Cell
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="LoginVC" title="class - LoginVC">
-        Login​VC
-    </a>
-</dt>
-<dd>
-    <p>This view controller is for the login screen that a user will see when they first open the app.
-The user should be able to enter their name, email, and password if they have not registered before or
-just their email and password if they are a returning user.</p>
-
-</dd>
-<dt class="class">
-    <a href="NotesVC" title="class - NotesVC">
-        Notes​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="RemoteConversationVC" title="class - RemoteConversationVC">
-        Remote​Conversation​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="SpeechToTextVC" title="class - SpeechToTextVC">
-        Speech​ToText​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="TranscribeVC" title="class - TranscribeVC">
-        Transcribe​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="ViewController" title="class - ViewController">
-        View​Controller
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="SpeechToTextVC" title="class - SpeechToTextVC">
-        Speech​ToText​VC
-    </a>
-</dt>
-<dd>
-    
-</dd>
-        </dl>
+        <div role="article" class="class" id="chatvc.composedmessage">
+    <h3>
+        <code>composed​Message</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">composedMessage</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.topbar">
+    <h3>
+        <code>top​Bar</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">topBar</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.toplabel">
+    <h3>
+        <code>top​Label</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">topLabel</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.backbutton">
+    <h3>
+        <code>back​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">backButton</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.tableview">
+    <h3>
+        <code>table​View</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">tableView</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.sendbutton">
+    <h3>
+        <code>send​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">sendButton</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.keyboardbutton">
+    <h3>
+        <code>keyboard​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">keyboardButton</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.messagesconstant">
+    <h3>
+        <code>messages​Constant</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">messagesConstant</span>: <span class="type">String</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.chatpartner">
+    <h3>
+        <code>chat​Partner</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">chatPartner</span>: <a href="User"><span class="type">User</span></a>?</code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.messages">
+    <h3>
+        <code>messages</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">messages</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.tempmessages">
+    <h3>
+        <code>temp​Messages</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">tempMessages</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.tempmessage1">
+    <h3>
+        <code>temp​Message1</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">tempMessage1</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.tempmessage2">
+    <h3>
+        <code>temp​Message2</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">tempMessage2</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.tempmessage3">
+    <h3>
+        <code>temp​Message3</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">tempMessage3</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.tempmessage4">
+    <h3>
+        <code>temp​Message4</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">tempMessage4</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.cellid">
+    <h3>
+        <code>cell​Id</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">cellId</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.collectionview">
+    <h3>
+        <code>collection​View</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">collectionView</span>: <span class="type">UICollectionView</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.preferredstatusbarstyle">
+    <h3>
+        <code>preferred​Status​Bar​Style</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">preferredStatusBarStyle</span>: <span class="type">UIStatusBarStyle</span></code></pre></body></html>
+</div>
     </section>
-    <section id="structures">
-        <h2>Structures</h2>
-        <dl>
-            <dt class="structure">
-    <a href="Result" title="structure - Result">
-        Result
-    </a>
-</dt>
-<dd>
-    <p>A result from invoking the <code>Interpreter</code>.</p>
+    <section id="methods">
+        <h2>Methods</h2>
 
-</dd>
-<dt class="structure">
-    <a href="Inference" title="structure - Inference">
-        Inference
-    </a>
-</dt>
-<dd>
-    <p>An inference from invoking the <code>Interpreter</code>.</p>
+        <div role="article" class="class" id="chatvc.loadtempmessage()">
+    <h3>
+        <code>load​Temp​Message()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">loadTempMessage</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.viewdidload()">
+    <h3>
+        <code>view​Did​Load()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewDidLoad</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.keyboardwillshow(notification:)">
+    <h3>
+        <code>keyboard​Will​Show(notification:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">keyboardWillShow</span>(<span class="variable">notification</span>: <span class="type">NSNotification</span>)</code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.keyboardwillhide(notification:)">
+    <h3>
+        <code>keyboard​Will​Hide(notification:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">keyboardWillHide</span>(<span class="variable">notification</span>: <span class="type">NSNotification</span>)</code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.observemessages()">
+    <h3>
+        <code>observe​Messages()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">observeMessages</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.collectionviewsetup()">
+    <h3>
+        <code>collection​View​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">collectionViewSetup</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.collectionview(_:numberofitemsinsection:)">
+    <h3>
+        <code>collection​View(_:​number​OfItems​InSection:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">collectionView</span>(<span class="keyword">_</span> <span class="variable">collectionView</span>: <span class="type">UICollectionView</span>, <span class="variable">numberOfItemsInSection</span> <span class="variable">section</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.collectionview(_:cellforitemat:)">
+    <h3>
+        <code>collection​View(_:​cell​For​Item​At:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">collectionView</span>(<span class="keyword">_</span> <span class="variable">collectionView</span>: <span class="type">UICollectionView</span>, <span class="variable">cellForItemAt</span> <span class="variable">indexPath</span>: <span class="type">IndexPath</span>) -&gt; <span class="type">UICollectionViewCell</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.setupcell(cell:message:)">
+    <h3>
+        <code>setup​Cell(cell:​message:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">setupCell</span>(<span class="variable">cell</span>: <a href="ChatMessageCell"><span class="type">ChatMessageCell</span></a>, <span class="variable">message</span>: <a href="Message"><span class="type">Message</span></a>)</code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.collectionview(_:layout:sizeforitemat:)">
+    <h3>
+        <code>collection​View(_:​layout:​size​For​Item​At:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">collectionView</span>(<span class="keyword">_</span> <span class="variable">collectionView</span>: <span class="type">UICollectionView</span>, <span class="variable">layout</span> <span class="variable">collectionViewLayout</span>: <span class="type">UICollectionViewLayout</span>, <span class="variable">sizeForItemAt</span> <span class="variable">indexPath</span>: <span class="type">IndexPath</span>) -&gt; <span class="type">CGSize</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.estimateframefortext(text:)">
+    <h3>
+        <code>estimate​Frame​For​Text(text:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">private</span> <span class="keyword">func</span> <span class="function">estimateFrameForText</span>(<span class="variable">text</span>: <span class="type">String</span>) -&gt; <span class="type">CGRect</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.viewwillappear(_:)">
+    <h3>
+        <code>view​Will​Appear(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewWillAppear</span>(<span class="keyword">_</span> <span class="variable">animated</span>: <span class="type">Bool</span>)</code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.viewwilldisappear(_:)">
+    <h3>
+        <code>view​Will​Disappear(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewWillDisappear</span>(<span class="keyword">_</span> <span class="variable">animated</span>: <span class="type">Bool</span>)</code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.handlesendbutton()">
+    <h3>
+        <code>handle​Send​Button()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">handleSendButton</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>handles what happens when you send a message</p>
 
-</dd>
-<dt class="structure">
-    <a href="HelpUsTrainItem" title="structure - HelpUsTrainItem">
-        Help​UsTrain​Item
-    </a>
-</dt>
-<dd>
-    <p>An item to be displayed in the welcome screen, used to show off a feature of your app.</p>
-
-</dd>
-<dt class="structure">
-    <a href="HelpTrainWelcomeConfiguration" title="structure - HelpTrainWelcomeConfiguration">
-        Help​Train​Welcome​Configuration
-    </a>
-</dt>
-<dd>
-    <p>Use this to manage the configuration options of the welcome screen.</p>
-
-</dd>
-        </dl>
+</div>
+</div>
+<div role="article" class="class" id="chatvc.sendbuttonsetup()">
+    <h3>
+        <code>send​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">sendButtonSetup</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.composedmessagesetup()">
+    <h3>
+        <code>composed​Message​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">composedMessageSetup</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.topbarsetup()">
+    <h3>
+        <code>top​Bar​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">topBarSetup</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.backbuttonsetup()">
+    <h3>
+        <code>back​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">backButtonSetup</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.backbuttontapped()">
+    <h3>
+        <code>back​Button​Tapped()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">backButtonTapped</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.toplabelsetup()">
+    <h3>
+        <code>top​Label​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">topLabelSetup</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.keybaordbuttonsetup()">
+    <h3>
+        <code>keybaord​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">keybaordButtonSetup</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="chatvc.keyboardbuttontapped()">
+    <h3>
+        <code>keyboard​Button​Tapped()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">keyboardButtonTapped</span>()</code></pre></body></html>
+</div>
     </section>
-    <section id="enumerations">
-        <h2>Enumerations</h2>
-        <dl>
-            <dt class="enumeration">
-    <a href="CameraConfiguration" title="enumeration - CameraConfiguration">
-        Camera​Configuration
-    </a>
-</dt>
-<dd>
-    <p>This enum holds the state of the camera initialization.</p>
 
-</dd>
-<dt class="enumeration">
-    <a href="MobileNet" title="enumeration - MobileNet">
-        Mobile​Net
-    </a>
-</dt>
-<dd>
-    <p>Information about the MobileNet model.</p>
 
-</dd>
-<dt class="enumeration">
-    <a href="SystemColor" title="enumeration - SystemColor">
-        System​Color
-    </a>
-</dt>
-<dd>
-    <p>Adapted from https://github.com/Wilsonator5000/SystemColor</p>
 
-</dd>
-        </dl>
-    </section>
-    <section id="protocols">
-        <h2>Protocols</h2>
-        <dl>
-            <dt class="protocol">
-    <a href="CameraFeedManagerDelegate" title="protocol - CameraFeedManagerDelegate">
-        Camera​Feed​Manager​Delegate
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="protocol">
-    <a href="CameraFeedVideoManagerDelegate" title="protocol - CameraFeedVideoManagerDelegate">
-        Camera​Feed​Video​Manager​Delegate
-    </a>
-</dt>
-<dd>
-    
-</dd>
-        </dl>
-    </section>
         </article>
     </main>
 
     <footer>
         <p>
-    Generated on <time datetime="2020-04-16T19:55:49-0400">April 16, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
+    Generated on <time datetime="2020-04-16T19:55:50-0400">April 16, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
 </p>
     </footer>
 </body>
