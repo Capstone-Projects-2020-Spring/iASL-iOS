@@ -78,7 +78,7 @@ class ViewController: UIViewController {
 
     // Handles all data preprocessing and makes calls to run inference through the `Interpreter`.
     private var modelDataHandler: ModelDataHandler? =
-        ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo)
+        ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo, threadCount: 2)
 
     // Handles the presenting of results on the screen
 
