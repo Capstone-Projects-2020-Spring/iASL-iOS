@@ -1,18 +1,21 @@
 name: Document Code
+on: [push]
 
-on:
-  # Trigger the workflow on push or pull request,
-  # but only for the master branch
-  push:
-    branches:
-      - master
 jobs:
-  deploy_docs:
-    runs-on: macos
+  build:
+    runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v1
-    - name: Publish Jazzy Docs
-      uses: steven0351/publish-jazzy-docs@v1
-      with:
-        personal_access_token: ${{ secrets.ACCESS_TOKEN }}
-        version: 0.13.1
+      - uses: actions/checkout@v1
+      - name: Generate Documentation
+        uses: Applebaumian/swift-doc@master
+        with:
+          inputs: "ImageClassification"
+          module-name: MyLibrary
+          output: "Documentation"
+      - name: Upload Documentation to Wiki
+        uses: SwiftDocOrg/github-wiki-publish-action@v1
+        with:
+          path: "Documentation"
+        env:
+          GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
