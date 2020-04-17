@@ -89,7 +89,7 @@ class ChatUserCell: UITableViewCell {
         return label
     }()
 
-    ///function for laying out the subviews
+    ///Function for laying out the subviews
     override func layoutSubviews() {
         super.layoutSubviews()
 
@@ -109,21 +109,21 @@ class ChatUserCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    ///adds the name label to the subview and defines where in the subveiw it will be placed
+    ///Adds the name label to the subview and defines where in the subveiw it will be placed
     func setupNameLabel() {
         self.addSubview(nameLabel)
         nameLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 20).isActive = true
         nameLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -10).isActive = true
     }
 
-    ///adds the most recent message label to the subview and defines where in the subveiw it will be placed
+    ///Adds the most recent message label to the subview and defines where in the subveiw it will be placed
     func setupMessageLabel() {
         self.addSubview(mostRecentMessageLabel)
         mostRecentMessageLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 20).isActive = true
         mostRecentMessageLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 5).isActive = true
     }
     
-    ///adds the timestamp label to the subview and defines where in the subveiw it will be placed
+    ///Adds the timestamp label to the subview and defines where in the subveiw it will be placed
     func setupTimestampLabel() {
         self.addSubview(timestampLabel)
         timestampLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true

@@ -77,9 +77,7 @@ class NotesTableViewCell: UITableViewCell {
     ///Function called every time this table view cell is used. It is being used to call the setup function for the subviews of this table view cell.
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
-
-            //self.backgroundColor = .red
-
+        
         setupTitleLabel()
         setupNoteLabel()
         setupTimestampLabel()

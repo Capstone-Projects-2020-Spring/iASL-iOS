@@ -10,6 +10,10 @@ import UIKit
 import Firebase
 import KeychainSwift
 
+
+/**
+ This class is responsible for the main messaging screen. It holds the table view of all of the users's conversations as well as ways for users to create new conversations and delete old ones.
+ */
 class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     ///Variable for the pull to refresh mode in the table view

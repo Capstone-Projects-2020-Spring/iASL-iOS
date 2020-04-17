@@ -20,9 +20,7 @@ import FirebaseFirestore
 import KeychainSwift
 import AppleWelcomeScreen
 /**
- This view controller is for the login screen that a user will see when they first open the app.
- The user should be able to enter their name, email, and password if they have not registered before or
- just their email and password if they are a returning user.
+ This view controller is for the login screen that a user will see when they first open the app. The user should be able to enter their name, email, and password if they have not registered before or just their email and password if they are a returning user.
  */
 class LoginVC: UIViewController, UITextFieldDelegate {
 
