@@ -8,6 +8,8 @@
 
 import UIKit
 
+//FIXME: I think we can delete this file
+
 class ChatTableViewCell: UITableViewCell {
 
     let sentMessageBox = UIView()

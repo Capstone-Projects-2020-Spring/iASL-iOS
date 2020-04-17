@@ -10,22 +10,27 @@ import UIKit
 import Firebase
 import KMPlaceholderTextView
 
+/**
+ This class is responsible for giving users the ability to create new notes and edit old ones. 
+ */
 class CreateNoteVC: UIViewController {
 
-    //this is the note that will be set from the NotesVC
+    ///This is the note that will be set from the NotesVC
     var note: Note?
-
-    //this is where the note to be updated can be found in firebase
+    ///This is where the note to be updated can be found in firebase
     var noteToUpdateKey: String?
-
+    ///Variable for the constant "notes" for Firebase
     let notesConstant: String = "notes"
+    ///Variable for the constant "user-notes" for Firebase
     let userNotesConstant: String = "user-notes"
-
+    ///Variable for the back button to go to the previous veiw controller
     let backButton = UIButton()
+    ///Variable for the textview for the text of the note
     let textView = KMPlaceholderTextView()
+    ///Variable for the textfield that holds the title of the note
     let noteTitle = UITextField()
 
-    ///save button for saving notes
+    ///Save button for saving notes
     let saveButton: UIButton = {
         let save = UIButton()
         save.backgroundColor = .clear
@@ -37,6 +42,7 @@ class CreateNoteVC: UIViewController {
         return save
     }()
 
+    ///View did load function that calls all of the setup functions
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -47,7 +53,7 @@ class CreateNoteVC: UIViewController {
         loadNote()
     }
 
-    ///if the note already exists, loads the contents into the VC. if it does not exist, set placeholders
+    ///If the note already exists, loads the contents into the VC. if it does not exist, set placeholders
     func loadNote() {
 
         toggleSaveButtonDisabled()
@@ -62,35 +68,7 @@ class CreateNoteVC: UIViewController {
         }
     }
 
-    ///handles what happens when a note is saved
-    @objc func handleSaveNote() {
-        print("save note button pressed")
-        //print("Here is the note: ", textView.text!)
-
-        //two cases: new note created and old note needs to be updated
-        if note == nil {
-            let newNote = Note()
-            newNote.title = "Title"
-            note = newNote
-            handleNewNote()
-
-            dismiss(animated: true, completion: { () in
-                print("completion handler new note")
-                //self.NotesVC?.notes.removeAll()
-                //self.NotesVC?.observeUserNotes()
-                //self.NotesVC?.tableView.reloadData()
-
-            })
-        } else {
-            handleUpdateNote()
-//            self.NotesVC?.notes.removeAll()
-//            self.NotesVC?.tableView.reloadData()
-//            self.NotesVC?.observeUserNotes()
-        }
-
-    }
-
-    ///handles what happens when a new note is made
+    ///Handles what happens when a new note is made
     func handleNewNote() {
 
         print("handle new note")
@@ -147,7 +125,7 @@ class CreateNoteVC: UIViewController {
         }
     }
 
-    ///need to be able to overwrite an existing note
+    ///Need to be able to overwrite an existing note
     func handleUpdateNote() {
         print("handle update note")
         toggleSaveButtonDisabled()
@@ -193,35 +171,64 @@ class CreateNoteVC: UIViewController {
 
     }
 
-    ///handles the constraints and set up of the save button
+}
+
+///Extension of the CreateNoteVC that holds most of the setup functions
+extension CreateNoteVC: UITextViewDelegate, UITextFieldDelegate {
+    
+    ///Handles the constraints and set up of the save button
     func setupSaveNoteButton() {
         view.addSubview(saveButton)
-
+        
         saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
         saveButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         saveButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         saveButton.widthAnchor.constraint(equalToConstant: 75).isActive = true
-
+        
         toggleSaveButtonEnabled()
     }
-
-    ///sets the save button to enabled and makes the color normal
+    
+    ///Handles what happens when a note is saved
+    @objc func handleSaveNote() {
+        print("save note button pressed")
+        //print("Here is the note: ", textView.text!)
+        
+        //two cases: new note created and old note needs to be updated
+        if note == nil {
+            let newNote = Note()
+            newNote.title = "Title"
+            note = newNote
+            handleNewNote()
+            
+            dismiss(animated: true, completion: { () in
+                print("completion handler new note")
+                //self.NotesVC?.notes.removeAll()
+                //self.NotesVC?.observeUserNotes()
+                //self.NotesVC?.tableView.reloadData()
+                
+            })
+        } else {
+            handleUpdateNote()
+            //            self.NotesVC?.notes.removeAll()
+            //            self.NotesVC?.tableView.reloadData()
+            //            self.NotesVC?.observeUserNotes()
+        }
+        
+    }
+    
+    ///Sets the save button to enabled and makes the color normal
     func toggleSaveButtonEnabled() {
         saveButton.isEnabled = true
         saveButton.alpha = 1
     }
-
-    ///sets the save button to disabled and makes the color of the bottom dim
+    
+    ///Sets the save button to disabled and makes the color of the bottom dim
     func toggleSaveButtonDisabled() {
         saveButton.isEnabled = false
         saveButton.alpha = 0.2
     }
 
-}
-
-extension CreateNoteVC: UITextViewDelegate, UITextFieldDelegate {
-
-    ///set up for the back button
+    ///Set up for the back button and defines its constraints
     func backButtonSetup() {
         view.addSubview(backButton)
         backButton.translatesAutoresizingMaskIntoConstraints = false
@@ -235,7 +242,7 @@ extension CreateNoteVC: UITextViewDelegate, UITextFieldDelegate {
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
 
-    ///what happens when the back button is tapped, dismisses the view controller
+    ///What happens when the back button is tapped, dismisses the view controller
     @objc func backButtonTapped() {
 
         //need to check if user has changed their note and not saved
@@ -276,7 +283,7 @@ extension CreateNoteVC: UITextViewDelegate, UITextFieldDelegate {
         }
     }
 
-    ///sets up the note title
+    ///Sets up the note title and defines its constraints
     func noteTitleSetup() {
         view.addSubview(noteTitle)
         noteTitle.translatesAutoresizingMaskIntoConstraints = false
@@ -287,7 +294,7 @@ extension CreateNoteVC: UITextViewDelegate, UITextFieldDelegate {
         noteTitle.font = UIFont.boldSystemFont(ofSize: 30)
     }
 
-    ///sets up the main text view
+    ///Sets up the main text view and defines its constraints
     func textViewSetup() {
         view.addSubview(textView)
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -301,7 +308,7 @@ extension CreateNoteVC: UITextViewDelegate, UITextFieldDelegate {
         textView.delegate = self
     }
 
-    ///if the text changed in the view controller, toggle the save button
+    ///If the text changed in the view controller, toggle the save button
     func textViewDidChange(_ textView: UITextView) {
         //print("textview did change")
         toggleSaveButtonEnabled()
