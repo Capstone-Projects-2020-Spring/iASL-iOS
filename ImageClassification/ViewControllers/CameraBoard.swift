@@ -28,13 +28,13 @@ class CameraBoard: UIView {
     let cameraUnavailableLabel = UILabel()
 	/// lets the user resume the camera session.
     let resumeButton = UIButton()
-	/***/
+	/**document*/
     let buttonStack = UIStackView()
 	/// An array of UIButtons that dynamically change based on prediction.
     var predictionButton = [UIButton]()
 	/// The stack view that holds the prediction buttons.
     let predictionStack = UIStackView()
-	///
+	///document
     var stringCache = String()
 	//Viet inspired variables
 	/// The lastLetter predicted.
@@ -383,7 +383,7 @@ extension CameraBoard {
 			self.target?.insertText("\n")
 		}
 	}
-	///
+	///document
     func buttonStackSetup() {
         addSubview(buttonStack)
         buttonStack.translatesAutoresizingMaskIntoConstraints = false
