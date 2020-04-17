@@ -19,6 +19,7 @@ import Firebase
 
 class ViewController: UIViewController {
 
+    let areaBound = UIView()
     let remoteChatButton = UIButton()
     let liveChatButton = UIButton()
     let notesButton = UIButton()
@@ -149,11 +150,16 @@ class ViewController: UIViewController {
         chatLogButtonSetup()
         predictionAssistButtonSetup()
         sliderSetup()
+        areaBoundSetup()
         //speak()
         if speakerButton.isSelected == true {
             speak()
         }
 
+
+
+        
+        
         let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleLeftSwipeGesture(_:)))
         previewView.addGestureRecognizer(swipeLeftGestureRecognizer)
         swipeLeftGestureRecognizer.direction = .left
@@ -781,6 +787,28 @@ extension ViewController {
         print("value is", Int(sender.value))
         speechSpeedDegree = sender.value
     }
+    
+    func areaBoundSetup(){
+        previewView.addSubview(areaBound)
+        areaBound.translatesAutoresizingMaskIntoConstraints = false
+        areaBound.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        areaBound.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        areaBound.widthAnchor.constraint(equalToConstant: view.frame.size.width-10).isActive = true
+        areaBound.heightAnchor.constraint(equalToConstant: view.frame.size.width-10).isActive = true
+        areaBound.layer.borderWidth = 2
+        areaBound.layer.borderColor = UIColor.red.cgColor
+        
+        let textView = UILabel()
+        areaBound.addSubview(textView)
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.topAnchor.constraint(equalTo: areaBound.topAnchor, constant: 2).isActive = true
+        textView.leadingAnchor.constraint(equalTo: areaBound.leadingAnchor, constant: 2).isActive = true
+        textView.heightAnchor.constraint(equalToConstant: 12).isActive = true
+        textView.text = "Nothing Detected"
+        textView.font = UIFont.systemFont(ofSize: 12)
+        textView.textColor = .red
+    }
+
 
 }
 extension ViewController {
@@ -806,14 +834,22 @@ extension ViewController {
 	func executeASLtoText() {
 		switch result?.inferences[0].label {
 		case "del":
+            DispatchQueue.main.async {
+                self.areaBound.isHidden = true
+            }
 			deleteCharacter()
 		case "space":
+            DispatchQueue.main.async {
+                self.areaBound.isHidden = true
+            }
 			addSpace()
             speak()
 		case "nothing":
             if true {}
 		default:
+
 			DispatchQueue.main.async {
+                self.areaBound.isHidden = true
 				let confidence = self.result!.inferences[0].confidence
 				let prediction: String = self.result!.inferences[0].label.description
                 print("actual \(prediction) output \(self.predictionLayer.letterProximitySwap(inputChar: prediction))")
