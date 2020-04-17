@@ -90,5 +90,3 @@ bundle separately in that case.
 ## Code reference
 For documentation of iASL code, refer to [iASL Documentation](https://capstone-projects-2020-spring.github.io/iASL-iOS/).
 
-## Coding Rules (swiftlint)
-[Code Rules](https://github.com/Capstone-Projects-2020-Spring/iASL-iOS/blob/master/rule_docs/Rule%20Directory.md#rule-directory)
