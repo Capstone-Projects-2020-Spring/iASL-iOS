@@ -11,64 +11,32 @@ import Firebase
 
 class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    //var testNotes = ["Ian", "Leo", "Liam", "Viet", "Tarek", "Aidan", "Shakeel"]
-    var testNotes = [Note]()
+    ///Array of all the notes of the current user
     var notes = [Note]()
-    //var notesDictionary = [String: Note]()
-
+    ///Constant for the 'user-notes' node in Firebase
     let userNotesConstant: String = "user-notes"
-
+    ///Variable for handling the pull to refresh for the table view
     private let refreshControl = UIRefreshControl()
-
-    func setupFakeNotes() {
-        let note1 = Note()
-        note1.ownerId = "owner1"
-        note1.text = "this is note 1"
-        note1.title = "title 1"
-        note1.timestamp = 4
-
-        let note2 = Note()
-        note2.ownerId = "owner2"
-        note2.text = "this is note 2"
-        note2.title = "title 2"
-        note2.timestamp = 3
-
-        let note3 = Note()
-        note3.ownerId = "owner3"
-        note3.text = "this is note 3"
-        note3.title = "title 3"
-        note3.timestamp = 2
-
-        let note4 = Note()
-        note4.ownerId = "owner4"
-        note4.text = "wwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
-        note4.title = "fourth title"
-        note4.timestamp = 1
-
-        testNotes.append(note1)
-        testNotes.append(note2)
-        testNotes.append(note3)
-        testNotes.append(note4)
-    }
-
+    ///Variable for the top bar
     let topBar = UIView()
+    ///Variable for the top label which holds the name of the feature
     let topLabel = UILabel()
+    ///Variable for the back button for when the user wants to go back to the previous view controller
     let backButton = UIButton()
+    ///Table view variable for holding all of the users notes
     let tableView: UITableView = {
         let table = UITableView()
         //table.separatorStyle = .singleLine
         //table.separatorInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         return table
     }()
+    ///Button for creating a new note
     let createNoteButton = UIButton()
 
+    ///Function that gets called initially and loads all of the setup functions
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-
-        print("view did load")
-
-        setupFakeNotes()
 
         topBarSetup()
         backButtonSetup()
@@ -79,8 +47,7 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     }
 
-    //var notesVC: NotesVC?
-
+    ///Handles what happens when the user pulls on the table view to refresh
     @objc func refreshTableViewOnPull() {
         print("refreshing table view thanks to pulling down")
 

@@ -28,12 +28,16 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 
     // MARK: VARIABLES
 
-    ///boolean that determines if we are on the login screen or the register screen
+    ///Boolean that determines if we are on the login screen or the register screen
     var isRegisterButton: Bool = true
+    ///
 	var isFirstOpen = true
-    let collectionUser: String = "users"
+    ///Constant that holds the "users" node for Firebase
+    let usersStringConstant: String = "users"
+    ///
 	var welcomeScreenConfig = AWSConfigOptions()
 
+    ///
 	@objc func showWelcomeScreen() {
 		  let vc = AWSViewController()
 		vc.configuration = self.welcomeScreenConfig
@@ -48,6 +52,8 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 
 			}
 	}
+    
+    ///
 	fileprivate func welcomeScreenSetup() {
 		welcomeScreenConfig.appName = "iASL (Beta)"
 		welcomeScreenConfig.appDescription = "iASL is a Temple University capstone project designed to transcribe American Sign Language to text using your iPhone's camera. We sincerely thank you for taking the time to test our app before public release. We are testing the following features."
@@ -89,20 +95,23 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 		}
 	}
 
-	///first function that is called
-    let usersStringConstant: String = "users"
 
+
+    ///Keychain that holds the users password and email so that users do not have to sign in every time they open the app
     let keychain = KeychainSwift(keyPrefix: "iasl_")
 
-    ///creates a reference to the input container height anchor to be altered later
+    //MARK: REFERENCE VARIABLES
+    
+    ///Creates a reference to the input container height anchor to be altered later
     var inputsContainerViewHeightAnchor: NSLayoutConstraint?
-    ///creates a reference to the name text field
+    ///Creates a reference to the name text field
     var nameTextFieldHeightAnchor: NSLayoutConstraint?
-    ///creates a reference to the email text field
+    ///Creates a reference to the email text field
     var emailTextFieldHeightAnchor: NSLayoutConstraint?
-    ///creates a reference to the password text field
+    ///Creates a reference to the password text field
     var passwordTextFieldHeightAnchor: NSLayoutConstraint?
 
+    ///Button for skipping the login screen
     let skipButton: UIButton = {
         let skip = UIButton(type: .system)
         skip.backgroundColor = .clear
@@ -115,6 +124,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         return skip
     }()
 
+    ///Toggle for turning on and off the keychain feature
     let keychainToggle: UISwitch = {
         let toggle = UISwitch()
         toggle.translatesAutoresizingMaskIntoConstraints = false
@@ -123,6 +133,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         return toggle
     }()
 
+    ///The label that informs the user about the toggle feature
     lazy var keychainToggleLabel: UILabel = {
         let toggle = UILabel()
         toggle.backgroundColor = .clear
@@ -134,8 +145,8 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     }()
 
     //need a camera container view
-    ///container for where I'd like the camera to go
-    let cameraContainerView: UIView = {
+    ///Container that is holding the logo
+    let logoContainerView: UIView = {
         let cameraView = UIView()
         cameraView.backgroundColor = .clear
         cameraView.translatesAutoresizingMaskIntoConstraints = false
@@ -143,47 +154,42 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         cameraView.layer.masksToBounds = true
         return cameraView
     }()
-
-    //need to add some text fields inside the container view
-    // FIXME: Liam you need to fix these linting issues
-    // swiftlint:disable identifier_name
-    ///the textfield where the user can enter their name when they are registering
+    
+    ///The textfield where the user can enter their name when they are registering
     let nameTextField: UITextField = {
-        let tf = UITextField()
-        tf.placeholder = "Name"
-        tf.attributedPlaceholder = NSAttributedString(string: tf.placeholder!, attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-        tf.textColor = .black
-        tf.tintColor = .systemPink
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        return tf
+        let textField = UITextField()
+        textField.placeholder = "Name"
+        textField.attributedPlaceholder = NSAttributedString(string: textField.placeholder!, attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        textField.textColor = .black
+        textField.tintColor = .systemPink
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
     }()
 
-    ///the textfield where the user can enter their email when they are registering
+    ///The textfield where the user can enter their email when they are registering
     let emailTextField: UITextField = {
-        let tf = UITextField()
-        tf.placeholder = "Email Address"
-        tf.attributedPlaceholder = NSAttributedString(string: tf.placeholder!, attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-        tf.textColor = .black
-        tf.tintColor = .systemPink
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        return tf
+        let textField = UITextField()
+        textField.placeholder = "Email Address"
+        textField.attributedPlaceholder = NSAttributedString(string: textField.placeholder!, attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        textField.textColor = .black
+        textField.tintColor = .systemPink
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        return textField
     }()
 
-    ///the textfield where the user can enter their password when they are registering
+    ///The textfield where the user can enter their password when they are registering
     let passwordTextField: UITextField = {
-        let tf = UITextField()
-        tf.placeholder = "Password"
-        tf.attributedPlaceholder = NSAttributedString(string: tf.placeholder!, attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-        tf.textColor = .black
-        tf.tintColor = .systemPink
-        tf.translatesAutoresizingMaskIntoConstraints = false
-        tf.isSecureTextEntry = true //makes the little dots appear for password
-        return tf
+        let textField = UITextField()
+        textField.placeholder = "Password"
+        textField.attributedPlaceholder = NSAttributedString(string: textField.placeholder!, attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+        textField.textColor = .black
+        textField.tintColor = .systemPink
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.isSecureTextEntry = true //makes the little dots appear for password
+        return textField
     }()
-// swiftlint:enable identifier_name
-    //need an input container view
 
-    ///container that holds the three textviews
+    ///Container that holds the three textviews
     let inputContainerView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.white
@@ -201,7 +207,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         return view
     }()
 
-    ///creates the orange line between the email and the password
+    ///Creates the orange line between the email and the password
     let emailSeparatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .systemPink
@@ -209,7 +215,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         return view
     }()
 
-    ///a logo for the login screen
+    ///A logo for the login screen
     let logoView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "yo")
@@ -218,8 +224,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         return imageView
     }()
 
-    //need a register/login button
-    ///the button that changes the view from register mode to login mode
+    ///The button that changes the view from register mode to login mode
     let toggleRegisterLoginButton: UIButton = {
         let toggleButton = UIButton(type: .system)
         toggleButton.backgroundColor = .white
@@ -232,10 +237,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         return toggleButton
     }()
 
-    //need a segmented control for switching between login and register
-    //for this, also need to change the size of the input container view
-    //maybe just use a button for this? Have a register button and then below that use a
-    ///when this button is pressed, the information entered will be sent to firebase
+    ///When this button is pressed, the information entered will be sent to firebase
     let infoSubmitButton: UIButton = {
         let submitButton = UIButton(type: .system)
         submitButton.backgroundColor = UIColor.white
@@ -248,13 +250,14 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         return submitButton
     }()
 
+    ///Called when the toggle switch is toggled
     @objc func switchChanged() {
         print("switched")
     }
 
     // MARK: VIEW DID LOAD
 
-    ///first function that is called
+    ///View did load function that calls the important setup functions
     override func viewDidLoad() {
         let view = UIView()
         view.backgroundColor = .systemPink
@@ -292,9 +295,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         //print(toggleRegisterLoginButton.frame.origin.y)
     }
 
-    // MARK: LOGICY STUFF
+    // MARK: LOGIC-Y STUFF
 
-    ///called when this view controller needs to disappear and the main view controller needs to load
+    ///Called when this view controller needs to disappear and the main view controller needs to load
     func handleLeaveLogin() {
         let mainVC = ViewController()
         mainVC.modalTransitionStyle = .crossDissolve
@@ -302,7 +305,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         present(mainVC, animated: true, completion: nil)
     }
 
-    ///handles what happens with the skip button is pressed
+    ///Handles what happens with the skip button is pressed
     @objc func handleSkipButton() {
         //print("handle skip button pressed")
         handleLeaveLogin()
@@ -316,7 +319,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         passwordTextField.resignFirstResponder()
     }
 
-    ///when the user taps anywhere else on the screen, it hides the keyboard
+    ///When the user taps anywhere else on the screen, it hides the keyboard
     @objc func hideKeyboardOnTap() {
         //removes the keyboard
         view.endEditing(true)
@@ -330,6 +333,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
 
+    ///Called when the keyboard is about to change
     @objc func keyboardWillChange(notification: Notification) {
         print("Keyboard will show \(notification.name.rawValue)")
 
@@ -361,7 +365,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 
     }
 
-    ///handles the toggle button
+    ///Handles the toggle button for the register and login button
     @objc func toggleRegisterLoginButtonPressed() {
         print("we pressed the toggle button")
 
@@ -437,7 +441,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 
     }
 
-    ///handles what happens when the user decides to register an account
+    ///Handles what happens when the user decides to register an account
     func handleRegister() {
 
         //get email and password and name
@@ -490,7 +494,11 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         }
     }
 
-    ///handles the saving of the user's email and password into keychain
+    /**
+     Handles the saving of the user's email and password into keychain
+     
+     - Parameters: the email and the password to be saved by the keychain
+     */
     func handleSaveKeychain(email: String, password: String) {
         if self.keychainToggle.isOn {
             if self.keychain.set(email, forKey: "email", withAccess: .accessibleWhenUnlocked) {
@@ -502,7 +510,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         }
     }
 
-    ///handles what happens when the user logins in with an existing account
+    ///Handles what happens when the user logins in with an existing account
     func handleLogin() {
         //get email and password and name
         guard let email = emailTextField.text, let password = passwordTextField.text else {
@@ -534,9 +542,10 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 }
 
 // MARK: SETUPS
+///Extension of the LoginVC that holds most of the setup functions for the whole view controller
 extension LoginVC {
 
-    ///sets up the constraints for the input container
+    ///Sets up the constraints for the input container
     func setupInputContainerView() {
         view.addSubview(inputContainerView)
         //next do the anchors for the container views
@@ -565,7 +574,7 @@ extension LoginVC {
         setupEmailSeparatorViewConstraints()
     }
 
-    ///sets up the constraints of the name text field
+    ///Sets up the constraints of the name text field
     func setupNameTextFieldConstraints() {
         nameTextField.leftAnchor.constraint(equalTo: inputContainerView.leftAnchor, constant: 12).isActive = true
         nameTextField.topAnchor.constraint(equalTo: inputContainerView.topAnchor).isActive = true
@@ -576,7 +585,7 @@ extension LoginVC {
         nameTextFieldHeightAnchor?.isActive = true
     }
 
-    ///sets up the constraints of the email text field
+    ///Sets up the constraints of the email text field
     func setupEmailTextFieldConstraints() {
         emailTextField.leftAnchor.constraint(equalTo: inputContainerView.leftAnchor, constant: 12).isActive = true
         emailTextField.topAnchor.constraint(equalTo: nameTextField.bottomAnchor).isActive = true
@@ -587,7 +596,7 @@ extension LoginVC {
         emailTextFieldHeightAnchor?.isActive = true
     }
 
-    ///sets up the constraints of the password text field
+    ///Sets up the constraints of the password text field
     func setupPasswordTextFieldConstraints() {
         passwordTextField.leftAnchor.constraint(equalTo: inputContainerView.leftAnchor, constant: 12).isActive = true
         passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor).isActive = true
@@ -606,7 +615,7 @@ extension LoginVC {
         }
     }
 
-    ///sets up the constraints of the top orange separator
+    ///Sets up the constraints of the top orange separator
     func setupNameSeparatorViewConstraints() {
         nameSeparatorView.leftAnchor.constraint(equalTo: inputContainerView.leftAnchor).isActive = true
         nameSeparatorView.topAnchor.constraint(equalTo: nameTextField.bottomAnchor).isActive = true
@@ -614,7 +623,7 @@ extension LoginVC {
         nameSeparatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
     }
 
-    ///sets up the constraints of the bottom orange separator
+    ///Sets up the constraints of the bottom orange separator
     func setupEmailSeparatorViewConstraints() {
         emailSeparatorView.leftAnchor.constraint(equalTo: inputContainerView.leftAnchor).isActive = true
         emailSeparatorView.topAnchor.constraint(equalTo: emailTextField.bottomAnchor).isActive = true
@@ -622,24 +631,25 @@ extension LoginVC {
         emailSeparatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
     }
 
-    ///sets up the constraints of the camera view
+    ///Sets up the constraints of the Logo view
     func setupCameraView() {
-        view.addSubview(cameraContainerView)
+        view.addSubview(logoContainerView)
         view.addSubview(logoView)
 
         //sets up the container for the background, helps with visualizing
-        cameraContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        cameraContainerView.bottomAnchor.constraint(equalTo: inputContainerView.topAnchor, constant: -12).isActive = true
-        cameraContainerView.widthAnchor.constraint(equalTo: inputContainerView.widthAnchor, multiplier: 0.5).isActive = true
-        cameraContainerView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        logoContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        logoContainerView.bottomAnchor.constraint(equalTo: inputContainerView.topAnchor, constant: -12).isActive = true
+        logoContainerView.widthAnchor.constraint(equalTo: inputContainerView.widthAnchor, multiplier: 0.5).isActive = true
+        logoContainerView.heightAnchor.constraint(equalToConstant: 200).isActive = true
 
         //adds the logo to the view
-        logoView.centerXAnchor.constraint(equalTo: cameraContainerView.centerXAnchor).isActive = true
-        logoView.bottomAnchor.constraint(equalTo: cameraContainerView.bottomAnchor).isActive = true
-        logoView.widthAnchor.constraint(equalTo: cameraContainerView.widthAnchor).isActive = true
-        logoView.heightAnchor.constraint(equalTo: cameraContainerView.heightAnchor).isActive = true
+        logoView.centerXAnchor.constraint(equalTo: logoContainerView.centerXAnchor).isActive = true
+        logoView.bottomAnchor.constraint(equalTo: logoContainerView.bottomAnchor).isActive = true
+        logoView.widthAnchor.constraint(equalTo: logoContainerView.widthAnchor).isActive = true
+        logoView.heightAnchor.constraint(equalTo: logoContainerView.heightAnchor).isActive = true
     }
 
+    ///Sets up the keychain toggle label and defines its constraints
     func setupKeychainToggleLabel() {
         view.addSubview(keychainToggleLabel)
 
@@ -650,6 +660,7 @@ extension LoginVC {
         keychainToggleLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
 
+    ///Sets up the keychain toggle and defines its constraints
     func setupKeychainToggle() {
         view.addSubview(keychainToggle)
 
@@ -657,6 +668,7 @@ extension LoginVC {
         keychainToggle.leftAnchor.constraint(equalTo: keychainToggleLabel.rightAnchor, constant: 12).isActive = true
     }
 
+    ///Sets up the skip button and defines its constraints
     func setupSkipButton() {
         view.addSubview(skipButton)
 
@@ -666,7 +678,7 @@ extension LoginVC {
         skipButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
 
-    ///sets up the constraints of the toggle button
+    ///Sets up the constraints of the toggle button
     func setupToggleRegisterLoginButton() {
         view.addSubview(toggleRegisterLoginButton)
 
@@ -676,7 +688,7 @@ extension LoginVC {
         toggleRegisterLoginButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
 
-    ///sets up the constraints of the submit button
+    ///Sets up the constraints of the submit button
     func setupInfoSubmitButton() {
         view.addSubview(infoSubmitButton)
 
