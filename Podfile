@@ -16,14 +16,12 @@ target 'ImageClassification' do
     pod 'Firebase/Firestore'
     pod 'FirebaseFirestoreSwift'
 
+
     # Add the pod for Firebase Cloud Messaging
     pod 'Firebase/Messaging'
     pod 'SwiftLint'
     pod 'SwiftMonkeyPaws', '~> 2.1.0'
-    pod 'AppleWelcomeScreen'
-    pod 'YouTubePlayer', :git => 'https://github.com/weakfl/Swift-YouTube-Player.git', :branch => 'use-wkwebview' # replace with original pod after the pull request got merged
-    # pod 'SwiftVideoRecorder',:git => 'https://github.com/ApplebaumIan/swift-video-recorder.git', :branch => 'master'
-    pod "SwiftyCam"
+
     pod 'KeychainSwift'
     pod 'KMPlaceholderTextView', '~> 1.4.0'
 
