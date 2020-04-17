@@ -17,12 +17,13 @@ jobs:
           inputs: "ImageClassification"
           module-name: iASL
           format: "html"
+          output: "Documentation"
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: .build/documentation # The folder the action should deploy.
+          FOLDER: Documentation # The folder the action should deploy.
 #       - name: Upload Documentation to Wiki
 #         uses: SwiftDocOrg/github-wiki-publish-action@v1
 #         with:
