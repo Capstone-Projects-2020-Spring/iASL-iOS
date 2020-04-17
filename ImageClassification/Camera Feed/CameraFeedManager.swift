@@ -337,21 +337,7 @@ extension CameraFeedManager: AVCaptureVideoDataOutputSampleBufferDelegate {
 		guard let imagePixelBuffer = pixelBuffer else {
 			return
 		}
-//        var modelDataHandler: ModelDataHandler? =
-//        ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo, threadCount: 2)
-//
-//        var output = ""
-//        if let result = modelDataHandler?.runModel(onFrame: imagePixelBuffer) {
-//            output = result.inferences[0].label
-//        }
-//        
-//        if count == 3 && tempOutput == output {
-//            print("output confirmed \(output)")
-//        }
-//
-//        count += 1
-        
-        
+
         
         //executeASLtoText()
 		// Delegates the pixel buffer to the ViewController.

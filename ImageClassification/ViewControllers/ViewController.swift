@@ -296,43 +296,36 @@ class ViewController: UIViewController {
 extension ViewController: CameraFeedManagerDelegate {
 
 	func didOutput(pixelBuffer: CVPixelBuffer) {
-//        let currentTimeMs = Date().timeIntervalSince1970 * 1000
-//        guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
-//        previousInferenceTimeMs = currentTimeMs
-        
         /// Pass the pixel buffer to TensorFlow Lite to perform inference.
         result = modelDataHandler?.runModel(onFrame: pixelBuffer)
         if let output = result {
             if output.inferences[0].label != "nothing" {
-                print(output.inferences[0].label)
+                print("\(output.inferences[0].label) \(output.inferences[0].confidence)")
             }
-            
             if verificationCount == 0 {
                 verificationCache = output.inferences[0].label
             }
-            
             print("\(verificationCount) \(verificationCache) == \(output.inferences[0].label)")
             if verificationCount == 2 && verificationCache == output.inferences[0].label {
                 verificationCount = 0
-                executeASLtoText()
+                
+                let currentTimeMs = Date().timeIntervalSince1970 * 1000
+                if (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs{
+                    executeASLtoText()
+                    print("pushed")
+                } else { return }
+                previousInferenceTimeMs = currentTimeMs
+                
+                
             } else if verificationCount < 2 {
                 verificationCount += 1
             } else if verificationCache != output.inferences[0].label {
                 verificationCache = ""
                 verificationCount = 0
             }
-            
-            
         }
-        //print(result?.inferences[0].label)
-        
-        
-        
-		
-        // Display results by handing off to the InferenceViewController.
         DispatchQueue.main.async {
             let resolution = CGSize(width: CVPixelBufferGetWidth(pixelBuffer), height: CVPixelBufferGetHeight(pixelBuffer))
-
         }
     }
 
@@ -672,7 +665,7 @@ extension ViewController {
     func controlViewSetup() {
         view.addSubview(controlView)
         controlView.translatesAutoresizingMaskIntoConstraints = false
-        controlViewHeightAnchor = controlView.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -54)
+        controlViewHeightAnchor = controlView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -54)
         controlView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         controlView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         controlView.heightAnchor.constraint(equalToConstant: view.frame.size.height/2).isActive = true
