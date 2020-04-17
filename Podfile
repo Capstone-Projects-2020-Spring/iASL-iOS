@@ -15,8 +15,6 @@ target 'ImageClassification' do
     pod 'Firebase/Core'
     pod 'Firebase/Firestore'
     pod 'FirebaseFirestoreSwift'
-pod 'SnapKit', '~> 5.0.0'
-
 
     # Add the pod for Firebase Cloud Messaging
     pod 'Firebase/Messaging'
