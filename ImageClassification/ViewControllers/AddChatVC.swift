@@ -10,6 +10,9 @@ import Foundation
 import UIKit
 import Firebase
 
+/**
+ This class handles the ability for the user to choose a partner to chat with.
+ */
 class AddChatVC: UIViewController {
 
     ///Variable that holds the cell ID constant
