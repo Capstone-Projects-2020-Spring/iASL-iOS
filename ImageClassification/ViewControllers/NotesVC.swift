@@ -9,66 +9,37 @@
 import UIKit
 import Firebase
 
+/**
+ This class is responsible for the main notes screen. It holds the table view of all of the users's notes as well as ways for users to create new notes and delete old ones.
+ */
 class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    //var testNotes = ["Ian", "Leo", "Liam", "Viet", "Tarek", "Aidan", "Shakeel"]
-    var testNotes = [Note]()
+    ///Array of all the notes of the current user
     var notes = [Note]()
-    //var notesDictionary = [String: Note]()
-
+    ///Constant for the 'user-notes' node in Firebase
     let userNotesConstant: String = "user-notes"
-
+    ///Variable for handling the pull to refresh for the table view
     private let refreshControl = UIRefreshControl()
-
-    func setupFakeNotes() {
-        let note1 = Note()
-        note1.ownerId = "owner1"
-        note1.text = "this is note 1"
-        note1.title = "title 1"
-        note1.timestamp = 4
-
-        let note2 = Note()
-        note2.ownerId = "owner2"
-        note2.text = "this is note 2"
-        note2.title = "title 2"
-        note2.timestamp = 3
-
-        let note3 = Note()
-        note3.ownerId = "owner3"
-        note3.text = "this is note 3"
-        note3.title = "title 3"
-        note3.timestamp = 2
-
-        let note4 = Note()
-        note4.ownerId = "owner4"
-        note4.text = "wwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
-        note4.title = "fourth title"
-        note4.timestamp = 1
-
-        testNotes.append(note1)
-        testNotes.append(note2)
-        testNotes.append(note3)
-        testNotes.append(note4)
-    }
-
+    ///Variable for the top bar
     let topBar = UIView()
+    ///Variable for the top label which holds the name of the feature
     let topLabel = UILabel()
+    ///Variable for the back button for when the user wants to go back to the previous view controller
     let backButton = UIButton()
+    ///Table view variable for holding all of the users notes
     let tableView: UITableView = {
         let table = UITableView()
         //table.separatorStyle = .singleLine
         //table.separatorInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         return table
     }()
+    ///Button for creating a new note
     let createNoteButton = UIButton()
 
+    ///Function that gets called initially and loads all of the setup functions
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-
-        print("view did load")
-
-        setupFakeNotes()
 
         topBarSetup()
         backButtonSetup()
@@ -79,8 +50,7 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     }
 
-    //var notesVC: NotesVC?
-
+    ///Handles what happens when the user pulls on the table view to refresh
     @objc func refreshTableViewOnPull() {
         print("refreshing table view thanks to pulling down")
 
@@ -91,7 +61,7 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         refreshControl.endRefreshing()
     }
 
-    //these two below are like a wack way of solving the reload table view issue
+    ///What happens when the view is about to disappear.
     override func viewWillDisappear(_ animated: Bool) {
         print("view will disappear")
         notes.removeAll()
@@ -99,6 +69,7 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         observeUserNotes()
     }
 
+    ///This is what happens when the view did appear
     override func viewDidAppear(_ animated: Bool) {
         print("view did appear")
 //        notes.removeAll()
@@ -108,6 +79,7 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         //tableView.reloadData()
     }
 
+    ///Determines which interface orientations are supported
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .all
     }
@@ -128,7 +100,7 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 //        }
 //    }
 
-    ///function for observing notes from firebase (used to gather list of notes for user to see in their list of notes)
+    ///Function for observing notes from firebase (used to gather list of notes for user to see in their list of notes)
     func observeUserNotes() {
         guard let uid = Auth.auth().currentUser?.uid else {
             print("could not get UID")
@@ -168,7 +140,6 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                     self.notes.sort { (note1, note2) -> Bool in
                         return note1.timestamp?.intValue > note2.timestamp?.intValue
                     }
-                    print("\(note.text)")
 
                 }
                 self.tableView.reloadData()
@@ -177,6 +148,11 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         }, withCancel: nil)
     }
 
+    /**
+     Handles what happens when a note is to be deleted
+     
+     - Parameters: the ID of the note to be deleted
+     */
     func handleDeleteNote(noteId: String) {
 
         //need to get the ID of the user
@@ -195,6 +171,11 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     }
 
+    /**
+     Presents an alert to the user with optinons if they tried to delete a note. They can proceed with deletion or cancel it
+     
+     - Parameters: The ID of the note to be deleted and the indexPath from the table view cell where the note is being deleted
+     */
     func handleDeleteNoteAreYouSure(noteId: String, indexPath: IndexPath) {
 
         let saveResponse = UIAlertAction(title: "Save", style: .default) { (_) in
@@ -225,14 +206,15 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
 }
 
+///Extension for the NotesVC that holds most of the set up functions and some table view related functions
 extension NotesVC {
 
-    ///counts the number of items in a table view
+    ///Counts the number of items in a table view based on the size of the notes array
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return notes.count
     }
 
-    ///each cell in the table view
+    ///Each cell in the table view gets handled here
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "notesTableViewCell") as! NotesTableViewCell
 
@@ -243,6 +225,7 @@ extension NotesVC {
         return cell
     }
 
+    ///Checks if the note is trying to be deleted at a certain row in the table view
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
 
@@ -259,15 +242,17 @@ extension NotesVC {
         }
     }
 
+    ///Returns the height of each row in the table view
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
 
+    ///Returns the estimated height of each row in the table view
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
 
-    ///selecting a specific row in the table view
+    ///Selecting a specific row in the table view
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
 //        notes.removeAll()
@@ -282,6 +267,11 @@ extension NotesVC {
 
     }
 
+    /**
+     When a user clicks on a note in the table view, this will get called and will send the user to the note creation/editing view controller
+     
+     - Parameters: the note to be presented in the next view controller
+     */
     func showNoteFromTableView(note: Note) {
 //        notes.removeAll()
 //        tableView.reloadData()
@@ -301,18 +291,19 @@ extension NotesVC {
         present(vc, animated: true, completion: nil)
     }
 
-    ///change the color of the status bar
+    ///Change the color of the status bar
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNeedsStatusBarAppearanceUpdate()
         print("view will appear")
     }
 
+    ///Change the color of the status bar
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
     }
 
-    ///set up the table view with constraints and such
+    ///Set up the table view with constraints
     func tableViewSetup() {
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -334,7 +325,7 @@ extension NotesVC {
         }
     }
 
-    ///setting up the top bar with constraints and such
+    ///Setting up the top bar with constraints
     func topBarSetup() {
         view.addSubview(topBar)
         topBar.translatesAutoresizingMaskIntoConstraints = false
@@ -345,7 +336,7 @@ extension NotesVC {
         topBar.backgroundColor = .black
     }
 
-    ///set up the back button
+    ///Sets up the back button and defines its constraints
     func backButtonSetup() {
         topBar.addSubview(backButton)
         backButton.translatesAutoresizingMaskIntoConstraints = false
@@ -359,7 +350,7 @@ extension NotesVC {
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
 
-    ///set up the create note button
+    ///Sets up the create note button and defines its constraints
     func createNoteButtonSetup() {
 
         view.addSubview(createNoteButton)
@@ -374,7 +365,7 @@ extension NotesVC {
         createNoteButton.addTarget(self, action: #selector(createNoteButtonTapped), for: .touchUpInside)
     }
 
-    ///handles the create note button being tapped
+    ///Handles the create note button being tapped
     @objc func createNoteButtonTapped() {
 
         let vc = CreateNoteVC()
@@ -387,13 +378,13 @@ extension NotesVC {
         present(vc, animated: true, completion: nil)
     }
 
-    ///handles the back button being tapped
+    ///Handles the back button being tapped
     @objc func backButtonTapped() {
         dismiss(animated: true, completion: nil)
         //navigationController?.popViewController(animated: true)
     }
 
-    ///sets up the top label for the name of the view controller
+    ///Sets up the top label for the name of the view controller and defines its constraints
     func topLabelSetup() {
         topBar.addSubview(topLabel)
         topLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -412,7 +403,7 @@ extension NotesVC {
 
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
-///private function for comparing two elements
+///Private function for comparing two elements
 private func < <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
     switch (lhs, rhs) {
     case let (lefthandSide?, righthandSide?):
@@ -426,7 +417,7 @@ private func < <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
 
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
-///private function for comparing two elements
+///Private function for comparing two elements
 private func > <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
     switch (lhs, rhs) {
     case let (lefthandSide?, righthandSide?):

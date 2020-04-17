@@ -97,7 +97,10 @@ class ViewController: UIViewController {
         }
     }
 
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+		// check current view controller
+		guard let currentPresentedViewController = self.presentedViewController else {
+			// if its the main view controller check if its upside down
         if UIDevice.current.orientation == UIDeviceOrientation.portraitUpsideDown {
             liveButton.isSelected = true
             notesButton.isHidden = true
@@ -107,13 +110,20 @@ class ViewController: UIViewController {
             vc.modalTransitionStyle = .crossDissolve
             present(vc, animated: true, completion: {vc.view.rotate(angle: 180)})
             //
-        } else {
-            liveButton.isSelected = false
-            remoteChatButton.isHidden = false
-            notesButton.isHidden = false
-            dismiss(animated: true, completion: nil)
-        }
-
+			}
+			return
+		}
+		// if the view controller is presenting speech to text
+		if currentPresentedViewController is SpeechToTextVC {
+			// if rotated back to portrait orientation dismiss.
+			if UIDevice.current.orientation == UIDeviceOrientation.portrait {
+				liveButton.isSelected = false
+				remoteChatButton.isHidden = false
+				notesButton.isHidden = false
+				dismiss(animated: true, completion: nil)
+			}
+		}
+		
     }
 
     // MARK: View Handling Methods

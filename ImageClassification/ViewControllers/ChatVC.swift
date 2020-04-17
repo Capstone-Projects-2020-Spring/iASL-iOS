@@ -9,27 +9,18 @@
 import UIKit
 import Firebase
 
-//FIXME: Fix keyboard height with respect to input box
-
-//FIXME: Obviously the whole chat bubble part
-
-//FIXME: Add feature to tap on screen and get rid of keyboard
-
-//FIXME: Name at top, if too long, gets cut off
-
+/**
+ This class is used to show an individual chat between two users. It shows the title bar at the top with the chat partner's name, it has alll the messages between the two users, and it demonstrates our iASL keyboard in use.
+ */
 class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
-    let composedMessage = UITextView()
-    let topBar = UIView()
-    let topLabel = UILabel()
-    let backButton = UIButton()
-    let tableView = UITableView()
-    let sendButton = UIButton()
-    let keyboardButton = UIButton()
-
+    //MARK: Constants
+    ///A constant for the "messages" node in Firebase
     let messagesConstant: String = "messages"
+    ///Constant for the cellId in the collectionview
+    static let cellId = "cellId"
 
-    //so we know which user we are talking to
+    ///Chat Partner of Type User from our swift classes. Used to get the name of the chat partner for the top bar
     var chatPartner: User? {
         didSet {
             topLabel.text = chatPartner?.name
@@ -39,42 +30,25 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         }
     }
 
+    ///Array of type Message from our swift classes that holds all of the messages observed from Firebase
     var messages = [Message]()
+    
+    //MARK: Variables
+    
+    ///This is the message that is typed in the input box by the user
+    let composedMessage = UITextView()
+    ///This is the top bar that holds the user's name and has our navigation back button
+    let topBar = UIView()
+    ///The label that holds the name of the chat partner
+    let topLabel = UILabel()
+    ///The button for going back to the previous view, which is the list of active chats
+    let backButton = UIButton()
+    ///Button to be clicked by the user to send a message
+    let sendButton = UIButton()
+    ///Button used to switch between the iASL keyboard and the standard Apple Keyboard
+    let keyboardButton = UIButton()
 
-    //delete this once you can get messages from Firebase
-    var tempMessages = [Message]()
-
-    var tempMessage1 = Message()
-    var tempMessage2 = Message()
-    var tempMessage3 = Message()
-    var tempMessage4 = Message()
-
-    func loadTempMessage() {
-        tempMessage1.receiverId = "receiverId"
-        tempMessage1.senderId = "senderId"
-        tempMessage1.text = "Text Message 1"
-        tempMessage1.timestamp = 1
-
-        tempMessage2.receiverId = "receiverId"
-        tempMessage2.senderId = "senderId"
-        tempMessage2.text = "Text Message 1"
-        tempMessage2.timestamp = 2
-
-        tempMessage3.receiverId = "receiverId"
-        tempMessage3.senderId = "senderId"
-        tempMessage3.text = "Text Message 1"
-        tempMessage3.timestamp = 3
-
-        tempMessage4.receiverId = "receiverId"
-        tempMessage4.senderId = "senderId"
-        tempMessage4.text = "Text Message 1"
-        tempMessage4.timestamp = 4
-
-        tempMessages = [tempMessage1, tempMessage2, tempMessage3, tempMessage4]
-    }
-
-    static let cellId = "cellId"
-
+    ///This is the collection view that holds all of the messages sent between two users
     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -84,6 +58,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         return collection
     }()
 
+    ///Function called when the view loads. Used to setup all of the important structural parts of the view controller.
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -104,6 +79,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
 
     }
 
+    ///Called when the keyboard is about to show
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
@@ -112,12 +88,14 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         }
     }
 
+    ///Called when the keyboard is abouot to hide
     @objc func keyboardWillHide(notification: NSNotification) {
         if self.view.frame.origin.y != 0 {
             self.view.frame.origin.y = 0
         }
     }
 
+    ///Observes messages from Firebase and loads them into an array of type Message to be used by the collectionview. Has logic for determining which messages were from the sender and which were from the receiver
     func observeMessages() {
 
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -158,7 +136,10 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
 
         }, withCancel: nil)
     }
+    
+    //MARK: CollectionView stuff
 
+    ///Adds the collection view to the subview and defines the important aspects of the collection view
     func collectionViewSetup() {
         view.addSubview(collectionView)
         collectionView.backgroundColor = .white
@@ -178,10 +159,12 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         collectionView.dataSource = self
     }
 
+    ///Returns the number of messages so the collection view knows how many cells to load
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return messages.count
     }
 
+    ///Defines what happens at each cell in the collection view. This is where our custom collection view cell comes in handy.
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChatVC.cellId, for: indexPath) as! ChatMessageCell
 
@@ -199,6 +182,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         return cell
     }
 
+    ///This function determines what the chat bubble is going to look like. If it is a sender message, it will be pink and on the right side of the collection view. If it is an incoming message, it will be gray and on the left side of the collection view.
     func setupCell(cell: ChatMessageCell, message: Message) {
         if message.senderId == Auth.auth().currentUser?.uid {
             //outgoing blue
@@ -218,6 +202,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         }
     }
 
+    ///Determines the height of each cell in the collection view
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
         var height: CGFloat = 80
@@ -230,6 +215,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         return CGSize(width: view.frame.width, height: height)
     }
 
+    ///Estimates the frame for the text in the cell
     private func estimateFrameForText(text: String) -> CGRect {
         let size = CGSize(width: 200, height: 1000)
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
@@ -237,30 +223,16 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)], context: nil)
     }
 
-    //change the color of the status bar
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setNeedsStatusBarAppearanceUpdate()
-		  #if !targetEnvironment(simulator)
-//		  cameraCapture.checkCameraConfigurationAndStartSession()
-		  #endif
-    }
-    #if !targetEnvironment(simulator)
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-//        cameraCapture.stopSession()
-    }
-    #endif
-
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .lightContent
-    }
-
 }
 
+///Extension of the Chat View Controller that handles a lot of setup and handler functions
 extension ChatVC {
+    
+    
+    //MARK: Setup/Handler Functions
+    
 
-    ///handles what happens when you send a message
+    ///Handles what happens when you send a message
     @objc func handleSendButton() {
         print(composedMessage.text!)
 
@@ -328,6 +300,7 @@ extension ChatVC {
         composedMessage.text = ""
     }
 
+    ///Sets up the send button in the subveiw and defines its constraints and important features
     func sendButtonSetup() {
         view.addSubview(sendButton)
         sendButton.translatesAutoresizingMaskIntoConstraints = false
@@ -340,6 +313,7 @@ extension ChatVC {
         sendButton.addTarget(self, action: #selector(handleSendButton), for: .touchUpInside)
 	}
 
+    ///Sets up the composed message text view and defines its constraints and important features
     func composedMessageSetup() {
         view.addSubview(composedMessage)
         composedMessage.translatesAutoresizingMaskIntoConstraints = false
@@ -359,6 +333,7 @@ extension ChatVC {
         //composedMessage.enablesReturnKeyAutomatically = false
     }
 
+    ///Adds the top bar to the subview and defines how it is supposed to look
     func topBarSetup() {
         view.addSubview(topBar)
         topBar.translatesAutoresizingMaskIntoConstraints = false
@@ -369,6 +344,7 @@ extension ChatVC {
         topBar.backgroundColor = .black
     }
 
+    ///Adds the back button to the top bar subview and defines what it looks like
     func backButtonSetup() {
         topBar.addSubview(backButton)
         backButton.translatesAutoresizingMaskIntoConstraints = false
@@ -383,12 +359,14 @@ extension ChatVC {
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
     }
 
+    ///Handles what happens when the back button is tapped
     @objc func backButtonTapped() {
         print("sdf ")
         dismiss(animated: true, completion: nil)
         //navigationController?.popViewController(animated: true)
     }
 
+    ///Adds the top label for the name of the chat partner to the top bar subview and defines what the label looks like
     func topLabelSetup() {
         topBar.addSubview(topLabel)
         topLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -414,6 +392,7 @@ extension ChatVC {
         keyboardButton.addTarget(self, action: #selector(keyboardButtonTapped), for: .touchUpInside)
     }
 
+    ///Handles what happens when the keyboard button is tapped. Handles logic for switching between different keyboards
     @objc func keyboardButtonTapped() {
         if keyboardButton.isSelected {
             keyboardButton.isSelected = false
@@ -426,16 +405,56 @@ extension ChatVC {
         }
 
     }
+    
+    //MARK: Junky Functions
+    ///Change the color of the status bar
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setNeedsStatusBarAppearanceUpdate()
+          #if !targetEnvironment(simulator)
+//          cameraCapture.checkCameraConfigurationAndStartSession()
+          #endif
+    }
+    #if !targetEnvironment(simulator)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+//        cameraCapture.stopSession()
+    }
+    #endif
+
+    ///Change the color of the status bar
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        .lightContent
+    }
+    
+    
 }
 
+///Extension of NSDate that helps with getting some different units of time
 extension NSDate {
+    /**
+     Turns a date into milliseconds
+     
+     - Returns: A number in milliseconds
+     */
     func toMillis() -> NSNumber {
         return NSNumber(value: Int64(timeIntervalSince1970 * 1000))
     }
+    /**
+     Turns a time in milliseconds into a date
+     
+     - Parameters: A number in milliseconds
+     - Returns: A date
+     */
     static func fromMillis(millis: NSNumber?) -> NSDate? {
         return millis.map { number in NSDate(timeIntervalSince1970: Double(truncating: number) / 1000)}
     }
 
+    /**
+     Gets the current time in milliseconds from date.
+     
+     - Returns: Number in milliseconds
+     */
     static func currentTimeInMillis() -> NSNumber {
         return NSDate().toMillis()
     }
