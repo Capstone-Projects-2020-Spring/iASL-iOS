@@ -380,6 +380,7 @@ extension ChatVC {
         topLabel.textColor = .white
     }
 
+    ///Adds the keyboard label to the subview and defines its constraints
     func keybaordButtonSetup() {
         view.addSubview(keyboardButton)
         keyboardButton.translatesAutoresizingMaskIntoConstraints = false
