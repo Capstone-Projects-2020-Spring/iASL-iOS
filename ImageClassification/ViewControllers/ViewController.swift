@@ -16,6 +16,7 @@ import AVFoundation
 import UIKit
 import Speech
 import Firebase
+import KeychainSwift
 
 class ViewController: UIViewController {
     
@@ -42,9 +43,11 @@ class ViewController: UIViewController {
     let keyboardButton = UIButton()
     ///Button for users to open training mode
     let trainButton = UIButton()
-    ///Button for users to logout of the app
-    let chatLogButton = UIButton()
-    ///UIView to hold the dashboard
+
+    var heightAnchor = NSLayoutConstraint()
+    var controlViewHeightAnchor = NSLayoutConstraint()
+    let logOutButton = UIButton()
+
     let controlView = UIView()
     ///Button to expand and collapse the dashboard
     let controlButton = UIButton()
@@ -71,6 +74,9 @@ class ViewController: UIViewController {
     let cameraUnavailableLabel = UILabel()
     ///Button to resume camera operation
     let resumeButton = UIButton()
+    
+    ///Keychain reference for when we need to clear the keychain if someone logs out
+    let keychain = KeychainSwift(keyPrefix: "iasl_")
 
     // MARK: Global Variables
     ///Constraint to keep track of the height of the output text view, whether it's collapsed or expanded
@@ -145,16 +151,19 @@ class ViewController: UIViewController {
         clearButtonSetup()
         keyboardButtonSetup()
         trainButtonSetup()
-        chatLogButtonSetup()
+        logOutButtonSetup()
         predictionAssistButtonSetup()
         sliderSetup()
         areaBoundSetup()
+        //hideKeyboardWhenTappedAround()
         //speak()
-        if speakerButton.isSelected == true {
-            speak()
-        }
 
-        ///Add left swipe gesture and assign a function to invoke when swiped left
+
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        
         let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleLeftSwipeGesture(_:)))
         previewView.addGestureRecognizer(swipeLeftGestureRecognizer)
         swipeLeftGestureRecognizer.direction = .left
@@ -210,14 +219,16 @@ class ViewController: UIViewController {
     @objc func handleSwipeUpGesture(_ sender: UISwipeGestureRecognizer) {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         //textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-
+        print("adaf")
         UIView.animate(withDuration: 0.2, animations: {
             self.heightAnchor.constant = -self.view.frame.size.height/2
             self.outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.6)
+            self.textViewHolder.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.6)
             self.view.layoutIfNeeded()
         })
 
     }
+
 
     /// Action invoked when swiped down
     /// - Parameter sender: the gesture recognizer itself
@@ -225,6 +236,7 @@ class ViewController: UIViewController {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         //textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         ///Animattion when swiped down
+
         UIView.animate(withDuration: 0.2, animations: {
             self.heightAnchor.constant = -self.view.frame.size.height/4
             self.outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -542,6 +554,18 @@ extension ViewController {
             return
         }
     }
+    
+    /**
+     Checks if the user is logged out so we can disable the log out button
+     - Returns: True if user is not looged in, false otherwise
+     */
+    func userIsLoggedOut() -> Bool {
+        if Auth.auth().currentUser?.uid == nil {
+            print("user is not signed in")
+            return true
+        }
+        return false
+    }
 
     ///Action for note button. Presenets NoteVC
     @objc func notesButtonTapped() {
@@ -591,6 +615,7 @@ extension ViewController {
         outputTextView.textColor = .black
         outputTextView.font = UIFont.boldSystemFont(ofSize: 30)
         outputTextView.isUserInteractionEnabled = true
+        outputTextView.autocorrectionType = .no
     }
 
     ///Invokes audio engine to speak the text on output text view
@@ -612,13 +637,12 @@ extension ViewController {
         speakerButton.backgroundColor = .systemOrange
         speakerButton.setTitle("Speak", for: .normal)
         speakerButton.setTitle("Mute", for: .selected)
-        speakerButton.isSelected = true
         speakerButton.addTarget(self, action: #selector(speakerButtonTapped), for: .touchUpInside)
     }
 
     ///Action invoked when speaker button tapped. Asks audio engine to play the speech generated from text
     @objc func speakerButtonTapped() {
-        if speakerButton.isSelected == true {
+        if speakerButton.isSelected {
             speakerButton.isSelected = false
             speakerButton.backgroundColor = .systemOrange
             synthesizer.stopSpeaking(at: .word)
@@ -690,28 +714,32 @@ extension ViewController {
     ///Action for when keyboard button is tapped, raises the view, activates output text view to edit and present the keyboard.
     @objc func keyboardButtonTapped() {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-
+        
         if keyboardButton.isSelected {
             keyboardButton.isSelected = false
             print("switched to keyboard mode")
+            keyboardButton.setTitle("ASL", for: .normal)
             outputTextView.isEditable = true
-            UIView.animate(withDuration: 0.2, animations: {
-                self.heightAnchor.constant = -self.view.frame.size.height+70
-                self.textViewHolder.layer.cornerRadius = 10
-                self.textViewHolder.backgroundColor = .white
-                self.view.layoutIfNeeded()
-            })
+            outputTextView.becomeFirstResponder()
+            outputTextView.backgroundColor = .white
+            UIView.animate(withDuration: 0.2) {
+                self.controlButton.isHidden = true
+                self.keyboardButton.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
+                self.keyboardButton.layer.cornerRadius = 10
+            }
         } else {
             print("switched to ASL mode")
             keyboardButton.isSelected = true
+            keyboardButton.setTitle("Keyboard", for: .normal)
             outputTextView.isEditable = false
+            outputTextView.resignFirstResponder()
+            outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.6)
+            textViewHolder.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.6)
+            UIView.animate(withDuration: 0.2) {
+                self.controlButton.isHidden = false
+                self.keyboardButton.layer.cornerRadius = 0
+            }
             dismissKeyboard()
-            UIView.animate(withDuration: 0.2, animations: {
-                self.heightAnchor.constant = -self.view.frame.size.height/2
-                self.textViewHolder.backgroundColor = UIColor.white.withAlphaComponent(0.5)
-                self.textViewHolder.layer.cornerRadius = 0
-                self.view.layoutIfNeeded()
-            })
         }
     }
 
@@ -734,7 +762,7 @@ extension ViewController {
     func controlButtonSetup() {
         controlButton.backgroundColor = .systemBlue
         controlButton.setTitle("More", for: .normal)
-        controlButton.setTitle("Less", for: .selected)
+        controlButton.setTitle("Close Dashboard", for: .selected)
         controlButton.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         controlButton.layer.cornerRadius = 10
         controlButton.clipsToBounds = true
@@ -748,36 +776,76 @@ extension ViewController {
             sender.isSelected = false
             UIView.animate(withDuration: 0.2, animations: {
                 self.controlViewHeightAnchor.constant = -54
+                self.keyboardButton.isHidden = false
+                self.clearButton.isHidden = false
+                self.speakerButton.isHidden = false
+                self.controlButton.layer.maskedCorners = [ .layerMinXMinYCorner, .layerMinXMaxYCorner]
+                self.controlButton.layer.cornerRadius = 10
                 self.view.layoutIfNeeded()
             })
         } else {
             sender.isSelected = true
             UIView.animate(withDuration: 0.2, animations: {
                 self.controlViewHeightAnchor.constant = -self.view.frame.size.height/2
+                self.keyboardButton.isHidden = true
+                self.clearButton.isHidden = true
+                self.speakerButton.isHidden = true
+                self.controlButton.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
                 self.view.layoutIfNeeded()
             })
         }
 
     }
 
-    ///Setup position/size/style of the chat log and add it on screen
-    func chatLogButtonSetup() {
-        controlView.addSubview(chatLogButton)
-        chatLogButton.translatesAutoresizingMaskIntoConstraints = false
-        chatLogButton.topAnchor.constraint(equalTo: trainButton.bottomAnchor, constant: 20).isActive = true
-        chatLogButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
-        chatLogButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -10).isActive = true
-        chatLogButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        chatLogButton.setTitle("Conversation Log", for: .normal)
-        chatLogButton.backgroundColor = .systemOrange
-        chatLogButton.layer.cornerRadius = 10
+    ///Setup position/size/style of the log out button and add it on screen
+    func logOutButtonSetup() {
+        controlView.addSubview(logOutButton)
+        
+        logOutButton.translatesAutoresizingMaskIntoConstraints = false
+        logOutButton.topAnchor.constraint(equalTo: trainButton.bottomAnchor, constant: 20).isActive = true
+        logOutButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
+        logOutButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -10).isActive = true
+        logOutButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        logOutButton.setTitle("Log out", for: .normal)
+        logOutButton.backgroundColor = .systemRed
+        logOutButton.layer.cornerRadius = 10
+        logOutButton.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
+        
+        if userIsLoggedOut() {
+            logOutButton.isEnabled = false
+            logOutButton.alpha = 0.2
+        } else {
+            logOutButton.isEnabled = true
+            logOutButton.alpha = 1
+        }
+    }
+    
+    @objc func handleLogout() {
+
+        print("handle logout tapped")
+
+        //log the user out of firebase
+        do {
+            try Auth.auth().signOut()
+        } catch let logoutError {
+            print(logoutError)
+        }
+
+        //remove keys from keychain
+        keychain.clear()
+
+        //present the login screen
+        let loginController = LoginVC()
+        loginController.modalTransitionStyle = .crossDissolve
+        loginController.modalPresentationStyle = .fullScreen
+        present(loginController, animated: true, completion: nil)
     }
 
-    ///Setup position/size/style of the prediction assist button and add it on screen
+    ///Setup prediction assist button's location/size/styling and add on screen
     func predictionAssistButtonSetup() {
         controlView.addSubview(predictionAssistButton)
         predictionAssistButton.translatesAutoresizingMaskIntoConstraints = false
-        predictionAssistButton.topAnchor.constraint(equalTo: chatLogButton.bottomAnchor, constant: 20).isActive = true
+        predictionAssistButton.topAnchor.constraint(equalTo: logOutButton.bottomAnchor, constant: 20).isActive = true
         predictionAssistButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
         predictionAssistButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -10).isActive = true
         predictionAssistButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
