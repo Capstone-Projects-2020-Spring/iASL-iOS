@@ -293,12 +293,16 @@ class CameraFeedManager: NSObject {
 
 		}
 	}
-
+	
+	/// Called when the system is notified that the camera session was interupted
+	/// - Parameter notification: Notification called when the session has been interupted.
 	@objc func sessionInterruptionEnded(notification: Notification) {
 
 		self.delegate?.sessionInterruptionEnded()
 	}
-
+	
+	/// Called when the system is notified that a run time error interrupted the Camera session.
+	/// - Parameter notification: Notification called when the session has been interupted.
 	@objc func sessionRuntimeErrorOccured(notification: Notification) {
 		guard let error = notification.userInfo?[AVCaptureSessionErrorKey] as? AVError else {
 			return
@@ -328,7 +332,12 @@ AVCaptureVideoDataOutputSampleBufferDelegate
 */
 extension CameraFeedManager: AVCaptureVideoDataOutputSampleBufferDelegate {
 
-	/** This method delegates the CVPixelBuffer of the frame seen by the camera currently.
+	/**
+	This method delegates the CVPixelBuffer of the frame seen by the camera currently.
+	- Parameters:
+	- output: The capture output object.
+	- sampleBuffer: A CMSampleBuffer object containing the video frame data and additional information about the frame, such as its format and presentation time.
+	- connection: The connection from which the video was received.
 	*/
 	func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
 
