@@ -698,7 +698,6 @@ extension ViewController {
     }
 
     func controlButtonSetup() {
-
         controlButton.backgroundColor = .systemBlue
         controlButton.setTitle("More", for: .normal)
         controlButton.setTitle("Close Dashboard", for: .selected)
@@ -708,6 +707,7 @@ extension ViewController {
         controlButton.addTarget(self, action: #selector(controlButtonTapped(_:)), for: .touchUpInside)
     }
 
+    ///action for the button to either raise and collapse the dashboard
     @objc func controlButtonTapped(_ sender: UIButton) {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         if sender.isSelected {
