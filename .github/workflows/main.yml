@@ -20,6 +20,7 @@ jobs:
          pod install
          ./RunScripts/download_models.sh
           xcodebuild clean test -workspace ImageClassification.xcworkspace -scheme ImageClassification -destination "${destination}" -enableCodeCoverage YES CODE_SIGNING_ALLOWED=NO ONLY_ACTIVE_ARCH=NO -derivedDataPath DerivedData
+          bash <(curl -s https://codecov.io/bash) -X xcodellvm
         env:
          destination: ${{ matrix.destination }}
       - name: Archive Failed Tests artifacts
@@ -28,11 +29,11 @@ jobs:
         with:
           name: FailureDiff
           path: DerivedData/Logs/Test
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODE_COV }} # not required for public repos
-          flags: ImageClassification
+#       - name: Upload coverage to Codecov
+#         uses: codecov/codecov-action@v1
+#         with:
+#           token: ${{ secrets.CODE_COV }} # not required for public repos
+#           flags: ImageClassification
 #   add_permalink:
 #     runs-on: [ubuntu-latest]
 #     steps:
