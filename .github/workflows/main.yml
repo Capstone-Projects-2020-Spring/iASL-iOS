@@ -15,12 +15,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@master
+      - name : Define Environment Variables
+        run: |
+          DERIVED_DATA_PATH=`xcodebuild -workspace "ImageClassification.xcworkspace" -scheme "ImageClassification" -showBuildSettings | grep OBJROOT | cut -d "=" -f 2 - | sed 's/^ *//'`
+          DERIVED_DATA_PATH=`dirname "$DERIVED_DATA_PATH"`
+          DERIVED_DATA_PATH=`dirname "$DERIVED_DATA_PATH"`
+          echo $DERIVED_DATA_PATH > {DERIVED_DATA_PATH}
       - name: Build and test
         run: |
          pod install
          ./RunScripts/download_models.sh
-          xcodebuild clean test -workspace ImageClassification.xcworkspace -scheme ImageClassification -destination "${destination}" -enableCodeCoverage YES CODE_SIGNING_ALLOWED=NO ONLY_ACTIVE_ARCH=NO -derivedDataPath DerivedData
-          bash <(curl -s https://codecov.io/bash) -X xcodellvm -t ${{ secrets.CODE_COV }}
+          xcodebuild clean test -workspace ImageClassification.xcworkspace -scheme ImageClassification -destination "${destination}" -enableCodeCoverage YES CODE_SIGNING_ALLOWED=NO ONLY_ACTIVE_ARCH=NO
         env:
          destination: ${{ matrix.destination }}
       - name: Archive Failed Tests artifacts
@@ -28,12 +33,12 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: FailureDiff
-          path: DerivedData/Logs/Test
-#       - name: Upload coverage to Codecov
-#         uses: codecov/codecov-action@v1
-#         with:
-#           token: ${{ secrets.CODE_COV }} # not required for public repos
-#           flags: ImageClassification
+          path: ${DERIVED_DATA_PATH}/Logs/Test
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODE_COV }} # not required for public repos
+          flags: ImageClassification
 #   add_permalink:
 #     runs-on: [ubuntu-latest]
 #     steps:
