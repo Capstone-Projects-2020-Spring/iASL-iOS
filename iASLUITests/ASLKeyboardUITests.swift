@@ -82,34 +82,6 @@ class ASLKeyboardUITests: XCTestCase {
 
     }
 
-	func testChatScreen() {
-		
-		let app = XCUIApplication()
-		app.buttons["chatIcon"].tap()
-		
-		
-		app.swipeDown()
-				
-		let liam = app.tables/*@START_MENU_TOKEN@*/.staticTexts["Liam Miller"]/*[[".cells.staticTexts[\"Liam Miller\"]",".staticTexts[\"Liam Miller\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-		liam.waitForExistence(timeout: 1)
-		liam.tap()
-		let textView = app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .textView).element
-		textView.waitForExistence(timeout: 1)
-		textView.tap()
-		let random = UUID()
-		textView.typeText("\(random)")
-		let verticalScrollBar1PageCollectionView = app/*@START_MENU_TOKEN@*/.collectionViews.containing(.other, identifier:"Vertical scroll bar, 1 page").element/*[[".collectionViews.containing(.other, identifier:\"Horizontal scroll bar, 1 page\").element",".collectionViews.containing(.other, identifier:\"Vertical scroll bar, 1 page\").element"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-		verticalScrollBar1PageCollectionView.tap()
-		verticalScrollBar1PageCollectionView.tap()
-		verticalScrollBar1PageCollectionView.tap()
-		app.buttons["send"].tap()
-		let helloStaticText = app.collectionViews/*@START_MENU_TOKEN@*/.textViews/*[[".cells.textViews",".textViews"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.staticTexts["\(random)"]
-		helloStaticText.waitForExistence(timeout: 1)
-		XCTAssertTrue(helloStaticText.exists)
-		
-		
-		
-	}
 	
 	func testKeyboardDelete() {
 		
