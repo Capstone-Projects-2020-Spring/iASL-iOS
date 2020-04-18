@@ -19,8 +19,12 @@ import Firebase
 
 class ViewController: UIViewController {
 
+    //MARK: Global Variabls
+    ///The read hollow box that shows the area where the video is being fetched from
     let areaBound = UIView()
+    ///Button to move to chat viewcontroller
     let remoteChatButton = UIButton()
+    ///Button to transition between speech to text
     let liveChatButton = UIButton()
     let notesButton = UIButton()
     let buttonStack = UIStackView()
