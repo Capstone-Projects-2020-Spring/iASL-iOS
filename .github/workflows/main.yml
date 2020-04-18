@@ -23,7 +23,6 @@ jobs:
           DERIVED_DATA_PATH=`xcodebuild -workspace "ImageClassification.xcworkspace" -scheme "ImageClassification" -showBuildSettings | grep OBJROOT | cut -d "=" -f 2 - | sed 's/^ *//'`
           DERIVED_DATA_PATH=`dirname "$DERIVED_DATA_PATH"`
           DERIVED_DATA_PATH=`dirname "$DERIVED_DATA_PATH"`
-          echo ::set-env name={DERIVED_DATA_PATH}::{$DERIVED_DATA_PATH}
         env:
          destination: ${{ matrix.destination }}
       - name: Archive Failed Tests artifacts
@@ -31,7 +30,7 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: FailureDiff
-          path: ${{ DERIVED_DATA_PATH }}/Logs/Test
+          path: $DERIVED_DATA_PATH/Logs/Test
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
