@@ -30,6 +30,7 @@
 		6EB03F7E24253489009C0843 /* CameraBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB03F7D24253489009C0843 /* CameraBoard.swift */; };
 		6EB8C85B2447A9DC0071F251 /* PredictionLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB8C85A2447A9DC0071F251 /* PredictionLayer.swift */; };
 		6EF328FB24173A430071E430 /* NotesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF328FA24173A430071E430 /* NotesVC.swift */; };
+		6EF769D8244B75AF00462E31 /* ViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF769D7244B75AF00462E31 /* ViewControllerUITests.swift */; };
 		7B6A976716D9FD2D9584AEF3 /* Pods_ImageClassification.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BAB5D1D4616AE38B114BE6B /* Pods_ImageClassification.framework */; };
 		AA5FEB7E21355CCC00F9BD4B /* labels.txt in Resources */ = {isa = PBXBuildFile; fileRef = AA5FEB7C21355CCC00F9BD4B /* labels.txt */; };
 		AAAB096E218981FA0015A1F2 /* CVPixelBufferExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAB096D218981FA0015A1F2 /* CVPixelBufferExtension.swift */; };
@@ -93,6 +94,7 @@
 		6ED11B8B2424145E000CF870 /* short_notification.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = short_notification.mp3; sourceTree = "<group>"; };
 		6ED11B8C242414A1000CF870 /* simple_notification.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = simple_notification.mp3; sourceTree = "<group>"; };
 		6EF328FA24173A430071E430 /* NotesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesVC.swift; sourceTree = "<group>"; };
+		6EF769D7244B75AF00462E31 /* ViewControllerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerUITests.swift; sourceTree = "<group>"; };
 		70CA36CABA4984894811B230 /* Pods-iASLUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iASLUITests.debug.xcconfig"; path = "Target Support Files/Pods-iASLUITests/Pods-iASLUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		7BAB5D1D4616AE38B114BE6B /* Pods_ImageClassification.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImageClassification.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A39D0B838C68D8A981A0D2C /* libPods-iASLUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-iASLUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -177,6 +179,7 @@
 			children = (
 				67ABF91E24301C1C00881646 /* Info.plist */,
 				67ABF92524301CCE00881646 /* ASLKeyboardUITests.swift */,
+				6EF769D7244B75AF00462E31 /* ViewControllerUITests.swift */,
 				67ABF92424301CCE00881646 /* iASLUITests-Bridging-Header.h */,
 			);
 			path = iASLUITests;
@@ -546,6 +549,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EF769D8244B75AF00462E31 /* ViewControllerUITests.swift in Sources */,
 				67ABF92624301CCE00881646 /* ASLKeyboardUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
