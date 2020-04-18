@@ -151,14 +151,12 @@ class ViewController: UIViewController {
         predictionAssistButtonSetup()
         sliderSetup()
         areaBoundSetup()
-        hideKeyboardWhenTappedAround()
+        //hideKeyboardWhenTappedAround()
         //speak()
-        if speakerButton.isSelected == true {
-            speak()
-        }
 
 
-
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         
         let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleLeftSwipeGesture(_:)))
@@ -223,8 +221,7 @@ class ViewController: UIViewController {
     
     @objc func handleDownSwipeGesture(_ sender: UISwipeGestureRecognizer) {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        outputTextView.isEditable = false
-        view.endEditing(true)
+
         UIView.animate(withDuration: 0.2, animations: {
             self.heightAnchor.constant = -self.view.frame.size.height/4
             self.outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -567,6 +564,7 @@ extension ViewController {
         outputTextView.textColor = .black
         outputTextView.font = UIFont.boldSystemFont(ofSize: 30)
         outputTextView.isUserInteractionEnabled = true
+        outputTextView.autocorrectionType = .no
     }
 
     func speak() {
@@ -586,12 +584,11 @@ extension ViewController {
         speakerButton.backgroundColor = .systemOrange
         speakerButton.setTitle("Speak", for: .normal)
         speakerButton.setTitle("Mute", for: .selected)
-        speakerButton.isSelected = true
         speakerButton.addTarget(self, action: #selector(speakerButtonTapped), for: .touchUpInside)
     }
 
     @objc func speakerButtonTapped() {
-        if speakerButton.isSelected == true {
+        if speakerButton.isSelected {
             speakerButton.isSelected = false
             speakerButton.backgroundColor = .systemOrange
             synthesizer.stopSpeaking(at: .word)
@@ -650,35 +647,39 @@ extension ViewController {
     func keyboardButtonSetup() {
 
         keyboardButton.backgroundColor = .systemOrange
-        keyboardButton.setTitle("Keyboard", for: .normal)
+        keyboardButton.setTitle("Write", for: .normal)
         keyboardButton.isSelected = true
         keyboardButton.addTarget(self, action: #selector(keyboardButtonTapped), for: .touchUpInside)
     }
 
     @objc func keyboardButtonTapped() {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-
+        
         if keyboardButton.isSelected {
             keyboardButton.isSelected = false
             print("switched to keyboard mode")
+            keyboardButton.setTitle("ASL", for: .normal)
             outputTextView.isEditable = true
-            UIView.animate(withDuration: 0.2, animations: {
-                self.heightAnchor.constant = -self.view.frame.size.height+70
-                self.textViewHolder.layer.cornerRadius = 10
-                self.textViewHolder.backgroundColor = .white
-                self.view.layoutIfNeeded()
-            })
+            outputTextView.becomeFirstResponder()
+            outputTextView.backgroundColor = .white
+            UIView.animate(withDuration: 0.2) {
+                self.controlButton.isHidden = true
+                self.keyboardButton.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
+                self.keyboardButton.layer.cornerRadius = 10
+            }
         } else {
             print("switched to ASL mode")
             keyboardButton.isSelected = true
+            keyboardButton.setTitle("Write", for: .normal)
             outputTextView.isEditable = false
+            outputTextView.resignFirstResponder()
+            outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.6)
+            textViewHolder.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.6)
+            UIView.animate(withDuration: 0.2) {
+                self.controlButton.isHidden = false
+                self.keyboardButton.layer.cornerRadius = 0
+            }
             dismissKeyboard()
-            UIView.animate(withDuration: 0.2, animations: {
-                self.heightAnchor.constant = -self.view.frame.size.height/2
-                self.textViewHolder.backgroundColor = UIColor.white.withAlphaComponent(0.5)
-                self.textViewHolder.layer.cornerRadius = 0
-                self.view.layoutIfNeeded()
-            })
         }
     }
 
@@ -700,7 +701,7 @@ extension ViewController {
 
         controlButton.backgroundColor = .systemBlue
         controlButton.setTitle("More", for: .normal)
-        controlButton.setTitle("Less", for: .selected)
+        controlButton.setTitle("Close Dashboard", for: .selected)
         controlButton.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         controlButton.layer.cornerRadius = 10
         controlButton.clipsToBounds = true
@@ -713,12 +714,21 @@ extension ViewController {
             sender.isSelected = false
             UIView.animate(withDuration: 0.2, animations: {
                 self.controlViewHeightAnchor.constant = -54
+                self.keyboardButton.isHidden = false
+                self.clearButton.isHidden = false
+                self.speakerButton.isHidden = false
+                self.controlButton.layer.maskedCorners = [ .layerMinXMinYCorner, .layerMinXMaxYCorner]
+                self.controlButton.layer.cornerRadius = 10
                 self.view.layoutIfNeeded()
             })
         } else {
             sender.isSelected = true
             UIView.animate(withDuration: 0.2, animations: {
                 self.controlViewHeightAnchor.constant = -self.view.frame.size.height/2
+                self.keyboardButton.isHidden = true
+                self.clearButton.isHidden = true
+                self.speakerButton.isHidden = true
+                self.controlButton.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
                 self.view.layoutIfNeeded()
             })
         }
