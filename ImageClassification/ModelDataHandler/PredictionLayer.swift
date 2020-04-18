@@ -50,16 +50,6 @@ class PredictionLayer {
         return ret
     }
     
-    func loadToCache(word:String){
-        cache.append(word)
-    }
-    
-    func checkInCache(word:String){
-        for cachedWord in cache {
-            //if
-        }
-    }
-    
     
     func fetchPossibleWord(str:String) -> [String]? {
         let rangeForEndOfStr = NSMakeRange(0, str.utf16.count)     // You had inverted parameters ; could also use NSRange(0..<str.utf16.count)
