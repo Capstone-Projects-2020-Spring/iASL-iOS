@@ -28,14 +28,14 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 
     ///Boolean that determines if we are on the login screen or the register screen
     var isRegisterButton: Bool = true
-    ///
-	var isFirstOpen = true
+
     ///Constant that holds the "users" node for Firebase
     let usersStringConstant: String = "users"
-    ///
+	
+    /// The configuration struct that configures the appearence of our welcome screen.
 	var welcomeScreenConfig = AWSConfigOptions()
 
-    ///
+    /// presents the welcome screen using our custom configuration.
 	@objc func showWelcomeScreen() {
 		  let vc = AWSViewController()
 		vc.configuration = self.welcomeScreenConfig
@@ -51,7 +51,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 			}
 	}
     
-    ///
+    /// Configures the welcome screen. Setting it's style, and content in `welcomeScreenConfig`.
 	fileprivate func welcomeScreenSetup() {
 		welcomeScreenConfig.appName = "iASL (Beta)"
 		welcomeScreenConfig.appDescription = "iASL is a Temple University capstone project designed to transcribe American Sign Language to text using your iPhone's camera. We sincerely thank you for taking the time to test our app before public release. We are testing the following features."
