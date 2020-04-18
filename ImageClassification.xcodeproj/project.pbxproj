@@ -235,6 +235,7 @@
 			isa = PBXGroup;
 			children = (
 				AABFCBB1213FE0B100C0A67B /* ModelDataHandler.swift */,
+				6EB8C85A2447A9DC0071F251 /* PredictionLayer.swift */,
 			);
 			path = ModelDataHandler;
 			sourceTree = "<group>";
@@ -269,7 +270,6 @@
 				6E23ACD62416CB4000495F02 /* iASL.entitlements */,
 				670E273824248A77003E129E /* GoogleService-Info.plist */,
 				AAE79E59213521DA00E7AC1F /* AppDelegate.swift */,
-				6EB8C85A2447A9DC0071F251 /* PredictionLayer.swift */,
 				602388982426E01B0041E2C3 /* Object Models */,
 				AAAB096C218981A30015A1F2 /* Extensions */,
 				AA16E5A02180843700D9E153 /* Cells */,

@@ -75,15 +75,15 @@ class PredictionLayer {
     ///If -1 the letter does not exist
     func isSimilarLetter(inputChar:String) -> Int {
         var ret = -1
-        var x = 0
+        var iterator = 0
         for alphabetSet in similarAlphabets {
             if alphabetSet.contains(inputChar) {
-                ret = x
+                ret = iterator
                 break
             } else {
                 ret = -1
             }
-            x += 1
+            iterator += 1
         }
         return ret
     }

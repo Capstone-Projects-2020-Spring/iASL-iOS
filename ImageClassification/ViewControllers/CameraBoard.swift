@@ -37,7 +37,12 @@ class CameraBoard: UIView {
 	///Short term cache to store the string currently being processed by the keybaord
     var stringCache = String()
 	//Viet inspired variables
-
+    
+    ///Count for the times output result was verified
+    var verificationCount = 0
+    ///Short term storage to store the latest predicted output
+    var verificationCache = ""
+    
 	/// The lastLetter predicted.
  	var lastLetter:String?
  	/// Space, del, or nothing predicted.
@@ -192,7 +197,7 @@ extension CameraBoard: CameraFeedManagerDelegate {
         case "nothing":
             if true {}
         default:
-            if let out = result?.inferences[0].label {
+            if let outputResult = result?.inferences[0].label {
                 DispatchQueue.main.async {
                     self.target?.insertText((self.result?.inferences[0].label)!)
                 }
