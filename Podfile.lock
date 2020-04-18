@@ -330,7 +330,6 @@ DEPENDENCIES:
   - FirebaseFirestoreSwift
   - KeychainSwift
   - KMPlaceholderTextView (~> 1.4.0)
-  - SnapKit (~> 5.0.0)
   - SwiftLint
   - SwiftMonkey (~> 2.1.0)
   - SwiftMonkeyPaws (~> 2.1.0)
@@ -428,6 +427,6 @@ SPEC CHECKSUMS:
   TensorFlowLiteSwift: 9d8137f18d5ac30ca89bba4fbe118e0949ac5743
   YouTubePlayer: c9581f0405e3240d1549b194bc1134bfc018a51d
 
-PODFILE CHECKSUM: dab8df4078a7cbb97e725d9e835afddb9f0f3aab
+PODFILE CHECKSUM: 0890eb2257eaf6404568dd7c10dc9adbc92ef265
 
 COCOAPODS: 1.9.1
