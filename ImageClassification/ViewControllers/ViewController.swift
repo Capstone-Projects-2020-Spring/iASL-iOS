@@ -20,87 +20,84 @@ import KeychainSwift
 
 class ViewController: UIViewController {
 
+    //MARK: Global Constants
+    ///The read hollow box that shows the area where the video is being fetched from
     let areaBound = UIView()
+    ///Button to move to chat viewcontroller
     let remoteChatButton = UIButton()
-    let liveChatButton = UIButton()
+    ///Button to move to notes viewcontroller
     let notesButton = UIButton()
-    let buttonStack = UIStackView()
+    ///Button to transition between speech to text
     let liveButton = UIButton()
-    let tabController = UITabBarController()
+    ///UITextView to show the letters/words predicted by the model
     let outputTextView = UITextView()
+    ///UIViewView for dashboard outputtextview
     let textViewHolder = UIView()
+    ///Button to invoke speach to text
     let speakerButton = UIButton()
+    ///UIStackview to hold the four essentail buttons of the dashboard
     let controlButtonStack = UIStackView()
+    ///Button to clear the outputTextview
     let clearButton = UIButton()
+    ///Button to raise the screen and show the keybaord, prompting the user to type
     let keyboardButton = UIButton()
+    ///Button for users to open training mode
     let trainButton = UIButton()
     var heightAnchor = NSLayoutConstraint()
     var controlViewHeightAnchor = NSLayoutConstraint()
     let logOutButton = UIButton()
     let controlView = UIView()
+    ///Button to expand and collapse the dashboard
     let controlButton = UIButton()
+    ///UISlider for controlling the speed of the voice
     let slider = UISlider()
+    ///Variable to keep track of the voice utterance
     var speechSpeedDegree = Float()
-    var controlButtonStackBottomAnchor = NSLayoutConstraint()
+    ///Button to activate prediction assistant
     @objc let predictionAssistButton = UIButton()
+    ///Variable for prediction layer to carry out predictions
     let predictionLayer = PredictionLayer()
-    private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
-    private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
-    private var recognitionTask: SFSpeechRecognitionTask?
-    private let audioEngine = AVAudioEngine()
+    ///Syntesizer to generate from text to speech
     var synthesizer = AVSpeechSynthesizer()
+    ///Tracker for how many time the output from the model has been verified
     var verificationCount = 0
+    ///Cache to store result from last prediction
     var verificationCache = ""
+    ///UIView for top bar
     let topBar = UIView()
     // MARK: Storyboards Connections
-    var previewView = PreviewView()
+    ///Preview view to show the video preview from camera
+    let previewView = PreviewView()
+    ///Error message to show when the camera is unavailable
     let cameraUnavailableLabel = UILabel()
+    ///Button to resume camera operation
     let resumeButton = UIButton()
-    
+
     ///Keychain reference for when we need to clear the keychain if someone logs out
     let keychain = KeychainSwift(keyPrefix: "iasl_")
 
-    // MARK: Constants
-    private let animationDuration = 0.5
-    private let collapseTransitionThreshold: CGFloat = -40.0
-    private let expandThransitionThreshold: CGFloat = 40.0
+    // MARK: Global Variables
+    ///Constraint to keep track of the height of the output text view, whether it's collapsed or expanded
+    var heightAnchor = NSLayoutConstraint()
+    ///Constraint to keep track of the heigh of the dashboard, whether it's collapsed or expanded
+    var controlViewHeightAnchor = NSLayoutConstraint()
+    ///Delay inbetween the prediction by the model (How often the app outputs a letter/word)
     private let delayBetweenInferencesMs: Double = 1000
 
     // MARK: Instance Variables
-    // Holds the results at any time
+    ///Result that's output by the model
     private var result: Result?
-    private var initialBottomSpace: CGFloat = 0.0
+    ///Time from the previous prediction
     private var previousInferenceTimeMs: TimeInterval = Date.distantPast.timeIntervalSince1970 * 1000
 
-	//Viet inspired variables
-	var lastLetter, lastNonLetter: String?
-	var recurCount = 0
-	var recurCountNonLetter = 0
-	let minimumConfidence: Float = 0.89
-	
+
     // MARK: Controllers that manage functionality
-    // Handles all the camera related functionality
+    /// Handles all the camera related functionality
     private lazy var cameraCapture = CameraFeedManager(previewView: previewView)
 
-    // Handles all data preprocessing and makes calls to run inference through the `Interpreter`.
+    /// Handles all data preprocessing and makes calls to run inference through the `Interpreter`.
     private var modelDataHandler: ModelDataHandler? =
         ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo, threadCount: 2)
-
-    // Handles the presenting of results on the screen
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if #available(iOS 13.0, *) {
-
-            ///Code for darmode
-            if self.traitCollection.userInterfaceStyle == .dark {
-
-            } else { ///Code for light mode
-
-            }
-        }
-    }
 
         override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
 		// check current view controller
@@ -128,10 +125,11 @@ class ViewController: UIViewController {
 				dismiss(animated: true, completion: nil)
 			}
 		}
-		
+
     }
 
     // MARK: View Handling Methods
+    ///Main function to call all the necessary GUI and backend functions
     override func viewDidLoad() {
         super.viewDidLoad()
         previewViewSetup()
@@ -161,28 +159,30 @@ class ViewController: UIViewController {
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        
+
+
         let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleLeftSwipeGesture(_:)))
         previewView.addGestureRecognizer(swipeLeftGestureRecognizer)
         swipeLeftGestureRecognizer.direction = .left
-
+        ///Add up swipe gesture and assign a function to invoke when swiped up
         let swipeUpGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeUpGesture(_:)))
         view.addGestureRecognizer(swipeUpGestureRecognizer)
         swipeUpGestureRecognizer.direction = .up
-
+        ///Add down swipe gesture and assign a function to invoke when swiped down
         let swipeDownGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleDownSwipeGesture(_:)))
         view.addGestureRecognizer(swipeDownGestureRecognizer)
         swipeDownGestureRecognizer.direction = .down
-
+        ///Add right swipe gesture and assign a function to invoke when swiped right
         let swipeRightGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleRightSwipeGesture(_:)))
         previewView.addGestureRecognizer(swipeRightGestureRecognizer)
         swipeRightGestureRecognizer.direction = .right
 
+        ///Initialize the machine learning model
         guard modelDataHandler != nil else {
             fatalError("Model set up failed")
         }
 
+        ///Handles exception handler when camera is not available
         #if targetEnvironment(simulator)
         previewView.shouldUseClipboardImage = true
         NotificationCenter.default.addObserver(self,
@@ -191,9 +191,9 @@ class ViewController: UIViewController {
                                                object: nil)
         #endif
         cameraCapture.delegate = self
-
     }
 
+    ///Raise the whoe View when the keybaord appears
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
@@ -202,12 +202,17 @@ class ViewController: UIViewController {
         }
     }
 
+    ///Lower the keyboard down when the keyboard disappears
     @objc func keyboardWillHide(notification: NSNotification) {
         if self.view.frame.origin.y != 0 {
             self.view.frame.origin.y = 0
         }
     }
 
+
+
+    /// Action invoked when swiped up
+    /// - Parameter sender: the gesture recognizer itself
     @objc func handleSwipeUpGesture(_ sender: UISwipeGestureRecognizer) {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         //textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -221,8 +226,8 @@ class ViewController: UIViewController {
 
     }
 
-    
-    
+    /// Action invoked when swiped down
+    /// - Parameter sender: the gesture recognizer itself
     @objc func handleDownSwipeGesture(_ sender: UISwipeGestureRecognizer) {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
 
@@ -233,6 +238,8 @@ class ViewController: UIViewController {
         })
     }
 
+    /// Action invoked when swiped left
+    /// - Parameter sender: the gesture recognizer itself
     @objc func handleLeftSwipeGesture(_ sender: UISwipeGestureRecognizer) {
         let vc = NotesVC()
         vc.modalTransitionStyle = .crossDissolve
@@ -240,6 +247,8 @@ class ViewController: UIViewController {
         present(vc, animated: true, completion: nil)
     }
 
+    /// Action invoked when swiped right
+    /// - Parameter sender: the gesture recognizer itself
     @objc func handleRightSwipeGesture(_ sender: UISwipeGestureRecognizer) {
         let vc = RemoteConversationVC()
         vc.modalTransitionStyle = .crossDissolve
@@ -329,15 +338,15 @@ extension ViewController: CameraFeedManagerDelegate {
             print("\(verificationCount) \(verificationCache) == \(output.inferences[0].label)")
             if verificationCount == 2 && verificationCache == output.inferences[0].label {
                 verificationCount = 0
-                
+
                 let currentTimeMs = Date().timeIntervalSince1970 * 1000
                 if (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs{
                     executeASLtoText()
                     print("pushed")
                 } else { return }
                 previousInferenceTimeMs = currentTimeMs
-                
-                
+
+
             } else if verificationCount < 2 {
                 verificationCount += 1
             } else if verificationCache != output.inferences[0].label {
@@ -522,7 +531,7 @@ extension ViewController {
             return
         }
     }
-    
+
     /**
      Checks if the user is logged out so we can disable the log out button
      - Returns: True if user is not looged in, false otherwise
@@ -670,7 +679,7 @@ extension ViewController {
 
     @objc func keyboardButtonTapped() {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        
+
         if keyboardButton.isSelected {
             keyboardButton.isSelected = false
             print("switched to keyboard mode")
@@ -753,7 +762,7 @@ extension ViewController {
 
     func logOutButtonSetup() {
         controlView.addSubview(logOutButton)
-        
+
         logOutButton.translatesAutoresizingMaskIntoConstraints = false
         logOutButton.topAnchor.constraint(equalTo: trainButton.bottomAnchor, constant: 20).isActive = true
         logOutButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
@@ -763,7 +772,7 @@ extension ViewController {
         logOutButton.backgroundColor = .systemRed
         logOutButton.layer.cornerRadius = 10
         logOutButton.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
-        
+
         if userIsLoggedOut() {
             logOutButton.isEnabled = false
             logOutButton.alpha = 0.2
@@ -773,7 +782,7 @@ extension ViewController {
         }
 
     }
-    
+
     @objc func handleLogout() {
 
         print("handle logout tapped")
@@ -799,7 +808,7 @@ extension ViewController {
         loginController.modalPresentationStyle = .fullScreen
         present(loginController, animated: true, completion: nil)
     }
-    
+
     func predictionAssistButtonSetup() {
         controlView.addSubview(predictionAssistButton)
         predictionAssistButton.translatesAutoresizingMaskIntoConstraints = false
@@ -854,7 +863,7 @@ extension ViewController {
         print("value is", Int(sender.value))
         speechSpeedDegree = sender.value
     }
-    
+
     func areaBoundSetup(){
         previewView.addSubview(areaBound)
         areaBound.translatesAutoresizingMaskIntoConstraints = false
@@ -864,7 +873,7 @@ extension ViewController {
         areaBound.heightAnchor.constraint(equalToConstant: view.frame.size.width-10).isActive = true
         areaBound.layer.borderWidth = 2
         areaBound.layer.borderColor = UIColor.red.cgColor
-        
+
         let textView = UILabel()
         areaBound.addSubview(textView)
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -923,8 +932,6 @@ extension ViewController {
                 self.outputTextView.text.append(self.predictionLayer.letterProximitySwap(inputChar: prediction))
 			}
 		}
-		
+
 	}
 }
-
-
