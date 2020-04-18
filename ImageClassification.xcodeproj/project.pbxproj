@@ -23,6 +23,7 @@
 		67ABF9282430299200881646 /* ASLKeyboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67ABF9272430299200881646 /* ASLKeyboardTests.swift */; };
 		67B31A99242C038C00DC15C4 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B31A98242C038C00DC15C4 /* ChatVC.swift */; };
 		67CD6E9E242AE3380004D255 /* TranscribeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CD6E9D242AE3370004D255 /* TranscribeVC.swift */; };
+		67D41483244AAD0D001F5A73 /* MonkeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D41482244AAD0D001F5A73 /* MonkeyTests.swift */; };
 		6E23ACD52416BE8E00495F02 /* RemoteConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E23ACD42416BE8E00495F02 /* RemoteConversationVC.swift */; };
 		6E3469932421CD64009F1E7D /* SpeechToTextVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E3469922421CD64009F1E7D /* SpeechToTextVC.swift */; };
 		6E6D14CF24175AC800A185E9 /* CreateNoteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6D14CE24175AC800A185E9 /* CreateNoteVC.swift */; };
@@ -84,6 +85,7 @@
 		67ABF9272430299200881646 /* ASLKeyboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASLKeyboardTests.swift; sourceTree = "<group>"; };
 		67B31A98242C038C00DC15C4 /* ChatVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatVC.swift; sourceTree = "<group>"; };
 		67CD6E9D242AE3370004D255 /* TranscribeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranscribeVC.swift; sourceTree = "<group>"; };
+		67D41482244AAD0D001F5A73 /* MonkeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonkeyTests.swift; sourceTree = "<group>"; };
 		6E23ACD42416BE8E00495F02 /* RemoteConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConversationVC.swift; sourceTree = "<group>"; };
 		6E23ACD62416CB4000495F02 /* iASL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iASL.entitlements; sourceTree = "<group>"; };
 		6E3469922421CD64009F1E7D /* SpeechToTextVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechToTextVC.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 			children = (
 				67ABF91E24301C1C00881646 /* Info.plist */,
 				67ABF92524301CCE00881646 /* ASLKeyboardUITests.swift */,
+				67D41482244AAD0D001F5A73 /* MonkeyTests.swift */,
 				67ABF92424301CCE00881646 /* iASLUITests-Bridging-Header.h */,
 			);
 			path = iASLUITests;
@@ -539,6 +542,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				67D41483244AAD0D001F5A73 /* MonkeyTests.swift in Sources */,
 				67ABF92624301CCE00881646 /* ASLKeyboardUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

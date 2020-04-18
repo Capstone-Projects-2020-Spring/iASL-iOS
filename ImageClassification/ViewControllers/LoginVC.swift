@@ -1,4 +1,4 @@
-//
+
 //  LoginVC.swift
 //  ImageClassification
 //
@@ -43,7 +43,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 	  }
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(true)
-		if defaults.bool(forKey: "WelcomeVersion1.0.0") {
+		if defaults.bool(forKey: "WelcomeVersion1.0.0") || CommandLine.arguments.contains("ui-testing") {
 					   return
 				   } else {
 					   self.showWelcomeScreen()
