@@ -686,7 +686,7 @@ extension ViewController {
         } else {
             print("switched to ASL mode")
             keyboardButton.isSelected = true
-            keyboardButton.setTitle("Write", for: .normal)
+            keyboardButton.setTitle("Keyboard", for: .normal)
             outputTextView.isEditable = false
             outputTextView.resignFirstResponder()
             outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.6)
