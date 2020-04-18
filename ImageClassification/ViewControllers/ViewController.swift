@@ -42,13 +42,14 @@ class ViewController: UIViewController {
     var speechSpeedDegree = Float()
     var controlButtonStackBottomAnchor = NSLayoutConstraint()
     @objc let predictionAssistButton = UIButton()
-
+    let predictionLayer = PredictionLayer()
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
     private let audioEngine = AVAudioEngine()
     var synthesizer = AVSpeechSynthesizer()
-
+    var verificationCount = 0
+    var verificationCache = ""
     let topBar = UIView()
     // MARK: Storyboards Connections
     var previewView = PreviewView()
@@ -79,7 +80,7 @@ class ViewController: UIViewController {
 
     // Handles all data preprocessing and makes calls to run inference through the `Interpreter`.
     private var modelDataHandler: ModelDataHandler? =
-        ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo)
+        ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo, threadCount: 2)
 
     // Handles the presenting of results on the screen
 
@@ -311,17 +312,36 @@ class ViewController: UIViewController {
 extension ViewController: CameraFeedManagerDelegate {
 
 	func didOutput(pixelBuffer: CVPixelBuffer) {
-        let currentTimeMs = Date().timeIntervalSince1970 * 1000
-        guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
-        previousInferenceTimeMs = currentTimeMs
-
-        // Pass the pixel buffer to TensorFlow Lite to perform inference.
+        /// Pass the pixel buffer to TensorFlow Lite to perform inference.
         result = modelDataHandler?.runModel(onFrame: pixelBuffer)
-		executeASLtoText()
-        // Display results by handing off to the InferenceViewController.
+        if let output = result {
+            if output.inferences[0].label != "nothing" {
+                print("\(output.inferences[0].label) \(output.inferences[0].confidence)")
+            }
+            if verificationCount == 0 {
+                verificationCache = output.inferences[0].label
+            }
+            print("\(verificationCount) \(verificationCache) == \(output.inferences[0].label)")
+            if verificationCount == 2 && verificationCache == output.inferences[0].label {
+                verificationCount = 0
+                
+                let currentTimeMs = Date().timeIntervalSince1970 * 1000
+                if (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs{
+                    executeASLtoText()
+                    print("pushed")
+                } else { return }
+                previousInferenceTimeMs = currentTimeMs
+                
+                
+            } else if verificationCount < 2 {
+                verificationCount += 1
+            } else if verificationCache != output.inferences[0].label {
+                verificationCache = ""
+                verificationCount = 0
+            }
+        }
         DispatchQueue.main.async {
             let resolution = CGSize(width: CVPixelBufferGetWidth(pixelBuffer), height: CVPixelBufferGetHeight(pixelBuffer))
-
         }
     }
 
@@ -554,7 +574,6 @@ extension ViewController {
             self.synthesizer = AVSpeechSynthesizer()
             self.synthesizer.speak(utterance)
         }
-        
     }
 
     // MARK: Control View
@@ -662,7 +681,7 @@ extension ViewController {
     func controlViewSetup() {
         view.addSubview(controlView)
         controlView.translatesAutoresizingMaskIntoConstraints = false
-        controlViewHeightAnchor = controlView.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -54)
+        controlViewHeightAnchor = controlView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -54)
         controlView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         controlView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         controlView.heightAnchor.constraint(equalToConstant: view.frame.size.height/2).isActive = true
@@ -745,7 +764,6 @@ extension ViewController {
 
     func sliderSetup() {
         controlView.addSubview(slider)
-        //slider.frame = CGRect(x: 0, y: 0, width: 250, height: 35)
         slider.translatesAutoresizingMaskIntoConstraints = false
         slider.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 20).isActive = true
         slider.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -20).isActive = true
@@ -827,31 +845,15 @@ extension ViewController {
 			addSpace()
             speak()
 		case "nothing":
-            DispatchQueue.main.async {
-                self.areaBound.isHidden = false
-            }
-            
-			print("")
+            if true {}
 		default:
 
 			DispatchQueue.main.async {
                 self.areaBound.isHidden = true
 				let confidence = self.result!.inferences[0].confidence
 				let prediction: String = self.result!.inferences[0].label.description
-				if prediction == self.lastLetter && confidence > self.minimumConfidence {
-					print(prediction)
-					self.recurCount += 1
-				} else {
-					self.lastLetter = prediction
-					print("reset count")
-					
-					self.recurCount = 0
-				}
-				if self.recurCount > 3 {
-					self.outputTextView.text += self.result!.inferences[0].label.description
-					self.recurCount = 0
-					
-				}
+                print("actual \(prediction) output \(self.predictionLayer.letterProximitySwap(inputChar: prediction))")
+                self.outputTextView.text.append(self.predictionLayer.letterProximitySwap(inputChar: prediction))
 			}
 		}
 		

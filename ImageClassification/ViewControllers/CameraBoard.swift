@@ -37,6 +37,12 @@ class CameraBoard: UIView {
 	///Short term cache to store the string currently being processed by the keybaord
     var stringCache = String()
 	//Viet inspired variables
+    
+    ///Count for the times output result was verified
+    var verificationCount = 0
+    ///Short term storage to store the latest predicted output
+    var verificationCache = ""
+    
 	/// The lastLetter predicted.
  	var lastLetter:String?
  	/// Space, del, or nothing predicted.
@@ -146,78 +152,56 @@ extension CameraBoard: CameraFeedManagerDelegate {
 	}
 
 	func didOutput(pixelBuffer: CVPixelBuffer) {
-        let currentTimeMs = Date().timeIntervalSince1970 * 1000
-        guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
-        previousInferenceTimeMs = currentTimeMs
-
-        // Pass the pixel buffer to TensorFlow Lite to perform inference.
+        /// Pass the pixel buffer to TensorFlow Lite to perform inference.
         result = modelDataHandler?.runModel(onFrame: pixelBuffer)
-		DispatchQueue.main.async {
-			switch self.result?.inferences[0].label {
-			case "del":
-				self.setPredictionToDelete()
-                self.target?.deleteBackward()
+        if let output = result {
+            if output.inferences[0].label != "nothing" {
+                print("\(output.inferences[0].label) \(output.inferences[0].confidence)")
+            }
+            if verificationCount == 0 {
+                verificationCache = output.inferences[0].label
+            }
+            print("\(verificationCount) \(verificationCache) == \(output.inferences[0].label)")
+            if verificationCount == 2 && verificationCache == output.inferences[0].label {
+                verificationCount = 0
+                
+                let currentTimeMs = Date().timeIntervalSince1970 * 1000
+                if (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs{
+                   executeASLtoText()
+                    print("pushed")
+                } else { return }
+                previousInferenceTimeMs = currentTimeMs
+            } else if verificationCount < 2 {
+                verificationCount += 1
+            } else if verificationCache != output.inferences[0].label {
+                verificationCache = ""
+                verificationCount = 0
+            }
+        }
+        
+    }
 
-//                if self.stringCache.count != 0 {
-//                    self.stringCache.removeLast(1)
-//
-//                    let rangeForEndOfStr = NSMakeRange(0, self.stringCache.utf16.count)
-//                    let spellChecker = UITextChecker()
-//                    print("printing text cache: \(self.stringCache)")
-//                    let result = spellChecker.completions(forPartialWordRange: rangeForEndOfStr, in: self.stringCache, language: "en_US")
-//                    if result != nil {
-//                        self.prediction = result!
-//                    } else {
-//                        self.prediction.removeAll()
-//                    }
-//
-//                } else {
-//                    self.prediction.removeAll()
-//                }
-                //self.updateStack(prediction: self.prediction)
-			case "space":
-				self.setPredictiontoSpace()
-				self.target?.insertText(" ")
 
-			case "nothing":
-				self.setPredictionToNothing()
-				break
-			default:
-				let confidence = self.result!.inferences[0].confidence
-				let prediction: String = self.result!.inferences[0].label.description
-				if prediction == self.lastLetter && confidence > self.minimumConfidence {
-					print(prediction)
+    func predictWord() {
 
-					self.showPredictionLetterInStack(prediction, confidence, self.recurCount)
-
-					self.recurCount += 1
-				} else {
-					self.lastLetter = prediction
-					print("reset count")
-					self.setPredictionToNothing()
-					self.recurCount = 0
-				}
-				if self.recurCount > 3 {
-					self.target?.insertText(self.lastLetter!)
-					self.recurCount = 0
-					self.setPredictionToNothing()
-				}
-//
-//                self.stringCache.append(self.result!.inferences[0].label.description)
-//                let rangeForEndOfStr = NSMakeRange(0, self.stringCache.utf16.count)     // You had inverted parameters ; could also use NSRange(0..<str.utf16.count)
-//                let spellChecker = UITextChecker()
-                //print(UITextChecker.availableLanguages)
-//                print("printing text cache: \(self.stringCache)")
-                //self.prediction = spellChecker.completions(forPartialWordRange: rangeForEndOfStr, in: self.stringCache, language: "en_US")!
-//                print(self.prediction ?? "No completion found")
-                //self.updateStack(prediction: self.prediction)
-			}
-		}
-
-        // Display results by handing off to the InferenceViewController.
-        DispatchQueue.main.async {
-            let resolution = CGSize(width: CVPixelBufferGetWidth(pixelBuffer), height: CVPixelBufferGetHeight(pixelBuffer))
-
+    }
+    
+    func executeASLtoText() {
+        switch result?.inferences[0].label {
+        case "del":
+            self.setPredictionToDelete()
+            self.target?.deleteBackward()
+        case "space":
+            self.setPredictiontoSpace()
+            self.target?.insertText(" ")
+        case "nothing":
+            if true {}
+        default:
+            if let outputResult = result?.inferences[0].label {
+                DispatchQueue.main.async {
+                    self.target?.insertText((self.result?.inferences[0].label)!)
+                }
+            }
         }
     }
 
