@@ -73,10 +73,12 @@ class SpeechToTextVC: UIViewController, SFSpeechRecognizerDelegate {
 
     }
 
+    ///Letting the OS know the type of orientations supported by this view controller
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .all
     }
 
+    ///Let the OS know what to do when the view appears
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 

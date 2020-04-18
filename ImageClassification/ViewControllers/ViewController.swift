@@ -154,30 +154,29 @@ class ViewController: UIViewController {
             speak()
         }
 
-
-
-        
-        
+        ///Add left swipe gesture and assign a function to invoke when swiped left
         let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleLeftSwipeGesture(_:)))
         previewView.addGestureRecognizer(swipeLeftGestureRecognizer)
         swipeLeftGestureRecognizer.direction = .left
-
+        ///Add up swipe gesture and assign a function to invoke when swiped up
         let swipeUpGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeUpGesture(_:)))
         view.addGestureRecognizer(swipeUpGestureRecognizer)
         swipeUpGestureRecognizer.direction = .up
-
+        ///Add down swipe gesture and assign a function to invoke when swiped down
         let swipeDownGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleDownSwipeGesture(_:)))
         view.addGestureRecognizer(swipeDownGestureRecognizer)
         swipeDownGestureRecognizer.direction = .down
-
+        ///Add right swipe gesture and assign a function to invoke when swiped right
         let swipeRightGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleRightSwipeGesture(_:)))
         previewView.addGestureRecognizer(swipeRightGestureRecognizer)
         swipeRightGestureRecognizer.direction = .right
 
+        ///Initialize the machine learning model
         guard modelDataHandler != nil else {
             fatalError("Model set up failed")
         }
-
+        
+        ///Handles exception handler when camera is not available
         #if targetEnvironment(simulator)
         previewView.shouldUseClipboardImage = true
         NotificationCenter.default.addObserver(self,
@@ -186,9 +185,9 @@ class ViewController: UIViewController {
                                                object: nil)
         #endif
         cameraCapture.delegate = self
-
     }
 
+    ///Raise the whoe View when the keybaord appears
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
@@ -197,12 +196,17 @@ class ViewController: UIViewController {
         }
     }
 
+    ///Lower the keyboard down when the keyboard disappears
     @objc func keyboardWillHide(notification: NSNotification) {
         if self.view.frame.origin.y != 0 {
             self.view.frame.origin.y = 0
         }
     }
 
+    
+    
+    /// Action invoked when swiped up
+    /// - Parameter sender: the gesture recognizer itself
     @objc func handleSwipeUpGesture(_ sender: UISwipeGestureRecognizer) {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         //textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -215,6 +219,8 @@ class ViewController: UIViewController {
 
     }
 
+    /// Action invoked when swiped down
+    /// - Parameter sender: the gesture recognizer itself
     @objc func handleDownSwipeGesture(_ sender: UISwipeGestureRecognizer) {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         //textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -226,6 +232,8 @@ class ViewController: UIViewController {
         })
     }
 
+    /// Action invoked when swiped left
+    /// - Parameter sender: the gesture recognizer itself
     @objc func handleLeftSwipeGesture(_ sender: UISwipeGestureRecognizer) {
         let vc = NotesVC()
         vc.modalTransitionStyle = .crossDissolve
@@ -233,6 +241,8 @@ class ViewController: UIViewController {
         present(vc, animated: true, completion: nil)
     }
 
+    /// Action invoked when swiped right
+    /// - Parameter sender: the gesture recognizer itself
     @objc func handleRightSwipeGesture(_ sender: UISwipeGestureRecognizer) {
         let vc = RemoteConversationVC()
         vc.modalTransitionStyle = .crossDissolve
