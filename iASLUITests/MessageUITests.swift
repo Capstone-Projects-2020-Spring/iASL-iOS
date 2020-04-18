@@ -18,17 +18,17 @@ class MessageUITests: XCTestCase {
         
     }
     
-    ///Will check if the set name label returns a specified name from a message
+    ///Will check if the set name label returns a specified name from a message. Output is a matching label as one that I input
     func testSetNameLabel() {
         
     }
     
-    ///Will check if the set most recent message label returns the most recent message in a list of messages
+    ///Will check if the set most recent message label returns the most recent message in a list of messages. Output is a matching label as one that I input
     func testSetMostRecentMessageLabel() {
         
     }
     
-    ///WIll check if the set timestamp label returns the correct time
+    ///WIll check if the set timestamp label returns the correct time. Output is a matching label as one that I input
     func testSetTimestampLabel() {
         
     }

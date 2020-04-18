@@ -18,7 +18,7 @@ class AddChatVCUITests: XCTestCase {
         
     }
     
-    ///Test if the back button gets us to a new view by checking for the existence of something in the new view
+    ///Test if the back button gets us to a new view by checking for the existence of something in the new view as output
     func testBackButton() {
         
     }

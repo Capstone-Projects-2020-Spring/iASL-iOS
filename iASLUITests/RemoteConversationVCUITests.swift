@@ -18,22 +18,17 @@ class RemoteConversationVCUITests: XCTestCase {
         
     }
     
-    ///Test if the add chat button takes the user to a new view
+    ///Test if the add chat button takes the user to a new view. Ouput is the existence of an element in the next view controller
     func testAddChatButtonGoesToNewView() {
         
     }
     
-    ///Test if the delete note function can delete a note by seeing if an array of messages is one less
-    func testHandleDeleteNote() {
-        
-    }
-    
-    ///Test if note checking creates an alert
+    ///Test if note checking creates an alert. Output is the existence of an alert
     func testHandleDeleteNoteAreYouSure() {
         
     }
     
-    ///Test if the logout button works as expected by seeing if a button on the login view becomes present
+    ///Test if the logout button works as expected by seeing if a button on the login view becomes present. Output is the existence of an element from the login vc
     func testHandleLogout() {
         
     }

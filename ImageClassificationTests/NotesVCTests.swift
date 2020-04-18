@@ -18,13 +18,18 @@ class NotesVCTests: XCTestCase {
         
     }
     
-    ///Test if the observe user notes function can run by looking for a boolean that represents success
+    ///Test if the observe user notes function can run by looking for a boolean that represents success as a result
     func testObserveUserNotesSuccess() {
         
     }
     
-    ///Test if the observe user notes function can fail by looking for a boolean that represents failure
+    ///Test if the observe user notes function can fail by looking for a boolean that represents failure as a result
     func testObserveUserNotesFailure() {
+        
+    }
+    
+    ///Test if the user can delete a note. Output is a boolean representing a successful test
+    func testHandleDeleteNote() {
         
     }
 

@@ -18,7 +18,7 @@ class AddChatVCTests: XCTestCase {
         
     }
     
-    ///Test if the get users function is successful by looking for a boolean that represents success
+    ///Test if the get users function is successful by looking for a boolean that represents success as a result
     func testGetUsers() {
         
     }

@@ -44,7 +44,7 @@ class MessageTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
-    ///Will check if the chat partner is the receiver
+    ///Will check if the chat partner is the receiver. Output is equal chat partner IDs
     func testChatPartnerIsReceiver() {
         
         //let asyncExpectation = expectation(description: "Async block executed")
@@ -64,7 +64,7 @@ class MessageTests: XCTestCase {
         //waitForExpectations(timeout: 1, handler: nil)
     }
     
-    ///Will check if the chat partner is the sender
+    ///Will check if the chat partner is the sender. Output is equal chat partner IDs
     func testChatPartnerIsSender() {
         
     }

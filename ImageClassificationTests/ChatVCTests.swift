@@ -32,7 +32,7 @@ class ChatVCTests: XCTestCase {
         //
     }
     
-    ///Checks if the observe message function is successful in calling by looking for a boolean representing success
+    ///Checks if the observe message function is successful in calling by looking for a boolean representing success as a result
     func testObserveMessagesSucceeds() {
         
         //log the user in
@@ -56,7 +56,7 @@ class ChatVCTests: XCTestCase {
         XCTAssertTrue(succeeded)
     }
     
-    ///Checks if the observe message function fails as a result of the user not being signed in by looking for a boolean representing success
+    ///Checks if the observe message function fails as a result of the user not being signed in by looking for a boolean representing success as a result
     func testObserveMessagesFails() {
         //log the user out
         remote?.handleLogout()

@@ -18,17 +18,17 @@ class CreateNoteVCUITests: XCTestCase {
         
     }
     
-    ///Test if the save button works by testing if the save button gets toggled
+    ///Test if the save button works by testing if the save button gets toggled. Output would be changed text
     func testSaveButtonEnabledAndToggled() {
         
     }
     
-    ///Test if the note can load another note by tappnig on the table view and seeing if some text was presented in the new VC
+    ///Test if the note can load another note by tappnig on the table view and seeing if the output has some text was presented in the new VC
     func testLoadNoteWorks() {
         
     }
     
-    ///Test if the back button can get us to the previous view controller
+    ///Test if the back button can get us to the previous view controller. Output is the existence of an element in the new view controller
     func testBackButton() {
         
     }

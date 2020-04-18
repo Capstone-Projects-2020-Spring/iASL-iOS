@@ -18,27 +18,22 @@ class NotesVCUITests: XCTestCase {
         
     }
     
-    ///Test if the user can delete a note
-    func testHandleDeleteNote() {
-        
-    }
-    
     ///Test if the user is prompted for a deletion note reassurance by checking for an alert
     func testHandleDeleteNoteAreYouSure() {
         
     }
     
-    ///Test if a note can be dislayed from a table view
+    ///Test if a note can be dislayed from a table view by checking for the existence of an element from the next view controller
     func testShowNoteFromTableView() {
         
     }
     
-    ///Test if the create a note button works by seeing if something in the next view controller exists
+    ///Test if the create a note button works by seeing if an element in the next view controller exists as output
     func testCreateNoteButtonTapped() {
         
     }
     
-    ///Test if the back button works by seeing if something in the previous view controller exists
+    ///Test if the back button works by seeing if an element in the previous view controller exists as output
     func testBackButton() {
         
     }
