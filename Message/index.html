@@ -1210,6 +1210,10 @@ nav li[class] {
 </h1>
 
 <html><body><pre class="highlight"><code><span class="keyword">class</span> <span class="type">Message</span>: <span class="type">NSObject</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This class stores information on an indivudal message from our messaging feature. Whenever a message is sent or received, it is stored in this class, typically as an array. The messages information is retrieved from Firebase and stored here when needed.</p>
+
+</div>
 <section id="relationships">
     <h2 hidden>Relationships</h2>
         <figure>
@@ -1264,24 +1268,40 @@ nav li[class] {
         <code>receiver​Id</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">receiverId</span>: <span class="type">String</span>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This is the unique ID of the person who is receiving the message</p>
+
+</div>
 </div>
 <div role="article" class="class" id="message.senderid">
     <h3>
         <code>sender​Id</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">senderId</span>: <span class="type">String</span>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Unique ID of the person who is sending the message</p>
+
+</div>
 </div>
 <div role="article" class="class" id="message.text">
     <h3>
         <code>text</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">text</span>: <span class="type">String</span>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>The actual text of this specific message</p>
+
+</div>
 </div>
 <div role="article" class="class" id="message.timestamp">
     <h3>
         <code>timestamp</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">timestamp</span>: <span class="type">NSNumber</span>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This is the exact time that the message was sent</p>
+
+</div>
 </div>
     </section>
     <section id="methods">
@@ -1292,6 +1312,10 @@ nav li[class] {
         <code>chat​Partner​Id()</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">chatPartnerId</span>() -&gt; <span class="type">String</span>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This function returns the ID of the person who is not the current user and who is the person the current user is chatting with</p>
+
+</div>
 </div>
     </section>
 
@@ -1302,7 +1326,7 @@ nav li[class] {
 
     <footer>
         <p>
-    Generated on <time datetime="2020-04-16T20:15:35-0400">April 16, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
+    Generated on <time datetime="2020-04-18T13:10:22-0400">April 18, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
 </p>
     </footer>
 </body>

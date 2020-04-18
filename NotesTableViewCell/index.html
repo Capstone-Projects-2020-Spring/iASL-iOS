@@ -1210,6 +1210,10 @@ nav li[class] {
 </h1>
 
 <html><body><pre class="highlight"><code><span class="keyword">class</span> <span class="type">NotesTableViewCell</span>: <span class="type">UITableViewCell</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This class is a custom table view cell for the table view in our notes feature. It handles the constraints for each subview and also helps with some logic in setting the note information in its proper place.</p>
+
+</div>
 <section id="relationships">
     <h2 hidden>Relationships</h2>
         <figure>
@@ -1264,12 +1268,20 @@ nav li[class] {
         <code>init(style:​reuse​Identifier:​)</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">init</span>(<span class="variable">style</span>: <span class="type">UITableViewCell</span>.<span class="type">CellStyle</span>, <span class="variable">reuseIdentifier</span>: <span class="type">String</span>?)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Function called every time this table view cell is used. It is being used to call the setup function for the subviews of this table view cell.</p>
+
+</div>
 </div>
 <div role="article" class="class" id="notestableviewcell.init?(coder:)">
     <h3>
         <code>init?(coder:​)</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="attribute">required</span> <span class="keyword">init</span>?(<span class="variable">coder</span>: <span class="type">NSCoder</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Required function for checking if there was a fatal error</p>
+
+</div>
 </div>
     </section>
     <section id="properties">
@@ -1280,24 +1292,40 @@ nav li[class] {
         <code>note</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">note</span>: <a href="Note"><span class="type">Note</span></a>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This is of type Note from our custom swift class and it helps with the logic of setting the note information in each table view cell. It sets the title, the text, and the time.</p>
+
+</div>
 </div>
 <div role="article" class="class" id="notestableviewcell.titlelabel">
     <h3>
         <code>title​Label</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">titleLabel</span>: <span class="type">UILabel</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>A closure for the note title label</p>
+
+</div>
 </div>
 <div role="article" class="class" id="notestableviewcell.notelabel">
     <h3>
         <code>note​Label</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">noteLabel</span>: <span class="type">UILabel</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>A closure for the label for the text of a note</p>
+
+</div>
 </div>
 <div role="article" class="class" id="notestableviewcell.timestamplabel">
     <h3>
         <code>timestamp​Label</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">timestampLabel</span>: <span class="type">UILabel</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>A closure for the label for the time a note was created</p>
+
+</div>
 </div>
     </section>
     <section id="methods">
@@ -1308,24 +1336,40 @@ nav li[class] {
         <code>layout​Subviews()</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">layoutSubviews</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Function for laying out the subviews</p>
+
+</div>
 </div>
 <div role="article" class="class" id="notestableviewcell.setuptitlelabel()">
     <h3>
         <code>setup​Title​Label()</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">setupTitleLabel</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Adds the title label to the subview and defines the constraints of the title label</p>
+
+</div>
 </div>
 <div role="article" class="class" id="notestableviewcell.setupnotelabel()">
     <h3>
         <code>setup​Note​Label()</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">setupNoteLabel</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Adds the note label to the subview and defines the constraints of the note label</p>
+
+</div>
 </div>
 <div role="article" class="class" id="notestableviewcell.setuptimestamplabel()">
     <h3>
         <code>setup​Timestamp​Label()</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">setupTimestampLabel</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Adds the timestamp label to the subview and defines the constraints of the timestamp label</p>
+
+</div>
 </div>
     </section>
 
@@ -1336,7 +1380,7 @@ nav li[class] {
 
     <footer>
         <p>
-    Generated on <time datetime="2020-04-16T20:15:35-0400">April 16, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
+    Generated on <time datetime="2020-04-18T13:10:22-0400">April 18, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
 </p>
     </footer>
 </body>

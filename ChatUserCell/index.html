@@ -1210,6 +1210,10 @@ nav li[class] {
 </h1>
 
 <html><body><pre class="highlight"><code><span class="keyword">class</span> <span class="type">ChatUserCell</span>: <span class="type">UITableViewCell</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This class is for creating a custom cell in the table view of our main messaging feature screen. It handles the design of all the pieces that make up our custom cell and hanldes some logic for handling which information goes where.</p>
+
+</div>
 <section id="relationships">
     <h2 hidden>Relationships</h2>
         <figure>
@@ -1264,12 +1268,20 @@ nav li[class] {
         <code>init(style:​reuse​Identifier:​)</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">init</span>(<span class="variable">style</span>: <span class="type">UITableViewCell</span>.<span class="type">CellStyle</span>, <span class="variable">reuseIdentifier</span>: <span class="type">String</span>?)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Init function that is called whenever this class is used. This calls the main set up functions for the constraints and the subviews</p>
+
+</div>
 </div>
 <div role="article" class="class" id="chatusercell.init?(coder:)">
     <h3>
         <code>init?(coder:​)</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="attribute">required</span> <span class="keyword">init</span>?(<span class="variable">coder</span>: <span class="type">NSCoder</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Required init function in case of fatal error</p>
+
+</div>
 </div>
     </section>
     <section id="properties">
@@ -1280,24 +1292,40 @@ nav li[class] {
         <code>message</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">message</span>: <a href="Message"><span class="type">Message</span></a>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>In the table view, this sets the message and does the work for getting the name of the user and the message</p>
+
+</div>
 </div>
 <div role="article" class="class" id="chatusercell.namelabel">
     <h3>
         <code>name​Label</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">nameLabel</span>: <span class="type">UILabel</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This is a closure for the label that holds the name of the chatter</p>
+
+</div>
 </div>
 <div role="article" class="class" id="chatusercell.mostrecentmessagelabel">
     <h3>
         <code>most​Recent​Message​Label</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">mostRecentMessageLabel</span>: <span class="type">UILabel</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This is a closure for the label that holds the text of the most recent message sent in the chat</p>
+
+</div>
 </div>
 <div role="article" class="class" id="chatusercell.timestamplabel">
     <h3>
         <code>timestamp​Label</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">timestampLabel</span>: <span class="type">UILabel</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This is a closure for the timestamp label that holds the time that the most recently sent message was sent</p>
+
+</div>
 </div>
     </section>
     <section id="methods">
@@ -1308,24 +1336,40 @@ nav li[class] {
         <code>layout​Subviews()</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">layoutSubviews</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Function for laying out the subviews</p>
+
+</div>
 </div>
 <div role="article" class="class" id="chatusercell.setupnamelabel()">
     <h3>
         <code>setup​Name​Label()</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">setupNameLabel</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Adds the name label to the subview and defines where in the subveiw it will be placed</p>
+
+</div>
 </div>
 <div role="article" class="class" id="chatusercell.setupmessagelabel()">
     <h3>
         <code>setup​Message​Label()</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">setupMessageLabel</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Adds the most recent message label to the subview and defines where in the subveiw it will be placed</p>
+
+</div>
 </div>
 <div role="article" class="class" id="chatusercell.setuptimestamplabel()">
     <h3>
         <code>setup​Timestamp​Label()</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">setupTimestampLabel</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Adds the timestamp label to the subview and defines where in the subveiw it will be placed</p>
+
+</div>
 </div>
     </section>
 
@@ -1336,7 +1380,7 @@ nav li[class] {
 
     <footer>
         <p>
-    Generated on <time datetime="2020-04-16T20:15:35-0400">April 16, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
+    Generated on <time datetime="2020-04-18T13:10:22-0400">April 18, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
 </p>
     </footer>
 </body>

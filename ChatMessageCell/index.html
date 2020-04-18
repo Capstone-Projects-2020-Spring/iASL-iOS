@@ -1198,7 +1198,7 @@ nav li[class] {
     <nav>
         <div class="wrapper">
             <h2>On This Page</h2>
-            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#chatmessagecell.init(frame:)">init(frame:​)</a></li><li class="initializer"><a href="#chatmessagecell.init?(coder:)">init?(coder:​)</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="property"><a href="#chatmessagecell.textview">text​View</a></li><li class="property"><a href="#chatmessagecell.bubbleview">bubble​View</a></li><li class="property"><a href="#chatmessagecell.bubbleviewwidthanchor">bubble​View​Width​Anchor</a></li><li class="property"><a href="#chatmessagecell.bubbleviewrightanchor">bubble​View​Right​Anchor</a></li><li class="property"><a href="#chatmessagecell.bubbleviewleftanchor">bubble​View​Left​Anchor</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="method"><a href="#chatmessagecell.bubbleviewsetup()">bubble​View​Setup()</a></li><li class="method"><a href="#chatmessagecell.textviewsetup()">text​View​Setup()</a></li></ul></li></ol>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#chatmessagecell.init(frame:)">init(frame:​)</a></li><li class="initializer"><a href="#chatmessagecell.init?(coder:)">init?(coder:​)</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="property"><a href="#chatmessagecell.bubbleviewwidthanchor">bubble​View​Width​Anchor</a></li><li class="property"><a href="#chatmessagecell.bubbleviewrightanchor">bubble​View​Right​Anchor</a></li><li class="property"><a href="#chatmessagecell.bubbleviewleftanchor">bubble​View​Left​Anchor</a></li><li class="property"><a href="#chatmessagecell.textview">text​View</a></li><li class="property"><a href="#chatmessagecell.bubbleview">bubble​View</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="method"><a href="#chatmessagecell.bubbleviewsetup()">bubble​View​Setup()</a></li><li class="method"><a href="#chatmessagecell.textviewsetup()">text​View​Setup()</a></li></ul></li></ol>
         </div>
     </nav>
 
@@ -1210,6 +1210,10 @@ nav li[class] {
 </h1>
 
 <html><body><pre class="highlight"><code><span class="keyword">class</span> <span class="type">ChatMessageCell</span>: <span class="type">UICollectionViewCell</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This is a custom cell for the collection view we use in the chat view contoller. It creates and handles the bubbles for each message sent and received and their location on the view.</p>
+
+</div>
 <section id="relationships">
     <h2 hidden>Relationships</h2>
         <figure>
@@ -1264,46 +1268,74 @@ nav li[class] {
         <code>init(frame:​)</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">init</span>(<span class="variable">frame</span>: <span class="type">CGRect</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This is called each time the collection view cell is used. It is being used to call the set up functions for the message bubbles and the text view that holds the text</p>
+
+</div>
 </div>
 <div role="article" class="class" id="chatmessagecell.init?(coder:)">
     <h3>
         <code>init?(coder:​)</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="attribute">required</span> <span class="keyword">init</span>?(<span class="variable">coder</span>: <span class="type">NSCoder</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Required function for checking if there is a fatal error</p>
+
+</div>
 </div>
     </section>
     <section id="properties">
         <h2>Properties</h2>
 
-        <div role="article" class="class" id="chatmessagecell.textview">
-    <h3>
-        <code>text​View</code>
-    </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">textView</span>: <span class="type">UITextView</span></code></pre></body></html>
-</div>
-<div role="article" class="class" id="chatmessagecell.bubbleview">
-    <h3>
-        <code>bubble​View</code>
-    </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">bubbleView</span>: <span class="type">UIView</span></code></pre></body></html>
-</div>
-<div role="article" class="class" id="chatmessagecell.bubbleviewwidthanchor">
+        <div role="article" class="class" id="chatmessagecell.bubbleviewwidthanchor">
     <h3>
         <code>bubble​View​Width​Anchor</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">bubbleViewWidthAnchor</span>: <span class="type">NSLayoutConstraint</span>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Reference variable for the message bubble view's width anchor. Helpful for later changing the bubble from a pink sender to a gray receiver message.</p>
+
+</div>
 </div>
 <div role="article" class="class" id="chatmessagecell.bubbleviewrightanchor">
     <h3>
         <code>bubble​View​Right​Anchor</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">bubbleViewRightAnchor</span>: <span class="type">NSLayoutConstraint</span>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Reference variable for the messaging bubble view's right anchor. Helpful for later changing the bubble from a pink sender to a gray receiver message.</p>
+
+</div>
 </div>
 <div role="article" class="class" id="chatmessagecell.bubbleviewleftanchor">
     <h3>
         <code>bubble​View​Left​Anchor</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">bubbleViewLeftAnchor</span>: <span class="type">NSLayoutConstraint</span>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Reference variable for the messaging bubble view's left anchor. Helpful for later changing the bubble from a pink sender to a gray receiver message.</p>
+
+</div>
+</div>
+<div role="article" class="class" id="chatmessagecell.textview">
+    <h3>
+        <code>text​View</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">textView</span>: <span class="type">UITextView</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This is the textview that holds the actual text of a message sent or received</p>
+
+</div>
+</div>
+<div role="article" class="class" id="chatmessagecell.bubbleview">
+    <h3>
+        <code>bubble​View</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">bubbleView</span>: <span class="type">UIView</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This is a custom view closure that shapes the message bubbles</p>
+
+</div>
 </div>
     </section>
     <section id="methods">
@@ -1314,12 +1346,20 @@ nav li[class] {
         <code>bubble​View​Setup()</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">bubbleViewSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Adds the bubble view to the subview and sets the constraints for the bubble view</p>
+
+</div>
 </div>
 <div role="article" class="class" id="chatmessagecell.textviewsetup()">
     <h3>
         <code>text​View​Setup()</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">textViewSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Adds the text view to the subview and defines the constraints for the text view</p>
+
+</div>
 </div>
     </section>
 
@@ -1330,7 +1370,7 @@ nav li[class] {
 
     <footer>
         <p>
-    Generated on <time datetime="2020-04-16T20:15:35-0400">April 16, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
+    Generated on <time datetime="2020-04-18T13:10:22-0400">April 18, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
 </p>
     </footer>
 </body>

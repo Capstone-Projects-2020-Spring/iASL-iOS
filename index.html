@@ -1235,21 +1235,13 @@ but will use a still image copied from clipboard if <code>shouldUseClipboardImag
 
 </dd>
 <dt class="class">
-    <a href="CameraFeedVideoManager" title="class - CameraFeedVideoManager">
-        Camera​Feed​Video​Manager
-    </a>
-</dt>
-<dd>
-    <p>This class manages all camera related functionality</p>
-
-</dd>
-<dt class="class">
     <a href="ChatMessageCell" title="class - ChatMessageCell">
         Chat​Message​Cell
     </a>
 </dt>
 <dd>
-    
+    <p>This is a custom cell for the collection view we use in the chat view contoller. It creates and handles the bubbles for each message sent and received and their location on the view.</p>
+
 </dd>
 <dt class="class">
     <a href="ChatUserCell" title="class - ChatUserCell">
@@ -1257,15 +1249,8 @@ but will use a still image copied from clipboard if <code>shouldUseClipboardImag
     </a>
 </dt>
 <dd>
-    
-</dd>
-<dt class="class">
-    <a href="InfoCell" title="class - InfoCell">
-        Info​Cell
-    </a>
-</dt>
-<dd>
-    
+    <p>This class is for creating a custom cell in the table view of our main messaging feature screen. It handles the design of all the pieces that make up our custom cell and hanldes some logic for handling which information goes where.</p>
+
 </dd>
 <dt class="class">
     <a href="NotesTableViewCell" title="class - NotesTableViewCell">
@@ -1273,7 +1258,8 @@ but will use a still image copied from clipboard if <code>shouldUseClipboardImag
     </a>
 </dt>
 <dd>
-    
+    <p>This class is a custom table view cell for the table view in our notes feature. It handles the constraints for each subview and also helps with some logic in setting the note information in its proper place.</p>
+
 </dd>
 <dt class="class">
     <a href="ModelDataHandler" title="class - ModelDataHandler">
@@ -1287,12 +1273,21 @@ results for a successful inference.</p>
 
 </dd>
 <dt class="class">
+    <a href="PredictionLayer" title="class - PredictionLayer">
+        Prediction​Layer
+    </a>
+</dt>
+<dd>
+    
+</dd>
+<dt class="class">
     <a href="Message" title="class - Message">
         Message
     </a>
 </dt>
 <dd>
-    
+    <p>This class stores information on an indivudal message from our messaging feature. Whenever a message is sent or received, it is stored in this class, typically as an array. The messages information is retrieved from Firebase and stored here when needed.</p>
+
 </dd>
 <dt class="class">
     <a href="Note" title="class - Note">
@@ -1300,7 +1295,7 @@ results for a successful inference.</p>
     </a>
 </dt>
 <dd>
-    <p>this will hold each note that is saved in Firebase</p>
+    <p>This will hold each note that is saved in Firebase</p>
 
 </dd>
 <dt class="class">
@@ -1309,7 +1304,8 @@ results for a successful inference.</p>
     </a>
 </dt>
 <dd>
-    
+    <p>This is used to hold the id, the name, and the email of a user. This could be the current signed in user or this could be used as a list of users. User information is pulled from Firebase and stored in this class.</p>
+
 </dd>
 <dt class="class">
     <a href="AddChatVC" title="class - AddChatVC">
@@ -1317,7 +1313,8 @@ results for a successful inference.</p>
     </a>
 </dt>
 <dd>
-    
+    <p>This class handles the ability for the user to choose a partner to chat with.</p>
+
 </dd>
 <dt class="class">
     <a href="CameraBoard" title="class - CameraBoard">
@@ -1325,15 +1322,8 @@ results for a successful inference.</p>
     </a>
 </dt>
 <dd>
-    
-</dd>
-<dt class="class">
-    <a href="CardView" title="class - CardView">
-        Card​View
-    </a>
-</dt>
-<dd>
-    
+    <p>Short for camera keyboard. This allows you to use our ASL recognition keyboard as an alternative text input source.</p>
+
 </dd>
 <dt class="class">
     <a href="ChatTableViewCell" title="class - ChatTableViewCell">
@@ -1349,7 +1339,8 @@ results for a successful inference.</p>
     </a>
 </dt>
 <dd>
-    
+    <p>This class is used to show an individual chat between two users. It shows the title bar at the top with the chat partner's name, it has alll the messages between the two users, and it demonstrates our iASL keyboard in use.</p>
+
 </dd>
 <dt class="class">
     <a href="CreateNoteVC" title="class - CreateNoteVC">
@@ -1357,49 +1348,8 @@ results for a successful inference.</p>
     </a>
 </dt>
 <dd>
-    
-</dd>
-<dt class="class">
-    <a href="HelpUsTrainWelcomeViewController" title="class - HelpUsTrainWelcomeViewController">
-        Help​UsTrain​Welcome​View​Controller
-    </a>
-</dt>
-<dd>
-    <p>The view controller that displayes the welcome screen.</p>
+    <p>This class is responsible for giving users the ability to create new notes and edit old ones.</p>
 
-</dd>
-<dt class="class">
-    <a href="HelpUsTrainIntrinsicTableView" title="class - HelpUsTrainIntrinsicTableView">
-        Help​UsTrain​Intrinsic​Table​View
-    </a>
-</dt>
-<dd>
-    <p>Modified version of <a href="https://stackoverflow.com/a/48623673/5569234">https://stackoverflow.com/a/48623673/5569234</a></p>
-
-</dd>
-<dt class="class">
-    <a href="HelpUsTrainFilledButton" title="class - HelpUsTrainFilledButton">
-        Help​UsTrain​Filled​Button
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="HelpUsTrainItemsTableViewManager" title="class - HelpUsTrainItemsTableViewManager">
-        Help​UsTrain​Items​Table​View​Manager
-    </a>
-</dt>
-<dd>
-    
-</dd>
-<dt class="class">
-    <a href="HelpTrainTableCell" title="class - HelpTrainTableCell">
-        Help​Train​Table​Cell
-    </a>
-</dt>
-<dd>
-    
 </dd>
 <dt class="class">
     <a href="LoginVC" title="class - LoginVC">
@@ -1407,9 +1357,7 @@ results for a successful inference.</p>
     </a>
 </dt>
 <dd>
-    <p>This view controller is for the login screen that a user will see when they first open the app.
-The user should be able to enter their name, email, and password if they have not registered before or
-just their email and password if they are a returning user.</p>
+    <p>This view controller is for the login screen that a user will see when they first open the app. The user should be able to enter their name, email, and password if they have not registered before or just their email and password if they are a returning user.</p>
 
 </dd>
 <dt class="class">
@@ -1418,7 +1366,8 @@ just their email and password if they are a returning user.</p>
     </a>
 </dt>
 <dd>
-    
+    <p>This class is responsible for the main notes screen. It holds the table view of all of the users's notes as well as ways for users to create new notes and delete old ones.</p>
+
 </dd>
 <dt class="class">
     <a href="RemoteConversationVC" title="class - RemoteConversationVC">
@@ -1426,7 +1375,8 @@ just their email and password if they are a returning user.</p>
     </a>
 </dt>
 <dd>
-    
+    <p>This class is responsible for the main messaging screen. It holds the table view of all of the users's conversations as well as ways for users to create new conversations and delete old ones.</p>
+
 </dd>
 <dt class="class">
     <a href="SpeechToTextVC" title="class - SpeechToTextVC">
@@ -1483,24 +1433,6 @@ just their email and password if they are a returning user.</p>
     <p>An inference from invoking the <code>Interpreter</code>.</p>
 
 </dd>
-<dt class="structure">
-    <a href="HelpUsTrainItem" title="structure - HelpUsTrainItem">
-        Help​UsTrain​Item
-    </a>
-</dt>
-<dd>
-    <p>An item to be displayed in the welcome screen, used to show off a feature of your app.</p>
-
-</dd>
-<dt class="structure">
-    <a href="HelpTrainWelcomeConfiguration" title="structure - HelpTrainWelcomeConfiguration">
-        Help​Train​Welcome​Configuration
-    </a>
-</dt>
-<dd>
-    <p>Use this to manage the configuration options of the welcome screen.</p>
-
-</dd>
         </dl>
     </section>
     <section id="enumerations">
@@ -1524,15 +1456,6 @@ just their email and password if they are a returning user.</p>
     <p>Information about the MobileNet model.</p>
 
 </dd>
-<dt class="enumeration">
-    <a href="SystemColor" title="enumeration - SystemColor">
-        System​Color
-    </a>
-</dt>
-<dd>
-    <p>Adapted from https://github.com/Wilsonator5000/SystemColor</p>
-
-</dd>
         </dl>
     </section>
     <section id="protocols">
@@ -1546,14 +1469,6 @@ just their email and password if they are a returning user.</p>
 <dd>
     
 </dd>
-<dt class="protocol">
-    <a href="CameraFeedVideoManagerDelegate" title="protocol - CameraFeedVideoManagerDelegate">
-        Camera​Feed​Video​Manager​Delegate
-    </a>
-</dt>
-<dd>
-    
-</dd>
         </dl>
     </section>
         </article>
@@ -1561,7 +1476,7 @@ just their email and password if they are a returning user.</p>
 
     <footer>
         <p>
-    Generated on <time datetime="2020-04-16T20:15:34-0400">April 16, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
+    Generated on <time datetime="2020-04-18T13:10:22-0400">April 18, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
 </p>
     </footer>
 </body>
