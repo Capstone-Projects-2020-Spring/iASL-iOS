@@ -20,6 +20,7 @@ protocol CameraFeedManagerDelegate: class {
 
 	/**
 	This method delivers the pixel buffer of the current frame seen by the device's camera.
+	- Parameter pixelBuffer: A reference to a Core Video pixel buffer object to be infered. Basically the frame.
 	*/
 	func didOutput(pixelBuffer: CVPixelBuffer)
 
@@ -40,6 +41,7 @@ protocol CameraFeedManagerDelegate: class {
 
 	/**
 	This method initimates that the session was interrupted.
+	- Parameter resumeManually: boolean value for whether the session can be resumed manually
 	*/
 	func sessionWasInterrupted(canResumeManually resumeManually: Bool)
 
