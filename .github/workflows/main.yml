@@ -28,12 +28,12 @@ jobs:
           xcodebuild clean test -workspace ImageClassification.xcworkspace -scheme ImageClassification -destination "${destination}" -enableCodeCoverage YES CODE_SIGNING_ALLOWED=NO ONLY_ACTIVE_ARCH=NO
         env:
          destination: ${{ matrix.destination }}
-      - name: Archive Failed Tests artifacts
-        if: failure()
-        uses: actions/upload-artifact@v1
-        with:
-          name: FailureDiff
-          path: ${DERIVED_DATA_PATH}/Logs/Test
+#       - name: Archive Failed Tests artifacts
+#         if: failure()
+#         uses: actions/upload-artifact@v1
+#         with:
+#           name: FailureDiff
+#           path: ${DERIVED_DATA_PATH}/Logs/Test
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
