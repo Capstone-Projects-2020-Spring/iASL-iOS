@@ -8,45 +8,71 @@
 
 import UIKit
 
+/**
+Short for camera keyboard. This allows you to use our ASL recognition keyboard as an alternative text input source.
+~~~
+let textView: UITextView = UITextView()
+textView.inputView = CameraBoard(target: textView)
+~~~
+*/
 class CameraBoard: UIView {
-
+	///Container that holds the camera keyboard.
     let caboardView = UIView()
+	///Camera view finder.
     let previewView = PreviewView()
+	/// keyboard key to act as return key.
     let nextButton = UIButton()
+	/// keyboard key to act as delete key.
     let deleteButton = UIButton()
+	/// lets the user know the camera isn't working.
     let cameraUnavailableLabel = UILabel()
+	/// lets the user resume the camera session.
     let resumeButton = UIButton()
+	///UIStackview to hold the four important buttons on the control view
     let buttonStack = UIStackView()
-    let keyboardChangeButton = UIButton()
+	/// An array of UIButtons that dynamically change based on prediction.
     var predictionButton = [UIButton]()
+	/// The stack view that holds the prediction buttons.
     let predictionStack = UIStackView()
+	///Short term cache to store the string currently being processed by the keybaord
     var stringCache = String()
 	//Viet inspired variables
-	var lastLetter, lastNonLetter: String?
-	var recurCount = 0
-	var recurCountNonLetter = 0
-	let minimumConfidence: Float = 0.89
-
+    
+    ///Count for the times output result was verified
+    var verificationCount = 0
+    ///Short term storage to store the latest predicted output
+    var verificationCache = ""
+    
+	/// The lastLetter predicted.
+ 	var lastLetter:String?
+ 	/// Space, del, or nothing predicted.
+ 	var lastNonLetter: String?
+ 	/// The number of times a letter reoccured in a prediction
+ 	var recurCount = 0
+ 	/// The number of times a nonLetter (Space, del, or nothing) were predicted.
+ 	var recurCountNonLetter = 0
+ 	/// the minimum confidence value needed to be inserted into the text view
+ 	let minimumConfidence: Float = 0.89
+	/// Array of string predictions.
     var prediction = ["", "", ""]
-    //var prediction = Array<String>()
+    /// Handles all `UITextView` operations such as text insertion, and deletion.
 	weak var target: UIKeyInput?
-    // MARK: Constants
-    private let animationDuration = 0.5
-    private let collapseTransitionThreshold: CGFloat = -40.0
-    private let expandThransitionThreshold: CGFloat = 40.0
+    
+	// MARK: Constants
+	/// The coded delay for when the model is called to make an inference on the `CVPixelBuffer` in `didOutput()`.
     private let delayBetweenInferencesMs: Double = 1000
 
     // MARK: Instance Variables
-    // Holds the results at any time
+    /// Holds the results at any time
     private var result: Result?
-    private var initialBottomSpace: CGFloat = 0.0
+	/// The previous time an inference was taken.
     private var previousInferenceTimeMs: TimeInterval = Date.distantPast.timeIntervalSince1970 * 1000
 
     // MARK: Controllers that manage functionality
-    // Handles all the camera related functionality
+    /// Handles all the camera related functionality
     private lazy var cameraCapture = CameraFeedManager(previewView: previewView)
 
-    // Handles all data preprocessing and makes calls to run inference through the `Interpreter`.
+    /// Handles all data preprocessing and makes calls to run inference through the `Interpreter`.
     private var modelDataHandler: ModelDataHandler? =
         ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo)
 
@@ -92,6 +118,11 @@ class CameraBoard: UIView {
 }
 
 extension CameraBoard: CameraFeedManagerDelegate {
+	/// Shows the current prediction in the prediction stack on the keyboard. The `count` acts as an index, but it is the number of times the letter has occured.
+	/// - Parameters:
+	///   - prediction: The current prediction.
+	///   - confidence: The confidence associated with the prediction.
+	///   - count: How many times the prediction was made. Also acts as an index for the `predictionButton` stack.
 	fileprivate func showPredictionLetterInStack(_ prediction: String, _ confidence: Float, _ count: Int) {
 		if count > 2 {
 
@@ -99,20 +130,21 @@ extension CameraBoard: CameraFeedManagerDelegate {
 			self.predictionButton[count].setTitle("\(prediction) \(confidence)", for: .normal)
 		}
 	}
-
+	
+	/// This is a temporary function to visualize that delete is being predicted.
 	fileprivate func setPredictionToDelete() {
 		self.predictionButton[0].setTitle("delete", for: .normal)
 		self.predictionButton[1].setTitle("delete", for: .normal)
 		self.predictionButton[2].setTitle("delete", for: .normal)
 	}
-
+	/// This is a temporary function to visualize that space was predicted.
 	fileprivate func setPredictiontoSpace() {
 		//                self.stringCache.removeAll()
 		self.predictionButton[0].setTitle("space", for: .normal)
 		self.predictionButton[1].setTitle("space", for: .normal)
 		self.predictionButton[2].setTitle("space", for: .normal)
 	}
-
+	/// This may or may not be a temporary function to clear the prediction buttons to an empty string.
 	fileprivate func setPredictionToNothing() {
 		self.predictionButton[0].setTitle("", for: .normal)
 		self.predictionButton[1].setTitle("", for: .normal)
@@ -120,84 +152,59 @@ extension CameraBoard: CameraFeedManagerDelegate {
 	}
 
 	func didOutput(pixelBuffer: CVPixelBuffer) {
-        let currentTimeMs = Date().timeIntervalSince1970 * 1000
-        guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
-        previousInferenceTimeMs = currentTimeMs
-
-        // Pass the pixel buffer to TensorFlow Lite to perform inference.
+        /// Pass the pixel buffer to TensorFlow Lite to perform inference.
         result = modelDataHandler?.runModel(onFrame: pixelBuffer)
-		DispatchQueue.main.async {
-			switch self.result?.inferences[0].label {
-			case "del":
-				self.setPredictionToDelete()
-                self.target?.deleteBackward()
-
-//                if self.stringCache.count != 0 {
-//                    self.stringCache.removeLast(1)
-//
-//                    let rangeForEndOfStr = NSMakeRange(0, self.stringCache.utf16.count)
-//                    let spellChecker = UITextChecker()
-//                    print("printing text cache: \(self.stringCache)")
-//                    let result = spellChecker.completions(forPartialWordRange: rangeForEndOfStr, in: self.stringCache, language: "en_US")
-//                    if result != nil {
-//                        self.prediction = result!
-//                    } else {
-//                        self.prediction.removeAll()
-//                    }
-//
-//                } else {
-//                    self.prediction.removeAll()
-//                }
-                //self.updateStack(prediction: self.prediction)
-			case "space":
-				self.setPredictiontoSpace()
-				self.target?.insertText(" ")
-
-			case "nothing":
-				self.setPredictionToNothing()
-				break
-			default:
-				let confidence = self.result!.inferences[0].confidence
-				let prediction: String = self.result!.inferences[0].label.description
-				if prediction == self.lastLetter && confidence > self.minimumConfidence {
-					print(prediction)
-
-					self.showPredictionLetterInStack(prediction, confidence, self.recurCount)
-
-					self.recurCount += 1
-				} else {
-					self.lastLetter = prediction
-					print("reset count")
-					self.setPredictionToNothing()
-					self.recurCount = 0
-				}
-				if self.recurCount > 3 {
-					self.target?.insertText(self.lastLetter!)
-					self.recurCount = 0
-					self.setPredictionToNothing()
-				}
-//
-//                self.stringCache.append(self.result!.inferences[0].label.description)
-//                let rangeForEndOfStr = NSMakeRange(0, self.stringCache.utf16.count)     // You had inverted parameters ; could also use NSRange(0..<str.utf16.count)
-//                let spellChecker = UITextChecker()
-                //print(UITextChecker.availableLanguages)
-//                print("printing text cache: \(self.stringCache)")
-                //self.prediction = spellChecker.completions(forPartialWordRange: rangeForEndOfStr, in: self.stringCache, language: "en_US")!
-//                print(self.prediction ?? "No completion found")
-                //self.updateStack(prediction: self.prediction)
-			}
-		}
-
-        // Display results by handing off to the InferenceViewController.
-        DispatchQueue.main.async {
-            let resolution = CGSize(width: CVPixelBufferGetWidth(pixelBuffer), height: CVPixelBufferGetHeight(pixelBuffer))
-
+        if let output = result {
+            if output.inferences[0].label != "nothing" {
+                print("\(output.inferences[0].label) \(output.inferences[0].confidence)")
+            }
+            if verificationCount == 0 {
+                verificationCache = output.inferences[0].label
+            }
+            print("\(verificationCount) \(verificationCache) == \(output.inferences[0].label)")
+            if verificationCount == 2 && verificationCache == output.inferences[0].label {
+                verificationCount = 0
+                
+                let currentTimeMs = Date().timeIntervalSince1970 * 1000
+                if (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs{
+                   executeASLtoText()
+                    print("pushed")
+                } else { return }
+                previousInferenceTimeMs = currentTimeMs
+            } else if verificationCount < 2 {
+                verificationCount += 1
+            } else if verificationCache != output.inferences[0].label {
+                verificationCache = ""
+                verificationCount = 0
+            }
         }
+        
     }
+
 
     func predictWord() {
 
     }
+    
+    func executeASLtoText() {
+        switch result?.inferences[0].label {
+        case "del":
+            self.setPredictionToDelete()
+            self.target?.deleteBackward()
+        case "space":
+            self.setPredictiontoSpace()
+            self.target?.insertText(" ")
+        case "nothing":
+            if true {}
+        default:
+            if let outputResult = result?.inferences[0].label {
+                DispatchQueue.main.async {
+                    self.target?.insertText((self.result?.inferences[0].label)!)
+                }
+            }
+        }
+    }
+
 
     func presentCameraPermissionsDeniedAlert() {
         let alertController = UIAlertController(title: "Camera Permissions Denied", message: "Camera permissions have been denied for this app. You can change this by going to Settings", preferredStyle: .alert)
@@ -253,7 +260,8 @@ extension CameraBoard: CameraFeedManagerDelegate {
 }
 
 extension CameraBoard {
-
+	
+	/// Sets up the position of the prediction buttons.
     func predictionStackSetup() {
         addSubview(predictionStack)
         predictionStack.translatesAutoresizingMaskIntoConstraints = false
@@ -287,31 +295,6 @@ extension CameraBoard {
         }
     }
 
-    func updateStack(prediction: [String]) {
-//        var range = 0
-//        if prediction.count != 0 {
-//            for butt in predictionButton {
-//                butt.isEnabled = true
-//            }
-//            if prediction.count <= 3 {
-//                range = prediction.count-1
-//            } else {
-//                range = predictionButton.count-1
-//            }
-//
-//            for x in 0...range {
-//                predictionButton[x].setTitle(prediction[x], for: .normal)
-//            }
-//        } else {
-//            for butt in predictionButton {
-//                butt.setTitle("", for: .normal)
-//                butt.isEnabled = false
-//            }
-//        }
-//
-//
-
-    }
 
     @objc func predictionButtonHoldDown(_ sender: UIButton) {
 //        for butt in predictionButton {
@@ -338,7 +321,8 @@ extension CameraBoard {
 //        print(prediction.count)
 //        updateStack(prediction: prediction)
     }
-
+	
+	/// Sets up the container for Camera Keyboard.
     func caboardViewSetup() {
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
@@ -354,7 +338,8 @@ extension CameraBoard {
         caboardView.heightAnchor.constraint(equalToConstant: 230).isActive = true
         caboardView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
     }
-
+	
+	/// Sets up the camera view finder position.
     func previewViewSetup() {
         caboardView.addSubview(previewView)
         previewView.translatesAutoresizingMaskIntoConstraints = false
@@ -366,7 +351,8 @@ extension CameraBoard {
 //		previewView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5).isActive = true
         previewView.backgroundColor = .black
     }
-
+	
+	/// Sets up the positioning of the `Next` key.
     func nextButtonSetup() {
         buttonStack.addArrangedSubview(nextButton)
         nextButton.translatesAutoresizingMaskIntoConstraints = false
@@ -374,12 +360,14 @@ extension CameraBoard {
         nextButton.setTitle("Next", for: .normal)
         nextButton.layer.cornerRadius = 5
 		nextButton.addTarget(self, action: #selector(returnKeyPressed), for: .touchUpInside)
-    }
+	}
+	/// Inserts a newline charachter into `target` text view.
 	@objc func returnKeyPressed() {
 		DispatchQueue.main.async {
 			self.target?.insertText("\n")
 		}
 	}
+	///Function to setup the dashboard
     func buttonStackSetup() {
         addSubview(buttonStack)
         buttonStack.translatesAutoresizingMaskIntoConstraints = false
@@ -390,7 +378,8 @@ extension CameraBoard {
         buttonStack.distribution = .fillEqually
         buttonStack.spacing = 5
     }
-
+	
+	/// Sets up the position of the delete key.
     func deleteButtonSetup() {
         buttonStack.addArrangedSubview(deleteButton)
         deleteButton.translatesAutoresizingMaskIntoConstraints = false
@@ -409,7 +398,8 @@ extension CameraBoard {
         longPressGestureRecognizer.cancelsTouchesInView = false
 		self.addGestureRecognizer(longPressGestureRecognizer)
     }
-
+	
+	/// Handles long press on delete key.
 	@objc func handleLongPress() {
 		deleteChar {
 			#if DEBUG
@@ -420,19 +410,16 @@ extension CameraBoard {
 			#endif
 		}
 	}
+	/// deletes charachter.
+	/// - Parameter completion: This completion handler lets you run code after deletetion. This is pretty much unused.
 	@objc func deleteChar(completion:@escaping () -> Void) {
 		DispatchQueue.main.async {
 			self.target?.deleteBackward()
 		}
 
 	}
-    func keyboardButtonSetup() {
-        buttonStack.addArrangedSubview(keyboardChangeButton)
-        keyboardChangeButton.translatesAutoresizingMaskIntoConstraints = false
-        keyboardChangeButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        keyboardChangeButton.setImage(#imageLiteral(resourceName: "keyboard"), for: .normal)
-    }
-
+	
+	/// Adds a nice cover for devices without a homebutton.
     func bottomCoverSetup() {
         let bottomCover = UIView()
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)

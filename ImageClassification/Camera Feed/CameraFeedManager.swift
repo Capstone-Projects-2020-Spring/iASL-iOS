@@ -47,7 +47,7 @@ protocol CameraFeedManagerDelegate: class {
 	This method initimates that the session interruption has ended.
 	*/
 	func sessionInterruptionEnded()
-
+    
 }
 
 /**
@@ -66,7 +66,8 @@ enum CameraConfiguration {
 This class manages all camera related functionality
 */
 class CameraFeedManager: NSObject {
-
+    var count = 0
+    var tempOutput = ""
 	// MARK: Camera Related Instance Variables
 	private let session: AVCaptureSession = AVCaptureSession()
 	private let previewView: PreviewView
@@ -329,6 +330,7 @@ extension CameraFeedManager: AVCaptureVideoDataOutputSampleBufferDelegate {
 	*/
 	func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
 
+        var result: Result?
 		// Converts the CMSampleBuffer to a CVPixelBuffer.
 		let pixelBuffer: CVPixelBuffer? = CMSampleBufferGetImageBuffer(sampleBuffer)
 
@@ -336,6 +338,8 @@ extension CameraFeedManager: AVCaptureVideoDataOutputSampleBufferDelegate {
 			return
 		}
 
+        
+        //executeASLtoText()
 		// Delegates the pixel buffer to the ViewController.
 		delegate?.didOutput(pixelBuffer: imagePixelBuffer)
 	}
