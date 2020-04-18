@@ -98,7 +98,12 @@ class ViewController: UIViewController {
     /// Handles all data preprocessing and makes calls to run inference through the `Interpreter`.
     private var modelDataHandler: ModelDataHandler? =
         ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo, threadCount: 2)
-
+	
+	/// Notifies the container that the size of its view is about to change.
+	/// - Parameters:
+	///   - size: The new size for the container’s view.
+	///   - coordinator: The transition coordinator object managing the size change. You can use this object to animate your changes or get information about the transition that is in progress.
+	/// If the view controller is upside down we present speech to text.
         override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
 		// check current view controller
 		guard let currentPresentedViewController = self.presentedViewController else {
