@@ -45,20 +45,6 @@
             BlueprintName = "ImageClassification"
             ReferencedContainer = "container:ImageClassification.xcodeproj">
          </BuildableReference>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "67ABF91924301C1C00881646"
-            BuildableName = "iASLUITests.xctest"
-            BlueprintName = "iASLUITests"
-            ReferencedContainer = "container:ImageClassification.xcodeproj">
-         </BuildableReference>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6765C7E223FB35F60083A5C5"
-            BuildableName = "ImageClassificationTests.xctest"
-            BlueprintName = "ImageClassificationTests"
-            ReferencedContainer = "container:ImageClassification.xcodeproj">
-         </BuildableReference>
       </CodeCoverageTargets>
       <Testables>
          <TestableReference
