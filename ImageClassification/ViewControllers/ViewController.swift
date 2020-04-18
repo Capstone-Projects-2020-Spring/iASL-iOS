@@ -18,58 +18,80 @@ import Speech
 import Firebase
 
 class ViewController: UIViewController {
-
-    //MARK: Global Variabls
+    
+    //MARK: Global Constants
     ///The read hollow box that shows the area where the video is being fetched from
     let areaBound = UIView()
     ///Button to move to chat viewcontroller
     let remoteChatButton = UIButton()
-    ///Button to transition between speech to text
-    let liveChatButton = UIButton()
+    ///Button to move to notes viewcontroller
     let notesButton = UIButton()
-    let buttonStack = UIStackView()
+    ///Button to transition between speech to text
     let liveButton = UIButton()
-    let tabController = UITabBarController()
+    ///UITextView to show the letters/words predicted by the model
     let outputTextView = UITextView()
+    ///UIViewView for dashboard outputtextview
     let textViewHolder = UIView()
+    ///Button to invoke speach to text
     let speakerButton = UIButton()
+    ///UIStackview to hold the four essentail buttons of the dashboard
     let controlButtonStack = UIStackView()
+    ///Button to clear the outputTextview
     let clearButton = UIButton()
+    ///Button to raise the screen and show the keybaord, prompting the user to type
     let keyboardButton = UIButton()
+    ///Button for users to open training mode
     let trainButton = UIButton()
-    var heightAnchor = NSLayoutConstraint()
-    var controlViewHeightAnchor = NSLayoutConstraint()
+    ///Button for users to logout of the app
     let chatLogButton = UIButton()
+    ///UIView to hold the dashboard
     let controlView = UIView()
+    ///Button to expand and collapse the dashboard
     let controlButton = UIButton()
+    ///UISlider for controlling the speed of the voice
     let slider = UISlider()
+    ///Variable to keep track of the voice utterance
     var speechSpeedDegree = Float()
-    var controlButtonStackBottomAnchor = NSLayoutConstraint()
+    ///Button to activate prediction assistant
     @objc let predictionAssistButton = UIButton()
+    ///Variable for prediction layer to carry out predictions
     let predictionLayer = PredictionLayer()
+    ///Speech recognier to activate speech to text
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
+    ///request to OS to start recognition
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
+    ///Task that handles recognitions
     private var recognitionTask: SFSpeechRecognitionTask?
+    ///Audio engine to play back the text to speech
     private let audioEngine = AVAudioEngine()
+    ///Syntesizer to generate from text to speech
     var synthesizer = AVSpeechSynthesizer()
+    ///Tracker for how many time the output from the model has been verified
     var verificationCount = 0
+    ///Cache to store result from last prediction
     var verificationCache = ""
+    ///UIView for top bar
     let topBar = UIView()
     // MARK: Storyboards Connections
-    var previewView = PreviewView()
+    ///Preview view to show the video preview from camera
+    let previewView = PreviewView()
+    ///Error message to show when the camera is unavailable
     let cameraUnavailableLabel = UILabel()
+    ///Button to resume camera operation
     let resumeButton = UIButton()
 
-    // MARK: Constants
-    private let animationDuration = 0.5
-    private let collapseTransitionThreshold: CGFloat = -40.0
-    private let expandThransitionThreshold: CGFloat = 40.0
+    // MARK: Global Variables
+    ///Constraint to keep track of the height of the output text view, whether it's collapsed or expanded
+    var heightAnchor = NSLayoutConstraint()
+    ///Constraint to keep track of the heigh of the dashboard, whether it's collapsed or expanded
+    var controlViewHeightAnchor = NSLayoutConstraint()
+    ///Delay inbetween the prediction by the model (How often the app outputs a letter/word)
     private let delayBetweenInferencesMs: Double = 1000
 
     // MARK: Instance Variables
-    // Holds the results at any time
+    ///Result that's output by the model
     private var result: Result?
-    private var initialBottomSpace: CGFloat = 0.0
+    ///Time from the previous prediction
     private var previousInferenceTimeMs: TimeInterval = Date.distantPast.timeIntervalSince1970 * 1000
 
 	//Viet inspired variables
