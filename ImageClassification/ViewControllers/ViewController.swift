@@ -35,7 +35,7 @@ class ViewController: UIViewController {
     let trainButton = UIButton()
     var heightAnchor = NSLayoutConstraint()
     var controlViewHeightAnchor = NSLayoutConstraint()
-    let chatLogButton = UIButton()
+    let logOutButton = UIButton()
     let controlView = UIView()
     let controlButton = UIButton()
     let slider = UISlider()
@@ -147,7 +147,7 @@ class ViewController: UIViewController {
         clearButtonSetup()
         keyboardButtonSetup()
         trainButtonSetup()
-        chatLogButtonSetup()
+        logOutButtonSetup()
         predictionAssistButtonSetup()
         sliderSetup()
         areaBoundSetup()
@@ -725,22 +725,27 @@ extension ViewController {
 
     }
 
-    func chatLogButtonSetup() {
-        controlView.addSubview(chatLogButton)
-        chatLogButton.translatesAutoresizingMaskIntoConstraints = false
-        chatLogButton.topAnchor.constraint(equalTo: trainButton.bottomAnchor, constant: 20).isActive = true
-        chatLogButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
-        chatLogButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -10).isActive = true
-        chatLogButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        chatLogButton.setTitle("Conversation Log", for: .normal)
-        chatLogButton.backgroundColor = .systemOrange
-        chatLogButton.layer.cornerRadius = 10
+    func logOutButtonSetup() {
+        controlView.addSubview(logOutButton)
+        logOutButton.translatesAutoresizingMaskIntoConstraints = false
+        logOutButton.topAnchor.constraint(equalTo: trainButton.bottomAnchor, constant: 20).isActive = true
+        logOutButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
+        logOutButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -10).isActive = true
+        logOutButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        logOutButton.setTitle("Log out", for: .normal)
+        logOutButton.backgroundColor = .systemRed
+        logOutButton.layer.cornerRadius = 10
+        logOutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
     }
 
+    @objc func logoutButtonTapped(){
+        
+    }
+    
     func predictionAssistButtonSetup() {
         controlView.addSubview(predictionAssistButton)
         predictionAssistButton.translatesAutoresizingMaskIntoConstraints = false
-        predictionAssistButton.topAnchor.constraint(equalTo: chatLogButton.bottomAnchor, constant: 20).isActive = true
+        predictionAssistButton.topAnchor.constraint(equalTo: logOutButton.bottomAnchor, constant: 20).isActive = true
         predictionAssistButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
         predictionAssistButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -10).isActive = true
         predictionAssistButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
