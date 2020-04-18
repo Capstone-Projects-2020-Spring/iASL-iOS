@@ -252,9 +252,8 @@ extension CameraBoard: CameraFeedManagerDelegate {
             self.cameraUnavailableLabel.isHidden = false
         }
     }
-
+	/// Updates UI once session interruption has ended.
     func sessionInterruptionEnded() {
-        // Updates UI once session interruption has ended.
         if !self.cameraUnavailableLabel.isHidden {
             self.cameraUnavailableLabel.isHidden = true
         }

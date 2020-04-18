@@ -43,10 +43,10 @@ class ViewController: UIViewController {
     let keyboardButton = UIButton()
     ///Button for users to open training mode
     let trainButton = UIButton()
-    var heightAnchor = NSLayoutConstraint()
-    var controlViewHeightAnchor = NSLayoutConstraint()
+	///Button for users to logout of the app
     let logOutButton = UIButton()
-    let controlView = UIView()
+    ///UIView to hold the dashboard
+	let controlView = UIView()
     ///Button to expand and collapse the dashboard
     let controlButton = UIButton()
     ///UISlider for controlling the speed of the voice
@@ -193,7 +193,8 @@ class ViewController: UIViewController {
         cameraCapture.delegate = self
     }
 
-    ///Raise the whoe View when the keybaord appears
+	/// Raise the whoe View when the keybaord appears
+	/// - Parameter notification: Notification posted immediately prior to the display of the keyboard.
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
@@ -202,7 +203,8 @@ class ViewController: UIViewController {
         }
     }
 
-    ///Lower the keyboard down when the keyboard disappears
+	/// Lower the keyboard down when the keyboard disappears
+	/// - Parameter notification: Notification posted immediately prior to the dismissal of the keyboard.
     @objc func keyboardWillHide(notification: NSNotification) {
         if self.view.frame.origin.y != 0 {
             self.view.frame.origin.y = 0
@@ -255,7 +257,9 @@ class ViewController: UIViewController {
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
     }
-
+	
+	/// Notifies the view controller that its view is about to be added to a view hierarchy.
+	/// - Parameter animated: If true, the view is being added to the window using an animation.
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         #if !targetEnvironment(simulator)
@@ -263,7 +267,10 @@ class ViewController: UIViewController {
         #endif
     }
 
-    #if !targetEnvironment(simulator)
+	#if !targetEnvironment(simulator)
+	/// Notifies the view controller that its view is about to be removed from a view hierarchy.
+	/// - Parameter animated: If true, the disappearance of the view is being animated.
+	/// We stop the camera session here.
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         cameraCapture.stopSession()
@@ -274,7 +281,8 @@ class ViewController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-
+	
+	/// Called if app can't resume camera session. Presents an alert to let the user know.
     func presentUnableToResumeSessionAlert() {
         let alert = UIAlertController(
             title: "Unable to Resume Session",
@@ -286,19 +294,6 @@ class ViewController: UIViewController {
         self.present(alert, animated: true)
     }
 
-    ///Prepare for Segue to next storyboard view controller.
-    // MARK: Storyboard Segue Handlers
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
-
-        if segue.identifier == "EMBED" {
-
-            guard let tempModelDataHandler = modelDataHandler else {
-                return
-            }
-
-        }
-    }
 
     @objc func classifyPasteboardImage() {
         guard let image = UIPasteboard.general.images?.first else {
@@ -360,6 +355,7 @@ extension ViewController: CameraFeedManagerDelegate {
     }
 
     // MARK: Session Handling Alerts
+	/// Updates the UI when session is interupted.
     func sessionWasInterrupted(canResumeManually resumeManually: Bool) {
 
         // Updates the UI when session is interupted.
@@ -369,7 +365,7 @@ extension ViewController: CameraFeedManagerDelegate {
             self.cameraUnavailableLabel.isHidden = false
         }
     }
-
+	/// Updates UI once session interruption has ended.
     func sessionInterruptionEnded() {
         // Updates UI once session interruption has ended.
         if !self.cameraUnavailableLabel.isHidden {
@@ -380,13 +376,12 @@ extension ViewController: CameraFeedManagerDelegate {
             self.resumeButton.isHidden = true
         }
     }
-
+	/// Handles session run time error by updating the UI and providing a button if session can be manually resumed.
     func sessionRunTimeErrorOccured() {
-        // Handles session run time error by updating the UI and providing a button if session can be manually resumed.
         self.resumeButton.isHidden = false
         previewView.shouldUseClipboardImage = true
     }
-
+	/// Presents alert if camera permission was denied.
     func presentCameraPermissionsDeniedAlert() {
         let alertController = UIAlertController(title: "Camera Permissions Denied", message: "Camera permissions have been denied for this app. You can change this by going to Settings", preferredStyle: .alert)
 
@@ -401,7 +396,7 @@ extension ViewController: CameraFeedManagerDelegate {
 
         previewView.shouldUseClipboardImage = true
     }
-
+	/// Presents alert if camera configuration has failed.
     func presentVideoConfigurationErrorAlert() {
         let alert = UIAlertController(title: "Camera Configuration Failed", message: "There was an error while configuring camera.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
