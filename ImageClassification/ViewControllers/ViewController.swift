@@ -647,7 +647,7 @@ extension ViewController {
     func keyboardButtonSetup() {
 
         keyboardButton.backgroundColor = .systemOrange
-        keyboardButton.setTitle("Write", for: .normal)
+        keyboardButton.setTitle("Keyboard", for: .normal)
         keyboardButton.isSelected = true
         keyboardButton.addTarget(self, action: #selector(keyboardButtonTapped), for: .touchUpInside)
     }
