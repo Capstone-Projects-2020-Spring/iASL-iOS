@@ -13,6 +13,8 @@ import Firebase
  This class is used to show an individual chat between two users. It shows the title bar at the top with the chat partner's name, it has alll the messages between the two users, and it demonstrates our iASL keyboard in use.
  */
 class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    var loginVC: LoginVC? = nil
 
     //MARK: Constants
     ///A constant for the "messages" node in Firebase
@@ -94,13 +96,17 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
             self.view.frame.origin.y = 0
         }
     }
+    
+    func test() -> Bool {
+        return false
+    }
 
     ///Observes messages from Firebase and loads them into an array of type Message to be used by the collectionview. Has logic for determining which messages were from the sender and which were from the receiver
-    func observeMessages() {
+    func observeMessages() -> Bool {
 
         guard let uid = Auth.auth().currentUser?.uid else {
             print("could not get the UID")
-            return
+            return false
         }
 
         let userMessagesRef = Database.database().reference().child("user-messages").child(uid)
@@ -135,6 +141,8 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
             }, withCancel: nil)
 
         }, withCancel: nil)
+        
+        return true
     }
     
     //MARK: CollectionView stuff
@@ -406,6 +414,27 @@ extension ChatVC {
 
     }
     
+    ///Handles what happens when the user logins in with an existing account. For signing in during testing
+    func handleLoginForTesting(email: String, password: String) {
+
+        //sign in with username and password
+        Auth.auth().signIn(withEmail: email, password: password) { (_, err) in
+            if err != nil {
+                print(err!)
+                let alert = UIAlertController(title: "Alert", message: err?.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "Continue", style: UIAlertAction.Style.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                return
+            } else {
+                //add email and password into keychain if they want
+                //self.handleSaveKeychain(email: email, password: password)
+                //successfully signed in
+                print("you signed in successfully")
+                //self.handleLeaveLogin()
+            }
+        }
+    }
+    
     //MARK: Junky Functions
     ///Change the color of the status bar
     override func viewWillAppear(_ animated: Bool) {
@@ -428,34 +457,4 @@ extension ChatVC {
     }
     
     
-}
-
-///Extension of NSDate that helps with getting some different units of time
-extension NSDate {
-    /**
-     Turns a date into milliseconds
-     
-     - Returns: A number in milliseconds
-     */
-    func toMillis() -> NSNumber {
-        return NSNumber(value: Int64(timeIntervalSince1970 * 1000))
-    }
-    /**
-     Turns a time in milliseconds into a date
-     
-     - Parameters: A number in milliseconds
-     - Returns: A date
-     */
-    static func fromMillis(millis: NSNumber?) -> NSDate? {
-        return millis.map { number in NSDate(timeIntervalSince1970: Double(truncating: number) / 1000)}
-    }
-
-    /**
-     Gets the current time in milliseconds from date.
-     
-     - Returns: Number in milliseconds
-     */
-    static func currentTimeInMillis() -> NSNumber {
-        return NSDate().toMillis()
-    }
 }

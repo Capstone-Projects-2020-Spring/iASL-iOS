@@ -28,14 +28,13 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 
     ///Boolean that determines if we are on the login screen or the register screen
     var isRegisterButton: Bool = true
-    ///
+    
 	var isFirstOpen = true
     ///Constant that holds the "users" node for Firebase
     let usersStringConstant: String = "users"
-    ///
+    
 	var welcomeScreenConfig = AWSConfigOptions()
 
-    ///
 	@objc func showWelcomeScreen() {
 		  let vc = AWSViewController()
 		vc.configuration = self.welcomeScreenConfig
@@ -51,7 +50,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 			}
 	}
     
-    ///
 	fileprivate func welcomeScreenSetup() {
 		welcomeScreenConfig.appName = "iASL (Beta)"
 		welcomeScreenConfig.appDescription = "iASL is a Temple University capstone project designed to transcribe American Sign Language to text using your iPhone's camera. We sincerely thank you for taking the time to test our app before public release. We are testing the following features."
@@ -507,6 +505,25 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             }
         }
     }
+    
+//    func getCurrentUser() -> String {
+//        var variable = "failed"
+//        guard let uid = Auth.auth().currentUser?.uid else {
+//            print("could not get UID")
+//            return ""
+//        }
+//
+//        let ref = Database.database().reference().child("users").child(uid)
+//        ref.observe(.value) { (snapshot) in
+//
+//            if let dictionary = snapshot.value as? [String: AnyObject] {
+//                let name = dictionary["name"] as? String
+//                print(name)
+//                variable = name!
+//            }
+//        }
+//        return variable
+//    }
 
     ///Handles what happens when the user logins in with an existing account
     func handleLogin() {
