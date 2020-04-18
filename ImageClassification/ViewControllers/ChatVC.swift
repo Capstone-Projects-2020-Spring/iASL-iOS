@@ -407,20 +407,12 @@ extension ChatVC {
     }
     
     //MARK: Junky Functions
-    ///Change the color of the status bar
+	/// Change the color of the status bar
+	/// - Parameter animated: If true, the view is being added to the window using an animation.
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNeedsStatusBarAppearanceUpdate()
-          #if !targetEnvironment(simulator)
-//          cameraCapture.checkCameraConfigurationAndStartSession()
-          #endif
     }
-    #if !targetEnvironment(simulator)
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-//        cameraCapture.stopSession()
-    }
-    #endif
 
     ///Change the color of the status bar
     override var preferredStatusBarStyle: UIStatusBarStyle {

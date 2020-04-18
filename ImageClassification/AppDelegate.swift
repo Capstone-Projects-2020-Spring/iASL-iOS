@@ -23,7 +23,8 @@ import KeychainSwift
 /// Global variable to access user defaults.
 let defaults = UserDefaults.standard
 @UIApplicationMain
-/// Manages your app’s shared behaviors. The app delegate is effectively the root object of your app, and it works in conjunction with UIApplication to manage some interactions with the system. Like the UIApplication object, UIKit creates your app delegate object early in your app’s launch cycle so it is always present.
+/** Manages your app’s shared behaviors. The app delegate is effectively the root object of your app, and it works in conjunction with UIApplication to manage some interactions with the system. Like the UIApplication object, UIKit creates your app delegate object early in your app’s launch cycle so it is always present.
+*/
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
 	///The backdrop for your app’s user interface and the object that dispatches events to your views.
   var window: UIWindow?
