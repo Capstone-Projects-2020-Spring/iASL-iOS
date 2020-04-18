@@ -56,14 +56,6 @@ class ViewController: UIViewController {
     @objc let predictionAssistButton = UIButton()
     ///Variable for prediction layer to carry out predictions
     let predictionLayer = PredictionLayer()
-    ///Speech recognier to activate speech to text
-    private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
-    ///request to OS to start recognition
-    private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
-    ///Task that handles recognitions
-    private var recognitionTask: SFSpeechRecognitionTask?
-    ///Audio engine to play back the text to speech
-    private let audioEngine = AVAudioEngine()
     ///Syntesizer to generate from text to speech
     var synthesizer = AVSpeechSynthesizer()
     ///Tracker for how many time the output from the model has been verified
@@ -94,35 +86,14 @@ class ViewController: UIViewController {
     ///Time from the previous prediction
     private var previousInferenceTimeMs: TimeInterval = Date.distantPast.timeIntervalSince1970 * 1000
 
-	//Viet inspired variables
-	var lastLetter, lastNonLetter: String?
-	var recurCount = 0
-	var recurCountNonLetter = 0
-	let minimumConfidence: Float = 0.89
 	
     // MARK: Controllers that manage functionality
-    // Handles all the camera related functionality
+    /// Handles all the camera related functionality
     private lazy var cameraCapture = CameraFeedManager(previewView: previewView)
 
-    // Handles all data preprocessing and makes calls to run inference through the `Interpreter`.
+    /// Handles all data preprocessing and makes calls to run inference through the `Interpreter`.
     private var modelDataHandler: ModelDataHandler? =
         ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo, threadCount: 2)
-
-    // Handles the presenting of results on the screen
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if #available(iOS 13.0, *) {
-
-            ///Code for darmode
-            if self.traitCollection.userInterfaceStyle == .dark {
-
-            } else { ///Code for light mode
-
-            }
-        }
-    }
 
         override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
 		// check current view controller
@@ -154,6 +125,7 @@ class ViewController: UIViewController {
     }
 
     // MARK: View Handling Methods
+    ///Main function to call all the necessary GUI and backend functions
     override func viewDidLoad() {
         super.viewDidLoad()
         previewViewSetup()
