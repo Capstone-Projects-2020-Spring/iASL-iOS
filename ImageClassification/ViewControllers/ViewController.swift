@@ -151,6 +151,7 @@ class ViewController: UIViewController {
         predictionAssistButtonSetup()
         sliderSetup()
         areaBoundSetup()
+        hideKeyboardWhenTappedAround()
         //speak()
         if speakerButton.isSelected == true {
             speak()
@@ -208,19 +209,22 @@ class ViewController: UIViewController {
     @objc func handleSwipeUpGesture(_ sender: UISwipeGestureRecognizer) {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         //textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-
+        print("adaf")
         UIView.animate(withDuration: 0.2, animations: {
             self.heightAnchor.constant = -self.view.frame.size.height/2
             self.outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.6)
+            self.textViewHolder.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.6)
             self.view.layoutIfNeeded()
         })
 
     }
 
+    
+    
     @objc func handleDownSwipeGesture(_ sender: UISwipeGestureRecognizer) {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        //textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-
+        outputTextView.isEditable = false
+        view.endEditing(true)
         UIView.animate(withDuration: 0.2, animations: {
             self.heightAnchor.constant = -self.view.frame.size.height/4
             self.outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
