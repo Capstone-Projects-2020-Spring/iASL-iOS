@@ -34,6 +34,12 @@ jobs:
 #         with:
 #           name: FailureDiff
 #           path: ${DERIVED_DATA_PATH}/Logs/Test
+      - name: Upload failed tests to Codecov
+        if: failure()
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODE_COV }} # not required for public repos
+          flags: ImageClassification
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
