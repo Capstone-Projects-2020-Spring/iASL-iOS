@@ -18,6 +18,7 @@ import Speech
 import Firebase
 import KeychainSwift
 
+/**Main View controller that's viewed if the user is already signed in or after the user signs into the app. This is where the users carry's out ASL to text to speech and speech to text to communicate with non-deaf/mute people*/
 class ViewController: UIViewController {
 
     //MARK: Global Constants
