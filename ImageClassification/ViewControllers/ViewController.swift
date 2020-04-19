@@ -19,7 +19,7 @@ import Firebase
 import KeychainSwift
 
 class ViewController: UIViewController {
-    
+
     //MARK: Global Constants
     ///The read hollow box that shows the area where the video is being fetched from
     let areaBound = UIView()
@@ -43,10 +43,10 @@ class ViewController: UIViewController {
     let keyboardButton = UIButton()
     ///Button for users to open training mode
     let trainButton = UIButton()
-    ///Logout button for users to log out
+	///Button for users to logout of the app
     let logOutButton = UIButton()
-
-    let controlView = UIView()
+    ///UIView to hold the dashboard
+	let controlView = UIView()
     ///Button to expand and collapse the dashboard
     let controlButton = UIButton()
     ///UISlider for controlling the speed of the voice
@@ -72,7 +72,7 @@ class ViewController: UIViewController {
     let cameraUnavailableLabel = UILabel()
     ///Button to resume camera operation
     let resumeButton = UIButton()
-    
+
     ///Keychain reference for when we need to clear the keychain if someone logs out
     let keychain = KeychainSwift(keyPrefix: "iasl_")
 
@@ -90,7 +90,7 @@ class ViewController: UIViewController {
     ///Time from the previous prediction
     private var previousInferenceTimeMs: TimeInterval = Date.distantPast.timeIntervalSince1970 * 1000
 
-	
+
     // MARK: Controllers that manage functionality
     /// Handles all the camera related functionality
     private lazy var cameraCapture = CameraFeedManager(previewView: previewView)
@@ -98,7 +98,12 @@ class ViewController: UIViewController {
     /// Handles all data preprocessing and makes calls to run inference through the `Interpreter`.
     private var modelDataHandler: ModelDataHandler? =
         ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo, threadCount: 2)
-
+	
+	/// Notifies the container that the size of its view is about to change.
+	/// - Parameters:
+	///   - size: The new size for the container’s view.
+	///   - coordinator: The transition coordinator object managing the size change. You can use this object to animate your changes or get information about the transition that is in progress.
+	/// If the view controller is upside down we present speech to text.
         override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
 		// check current view controller
 		guard let currentPresentedViewController = self.presentedViewController else {
@@ -125,7 +130,7 @@ class ViewController: UIViewController {
 				dismiss(animated: true, completion: nil)
 			}
 		}
-		
+
     }
 
     // MARK: View Handling Methods
@@ -160,8 +165,7 @@ class ViewController: UIViewController {
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        
+
         let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleLeftSwipeGesture(_:)))
         previewView.addGestureRecognizer(swipeLeftGestureRecognizer)
         swipeLeftGestureRecognizer.direction = .left
@@ -182,7 +186,7 @@ class ViewController: UIViewController {
         guard modelDataHandler != nil else {
             fatalError("Model set up failed")
         }
-        
+
         ///Handles exception handler when camera is not available
         #if targetEnvironment(simulator)
         previewView.shouldUseClipboardImage = true
@@ -194,7 +198,8 @@ class ViewController: UIViewController {
         cameraCapture.delegate = self
     }
 
-    ///Raise the whoe View when the keybaord appears
+	/// Raise the whoe View when the keybaord appears
+	/// - Parameter notification: Notification posted immediately prior to the display of the keyboard.
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
@@ -203,15 +208,16 @@ class ViewController: UIViewController {
         }
     }
 
-    ///Lower the keyboard down when the keyboard disappears
+	/// Lower the keyboard down when the keyboard disappears
+	/// - Parameter notification: Notification posted immediately prior to the dismissal of the keyboard.
     @objc func keyboardWillHide(notification: NSNotification) {
         if self.view.frame.origin.y != 0 {
             self.view.frame.origin.y = 0
         }
     }
 
-    
-    
+
+
     /// Action invoked when swiped up
     /// - Parameter sender: the gesture recognizer itself
     @objc func handleSwipeUpGesture(_ sender: UISwipeGestureRecognizer) {
@@ -226,7 +232,6 @@ class ViewController: UIViewController {
         })
 
     }
-
 
     /// Action invoked when swiped down
     /// - Parameter sender: the gesture recognizer itself
@@ -260,9 +265,9 @@ class ViewController: UIViewController {
         present(vc, animated: true, completion: nil)
     }
 
-    
-    /// Configure the view when it appears
-    /// - Parameter animated: boolean value if animation is necessary
+	
+	/// Notifies the view controller that its view is about to be added to a view hierarchy.
+	/// - Parameter animated: If true, the view is being added to the window using an animation.
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         #if !targetEnvironment(simulator)
@@ -270,9 +275,10 @@ class ViewController: UIViewController {
         #endif
     }
 
-    #if !targetEnvironment(simulator)
-    /// Configures screen when it dissappears
-    /// - Parameter animated: boolean value if animation is necessary
+	#if !targetEnvironment(simulator)
+	/// Notifies the view controller that its view is about to be removed from a view hierarchy.
+	/// - Parameter animated: If true, the disappearance of the view is being animated.
+	/// We stop the camera session here.
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         cameraCapture.stopSession()
@@ -283,8 +289,9 @@ class ViewController: UIViewController {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-    
-    /// Present error if the app unable to resume
+
+	
+	/// Called if app can't resume camera session. Presents an alert to let the user know.
     func presentUnableToResumeSessionAlert() {
         let alert = UIAlertController(
             title: "Unable to Resume Session",
@@ -295,6 +302,7 @@ class ViewController: UIViewController {
 
         self.present(alert, animated: true)
     }
+
 
     ///Prepare for Segue to next storyboard view controller.
     // MARK: Storyboard Segue Handlers
@@ -349,15 +357,15 @@ extension ViewController: CameraFeedManagerDelegate {
             print("\(verificationCount) \(verificationCache) == \(output.inferences[0].label)")
             if verificationCount == 2 && verificationCache == output.inferences[0].label {
                 verificationCount = 0
-                
+
                 let currentTimeMs = Date().timeIntervalSince1970 * 1000
                 if (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs{
                     executeASLtoText()
                     print("pushed")
                 } else { return }
                 previousInferenceTimeMs = currentTimeMs
-                
-                
+
+
             } else if verificationCount < 2 {
                 verificationCount += 1
             } else if verificationCache != output.inferences[0].label {
@@ -371,6 +379,7 @@ extension ViewController: CameraFeedManagerDelegate {
     }
 
     // MARK: Session Handling Alerts
+	/// Updates the UI when session is interupted.
     func sessionWasInterrupted(canResumeManually resumeManually: Bool) {
 
         // Updates the UI when session is interupted.
@@ -380,7 +389,7 @@ extension ViewController: CameraFeedManagerDelegate {
             self.cameraUnavailableLabel.isHidden = false
         }
     }
-
+	/// Updates UI once session interruption has ended.
     func sessionInterruptionEnded() {
         // Updates UI once session interruption has ended.
         if !self.cameraUnavailableLabel.isHidden {
@@ -391,13 +400,12 @@ extension ViewController: CameraFeedManagerDelegate {
             self.resumeButton.isHidden = true
         }
     }
-
+	/// Handles session run time error by updating the UI and providing a button if session can be manually resumed.
     func sessionRunTimeErrorOccured() {
-        // Handles session run time error by updating the UI and providing a button if session can be manually resumed.
         self.resumeButton.isHidden = false
         previewView.shouldUseClipboardImage = true
     }
-
+	/// Presents alert if camera permission was denied.
     func presentCameraPermissionsDeniedAlert() {
         let alertController = UIAlertController(title: "Camera Permissions Denied", message: "Camera permissions have been denied for this app. You can change this by going to Settings", preferredStyle: .alert)
 
@@ -412,7 +420,7 @@ extension ViewController: CameraFeedManagerDelegate {
 
         previewView.shouldUseClipboardImage = true
     }
-
+	/// Presents alert if camera configuration has failed.
     func presentVideoConfigurationErrorAlert() {
         let alert = UIAlertController(title: "Camera Configuration Failed", message: "There was an error while configuring camera.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -552,7 +560,7 @@ extension ViewController {
             return
         }
     }
-    
+
     /**
      Checks if the user is logged out so we can disable the log out button
      - Returns: True if user is not looged in, false otherwise
@@ -712,7 +720,7 @@ extension ViewController {
     ///Action for when keyboard button is tapped, raises the view, activates output text view to edit and present the keyboard.
     @objc func keyboardButtonTapped() {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        
+
         if keyboardButton.isSelected {
             keyboardButton.isSelected = false
             print("switched to keyboard mode")
@@ -798,7 +806,7 @@ extension ViewController {
     ///Setup position/size/style of the log out button and add it on screen
     func logOutButtonSetup() {
         controlView.addSubview(logOutButton)
-        
+
         logOutButton.translatesAutoresizingMaskIntoConstraints = false
         logOutButton.topAnchor.constraint(equalTo: trainButton.bottomAnchor, constant: 20).isActive = true
         logOutButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
@@ -808,7 +816,7 @@ extension ViewController {
         logOutButton.backgroundColor = .systemRed
         logOutButton.layer.cornerRadius = 10
         logOutButton.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
-        
+
         if userIsLoggedOut() {
             logOutButton.isEnabled = false
             logOutButton.alpha = 0.2
@@ -817,7 +825,7 @@ extension ViewController {
             logOutButton.alpha = 1
         }
     }
-    
+
     @objc func handleLogout() {
 
         print("handle logout tapped")
@@ -904,7 +912,7 @@ extension ViewController {
         areaBound.heightAnchor.constraint(equalToConstant: view.frame.size.width-10).isActive = true
         areaBound.layer.borderWidth = 2
         areaBound.layer.borderColor = UIColor.red.cgColor
-        
+
         let textView = UILabel()
         areaBound.addSubview(textView)
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -967,8 +975,6 @@ extension ViewController {
                 self.outputTextView.text.append(self.predictionLayer.letterProximitySwap(inputChar: prediction))
 			}
 		}
-		
+
 	}
 }
-
-
