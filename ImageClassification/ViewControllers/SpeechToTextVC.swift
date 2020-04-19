@@ -9,7 +9,7 @@
 import UIKit
 import Speech
 
-///View Controller to handle speech to text and show it on screen, Invoked by button press or device orientation change
+///View Controller to handle speech to text and show it on screen, Invoked by button press or device orientation change. This class handles audio data, both recording and converting it to text.
 class SpeechToTextVC: UIViewController, SFSpeechRecognizerDelegate {
 
     ///Speech recognier to activate speech to text
@@ -59,7 +59,10 @@ class SpeechToTextVC: UIViewController, SFSpeechRecognizerDelegate {
         }
     }
 
-    ///Detect orientation change and if Upside down from current orientation then go back to the ASL view controller
+	/// Detect orientation change and if Upside down from current orientation then go back to the ASL view controller
+	/// - Parameters:
+	///   - size: The new size for the container’s view.
+	///   - coordinator: The transition coordinator object managing the size change. You can use this object to animate your changes or get information about the transition that is in progress.
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         if UIDevice.current.orientation == UIDeviceOrientation.portraitUpsideDown {
 
@@ -146,7 +149,10 @@ class SpeechToTextVC: UIViewController, SFSpeechRecognizerDelegate {
     }
 
     // MARK: SFSpeechRecognizerDelegate
-    ///Recognize the speech and transcribe it
+	/// Recognize the speech and transcribe it
+	/// - Parameters:
+	///   - speechRecognizer: The SFSpeechRecognizer object whose availability changed.
+	///   - available: A Boolean value that indicates the new availability of the speech recognizer.
     public func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
         if available {
             liveButton.isEnabled = true
