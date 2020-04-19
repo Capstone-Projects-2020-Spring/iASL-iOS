@@ -9,7 +9,7 @@
 import UIKit
 import Speech
 
-///View Controller to handle speech to text and show it on screen, Invoked by button press or device orientation change. This class handles both recording and and turns the recorded sound to text via transcription
+///View Controller to handle speech to text and show it on screen, Invoked by button press or device orientation change. This class handles audio data, both recording and converting it to text.
 class SpeechToTextVC: UIViewController, SFSpeechRecognizerDelegate {
 
     ///Speech recognier to activate speech to text
