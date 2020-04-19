@@ -1210,6 +1210,10 @@ nav li[class] {
 </h1>
 
 <html><body><pre class="highlight"><code><span class="keyword">class</span> <span class="type">PredictionLayer</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Prediction layer that helps filter out unnecessary word before it's pushed to the text view. It looks if the current alphabet can generate a word otherwise looks for the best alphabet from the similarity pool and looks to see if any other alphabet from the similarity pool can generate a word, if so then replace the current alphabet with a word generateable alphabet from the pool.</p>
+
+</div>
 
     <section id="initializers">
         <h2>Initializers</h2>
@@ -1229,6 +1233,10 @@ nav li[class] {
         <code>similar​Alphabets</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">similarAlphabets</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>List of grouped alphabets that look similar to each other.</p>
+
+</div>
 </div>
 <div role="article" class="class" id="predictionlayer.word">
     <h3>
@@ -1294,7 +1302,7 @@ If -1 the letter does not exist</p>
 
     <footer>
         <p>
-    Generated on <time datetime="2020-04-18T21:40:34-0400">April 18, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
+    Generated on <time datetime="2020-04-18T21:52:16-0400">April 18, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
 </p>
     </footer>
 </body>

@@ -1278,7 +1278,8 @@ results for a successful inference.</p>
     </a>
 </dt>
 <dd>
-    
+    <p>Prediction layer that helps filter out unnecessary word before it's pushed to the text view. It looks if the current alphabet can generate a word otherwise looks for the best alphabet from the similarity pool and looks to see if any other alphabet from the similarity pool can generate a word, if so then replace the current alphabet with a word generateable alphabet from the pool.</p>
+
 </dd>
 <dt class="class">
     <a href="Message" title="class - Message">
@@ -1324,14 +1325,6 @@ results for a successful inference.</p>
 <dd>
     <p>Short for camera keyboard. This allows you to use our ASL recognition keyboard as an alternative text input source.</p>
 
-</dd>
-<dt class="class">
-    <a href="ChatTableViewCell" title="class - ChatTableViewCell">
-        Chat​Table​View​Cell
-    </a>
-</dt>
-<dd>
-    
 </dd>
 <dt class="class">
     <a href="ChatVC" title="class - ChatVC">
@@ -1384,7 +1377,7 @@ results for a successful inference.</p>
     </a>
 </dt>
 <dd>
-    <p>View Controller to handle speech to text and show it on screen, Invoked by button press or device orientation change</p>
+    <p>View Controller to handle speech to text and show it on screen, Invoked by button press or device orientation change. This class handles audio data, both recording and converting it to text.</p>
 
 </dd>
 <dt class="class">
@@ -1393,7 +1386,8 @@ results for a successful inference.</p>
     </a>
 </dt>
 <dd>
-    
+    <p>Main View controller that's viewed if the user is already signed in or after the user signs into the app. This is where the users carry's out ASL to text to speech and speech to text to communicate with non-deaf/mute people</p>
+
 </dd>
 <dt class="class">
     <a href="SpeechToTextVC" title="class - SpeechToTextVC">
@@ -1460,7 +1454,8 @@ results for a successful inference.</p>
     </a>
 </dt>
 <dd>
-    
+    <p>Delegate that manages the camera feed and how data is sent to our machine learning model.</p>
+
 </dd>
         </dl>
     </section>
@@ -1469,7 +1464,7 @@ results for a successful inference.</p>
 
     <footer>
         <p>
-    Generated on <time datetime="2020-04-18T21:40:34-0400">April 18, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
+    Generated on <time datetime="2020-04-18T21:52:16-0400">April 18, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
 </p>
     </footer>
 </body>

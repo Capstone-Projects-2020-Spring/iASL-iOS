@@ -1505,6 +1505,29 @@ nav li[class] {
         <code>view​Did​Appear(_:​)</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewDidAppear</span>(<span class="keyword">_</span> <span class="variable">animated</span>: <span class="type">Bool</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Notifies the view controller that its view was added to a view hierarchy.</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>animated</th>
+    <td><code class="type">Bool</code></td></td>
+    <td><p>If <code>true</code>, the view was added to the window using an animation.</p>
+</td>
+</tr>
+  </tbody>
+</table>
 </div>
 <div role="article" class="class" id="loginvc.welcomescreensetup()">
     <h3>
@@ -1585,6 +1608,25 @@ nav li[class] {
     <p>Called when the keyboard is about to change</p>
 
 </div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>notification</th>
+    <td><code class="type">Notification</code></td></td>
+    <td><p>The system notification that calls for the Keyboard.</p>
+</td>
+</tr>
+  </tbody>
+</table>
 </div>
 <div role="article" class="class" id="loginvc.toggleregisterloginbuttonpressed()">
     <h3>
@@ -1625,6 +1667,31 @@ nav li[class] {
     <p>Handles the saving of the user's email and password into keychain</p>
 
 </div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>email</th>
+    <td><code class="type">String</code></td></td>
+    <td><p>The email to be saved by the keychain</p>
+</td>
+</tr>
+<tr>
+    <th>password</th>
+    <td><code class="type">String</code></td></td>
+    <td><p>The password to be saved by the keychain</p>
+</td>
+</tr>
+  </tbody>
+</table>
 </div>
 <div role="article" class="class" id="loginvc.handlelogin()">
     <h3>
@@ -1765,7 +1832,7 @@ nav li[class] {
 
     <footer>
         <p>
-    Generated on <time datetime="2020-04-18T21:40:34-0400">April 18, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
+    Generated on <time datetime="2020-04-18T21:52:16-0400">April 18, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
 </p>
     </footer>
 </body>

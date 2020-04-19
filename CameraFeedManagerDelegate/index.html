@@ -1210,6 +1210,10 @@ nav li[class] {
 </h1>
 
 <html><body><pre class="highlight"><code><span class="keyword">protocol</span> <span class="type">CameraFeedManagerDelegate</span>: <span class="keyword">class</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Delegate that manages the camera feed and how data is sent to our machine learning model.</p>
+
+</div>
 <section id="relationships">
     <h2 hidden>Relationships</h2>
         <figure>
@@ -1291,7 +1295,8 @@ nav li[class] {
 <dd><p>Short for camera keyboard. This allows you to use our ASL recognition keyboard as an alternative text input source.</p>
 </dd>
 <dt class="class"><code><a href="ViewController">ViewController</a></code></dt>
-<dd></dd>
+<dd><p>Main View controller that's viewed if the user is already signed in or after the user signs into the app. This is where the users carry's out ASL to text to speech and speech to text to communicate with non-deaf/mute people</p>
+</dd>
 </dl>
 </section>
 
@@ -1309,6 +1314,25 @@ nav li[class] {
     <p>This method delivers the pixel buffer of the current frame seen by the device's camera.</p>
 
 </div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>pixel​Buffer</th>
+    <td><code class="type">CVPixel​Buffer</code></td></td>
+    <td><p>A reference to a Core Video pixel buffer object to be infered. Basically the frame.</p>
+</td>
+</tr>
+  </tbody>
+</table>
 </div>
 <div role="article" class="protocol" id="camerafeedmanagerdelegate.presentcamerapermissionsdeniedalert()">
     <h3>
@@ -1349,6 +1373,25 @@ nav li[class] {
     <p>This method initimates that the session was interrupted.</p>
 
 </div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>resume​Manually</th>
+    <td><code class="type">Bool</code></td></td>
+    <td><p>boolean value for whether the session can be resumed manually</p>
+</td>
+</tr>
+  </tbody>
+</table>
 </div>
 <div role="article" class="protocol" id="camerafeedmanagerdelegate.sessioninterruptionended()">
     <h3>
@@ -1366,7 +1409,7 @@ nav li[class] {
 
     <footer>
         <p>
-    Generated on <time datetime="2020-04-18T21:40:34-0400">April 18, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
+    Generated on <time datetime="2020-04-18T21:52:16-0400">April 18, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
 </p>
     </footer>
 </body>
