@@ -23,10 +23,17 @@ import KeychainSwift
 /// Global variable to access user defaults.
 let defaults = UserDefaults.standard
 @UIApplicationMain
+/** Manages your app’s shared behaviors. The app delegate is effectively the root object of your app, and it works in conjunction with UIApplication to manage some interactions with the system. Like the UIApplication object, UIKit creates your app delegate object early in your app’s launch cycle so it is always present.
+*/
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
-
+	///The backdrop for your app’s user interface and the object that dispatches events to your views.
   var window: UIWindow?
-
+	
+	/// Tells the delegate that the launch process is almost done and the app is almost ready to run.
+	/// - Parameters:
+	///   - application: The singleton app object.
+	///   - launchOptions: A dictionary indicating the reason the app was launched (if any). The contents of this dictionary may be empty in situations where the user launched the app directly. For information about the possible keys in this dictionary and how to handle them, see Launch Options Keys.
+	/// - Returns: `false` if the app cannot handle the URL resource or continue a user activity, otherwise return true. The return value is ignored if the app is launched as a result of a remote notification.
   func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
@@ -80,7 +87,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     return true
 
   }
-
+	
+	/// Asks the user to allow your app to perform speech recognition.
     func requestTranscribePermissions() {
         SFSpeechRecognizer.requestAuthorization { [unowned self] authStatus in
             DispatchQueue.main.async {

@@ -28,19 +28,21 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 
     ///Boolean that determines if we are on the login screen or the register screen
     var isRegisterButton: Bool = true
-    ///
-	var isFirstOpen = true
+
     ///Constant that holds the "users" node for Firebase
     let usersStringConstant: String = "users"
-    ///
+	
+    /// The configuration struct that configures the appearence of our welcome screen.
 	var welcomeScreenConfig = AWSConfigOptions()
 
-    ///
+    /// presents the welcome screen using our custom configuration.
 	@objc func showWelcomeScreen() {
 		  let vc = AWSViewController()
 		vc.configuration = self.welcomeScreenConfig
 		  self.present(vc, animated: true)
-	  }
+	}
+	/// Notifies the view controller that its view was added to a view hierarchy.
+	/// - Parameter animated: If `true`, the view was added to the window using an animation.
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(true)
 		if defaults.bool(forKey: "WelcomeVersion1.0.0") {
@@ -51,7 +53,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 			}
 	}
     
-    ///
+    /// Configures the welcome screen. Setting it's style, and content in `welcomeScreenConfig`.
 	fileprivate func welcomeScreenSetup() {
 		welcomeScreenConfig.appName = "iASL (Beta)"
 		welcomeScreenConfig.appDescription = "iASL is a Temple University capstone project designed to transcribe American Sign Language to text using your iPhone's camera. We sincerely thank you for taking the time to test our app before public release. We are testing the following features."
@@ -331,7 +333,8 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
 
-    ///Called when the keyboard is about to change
+	/// Called when the keyboard is about to change
+	/// - Parameter notification: The system notification that calls for the Keyboard.
     @objc func keyboardWillChange(notification: Notification) {
         print("Keyboard will show \(notification.name.rawValue)")
 
@@ -492,11 +495,12 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         }
     }
 
-    /**
-     Handles the saving of the user's email and password into keychain
-     
-     - Parameters: the email and the password to be saved by the keychain
-     */
+	/**
+	Handles the saving of the user's email and password into keychain
+	- Parameters:
+	- email: The email to be saved by the keychain
+	- password: The password to be saved by the keychain
+	*/
     func handleSaveKeychain(email: String, password: String) {
         if self.keychainToggle.isOn {
             if self.keychain.set(email, forKey: "email", withAccess: .accessibleWhenUnlocked) {
