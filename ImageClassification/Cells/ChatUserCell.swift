@@ -10,9 +10,10 @@ import Foundation
 import Firebase
 import UIKit
 
+///This class is for creating a custom cell in the table view of our main messaging feature screen. It handles the design of all the pieces that make up our custom cell and hanldes some logic for handling which information goes where.
 class ChatUserCell: UITableViewCell {
 
-    //in the table view thing, sets the message and does the work for getting the name and the message
+    ///In the table view, this sets the message and does the work for getting the name of the user and the message
     var message: Message? {
         didSet {
 
@@ -64,6 +65,7 @@ class ChatUserCell: UITableViewCell {
         }
     }
 
+    ///This is a closure for the label that holds the name of the chatter
     let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -71,6 +73,7 @@ class ChatUserCell: UITableViewCell {
         return label
     }()
 
+    ///This is a closure for the label that holds the text of the most recent message sent in the chat
     let mostRecentMessageLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -78,6 +81,7 @@ class ChatUserCell: UITableViewCell {
         return label
     }()
 
+    ///This is a closure for the timestamp label that holds the time that the most recently sent message was sent
     let timestampLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -85,14 +89,16 @@ class ChatUserCell: UITableViewCell {
         return label
     }()
 
+    ///Function for laying out the subviews
     override func layoutSubviews() {
         super.layoutSubviews()
 
-//        textLabel?.frame = CGRect(x: 64, y: (textLabel?.frame.origin.y)! - 2, width: (textLabel?.frame.width)!, height: (textLabel?.frame.height)!)
-//        detailTextLabel?.frame = CGRect(x: 64, y: (detailTextLabel?.frame.origin.y)! + 2, width: (detailTextLabel?.frame.width)!, height: (detailTextLabel?.frame.height)!)
-
     }
 
+	/// Init function that is called whenever this class is used. This calls the main set up functions for the constraints and the subviews
+	/// - Parameters:
+	///   - style: A constant indicating a cell style. See UITableViewCell.CellStyle for descriptions of these constants.
+	///   - reuseIdentifier: A string used to identify the cell object if it is to be reused for drawing multiple rows of a table view. Pass nil if the cell object is not to be reused. You should use the same reuse identifier for all cells of the same form.
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
 
@@ -101,22 +107,27 @@ class ChatUserCell: UITableViewCell {
         setupTimestampLabel()
     }
 
+    ///Required init function in case of fatal error
+	/// - Parameter coder: An abstract class that serves as the basis for objects that enable archiving and distribution of other objects.
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+    ///Adds the name label to the subview and defines where in the subveiw it will be placed
     func setupNameLabel() {
         self.addSubview(nameLabel)
         nameLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 20).isActive = true
         nameLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -10).isActive = true
     }
 
+    ///Adds the most recent message label to the subview and defines where in the subveiw it will be placed
     func setupMessageLabel() {
         self.addSubview(mostRecentMessageLabel)
         mostRecentMessageLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 20).isActive = true
         mostRecentMessageLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 5).isActive = true
     }
-
+    
+    ///Adds the timestamp label to the subview and defines where in the subveiw it will be placed
     func setupTimestampLabel() {
         self.addSubview(timestampLabel)
         timestampLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10).isActive = true

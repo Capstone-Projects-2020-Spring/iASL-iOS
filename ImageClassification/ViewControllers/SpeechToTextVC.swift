@@ -9,16 +9,23 @@
 import UIKit
 import Speech
 
+///View Controller to handle speech to text and show it on screen, Invoked by button press or device orientation change. This class handles audio data, both recording and converting it to text.
 class SpeechToTextVC: UIViewController, SFSpeechRecognizerDelegate {
 
+    ///Speech recognier to activate speech to text
     private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
+    ///request to OS to start recognition
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
+    ///Task that handles recognitions
     private var recognitionTask: SFSpeechRecognitionTask?
+    ///Audio engine to play back the text to speech
     private let audioEngine = AVAudioEngine()
-
+    ///Textview to show texts recorder and transcribed from mictrophone
     let textView = UITextView()
+    ///Button to go back to the ASL View Controller
     let liveButton = UIButton()
 
+    ///Main function to call all the necessary UI and backend code
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -28,37 +35,34 @@ class SpeechToTextVC: UIViewController, SFSpeechRecognizerDelegate {
         speechRecognizer.delegate = self
 
          record()
-
-        // Asynchronously make the authorization request.
+        /// Asynchronously make the authorization request.
         SFSpeechRecognizer.requestAuthorization { authStatus in
-
             // Divert to the app's main thread so that the UI
             // can be updated.
             OperationQueue.main.addOperation {
                 switch authStatus {
                 case .authorized:
                     self.liveButton.isEnabled = true
-
                 case .denied:
                     self.liveButton.isEnabled = false
                     self.liveButton.setTitle("User denied access to speech recognition", for: .disabled)
-
                 case .restricted:
                     self.liveButton.isEnabled = false
                     self.liveButton.setTitle("Speech recognition restricted on this device", for: .disabled)
-
                 case .notDetermined:
                     self.liveButton.isEnabled = false
                     self.liveButton.setTitle("Speech recognition not yet authorized", for: .disabled)
-
                 default:
                     self.liveButton.isEnabled = false
                 }
             }
         }
-
     }
 
+	/// Detect orientation change and if Upside down from current orientation then go back to the ASL view controller
+	/// - Parameters:
+	///   - size: The new size for the container’s view.
+	///   - coordinator: The transition coordinator object managing the size change. You can use this object to animate your changes or get information about the transition that is in progress.
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         if UIDevice.current.orientation == UIDeviceOrientation.portraitUpsideDown {
 
@@ -72,15 +76,18 @@ class SpeechToTextVC: UIViewController, SFSpeechRecognizerDelegate {
 
     }
 
+    ///Letting the OS know the type of orientations supported by this view controller
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .all
     }
 
+    ///Let the OS know what to do when the view appears
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
     }
 
+    ///Start recording and output the result on the textview
     private func startRecording() throws {
 
         // Cancel the previous task if it's running.
@@ -142,7 +149,10 @@ class SpeechToTextVC: UIViewController, SFSpeechRecognizerDelegate {
     }
 
     // MARK: SFSpeechRecognizerDelegate
-
+	/// Recognize the speech and transcribe it
+	/// - Parameters:
+	///   - speechRecognizer: The SFSpeechRecognizer object whose availability changed.
+	///   - available: A Boolean value that indicates the new availability of the speech recognizer.
     public func speechRecognizer(_ speechRecognizer: SFSpeechRecognizer, availabilityDidChange available: Bool) {
         if available {
             liveButton.isEnabled = true
@@ -156,7 +166,7 @@ class SpeechToTextVC: UIViewController, SFSpeechRecognizerDelegate {
 }
 
 extension SpeechToTextVC {
-
+    ///Start recording
     func record() {
         print("tapped")
         if audioEngine.isRunning {
@@ -175,7 +185,7 @@ extension SpeechToTextVC {
     }
 
     // MARK: Interface Builder actions
-
+    ///Setup text view to show transcriptions done from microphone
     func textViewSetup() {
         view.addSubview(textView)
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -188,6 +198,7 @@ extension SpeechToTextVC {
         textView.font = UIFont.boldSystemFont(ofSize: 30)
     }
 
+    ///Setup the ASL button to go back to ASL view controller
     func liveButtonSetup() {
         view.addSubview(liveButton)
         liveButton.translatesAutoresizingMaskIntoConstraints = false
@@ -201,7 +212,8 @@ extension SpeechToTextVC {
         liveButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         liveButton.addTarget(self, action: #selector(liveButtonTapped), for: .touchUpInside)
     }
-
+    
+    ///Action to go back to the asl view controller
     @objc func liveButtonTapped() {
         audioEngine.stop()
         dismiss(animated: true, completion: nil)

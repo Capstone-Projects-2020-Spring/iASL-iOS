@@ -9,8 +9,14 @@
 import Foundation
 import UIKit
 
+/**
+ This is used to hold the id, the name, and the email of a user. This could be the current signed in user or this could be used as a list of users. User information is pulled from Firebase and stored in this class.
+ */
 class User: NSObject {
+    ///Unique id of the user as a string
     var id: String?
+    ///Name of the user as a string
     var name: String?
+    ///Email of the user as a string
     var email: String?
 }

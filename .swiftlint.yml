@@ -63,4 +63,6 @@ identifier_name:
     - ref
     - err
     - tap
+    - ret
+    - str
 reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, junit, html, emoji, sonarqube, markdown)

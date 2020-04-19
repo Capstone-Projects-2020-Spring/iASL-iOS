@@ -16,86 +16,95 @@ import AVFoundation
 import UIKit
 import Speech
 import Firebase
+import KeychainSwift
 
+/**Main View controller that's viewed if the user is already signed in or after the user signs into the app. This is where the users carry's out ASL to text to speech and speech to text to communicate with non-deaf/mute people*/
 class ViewController: UIViewController {
 
+    //MARK: Global Constants
+    ///The read hollow box that shows the area where the video is being fetched from
+    let areaBound = UIView()
+    ///Button to move to chat viewcontroller
     let remoteChatButton = UIButton()
-    let liveChatButton = UIButton()
+    ///Button to move to notes viewcontroller
     let notesButton = UIButton()
-    let buttonStack = UIStackView()
+    ///Button to transition between speech to text
     let liveButton = UIButton()
-    let tabController = UITabBarController()
+    ///UITextView to show the letters/words predicted by the model
     let outputTextView = UITextView()
+    ///UIViewView for dashboard outputtextview
     let textViewHolder = UIView()
+    ///Button to invoke speach to text
     let speakerButton = UIButton()
+    ///UIStackview to hold the four essentail buttons of the dashboard
     let controlButtonStack = UIStackView()
+    ///Button to clear the outputTextview
     let clearButton = UIButton()
+    ///Button to raise the screen and show the keybaord, prompting the user to type
     let keyboardButton = UIButton()
+    ///Button for users to open training mode
     let trainButton = UIButton()
-    var heightAnchor = NSLayoutConstraint()
-    var controlViewHeightAnchor = NSLayoutConstraint()
-    let chatLogButton = UIButton()
-    let controlView = UIView()
+	///Button for users to logout of the app
+    let logOutButton = UIButton()
+    ///UIView to hold the dashboard
+	let controlView = UIView()
+    ///Button to expand and collapse the dashboard
     let controlButton = UIButton()
+    ///UISlider for controlling the speed of the voice
     let slider = UISlider()
+    ///Variable to keep track of the voice utterance
     var speechSpeedDegree = Float()
-    var controlButtonStackBottomAnchor = NSLayoutConstraint()
+    ///Button to activate prediction assistant
     @objc let predictionAssistButton = UIButton()
-
-    private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "en-US"))!
-    private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
-    private var recognitionTask: SFSpeechRecognitionTask?
-    private let audioEngine = AVAudioEngine()
+    ///Variable for prediction layer to carry out predictions
+    let predictionLayer = PredictionLayer()
+    ///Syntesizer to generate from text to speech
     var synthesizer = AVSpeechSynthesizer()
-
+    ///Tracker for how many time the output from the model has been verified
+    var verificationCount = 0
+    ///Cache to store result from last prediction
+    var verificationCache = ""
+    ///UIView for top bar
     let topBar = UIView()
     // MARK: Storyboards Connections
-    var previewView = PreviewView()
+    ///Preview view to show the video preview from camera
+    let previewView = PreviewView()
+    ///Error message to show when the camera is unavailable
     let cameraUnavailableLabel = UILabel()
+    ///Button to resume camera operation
     let resumeButton = UIButton()
 
-    // MARK: Constants
-    private let animationDuration = 0.5
-    private let collapseTransitionThreshold: CGFloat = -40.0
-    private let expandThransitionThreshold: CGFloat = 40.0
+    ///Keychain reference for when we need to clear the keychain if someone logs out
+    let keychain = KeychainSwift(keyPrefix: "iasl_")
+
+    // MARK: Global Variables
+    ///Constraint to keep track of the height of the output text view, whether it's collapsed or expanded
+    var heightAnchor = NSLayoutConstraint()
+    ///Constraint to keep track of the heigh of the dashboard, whether it's collapsed or expanded
+    var controlViewHeightAnchor = NSLayoutConstraint()
+    ///Delay inbetween the prediction by the model (How often the app outputs a letter/word)
     private let delayBetweenInferencesMs: Double = 1000
 
     // MARK: Instance Variables
-    // Holds the results at any time
+    ///Result that's output by the model
     private var result: Result?
-    private var initialBottomSpace: CGFloat = 0.0
+    ///Time from the previous prediction
     private var previousInferenceTimeMs: TimeInterval = Date.distantPast.timeIntervalSince1970 * 1000
 
-	//Viet inspired variables
-	var lastLetter, lastNonLetter: String?
-	var recurCount = 0
-	var recurCountNonLetter = 0
-	let minimumConfidence: Float = 0.89
-	
+
     // MARK: Controllers that manage functionality
-    // Handles all the camera related functionality
+    /// Handles all the camera related functionality
     private lazy var cameraCapture = CameraFeedManager(previewView: previewView)
 
-    // Handles all data preprocessing and makes calls to run inference through the `Interpreter`.
+    /// Handles all data preprocessing and makes calls to run inference through the `Interpreter`.
     private var modelDataHandler: ModelDataHandler? =
-        ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo)
-
-    // Handles the presenting of results on the screen
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        if #available(iOS 13.0, *) {
-
-            ///Code for darmode
-            if self.traitCollection.userInterfaceStyle == .dark {
-
-            } else { ///Code for light mode
-
-            }
-        }
-    }
-
+        ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo, threadCount: 2)
+	
+	/// Notifies the container that the size of its view is about to change.
+	/// - Parameters:
+	///   - size: The new size for the container’s view.
+	///   - coordinator: The transition coordinator object managing the size change. You can use this object to animate your changes or get information about the transition that is in progress.
+	/// If the view controller is upside down we present speech to text.
         override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
 		// check current view controller
 		guard let currentPresentedViewController = self.presentedViewController else {
@@ -122,10 +131,11 @@ class ViewController: UIViewController {
 				dismiss(animated: true, completion: nil)
 			}
 		}
-		
+
     }
 
     // MARK: View Handling Methods
+    ///Main function to call all the necessary GUI and backend functions
     override func viewDidLoad() {
         super.viewDidLoad()
         previewViewSetup()
@@ -145,34 +155,40 @@ class ViewController: UIViewController {
         clearButtonSetup()
         keyboardButtonSetup()
         trainButtonSetup()
-        chatLogButtonSetup()
+        logOutButtonSetup()
         predictionAssistButtonSetup()
         sliderSetup()
+        areaBoundSetup()
+        //hideKeyboardWhenTappedAround()
         //speak()
-        if speakerButton.isSelected == true {
-            speak()
-        }
+
+
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
 
         let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleLeftSwipeGesture(_:)))
         previewView.addGestureRecognizer(swipeLeftGestureRecognizer)
         swipeLeftGestureRecognizer.direction = .left
-
+        ///Add up swipe gesture and assign a function to invoke when swiped up
         let swipeUpGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeUpGesture(_:)))
         view.addGestureRecognizer(swipeUpGestureRecognizer)
         swipeUpGestureRecognizer.direction = .up
-
+        ///Add down swipe gesture and assign a function to invoke when swiped down
         let swipeDownGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleDownSwipeGesture(_:)))
         view.addGestureRecognizer(swipeDownGestureRecognizer)
         swipeDownGestureRecognizer.direction = .down
-
+        ///Add right swipe gesture and assign a function to invoke when swiped right
         let swipeRightGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleRightSwipeGesture(_:)))
         previewView.addGestureRecognizer(swipeRightGestureRecognizer)
         swipeRightGestureRecognizer.direction = .right
 
+        ///Initialize the machine learning model
         guard modelDataHandler != nil else {
             fatalError("Model set up failed")
         }
 
+        ///Handles exception handler when camera is not available
         #if targetEnvironment(simulator)
         previewView.shouldUseClipboardImage = true
         NotificationCenter.default.addObserver(self,
@@ -181,9 +197,10 @@ class ViewController: UIViewController {
                                                object: nil)
         #endif
         cameraCapture.delegate = self
-
     }
 
+	/// Raise the whoe View when the keybaord appears
+	/// - Parameter notification: Notification posted immediately prior to the display of the keyboard.
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.view.frame.origin.y == 0 {
@@ -192,27 +209,37 @@ class ViewController: UIViewController {
         }
     }
 
+	/// Lower the keyboard down when the keyboard disappears
+	/// - Parameter notification: Notification posted immediately prior to the dismissal of the keyboard.
     @objc func keyboardWillHide(notification: NSNotification) {
         if self.view.frame.origin.y != 0 {
             self.view.frame.origin.y = 0
         }
     }
 
+
+
+    /// Action invoked when swiped up
+    /// - Parameter sender: the gesture recognizer itself
     @objc func handleSwipeUpGesture(_ sender: UISwipeGestureRecognizer) {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         //textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-
+        print("adaf")
         UIView.animate(withDuration: 0.2, animations: {
             self.heightAnchor.constant = -self.view.frame.size.height/2
             self.outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.6)
+            self.textViewHolder.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.6)
             self.view.layoutIfNeeded()
         })
 
     }
 
+    /// Action invoked when swiped down
+    /// - Parameter sender: the gesture recognizer itself
     @objc func handleDownSwipeGesture(_ sender: UISwipeGestureRecognizer) {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         //textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        ///Animattion when swiped down
 
         UIView.animate(withDuration: 0.2, animations: {
             self.heightAnchor.constant = -self.view.frame.size.height/4
@@ -221,6 +248,8 @@ class ViewController: UIViewController {
         })
     }
 
+    /// Action invoked when swiped left
+    /// - Parameter sender: the gesture recognizer itself
     @objc func handleLeftSwipeGesture(_ sender: UISwipeGestureRecognizer) {
         let vc = NotesVC()
         vc.modalTransitionStyle = .crossDissolve
@@ -228,6 +257,8 @@ class ViewController: UIViewController {
         present(vc, animated: true, completion: nil)
     }
 
+    /// Action invoked when swiped right
+    /// - Parameter sender: the gesture recognizer itself
     @objc func handleRightSwipeGesture(_ sender: UISwipeGestureRecognizer) {
         let vc = RemoteConversationVC()
         vc.modalTransitionStyle = .crossDissolve
@@ -235,6 +266,9 @@ class ViewController: UIViewController {
         present(vc, animated: true, completion: nil)
     }
 
+	
+	/// Notifies the view controller that its view is about to be added to a view hierarchy.
+	/// - Parameter animated: If true, the view is being added to the window using an animation.
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         #if !targetEnvironment(simulator)
@@ -242,18 +276,23 @@ class ViewController: UIViewController {
         #endif
     }
 
-    #if !targetEnvironment(simulator)
+	#if !targetEnvironment(simulator)
+	/// Notifies the view controller that its view is about to be removed from a view hierarchy.
+	/// - Parameter animated: If true, the disappearance of the view is being animated.
+	/// We stop the camera session here.
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         cameraCapture.stopSession()
     }
     #endif
 
-    ///This indicates the color of the status bar
+    ///Indicates the color of the status bar
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
 
+	
+	/// Called if app can't resume camera session. Presents an alert to let the user know.
     func presentUnableToResumeSessionAlert() {
         let alert = UIAlertController(
             title: "Unable to Resume Session",
@@ -264,21 +303,8 @@ class ViewController: UIViewController {
 
         self.present(alert, animated: true)
     }
-
-    ///Prepare for Segue to next storyboard view controller.
-    // MARK: Storyboard Segue Handlers
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
-
-        if segue.identifier == "EMBED" {
-
-            guard let tempModelDataHandler = modelDataHandler else {
-                return
-            }
-
-        }
-    }
-
+    
+    /// Invoke the model to identify from the given image in pasteboard
     @objc func classifyPasteboardImage() {
         guard let image = UIPasteboard.general.images?.first else {
             return
@@ -305,21 +331,41 @@ class ViewController: UIViewController {
 extension ViewController: CameraFeedManagerDelegate {
 
 	func didOutput(pixelBuffer: CVPixelBuffer) {
-        let currentTimeMs = Date().timeIntervalSince1970 * 1000
-        guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
-        previousInferenceTimeMs = currentTimeMs
-
-        // Pass the pixel buffer to TensorFlow Lite to perform inference.
+        /// Pass the pixel buffer to TensorFlow Lite to perform inference.
         result = modelDataHandler?.runModel(onFrame: pixelBuffer)
-		executeASLtoText()
-        // Display results by handing off to the InferenceViewController.
+        if let output = result {
+            if output.inferences[0].label != "nothing" {
+                print("\(output.inferences[0].label) \(output.inferences[0].confidence)")
+            }
+            if verificationCount == 0 {
+                verificationCache = output.inferences[0].label
+            }
+            print("\(verificationCount) \(verificationCache) == \(output.inferences[0].label)")
+            if verificationCount == 2 && verificationCache == output.inferences[0].label {
+                verificationCount = 0
+
+                let currentTimeMs = Date().timeIntervalSince1970 * 1000
+                if (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs{
+                    executeASLtoText()
+                    print("pushed")
+                } else { return }
+                previousInferenceTimeMs = currentTimeMs
+
+
+            } else if verificationCount < 2 {
+                verificationCount += 1
+            } else if verificationCache != output.inferences[0].label {
+                verificationCache = ""
+                verificationCount = 0
+            }
+        }
         DispatchQueue.main.async {
             let resolution = CGSize(width: CVPixelBufferGetWidth(pixelBuffer), height: CVPixelBufferGetHeight(pixelBuffer))
-
         }
     }
 
     // MARK: Session Handling Alerts
+	/// Updates the UI when session is interupted.
     func sessionWasInterrupted(canResumeManually resumeManually: Bool) {
 
         // Updates the UI when session is interupted.
@@ -329,7 +375,7 @@ extension ViewController: CameraFeedManagerDelegate {
             self.cameraUnavailableLabel.isHidden = false
         }
     }
-
+	/// Updates UI once session interruption has ended.
     func sessionInterruptionEnded() {
         // Updates UI once session interruption has ended.
         if !self.cameraUnavailableLabel.isHidden {
@@ -340,13 +386,12 @@ extension ViewController: CameraFeedManagerDelegate {
             self.resumeButton.isHidden = true
         }
     }
-
+	/// Handles session run time error by updating the UI and providing a button if session can be manually resumed.
     func sessionRunTimeErrorOccured() {
-        // Handles session run time error by updating the UI and providing a button if session can be manually resumed.
         self.resumeButton.isHidden = false
         previewView.shouldUseClipboardImage = true
     }
-
+	/// Presents alert if camera permission was denied.
     func presentCameraPermissionsDeniedAlert() {
         let alertController = UIAlertController(title: "Camera Permissions Denied", message: "Camera permissions have been denied for this app. You can change this by going to Settings", preferredStyle: .alert)
 
@@ -361,7 +406,7 @@ extension ViewController: CameraFeedManagerDelegate {
 
         previewView.shouldUseClipboardImage = true
     }
-
+	/// Presents alert if camera configuration has failed.
     func presentVideoConfigurationErrorAlert() {
         let alert = UIAlertController(title: "Camera Configuration Failed", message: "There was an error while configuring camera.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -373,6 +418,7 @@ extension ViewController: CameraFeedManagerDelegate {
 
 extension ViewController {
 
+    ///Setup the preview to show the live feed from the camera on screen
     func previewViewSetup() {
         view.addSubview(previewView)
         previewView.translatesAutoresizingMaskIntoConstraints = false
@@ -381,7 +427,8 @@ extension ViewController {
         previewView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         previewView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
-
+    
+    /// Setup top bar area to host top three buttons
     func topBarSetup() {
         view.addSubview(topBar)
         topBar.translatesAutoresizingMaskIntoConstraints = false
@@ -391,7 +438,8 @@ extension ViewController {
         topBar.heightAnchor.constraint(equalToConstant: 90).isActive = true
         //topBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
     }
-
+    
+    ///Setup the view the error message that the camera is not available
     func cameraUnavailableLabelSetup() {
         view.addSubview(cameraUnavailableLabel)
         cameraUnavailableLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -406,6 +454,7 @@ extension ViewController {
         cameraUnavailableLabel.isHidden = true
     }
 
+    ///Setup the button to resume the camera operation
     func resumeButtonSetup() {
         view.addSubview(resumeButton)
         resumeButton.translatesAutoresizingMaskIntoConstraints = false
@@ -416,6 +465,8 @@ extension ViewController {
         resumeButton.isHidden = true
     }
 
+    
+    ///Setup the remote chat button and add it on the view
     func remoteChatButtonSetup() {
         view.addSubview(remoteChatButton)
         remoteChatButton.translatesAutoresizingMaskIntoConstraints = false
@@ -429,6 +480,7 @@ extension ViewController {
         remoteChatButton.addTarget(self, action: #selector(remoteChatButtonTapped), for: .touchUpInside)
     }
 
+    ///Action when the remote chat button is tapped. Present RemoteConversationVC
     @objc func remoteChatButtonTapped() {
 
         //check if user is logged in, if not go to login screen
@@ -443,6 +495,7 @@ extension ViewController {
         //navigationController?.pushViewController(vc, animated: true)
     }
 
+    ///Setup live button, Presentes SpeechToTextVC VC
     func liveButtonSetup() {
         view.addSubview(liveButton)
         liveButton.translatesAutoresizingMaskIntoConstraints = false
@@ -456,6 +509,7 @@ extension ViewController {
         liveButton.addTarget(self, action: #selector(liveButtonTapped), for: .touchUpInside)
     }
 
+    ///Action for live button to present SpeechToTextVC on screen
     @objc func liveButtonTapped() {
         liveButton.isSelected = true
         let vc = SpeechToTextVC()
@@ -464,7 +518,8 @@ extension ViewController {
         present(vc, animated: true, completion: nil)
 
     }
-
+    
+    ///Setup note button on screen
     func notesButtonSetup() {
         view.addSubview(notesButton)
         notesButton.translatesAutoresizingMaskIntoConstraints = false
@@ -492,6 +547,19 @@ extension ViewController {
         }
     }
 
+    /**
+     Checks if the user is logged out so we can disable the log out button
+     - Returns: True if user is not looged in, false otherwise
+     */
+    func userIsLoggedOut() -> Bool {
+        if Auth.auth().currentUser?.uid == nil {
+            print("user is not signed in")
+            return true
+        }
+        return false
+    }
+
+    ///Action for note button. Presenets NoteVC
     @objc func notesButtonTapped() {
 
         //check if user is logged in, if not go to login screen
@@ -508,6 +576,7 @@ extension ViewController {
         //navigationController?.pushViewController(vc, animated: true)
     }
 
+    ///Setup position/size/style of the textview holder and add it on screen
     func textViewHolderSetup() {
         view.addSubview(textViewHolder)
         textViewHolder.translatesAutoresizingMaskIntoConstraints = false
@@ -524,6 +593,7 @@ extension ViewController {
 
     }
 
+    ///Setup position/size/style of the outputtextview holder and add it on screen
     func outputTextViewSetup() {
         textViewHolder.addSubview(outputTextView)
         outputTextView.translatesAutoresizingMaskIntoConstraints = false
@@ -537,29 +607,34 @@ extension ViewController {
         outputTextView.textColor = .black
         outputTextView.font = UIFont.boldSystemFont(ofSize: 30)
         outputTextView.isUserInteractionEnabled = true
+        outputTextView.autocorrectionType = .no
     }
 
+    ///Invokes audio engine to speak the text on output text view
     func speak() {
-        let utterance = AVSpeechUtterance(string: outputTextView.text!)
-        utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
-        utterance.rate = 0.4 + (speechSpeedDegree/500)
-        print("utterance rate: \(utterance)")
-        synthesizer = AVSpeechSynthesizer()
-        synthesizer.speak(utterance)
+        DispatchQueue.main.async {
+            let utterance = AVSpeechUtterance(string: self.outputTextView.text!)
+            utterance.voice = AVSpeechSynthesisVoice(language: "en-GB")
+            utterance.rate = 0.4 + (self.speechSpeedDegree/500)
+            print("utterance rate: \(utterance)")
+            self.synthesizer = AVSpeechSynthesizer()
+            self.synthesizer.speak(utterance)
+        }
     }
 
     // MARK: Control View
+    ///Setup position/size/style of the speak button holder and add it on screen
     func speakerButtonSetup() {
 
         speakerButton.backgroundColor = .systemOrange
         speakerButton.setTitle("Speak", for: .normal)
         speakerButton.setTitle("Mute", for: .selected)
-        speakerButton.isSelected = true
         speakerButton.addTarget(self, action: #selector(speakerButtonTapped), for: .touchUpInside)
     }
 
+    ///Action invoked when speaker button tapped. Asks audio engine to play the speech generated from text
     @objc func speakerButtonTapped() {
-        if speakerButton.isSelected == true {
+        if speakerButton.isSelected {
             speakerButton.isSelected = false
             speakerButton.backgroundColor = .systemOrange
             synthesizer.stopSpeaking(at: .word)
@@ -570,6 +645,7 @@ extension ViewController {
         }
     }
 
+    ///Setup position/size/style of the  train button and add it on screen
     func trainButtonSetup() {
         controlView.addSubview(trainButton)
         trainButton.translatesAutoresizingMaskIntoConstraints = false
@@ -584,6 +660,7 @@ extension ViewController {
         trainButton.backgroundColor = .systemYellow
     }
 
+    ///Setup position/size/style of the clear button and add it on screen
     func clearButtonSetup() {
 
         clearButton.backgroundColor = .systemRed
@@ -595,10 +672,12 @@ extension ViewController {
         clearButton.addTarget(self, action: #selector(clearButtonTapped), for: .touchUpInside)
     }
 
+    ///Action invoked when clear button is tapped. Clearns the output text view
     @objc func clearButtonTapped() {
         outputTextView.text.removeAll()
     }
 
+    ///Setup position/size/style of the  control button stack and add it on screen
     func controlButtonStackSetup() {
         controlView.addSubview(controlButtonStack)
         controlButtonStack.translatesAutoresizingMaskIntoConstraints = false
@@ -615,6 +694,7 @@ extension ViewController {
         controlButtonStack.layer.cornerRadius = 10
     }
 
+    ///Setup position/size/style of the keyboard button and add it on screen
     func keyboardButtonSetup() {
 
         keyboardButton.backgroundColor = .systemOrange
@@ -623,37 +703,43 @@ extension ViewController {
         keyboardButton.addTarget(self, action: #selector(keyboardButtonTapped), for: .touchUpInside)
     }
 
+    ///Action for when keyboard button is tapped, raises the view, activates output text view to edit and present the keyboard.
     @objc func keyboardButtonTapped() {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
 
         if keyboardButton.isSelected {
             keyboardButton.isSelected = false
             print("switched to keyboard mode")
+            keyboardButton.setTitle("ASL", for: .normal)
             outputTextView.isEditable = true
-            UIView.animate(withDuration: 0.2, animations: {
-                self.heightAnchor.constant = -self.view.frame.size.height+70
-                self.textViewHolder.layer.cornerRadius = 10
-                self.textViewHolder.backgroundColor = .white
-                self.view.layoutIfNeeded()
-            })
+            outputTextView.becomeFirstResponder()
+            outputTextView.backgroundColor = .white
+            UIView.animate(withDuration: 0.2) {
+                self.controlButton.isHidden = true
+                self.keyboardButton.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
+                self.keyboardButton.layer.cornerRadius = 10
+            }
         } else {
             print("switched to ASL mode")
             keyboardButton.isSelected = true
+            keyboardButton.setTitle("Keyboard", for: .normal)
             outputTextView.isEditable = false
+            outputTextView.resignFirstResponder()
+            outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.6)
+            textViewHolder.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.6)
+            UIView.animate(withDuration: 0.2) {
+                self.controlButton.isHidden = false
+                self.keyboardButton.layer.cornerRadius = 0
+            }
             dismissKeyboard()
-            UIView.animate(withDuration: 0.2, animations: {
-                self.heightAnchor.constant = -self.view.frame.size.height/2
-                self.textViewHolder.backgroundColor = UIColor.white.withAlphaComponent(0.5)
-                self.textViewHolder.layer.cornerRadius = 0
-                self.view.layoutIfNeeded()
-            })
         }
     }
 
+    ///Setup position/size/style of the dash board and add it on screen
     func controlViewSetup() {
         view.addSubview(controlView)
         controlView.translatesAutoresizingMaskIntoConstraints = false
-        controlViewHeightAnchor = controlView.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -54)
+        controlViewHeightAnchor = controlView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -54)
         controlView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         controlView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         controlView.heightAnchor.constraint(equalToConstant: view.frame.size.height/2).isActive = true
@@ -664,51 +750,94 @@ extension ViewController {
         controlView.isUserInteractionEnabled = true
     }
 
+    ///Setup position/size/style of the control button and add it on screen
     func controlButtonSetup() {
-
         controlButton.backgroundColor = .systemBlue
         controlButton.setTitle("More", for: .normal)
-        controlButton.setTitle("Less", for: .selected)
+        controlButton.setTitle("Close Dashboard", for: .selected)
         controlButton.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         controlButton.layer.cornerRadius = 10
         controlButton.clipsToBounds = true
         controlButton.addTarget(self, action: #selector(controlButtonTapped(_:)), for: .touchUpInside)
     }
 
+    ///Action for control button when tapped. Expands or collaps the dash button
     @objc func controlButtonTapped(_ sender: UIButton) {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         if sender.isSelected {
             sender.isSelected = false
             UIView.animate(withDuration: 0.2, animations: {
                 self.controlViewHeightAnchor.constant = -54
+                self.keyboardButton.isHidden = false
+                self.clearButton.isHidden = false
+                self.speakerButton.isHidden = false
+                self.controlButton.layer.maskedCorners = [ .layerMinXMinYCorner, .layerMinXMaxYCorner]
+                self.controlButton.layer.cornerRadius = 10
                 self.view.layoutIfNeeded()
             })
         } else {
             sender.isSelected = true
             UIView.animate(withDuration: 0.2, animations: {
                 self.controlViewHeightAnchor.constant = -self.view.frame.size.height/2
+                self.keyboardButton.isHidden = true
+                self.clearButton.isHidden = true
+                self.speakerButton.isHidden = true
+                self.controlButton.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
                 self.view.layoutIfNeeded()
             })
         }
 
     }
 
-    func chatLogButtonSetup() {
-        controlView.addSubview(chatLogButton)
-        chatLogButton.translatesAutoresizingMaskIntoConstraints = false
-        chatLogButton.topAnchor.constraint(equalTo: trainButton.bottomAnchor, constant: 20).isActive = true
-        chatLogButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
-        chatLogButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -10).isActive = true
-        chatLogButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        chatLogButton.setTitle("Conversation Log", for: .normal)
-        chatLogButton.backgroundColor = .systemOrange
-        chatLogButton.layer.cornerRadius = 10
+    ///Setup position/size/style of the log out button and add it on screen
+    func logOutButtonSetup() {
+        controlView.addSubview(logOutButton)
+
+        logOutButton.translatesAutoresizingMaskIntoConstraints = false
+        logOutButton.topAnchor.constraint(equalTo: trainButton.bottomAnchor, constant: 20).isActive = true
+        logOutButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
+        logOutButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -10).isActive = true
+        logOutButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        logOutButton.setTitle("Log out", for: .normal)
+        logOutButton.backgroundColor = .systemRed
+        logOutButton.layer.cornerRadius = 10
+        logOutButton.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
+
+        if userIsLoggedOut() {
+            logOutButton.isEnabled = false
+            logOutButton.alpha = 0.2
+        } else {
+            logOutButton.isEnabled = true
+            logOutButton.alpha = 1
+        }
     }
 
+    @objc func handleLogout() {
+
+        print("handle logout tapped")
+
+        //log the user out of firebase
+        do {
+            try Auth.auth().signOut()
+        } catch let logoutError {
+            print(logoutError)
+        }
+
+        //remove keys from keychain
+        keychain.clear()
+
+        //present the login screen
+        let loginController = LoginVC()
+        loginController.modalTransitionStyle = .crossDissolve
+        loginController.modalPresentationStyle = .fullScreen
+        present(loginController, animated: true, completion: nil)
+    }
+
+    ///Setup prediction assist button's location/size/styling and add on screen
     func predictionAssistButtonSetup() {
         controlView.addSubview(predictionAssistButton)
         predictionAssistButton.translatesAutoresizingMaskIntoConstraints = false
-        predictionAssistButton.topAnchor.constraint(equalTo: chatLogButton.bottomAnchor, constant: 20).isActive = true
+        predictionAssistButton.topAnchor.constraint(equalTo: logOutButton.bottomAnchor, constant: 20).isActive = true
         predictionAssistButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
         predictionAssistButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -10).isActive = true
         predictionAssistButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -720,6 +849,7 @@ extension ViewController {
         predictionAssistButton.addTarget(self, action: #selector(predictionAssistButtonTapped), for: .touchUpInside)
     }
 
+    ///Action for prediction button tapped. Enables Prediction algorithm to help the ASL
     @objc func predictionAssistButtonTapped() {
         if predictionAssistButton.isSelected {
             predictionAssistButton.isSelected = false
@@ -730,13 +860,9 @@ extension ViewController {
         }
     }
 
-    @objc func collapseButtonTapped() {
-        //textViewHolder
-    }
-
+    ///Setup position/size/style of the speech speed slider and add it on screen
     func sliderSetup() {
         controlView.addSubview(slider)
-        //slider.frame = CGRect(x: 0, y: 0, width: 250, height: 35)
         slider.translatesAutoresizingMaskIntoConstraints = false
         slider.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 20).isActive = true
         slider.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -20).isActive = true
@@ -756,13 +882,38 @@ extension ViewController {
 
     }
 
+    ///Action that listens to value chage and sets the speed for the voice utterance
     @objc func changeValue(_ sender: UISlider) {
         print("value is", Int(sender.value))
         speechSpeedDegree = sender.value
     }
+    
+    ///Setup position/size/style of the area bound and add it on screen
+    func areaBoundSetup(){
+        previewView.addSubview(areaBound)
+        areaBound.translatesAutoresizingMaskIntoConstraints = false
+        areaBound.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        areaBound.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        areaBound.widthAnchor.constraint(equalToConstant: view.frame.size.width-10).isActive = true
+        areaBound.heightAnchor.constraint(equalToConstant: view.frame.size.width-10).isActive = true
+        areaBound.layer.borderWidth = 2
+        areaBound.layer.borderColor = UIColor.red.cgColor
+
+        let textView = UILabel()
+        areaBound.addSubview(textView)
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.topAnchor.constraint(equalTo: areaBound.topAnchor, constant: 2).isActive = true
+        textView.leadingAnchor.constraint(equalTo: areaBound.leadingAnchor, constant: 2).isActive = true
+        textView.heightAnchor.constraint(equalToConstant: 12).isActive = true
+        textView.text = "Nothing Detected"
+        textView.font = UIFont.systemFont(ofSize: 12)
+        textView.textColor = .red
+    }
+
 
 }
 extension ViewController {
+    ///delete character from the output text veiw
 	func deleteCharacter() {
 		DispatchQueue.main.async {
             if self.outputTextView.text != "" {
@@ -772,6 +923,8 @@ extension ViewController {
             }
 		}
 	}
+    
+    ///add space to the output textview
 	func addSpace() {
 		DispatchQueue.main.async {
             if self.outputTextView.text != "" {
@@ -782,37 +935,32 @@ extension ViewController {
 		}
 	}
 
+    ///Update the output view with the latest result from the model and add necessary spaces or delete character. Also invokes prediction layer to assist with the ASL to text.
 	func executeASLtoText() {
 		switch result?.inferences[0].label {
 		case "del":
+            DispatchQueue.main.async {
+                self.areaBound.isHidden = true
+            }
 			deleteCharacter()
 		case "space":
+            DispatchQueue.main.async {
+                self.areaBound.isHidden = true
+            }
 			addSpace()
             speak()
 		case "nothing":
-			print("")
+            if true {}
 		default:
+
 			DispatchQueue.main.async {
+                self.areaBound.isHidden = true
 				let confidence = self.result!.inferences[0].confidence
 				let prediction: String = self.result!.inferences[0].label.description
-				if prediction == self.lastLetter && confidence > self.minimumConfidence {
-					print(prediction)
-					self.recurCount += 1
-				} else {
-					self.lastLetter = prediction
-					print("reset count")
-					
-					self.recurCount = 0
-				}
-				if self.recurCount > 3 {
-					self.outputTextView.text += self.result!.inferences[0].label.description
-					self.recurCount = 0
-					
-				}
+                print("actual \(prediction) output \(self.predictionLayer.letterProximitySwap(inputChar: prediction))")
+                self.outputTextView.text.append(self.predictionLayer.letterProximitySwap(inputChar: prediction))
 			}
 		}
-		
+
 	}
 }
-
-
