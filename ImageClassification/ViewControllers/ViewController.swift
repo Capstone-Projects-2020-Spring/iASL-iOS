@@ -18,6 +18,7 @@ import Speech
 import Firebase
 import KeychainSwift
 
+/**Main View controller that's viewed if the user is already signed in or after the user signs into the app. This is where the users carry's out ASL to text to speech and speech to text to communicate with non-deaf/mute people*/
 class ViewController: UIViewController {
 
     //MARK: Global Constants
@@ -162,9 +163,9 @@ class ViewController: UIViewController {
         //speak()
 
 
+
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-
 
         let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleLeftSwipeGesture(_:)))
         previewView.addGestureRecognizer(swipeLeftGestureRecognizer)
@@ -237,6 +238,8 @@ class ViewController: UIViewController {
     /// - Parameter sender: the gesture recognizer itself
     @objc func handleDownSwipeGesture(_ sender: UISwipeGestureRecognizer) {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        //textViewHolder.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        ///Animattion when swiped down
 
         UIView.animate(withDuration: 0.2, animations: {
             self.heightAnchor.constant = -self.view.frame.size.height/4
@@ -262,6 +265,7 @@ class ViewController: UIViewController {
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
     }
+
 	
 	/// Notifies the view controller that its view is about to be added to a view hierarchy.
 	/// - Parameter animated: If true, the view is being added to the window using an animation.
@@ -282,10 +286,11 @@ class ViewController: UIViewController {
     }
     #endif
 
-    ///This indicates the color of the status bar
+    ///Indicates the color of the status bar
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
+
 	
 	/// Called if app can't resume camera session. Presents an alert to let the user know.
     func presentUnableToResumeSessionAlert() {
@@ -298,8 +303,8 @@ class ViewController: UIViewController {
 
         self.present(alert, animated: true)
     }
-
-
+    
+    /// Invoke the model to identify from the given image in pasteboard
     @objc func classifyPasteboardImage() {
         guard let image = UIPasteboard.general.images?.first else {
             return
@@ -413,6 +418,7 @@ extension ViewController: CameraFeedManagerDelegate {
 
 extension ViewController {
 
+    ///Setup the preview to show the live feed from the camera on screen
     func previewViewSetup() {
         view.addSubview(previewView)
         previewView.translatesAutoresizingMaskIntoConstraints = false
@@ -421,7 +427,8 @@ extension ViewController {
         previewView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         previewView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
-
+    
+    /// Setup top bar area to host top three buttons
     func topBarSetup() {
         view.addSubview(topBar)
         topBar.translatesAutoresizingMaskIntoConstraints = false
@@ -431,7 +438,8 @@ extension ViewController {
         topBar.heightAnchor.constraint(equalToConstant: 90).isActive = true
         //topBar.backgroundColor = UIColor.black.withAlphaComponent(0.5)
     }
-
+    
+    ///Setup the view the error message that the camera is not available
     func cameraUnavailableLabelSetup() {
         view.addSubview(cameraUnavailableLabel)
         cameraUnavailableLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -446,6 +454,7 @@ extension ViewController {
         cameraUnavailableLabel.isHidden = true
     }
 
+    ///Setup the button to resume the camera operation
     func resumeButtonSetup() {
         view.addSubview(resumeButton)
         resumeButton.translatesAutoresizingMaskIntoConstraints = false
@@ -456,6 +465,8 @@ extension ViewController {
         resumeButton.isHidden = true
     }
 
+    
+    ///Setup the remote chat button and add it on the view
     func remoteChatButtonSetup() {
         view.addSubview(remoteChatButton)
         remoteChatButton.translatesAutoresizingMaskIntoConstraints = false
@@ -469,6 +480,7 @@ extension ViewController {
         remoteChatButton.addTarget(self, action: #selector(remoteChatButtonTapped), for: .touchUpInside)
     }
 
+    ///Action when the remote chat button is tapped. Present RemoteConversationVC
     @objc func remoteChatButtonTapped() {
 
         //check if user is logged in, if not go to login screen
@@ -483,6 +495,7 @@ extension ViewController {
         //navigationController?.pushViewController(vc, animated: true)
     }
 
+    ///Setup live button, Presentes SpeechToTextVC VC
     func liveButtonSetup() {
         view.addSubview(liveButton)
         liveButton.translatesAutoresizingMaskIntoConstraints = false
@@ -496,6 +509,7 @@ extension ViewController {
         liveButton.addTarget(self, action: #selector(liveButtonTapped), for: .touchUpInside)
     }
 
+    ///Action for live button to present SpeechToTextVC on screen
     @objc func liveButtonTapped() {
         liveButton.isSelected = true
         let vc = SpeechToTextVC()
@@ -504,7 +518,8 @@ extension ViewController {
         present(vc, animated: true, completion: nil)
 
     }
-
+    
+    ///Setup note button on screen
     func notesButtonSetup() {
         view.addSubview(notesButton)
         notesButton.translatesAutoresizingMaskIntoConstraints = false
@@ -544,6 +559,7 @@ extension ViewController {
         return false
     }
 
+    ///Action for note button. Presenets NoteVC
     @objc func notesButtonTapped() {
 
         //check if user is logged in, if not go to login screen
@@ -560,6 +576,7 @@ extension ViewController {
         //navigationController?.pushViewController(vc, animated: true)
     }
 
+    ///Setup position/size/style of the textview holder and add it on screen
     func textViewHolderSetup() {
         view.addSubview(textViewHolder)
         textViewHolder.translatesAutoresizingMaskIntoConstraints = false
@@ -576,6 +593,7 @@ extension ViewController {
 
     }
 
+    ///Setup position/size/style of the outputtextview holder and add it on screen
     func outputTextViewSetup() {
         textViewHolder.addSubview(outputTextView)
         outputTextView.translatesAutoresizingMaskIntoConstraints = false
@@ -592,6 +610,7 @@ extension ViewController {
         outputTextView.autocorrectionType = .no
     }
 
+    ///Invokes audio engine to speak the text on output text view
     func speak() {
         DispatchQueue.main.async {
             let utterance = AVSpeechUtterance(string: self.outputTextView.text!)
@@ -604,6 +623,7 @@ extension ViewController {
     }
 
     // MARK: Control View
+    ///Setup position/size/style of the speak button holder and add it on screen
     func speakerButtonSetup() {
 
         speakerButton.backgroundColor = .systemOrange
@@ -612,6 +632,7 @@ extension ViewController {
         speakerButton.addTarget(self, action: #selector(speakerButtonTapped), for: .touchUpInside)
     }
 
+    ///Action invoked when speaker button tapped. Asks audio engine to play the speech generated from text
     @objc func speakerButtonTapped() {
         if speakerButton.isSelected {
             speakerButton.isSelected = false
@@ -624,6 +645,7 @@ extension ViewController {
         }
     }
 
+    ///Setup position/size/style of the  train button and add it on screen
     func trainButtonSetup() {
         controlView.addSubview(trainButton)
         trainButton.translatesAutoresizingMaskIntoConstraints = false
@@ -638,6 +660,7 @@ extension ViewController {
         trainButton.backgroundColor = .systemYellow
     }
 
+    ///Setup position/size/style of the clear button and add it on screen
     func clearButtonSetup() {
 
         clearButton.backgroundColor = .systemRed
@@ -649,10 +672,12 @@ extension ViewController {
         clearButton.addTarget(self, action: #selector(clearButtonTapped), for: .touchUpInside)
     }
 
+    ///Action invoked when clear button is tapped. Clearns the output text view
     @objc func clearButtonTapped() {
         outputTextView.text.removeAll()
     }
 
+    ///Setup position/size/style of the  control button stack and add it on screen
     func controlButtonStackSetup() {
         controlView.addSubview(controlButtonStack)
         controlButtonStack.translatesAutoresizingMaskIntoConstraints = false
@@ -669,6 +694,7 @@ extension ViewController {
         controlButtonStack.layer.cornerRadius = 10
     }
 
+    ///Setup position/size/style of the keyboard button and add it on screen
     func keyboardButtonSetup() {
 
         keyboardButton.backgroundColor = .systemOrange
@@ -677,6 +703,7 @@ extension ViewController {
         keyboardButton.addTarget(self, action: #selector(keyboardButtonTapped), for: .touchUpInside)
     }
 
+    ///Action for when keyboard button is tapped, raises the view, activates output text view to edit and present the keyboard.
     @objc func keyboardButtonTapped() {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
 
@@ -708,6 +735,7 @@ extension ViewController {
         }
     }
 
+    ///Setup position/size/style of the dash board and add it on screen
     func controlViewSetup() {
         view.addSubview(controlView)
         controlView.translatesAutoresizingMaskIntoConstraints = false
@@ -722,6 +750,7 @@ extension ViewController {
         controlView.isUserInteractionEnabled = true
     }
 
+    ///Setup position/size/style of the control button and add it on screen
     func controlButtonSetup() {
         controlButton.backgroundColor = .systemBlue
         controlButton.setTitle("More", for: .normal)
@@ -732,7 +761,7 @@ extension ViewController {
         controlButton.addTarget(self, action: #selector(controlButtonTapped(_:)), for: .touchUpInside)
     }
 
-    ///action for the button to either raise and collapse the dashboard
+    ///Action for control button when tapped. Expands or collaps the dash button
     @objc func controlButtonTapped(_ sender: UIButton) {
         textViewHolder.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         if sender.isSelected {
@@ -760,6 +789,7 @@ extension ViewController {
 
     }
 
+    ///Setup position/size/style of the log out button and add it on screen
     func logOutButtonSetup() {
         controlView.addSubview(logOutButton)
 
@@ -780,17 +810,11 @@ extension ViewController {
             logOutButton.isEnabled = true
             logOutButton.alpha = 1
         }
-
     }
 
     @objc func handleLogout() {
 
         print("handle logout tapped")
-
-        //clear the arrays that hold user messages and reset the table
-//        messages.removeAll()
-//        messagesDictionary.removeAll()
-//        tableView.reloadData()
 
         //log the user out of firebase
         do {
@@ -809,6 +833,7 @@ extension ViewController {
         present(loginController, animated: true, completion: nil)
     }
 
+    ///Setup prediction assist button's location/size/styling and add on screen
     func predictionAssistButtonSetup() {
         controlView.addSubview(predictionAssistButton)
         predictionAssistButton.translatesAutoresizingMaskIntoConstraints = false
@@ -824,6 +849,7 @@ extension ViewController {
         predictionAssistButton.addTarget(self, action: #selector(predictionAssistButtonTapped), for: .touchUpInside)
     }
 
+    ///Action for prediction button tapped. Enables Prediction algorithm to help the ASL
     @objc func predictionAssistButtonTapped() {
         if predictionAssistButton.isSelected {
             predictionAssistButton.isSelected = false
@@ -834,10 +860,7 @@ extension ViewController {
         }
     }
 
-    @objc func collapseButtonTapped() {
-        //textViewHolder
-    }
-
+    ///Setup position/size/style of the speech speed slider and add it on screen
     func sliderSetup() {
         controlView.addSubview(slider)
         slider.translatesAutoresizingMaskIntoConstraints = false
@@ -859,11 +882,13 @@ extension ViewController {
 
     }
 
+    ///Action that listens to value chage and sets the speed for the voice utterance
     @objc func changeValue(_ sender: UISlider) {
         print("value is", Int(sender.value))
         speechSpeedDegree = sender.value
     }
-
+    
+    ///Setup position/size/style of the area bound and add it on screen
     func areaBoundSetup(){
         previewView.addSubview(areaBound)
         areaBound.translatesAutoresizingMaskIntoConstraints = false
@@ -888,6 +913,7 @@ extension ViewController {
 
 }
 extension ViewController {
+    ///delete character from the output text veiw
 	func deleteCharacter() {
 		DispatchQueue.main.async {
             if self.outputTextView.text != "" {
@@ -897,6 +923,8 @@ extension ViewController {
             }
 		}
 	}
+    
+    ///add space to the output textview
 	func addSpace() {
 		DispatchQueue.main.async {
             if self.outputTextView.text != "" {
@@ -907,6 +935,7 @@ extension ViewController {
 		}
 	}
 
+    ///Update the output view with the latest result from the model and add necessary spaces or delete character. Also invokes prediction layer to assist with the ASL to text.
 	func executeASLtoText() {
 		switch result?.inferences[0].label {
 		case "del":

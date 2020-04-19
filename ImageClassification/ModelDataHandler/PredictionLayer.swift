@@ -9,8 +9,11 @@
 import Foundation
 import UIKit
 
+/**
+    Prediction layer that helps filter out unnecessary word before it's pushed to the text view. It looks if the current alphabet can generate a word otherwise looks for the best alphabet from the similarity pool and looks to see if any other alphabet from the similarity pool can generate a word, if so then replace the current alphabet with a word generateable alphabet from the pool.
+ */
 class PredictionLayer {
-    
+    ///List of grouped alphabets that look similar to each other.
     let similarAlphabets = [["a","s","e","m","n","t"],
     ["g","h"],
     ["i","j","y"],
