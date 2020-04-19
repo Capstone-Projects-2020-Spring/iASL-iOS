@@ -303,21 +303,6 @@ class ViewController: UIViewController {
 
         self.present(alert, animated: true)
     }
-
-
-    ///Prepare for Segue to next storyboard view controller.
-    // MARK: Storyboard Segue Handlers
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
-
-        if segue.identifier == "EMBED" {
-
-            guard let tempModelDataHandler = modelDataHandler else {
-                return
-            }
-
-        }
-    }
     
     /// Invoke the model to identify from the given image in pasteboard
     @objc func classifyPasteboardImage() {
@@ -950,7 +935,7 @@ extension ViewController {
 		}
 	}
 
-    ///Update the outpute view with the latest result from the model and add necessary spaces or delete character. Also invokes prediction layer to assist with the asl to text
+    ///Update the output view with the latest result from the model and add necessary spaces or delete character. Also invokes prediction layer to assist with the ASL to text.
 	func executeASLtoText() {
 		switch result?.inferences[0].label {
 		case "del":
