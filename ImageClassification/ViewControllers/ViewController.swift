@@ -43,9 +43,7 @@ class ViewController: UIViewController {
     let keyboardButton = UIButton()
     ///Button for users to open training mode
     let trainButton = UIButton()
-
-    var heightAnchor = NSLayoutConstraint()
-    var controlViewHeightAnchor = NSLayoutConstraint()
+    ///Logout button for users to log out
     let logOutButton = UIButton()
 
     let controlView = UIView()
