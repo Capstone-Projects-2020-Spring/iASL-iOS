@@ -1266,42 +1266,70 @@ nav li[class] {
         <code>speech​Recognizer</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">speechRecognizer</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Speech recognier to activate speech to text</p>
+
+</div>
 </div>
 <div role="article" class="class" id="speechtotextvc.recognitionrequest">
     <h3>
         <code>recognition​Request</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">recognitionRequest</span>: <span class="type">SFSpeechAudioBufferRecognitionRequest</span>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>request to OS to start recognition</p>
+
+</div>
 </div>
 <div role="article" class="class" id="speechtotextvc.recognitiontask">
     <h3>
         <code>recognition​Task</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">recognitionTask</span>: <span class="type">SFSpeechRecognitionTask</span>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Task that handles recognitions</p>
+
+</div>
 </div>
 <div role="article" class="class" id="speechtotextvc.audioengine">
     <h3>
         <code>audio​Engine</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">audioEngine</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Audio engine to play back the text to speech</p>
+
+</div>
 </div>
 <div role="article" class="class" id="speechtotextvc.textview">
     <h3>
         <code>text​View</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">textView</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Textview to show texts recorder and transcribed from mictrophone</p>
+
+</div>
 </div>
 <div role="article" class="class" id="speechtotextvc.livebutton">
     <h3>
         <code>live​Button</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">liveButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button to go back to the ASL View Controller</p>
+
+</div>
 </div>
 <div role="article" class="class" id="speechtotextvc.supportedinterfaceorientations">
     <h3>
         <code>supported​Interface​Orientations</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">supportedInterfaceOrientations</span>: <span class="type">UIInterfaceOrientationMask</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Letting the OS know the type of orientations supported by this view controller</p>
+
+</div>
 </div>
     </section>
     <section id="methods">
@@ -1312,54 +1340,90 @@ nav li[class] {
         <code>view​Did​Load()</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewDidLoad</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Main function to call all the necessary UI and backend code</p>
+
+</div>
 </div>
 <div role="article" class="class" id="speechtotextvc.viewwilltransition(to:with:)">
     <h3>
         <code>view​Will​Transition(to:​with:​)</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewWillTransition</span>(<span class="variable">to</span> <span class="variable">size</span>: <span class="type">CGSize</span>, <span class="variable">with</span> <span class="variable">coordinator</span>: <span class="type">UIViewControllerTransitionCoordinator</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Detect orientation change and if Upside down from current orientation then go back to the ASL view controller</p>
+
+</div>
 </div>
 <div role="article" class="class" id="speechtotextvc.viewdidappear(_:)">
     <h3>
         <code>view​Did​Appear(_:​)</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">public</span> <span class="keyword">func</span> <span class="function">viewDidAppear</span>(<span class="keyword">_</span> <span class="variable">animated</span>: <span class="type">Bool</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Let the OS know what to do when the view appears</p>
+
+</div>
 </div>
 <div role="article" class="class" id="speechtotextvc.startrecording()">
     <h3>
         <code>start​Recording()</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">private</span> <span class="keyword">func</span> <span class="function">startRecording</span>() <span class="keyword">throws</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Start recording and output the result on the textview</p>
+
+</div>
 </div>
 <div role="article" class="class" id="speechtotextvc.speechrecognizer(_:availabilitydidchange:)">
     <h3>
         <code>speech​Recognizer(_:​availability​Did​Change:​)</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">public</span> <span class="keyword">func</span> <span class="function">speechRecognizer</span>(<span class="keyword">_</span> <span class="variable">speechRecognizer</span>: <span class="type">SFSpeechRecognizer</span>, <span class="variable">availabilityDidChange</span> <span class="variable">available</span>: <span class="type">Bool</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Recognize the speech and transcribe it</p>
+
+</div>
 </div>
 <div role="article" class="class" id="speechtotextvc.record()">
     <h3>
         <code>record()</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">record</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Start recording</p>
+
+</div>
 </div>
 <div role="article" class="class" id="speechtotextvc.textviewsetup()">
     <h3>
         <code>text​View​Setup()</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">textViewSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup text view to show transcriptions done from microphone</p>
+
+</div>
 </div>
 <div role="article" class="class" id="speechtotextvc.livebuttonsetup()">
     <h3>
         <code>live​Button​Setup()</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">liveButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup the ASL button to go back to ASL view controller</p>
+
+</div>
 </div>
 <div role="article" class="class" id="speechtotextvc.livebuttontapped()">
     <h3>
         <code>live​Button​Tapped()</code>
     </h3>
     <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">liveButtonTapped</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action to go back to the asl view controller</p>
+
+</div>
 </div>
 <div role="article" class="class" id="speechtotextvc.viewdidload()">
     <h3>
@@ -1376,7 +1440,7 @@ nav li[class] {
 
     <footer>
         <p>
-    Generated on <time datetime="2020-04-18T13:10:22-0400">April 18, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
+    Generated on <time datetime="2020-04-18T20:16:55-0400">April 18, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
 </p>
     </footer>
 </body>

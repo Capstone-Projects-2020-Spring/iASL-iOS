@@ -1210,6 +1210,10 @@ nav li[class] {
 </h1>
 
 <html><body><pre class="highlight"><code><span class="keyword">protocol</span> <span class="type">CameraFeedManagerDelegate</span>: <span class="keyword">class</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Delegate that manages the camera feed and how data is sent to our machine learning model.</p>
+
+</div>
 <section id="relationships">
     <h2 hidden>Relationships</h2>
         <figure>
@@ -1234,16 +1238,31 @@ nav li[class] {
 </g>
 </g>
 <!-- class -->
-<g id="node2" class="node unknown">
+<g id="node4" class="node unknown">
 <title>class</title>
-<path fill="none" stroke="black" d="M1067.98,-161.31C1067.98,-161.31 875.98,-161.31 875.98,-161.31 869.98,-161.31 863.98,-155.31 863.98,-149.31 863.98,-149.31 863.98,-137.31 863.98,-137.31 863.98,-131.31 869.98,-125.31 875.98,-125.31 875.98,-125.31 1067.98,-125.31 1067.98,-125.31 1073.98,-125.31 1079.98,-131.31 1079.98,-137.31 1079.98,-137.31 1079.98,-149.31 1079.98,-149.31 1079.98,-155.31 1073.98,-161.31 1067.98,-161.31"/>
-<text text-anchor="middle" x="971.98" y="-140.25" font-family="Menlo" font-size="14.00">class</text>
+<path fill="none" stroke="black" d="M204,-233.73C204,-233.73 12,-233.73 12,-233.73 6,-233.73 0,-227.73 0,-221.73 0,-221.73 0,-209.73 0,-209.73 0,-203.73 6,-197.73 12,-197.73 12,-197.73 204,-197.73 204,-197.73 210,-197.73 216,-203.73 216,-209.73 216,-209.73 216,-221.73 216,-221.73 216,-227.73 210,-233.73 204,-233.73"/>
+<text text-anchor="middle" x="108" y="-212.68" font-family="Menlo" font-size="14.00">class</text>
 </g>
 <!-- CameraFeedManagerDelegate&#45;&gt;class -->
-<g id="edge1" class="edge conformsTo">
+<g id="edge3" class="edge conformsTo">
 <title>CameraFeedManagerDelegate&#45;&gt;class</title>
-<path fill="none" stroke="black" d="M555.36,-129.42C643.2,-132.35 764.54,-136.39 853.62,-139.36"/>
-<polygon fill="black" stroke="black" points="853.66,-142.86 863.77,-139.7 853.89,-135.87 853.66,-142.86"/>
+<path fill="none" stroke="black" d="M375.21,-143.65C320.23,-158.48 242.26,-179.52 184.73,-195.04"/>
+<polygon fill="black" stroke="black" points="183.7,-191.69 174.96,-197.67 185.52,-198.45 183.7,-191.69"/>
+</g>
+<!-- ViewController -->
+<g id="node2" class="node class">
+<title>ViewController</title>
+<g id="a_node2"><a xlink:href="/ViewController" xlink:title="ViewController">
+<path fill="none" stroke="black" d="M1067.98,-161.31C1067.98,-161.31 875.98,-161.31 875.98,-161.31 869.98,-161.31 863.98,-155.31 863.98,-149.31 863.98,-149.31 863.98,-137.31 863.98,-137.31 863.98,-131.31 869.98,-125.31 875.98,-125.31 875.98,-125.31 1067.98,-125.31 1067.98,-125.31 1073.98,-125.31 1079.98,-131.31 1079.98,-137.31 1079.98,-137.31 1079.98,-149.31 1079.98,-149.31 1079.98,-155.31 1073.98,-161.31 1067.98,-161.31"/>
+<text text-anchor="middle" x="971.98" y="-140.25" font-family="Menlo" font-size="14.00">ViewController</text>
+</a>
+</g>
+</g>
+<!-- ViewController&#45;&gt;CameraFeedManagerDelegate -->
+<g id="edge1" class="edge conformsTo">
+<title>ViewController&#45;&gt;CameraFeedManagerDelegate</title>
+<path fill="none" stroke="black" d="M863.77,-139.7C777.25,-136.81 655.91,-132.77 565.57,-129.76"/>
+<polygon fill="black" stroke="black" points="565.66,-126.26 555.55,-129.42 565.43,-133.26 565.66,-126.26"/>
 </g>
 <!-- CameraBoard -->
 <g id="node3" class="node class">
@@ -1259,21 +1278,6 @@ nav li[class] {
 <title>CameraBoard&#45;&gt;CameraFeedManagerDelegate</title>
 <path fill="none" stroke="black" d="M283.44,-36.02C315.71,-54.26 365.74,-82.54 400.95,-102.44"/>
 <polygon fill="black" stroke="black" points="399.59,-105.69 410.02,-107.56 403.03,-99.6 399.59,-105.69"/>
-</g>
-<!-- ViewController -->
-<g id="node4" class="node class">
-<title>ViewController</title>
-<g id="a_node4"><a xlink:href="/ViewController" xlink:title="ViewController">
-<path fill="none" stroke="black" d="M204,-233.73C204,-233.73 12,-233.73 12,-233.73 6,-233.73 0,-227.73 0,-221.73 0,-221.73 0,-209.73 0,-209.73 0,-203.73 6,-197.73 12,-197.73 12,-197.73 204,-197.73 204,-197.73 210,-197.73 216,-203.73 216,-209.73 216,-209.73 216,-221.73 216,-221.73 216,-227.73 210,-233.73 204,-233.73"/>
-<text text-anchor="middle" x="108" y="-212.68" font-family="Menlo" font-size="14.00">ViewController</text>
-</a>
-</g>
-</g>
-<!-- ViewController&#45;&gt;CameraFeedManagerDelegate -->
-<g id="edge3" class="edge conformsTo">
-<title>ViewController&#45;&gt;CameraFeedManagerDelegate</title>
-<path fill="none" stroke="black" d="M174.79,-197.72C229.76,-182.89 307.73,-161.86 365.27,-146.34"/>
-<polygon fill="black" stroke="black" points="366.29,-149.68 375.04,-143.7 364.47,-142.92 366.29,-149.68"/>
 </g>
 </g>
 </svg>
@@ -1309,6 +1313,25 @@ nav li[class] {
     <p>This method delivers the pixel buffer of the current frame seen by the device's camera.</p>
 
 </div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>pixel​Buffer</th>
+    <td><code class="type">CVPixel​Buffer</code></td></td>
+    <td><p>A reference to a Core Video pixel buffer object to be infered. Basically the frame.</p>
+</td>
+</tr>
+  </tbody>
+</table>
 </div>
 <div role="article" class="protocol" id="camerafeedmanagerdelegate.presentcamerapermissionsdeniedalert()">
     <h3>
@@ -1349,6 +1372,25 @@ nav li[class] {
     <p>This method initimates that the session was interrupted.</p>
 
 </div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>resume​Manually</th>
+    <td><code class="type">Bool</code></td></td>
+    <td><p>boolean value for whether the session can be resumed manually</p>
+</td>
+</tr>
+  </tbody>
+</table>
 </div>
 <div role="article" class="protocol" id="camerafeedmanagerdelegate.sessioninterruptionended()">
     <h3>
@@ -1366,7 +1408,7 @@ nav li[class] {
 
     <footer>
         <p>
-    Generated on <time datetime="2020-04-18T13:10:22-0400">April 18, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
+    Generated on <time datetime="2020-04-18T20:16:55-0400">April 18, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
 </p>
     </footer>
 </body>
