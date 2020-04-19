@@ -283,9 +283,66 @@ class ModelDataHandler {
     if isModelQuantized {
         return byteData
     }
-
+	
     // Not quantized, convert to floats
     let bytes = [UInt8](unsafeData: byteData)!
+	
+	//data to send
+	let base64String = byteData.base64EncodedString()
+	// url of server
+	let url = URL(string: "http://192.168.73.155:8080/predict_img")!
+	//request
+	let jsonEncoder = JSONEncoder()
+	let paramaters: [String:Any] = ["img":base64String]
+
+	var request = URLRequest(url: url)
+//	request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+
+//		let send = try! JSONSerialization.data(withJSONObject: paramaters, options: .prettyPrinted)
+	request.httpBody = paramaters.percentEncoded()
+	request.httpMethod = "POST"
+	//SEND
+	let task = URLSession.shared.dataTask(with: request) { data, response, error in
+				guard let data = data,
+					let response = response as? HTTPURLResponse,
+					error == nil else {                                              // check for fundamental networking error
+					print("error", error ?? "Unknown error")
+						if let error = error as NSError?, error.domain == NSURLErrorDomain && error.code == NSURLErrorNotConnectedToInternet {
+							  //not connected
+							DispatchQueue.main.async {
+							print("NO INTERNET")
+							}
+							
+						}else{
+							DispatchQueue.main.async {
+								print( "Error \(error.debugDescription.description)")
+							}
+						}
+					return
+				}
+
+				guard (200 ... 299) ~= response.statusCode else {                    // check for http errors
+					print("statusCode should be 2xx, but is \(response.statusCode)")
+					print("response = \(response)")
+					DispatchQueue.main.async {
+						print("Message was not sent. Status code is \(response.statusCode).")
+					}
+					return
+				}
+
+				let responseString = String(data: data, encoding: .utf8)
+	//			print("responseString = \(responseString)")
+				
+				DispatchQueue.main.async {
+					print(responseString)
+				}
+				
+	//			defaultPresent(vc: )
+			}
+
+			task.resume()
+	//		defaultPresent(vc: EmailCustomerListVC())
+		
     var floats = [Float]()
     for index in 0..<bytes.count {
         floats.append((Float(bytes[index]) / 127.5) - 1.0)
@@ -330,4 +387,26 @@ extension Array {
     }
     #endif  // swift(>=5.0)
   }
+}
+extension Dictionary {
+    func percentEncoded() -> Data? {
+        return map { key, value in
+            let escapedKey = "\(key)".addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
+            let escapedValue = "\(value)".addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
+            return escapedKey + "=" + escapedValue
+        }
+        .joined(separator: "&")
+        .data(using: .utf8)
+    }
+	
+}
+extension CharacterSet {
+    static let urlQueryValueAllowed: CharacterSet = {
+        let generalDelimitersToEncode = ":#[]@" // does not include "?" or "/" due to RFC 3986 - Section 3.4
+        let subDelimitersToEncode = "!$&'()*+,;="
+
+        var allowed = CharacterSet.urlQueryAllowed
+        allowed.remove(charactersIn: "\(generalDelimitersToEncode)\(subDelimitersToEncode)")
+        return allowed
+    }()
 }
