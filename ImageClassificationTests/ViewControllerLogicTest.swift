@@ -25,10 +25,10 @@ class ViewControllerLogicTest: XCTestCase {
     */
     func testAddASLText() {
 
-        let image = #imageLiteral(resourceName: "V")
-        guard let buffer = CVImageBuffer.buffer(from: image) else {
-            return
-        }
+//         let image = #imageLiteral(resourceName: "V")
+//         guard let buffer = CVImageBuffer.buffer(from: image) else {
+//             return
+//         }
         
     }
 
