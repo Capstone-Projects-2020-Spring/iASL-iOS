@@ -202,13 +202,6 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		AA24751A2170A054000B6A31 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		AA5FEB7A21355CCC00F9BD4B /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -277,7 +270,6 @@
 				602388982426E01B0041E2C3 /* Object Models */,
 				AAAB096C218981A30015A1F2 /* Extensions */,
 				AA16E5A02180843700D9E153 /* Cells */,
-				AA24751A2170A054000B6A31 /* Views */,
 				AABFCBB0213FE05000C0A67B /* ModelDataHandler */,
 				AAE79E932135236700E7AC1F /* ViewControllers */,
 				AAE79E972135268800E7AC1F /* Camera Feed */,
@@ -837,7 +829,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ImageClassification/iASL.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = N6ESLEE34B;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -869,7 +861,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ImageClassification/iASL.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = N6ESLEE34B;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

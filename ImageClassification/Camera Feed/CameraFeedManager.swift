@@ -104,7 +104,7 @@ class CameraFeedManager: NSObject {
 		// Initializes the session
 		session.sessionPreset = .high
 		self.previewView.session = session
-		self.previewView.previewLayer.connection?.videoOrientation = .portrait
+		self.previewView.previewLayer.connection?.videoOrientation = .landscapeLeft
 		self.previewView.previewLayer.videoGravity = .resizeAspectFill
 		self.attemptToConfigureSession()
 	}
@@ -271,7 +271,7 @@ class CameraFeedManager: NSObject {
 
 		if session.canAddOutput(videoDataOutput) {
 			session.addOutput(videoDataOutput)
-			videoDataOutput.connection(with: .video)?.videoOrientation = .portrait
+			videoDataOutput.connection(with: .video)?.videoOrientation = .landscapeLeft
 			return true
 		}
 		return false

@@ -108,6 +108,18 @@ class ViewController: UIViewController {
         override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
 		// check current view controller
 		guard let currentPresentedViewController = self.presentedViewController else {
+			switch UIDevice.current.orientation {
+			case .portrait:
+				previewView.previewLayer.connection?.videoOrientation = .portrait
+			case .landscapeLeft:
+				previewView.previewLayer.connection?.videoOrientation = .landscapeLeft
+			case .landscapeRight:
+				previewView.previewLayer.connection?.videoOrientation = .landscapeRight
+			case .portraitUpsideDown:
+				previewView.previewLayer.connection?.videoOrientation = .portraitUpsideDown
+			default:
+				previewView.previewLayer.connection?.videoOrientation = .landscapeRight
+			}
 			// if its the main view controller check if its upside down
         if UIDevice.current.orientation == UIDeviceOrientation.portraitUpsideDown {
             liveButton.isSelected = true
@@ -118,7 +130,7 @@ class ViewController: UIViewController {
             vc.modalTransitionStyle = .crossDissolve
             present(vc, animated: true, completion: {vc.view.rotate(angle: 180)})
             //
-			}
+		}
 			return
 		}
 		// if the view controller is presenting speech to text
@@ -426,6 +438,7 @@ extension ViewController {
         previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         previewView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         previewView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+
     }
     
     /// Setup top bar area to host top three buttons
