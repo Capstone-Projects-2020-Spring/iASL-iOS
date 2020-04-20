@@ -79,7 +79,7 @@ class ModelDataHandler {
   /// Information about the alpha component in RGBA data.
   private let alphaComponent = (baseOffset: 4, moduloRemainder: 3)
 
-	private var frames: [String] = []
+	private var frames: Array<String> = []
   // MARK: - Initialization
 
   /// A failable initializer for `ModelDataHandler`. A new instance is created if the model and
@@ -346,7 +346,7 @@ class ModelDataHandler {
 								// make sure this JSON is in the format we expect
 								if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
 									// try to read out a string array
-									if let scores = json["scores"] as? [Double] {
+									if let scores:Array<Double> = json["scores"] as? Array<Double> {
 										print(scores)
 										var max : Double = 0
 										var index: Int = 0
