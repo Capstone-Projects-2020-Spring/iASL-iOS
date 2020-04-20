@@ -100,6 +100,21 @@ class ViewController: UIViewController {
     private var modelDataHandler: ModelDataHandler? =
         ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo, threadCount: 2)
 	
+	fileprivate func setPreviewViewOrientaion() {
+		switch UIDevice.current.orientation {
+		case .portrait:
+			previewView.previewLayer.connection?.videoOrientation = .portrait
+		case .landscapeLeft:
+			previewView.previewLayer.connection?.videoOrientation = .landscapeRight
+		case .landscapeRight:
+			previewView.previewLayer.connection?.videoOrientation = .landscapeLeft
+		case .portraitUpsideDown:
+			previewView.previewLayer.connection?.videoOrientation = .portraitUpsideDown
+		default:
+			previewView.previewLayer.connection?.videoOrientation = .landscapeRight
+		}
+	}
+	
 	/// Notifies the container that the size of its view is about to change.
 	/// - Parameters:
 	///   - size: The new size for the container’s view.
@@ -108,18 +123,7 @@ class ViewController: UIViewController {
         override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
 		// check current view controller
 		guard let currentPresentedViewController = self.presentedViewController else {
-			switch UIDevice.current.orientation {
-			case .portrait:
-				previewView.previewLayer.connection?.videoOrientation = .portrait
-			case .landscapeLeft:
-				previewView.previewLayer.connection?.videoOrientation = .landscapeLeft
-			case .landscapeRight:
-				previewView.previewLayer.connection?.videoOrientation = .landscapeRight
-			case .portraitUpsideDown:
-				previewView.previewLayer.connection?.videoOrientation = .portraitUpsideDown
-			default:
-				previewView.previewLayer.connection?.videoOrientation = .landscapeRight
-			}
+			setPreviewViewOrientaion()
 			// if its the main view controller check if its upside down
         if UIDevice.current.orientation == UIDeviceOrientation.portraitUpsideDown {
             liveButton.isSelected = true
@@ -151,6 +155,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         previewViewSetup()
+		setPreviewViewOrientaion()
         textViewHolderSetup()
         outputTextViewSetup()
         topBarSetup()
@@ -283,6 +288,7 @@ class ViewController: UIViewController {
 	/// - Parameter animated: If true, the view is being added to the window using an animation.
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+		setPreviewViewOrientaion()
         #if !targetEnvironment(simulator)
         cameraCapture.checkCameraConfigurationAndStartSession()
         #endif
