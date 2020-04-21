@@ -26,19 +26,19 @@ class PredictionLayer {
     init(){}
     
     ///Finds the closest match for the word and ignores alphabet that doesn't match
-    func letterProximitySwap(inputChar:String) -> String {
+    func letterProximitySwap(inputWord:String, inputChar:String) -> String {
         var ret = ""
         let index = isSimilarLetter(inputChar: inputChar)
         print("a")
         if index != -1 {
             print("b")
-            let predictedWord = fetchPossibleWord(str: self.word+inputChar)
+            let predictedWord = fetchPossibleWord(str: inputWord+inputChar)
             if predictedWord?.count != 0 {
                 ret = inputChar
                 print("c : \(predictedWord)")
             } else {
                 for alphabet in similarAlphabets[index] {
-                    let predictedWord = fetchPossibleWord(str: self.word+alphabet)
+                    let predictedWord = fetchPossibleWord(str: inputWord+alphabet)
                     if predictedWord?.count != 0 {
                         print("second if statement: \(predictedWord)")
                         ret = alphabet
@@ -49,7 +49,6 @@ class PredictionLayer {
         } else {
             ret = inputChar
         }
-        self.word += ret
         return ret
     }
     
