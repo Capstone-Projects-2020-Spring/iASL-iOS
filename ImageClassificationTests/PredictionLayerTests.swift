@@ -25,7 +25,9 @@ class PredictionLayerTests: XCTestCase {
     ///Tests the letter proximity swap function by letting the
     func testLetterProximitySwap(){
         let predictionLayer = PredictionLayer()
-        predictionLayer.letterProximitySwap(inputChar: <#T##String#>)
+        predictionLayer.letterProximitySwap(inputWord: "t", inputChar: "t")
+        assert(predictionLayer.letterProximitySwap(inputWord: "t", inputChar: "t") == "a", "Letter Proximity Passed")
+        assert(predictionLayer.letterProximitySwap(inputWord: "t", inputChar: "a") == "a", "Letter Proximity Passed")
     }
     
     ///Inputs two sets of alphabets, one with similar proximity and no proximity, the test should pass if the alphabets with similarities return with an index between 0 - 4 and non similar alphabets should return -1
