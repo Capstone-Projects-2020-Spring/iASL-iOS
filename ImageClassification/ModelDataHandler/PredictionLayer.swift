@@ -14,11 +14,11 @@ import UIKit
  */
 class PredictionLayer {
     ///List of grouped alphabets that look similar to each other.
-    let similarAlphabets = [["a","s","e","m","n","t"],
-    ["g","h"],
-    ["i","j","y"],
-    ["k","p"],
-    ["u","v"]]
+    let similarAlphabets = [["A","S","E","M","N","T"],
+    ["G","H"],
+    ["I","J","Y"],
+    ["K","P"],
+    ["U","V"]]
     
     var word = String()
     var cache = [String]()
