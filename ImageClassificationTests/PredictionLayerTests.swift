@@ -24,16 +24,25 @@ class PredictionLayerTests: XCTestCase {
 
     ///Tests the letter proximity swap function by letting the
     func testLetterProximitySwap(){
-        
+        let predictionLayer = PredictionLayer()
     }
     
     ///Inputs two sets of alphabets, one with similar proximity and no proximity, the test should pass if the alphabets with similarities return with an index between 0 - 4 and non similar alphabets should return -1
     func testIsSimilarLetter(){
-        
+        let predictionLayer = PredictionLayer()
+        predictionLayer.isSimilarLetter(inputChar: "a")
+        assert(predictionLayer.isSimilarLetter(inputChar: "a") == 0, "Test Passed")
+        assert(predictionLayer.isSimilarLetter(inputChar: "z") == -1, "Test Passed")
+        assert(predictionLayer.isSimilarLetter(inputChar: "g") == 1, "Test Passed")
+        assert(predictionLayer.isSimilarLetter(inputChar: "a") != 1, "Test Passed")
+        assert(predictionLayer.isSimilarLetter(inputChar: "i") == 2, "Test Passed")
+        assert(predictionLayer.isSimilarLetter(inputChar: "k") == 3, "Test Passed")
+        assert(predictionLayer.isSimilarLetter(inputChar: "u") == 4, "Test Passed")
     }
     
     ///Inputs two sets of words, one with incomplete words, the test should pass if the function return a known completed word with an index between 0 - 4 and absolute non sense words should return nil
     func testFetchPossibleWord(){
+        let predictionLayer = PredictionLayer()
         
     }
     

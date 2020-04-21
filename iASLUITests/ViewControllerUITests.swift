@@ -55,13 +55,13 @@ class ViewControllerUITests: XCTestCase {
         app.launch()
         app/*@START_MENU_TOKEN@*/.staticTexts["More"]/*[[".buttons[\"More\"].staticTexts[\"More\"]",".staticTexts[\"More\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
         app.buttons["Close Dashboard"].tap()
- 
     }
     
     ///Check the transition from main view controller to transcription vc by tapping on the live button
     func testTransitionToSpeechToTextAndBackByButtonTap(){
-        
-
+        let app = XCUIApplication()
+        app.buttons["yo"].tap()
+        app.buttons["Stop Recording"].tap()
     }
     
     ///Check the transition from main view controller to transcription vc by changing device orientation
@@ -72,7 +72,29 @@ class ViewControllerUITests: XCTestCase {
     
     ///Test by raising the keyboard and then type and then hit the keybaord button to remove the keybaord
     func testKeyboardExpandibility(){
-    
+        
+        let app = XCUIApplication()
+        app.launch()
+        app.buttons["Keyboard"].tap()
+        
+        app/*@START_MENU_TOKEN@*/.keys["H"]/*[[".keyboards.keys[\"H\"]",".keys[\"H\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+
+        
+        let eKey = app/*@START_MENU_TOKEN@*/.keys["e"]/*[[".keyboards.keys[\"e\"]",".keys[\"e\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+        eKey.tap()
+        eKey.tap()
+        
+        let lKey = app/*@START_MENU_TOKEN@*/.keys["l"]/*[[".keyboards.keys[\"l\"]",".keys[\"l\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+        lKey.tap()
+        lKey.tap()
+        lKey.tap()
+        
+        let oKey = app/*@START_MENU_TOKEN@*/.keys["o"]/*[[".keyboards.keys[\"o\"]",".keys[\"o\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+        oKey.tap()
+        oKey.tap()
+        app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 2).children(matching: .textView).element.tap()
+        
+        
         
     }
     
@@ -83,6 +105,16 @@ class ViewControllerUITests: XCTestCase {
     
     ///Test slider by swiping it all ways and test the variable change
     func testSliderBySliding(){
+        
+        
+        let app = XCUIApplication()
+        app.launch()
+        app/*@START_MENU_TOKEN@*/.staticTexts["More"]/*[[".buttons[\"More\"].staticTexts[\"More\"]",".staticTexts[\"More\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.sliders["50%"].swipeRight()
+        
+        let element = app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 2)
+        element/*@START_MENU_TOKEN@*/.press(forDuration: 2.0);/*[[".tap()",".press(forDuration: 2.0);"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+        element.swipeLeft()
         
 
     }
@@ -95,17 +127,47 @@ class ViewControllerUITests: XCTestCase {
     
     ///test train button by tapping on it and moving on to Train View Controller
     func testTrainButton(){
-   
+        
+        let app = XCUIApplication()
+        app.launch()
+        app.buttons["More"].tap()
+        let helpUsLearnAslStaticText = app/*@START_MENU_TOKEN@*/.staticTexts["Help Us Learn ASL"]/*[[".buttons[\"Help Us Learn ASL\"].staticTexts[\"Help Us Learn ASL\"]",".staticTexts[\"Help Us Learn ASL\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+        helpUsLearnAslStaticText.tap()
+        helpUsLearnAslStaticText.tap()
+        
+        
     }
     
     ///test prediction assist button by turning it on and off and observing it's state
     func testPredictionAssistButton(){
-
+        
     }
     
     ///Test clear button by removing something added to the output text view and then removing them
     func testClearButton(){
-
+        
+//        let app = XCUIApplication()
+//        app.launch()
+//        app/*@START_MENU_TOKEN@*/.staticTexts["Keyboard"]/*[[".buttons[\"Keyboard\"].staticTexts[\"Keyboard\"]",".staticTexts[\"Keyboard\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+//
+//        let hKey = app/*@START_MENU_TOKEN@*/.keys["H"]/*[[".keyboards.keys[\"H\"]",".keys[\"H\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+//        hKey.tap()
+//        hKey.tap()
+//
+//        let eKey = app/*@START_MENU_TOKEN@*/.keys["e"]/*[[".keyboards.keys[\"e\"]",".keys[\"e\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+//        eKey.tap()
+//        eKey.tap()
+//
+//        let lKey = app/*@START_MENU_TOKEN@*/.keys["l"]/*[[".keyboards.keys[\"l\"]",".keys[\"l\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+//        lKey.tap()
+//        lKey.tap()
+//        lKey.tap()
+//
+//        let oKey = app/*@START_MENU_TOKEN@*/.keys["o"]/*[[".keyboards.keys[\"o\"]",".keys[\"o\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+//        oKey.tap()
+//        oKey.tap()
+//        app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 2).children(matching: .textView).element.tap()
+//
         
     }
     
