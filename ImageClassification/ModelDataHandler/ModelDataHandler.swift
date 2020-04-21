@@ -64,9 +64,9 @@ class ModelDataHandler {
 	/// How many channels in the image (3 for RGB or 4 if it’s RGBA, but it shouldn’t be RGBA in our case.)
   let inputChannels = 3
 	/// the width the input is scaled to
-  let inputWidth = 150
+  let inputWidth = 50
 	/// The height the input is scaled to
-  let inputHeight = 150
+  let inputHeight = 50
 
   // MARK: - Private Properties
 
@@ -219,7 +219,86 @@ class ModelDataHandler {
     }
   }
 	var videoResult: Result?
-  /// Returns the RGB data representation of the given image buffer with the specified `byteCount`.
+	fileprivate func oldServerResponeFunction(data: Data) {
+		//							print(responseString)
+		//							let dataOFResponse = Data(responseString!)
+		do {
+			// make sure this JSON is in the format we expect
+			if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+				// try to read out a string array
+				if let scores:Array<Double> = json["scores"] as? Array<Double> {
+					print(scores)
+					var max : Double = 0
+					var index: Int = 0
+					var count: Int = 0
+					for score in scores{
+						if score > max{
+							max = score
+							index = count
+						}
+						count += 1
+					}
+					switch index {
+					case 0:
+						print("yes")
+						self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "yes")])
+					case 1:
+						print("again")
+						self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "again")])
+					case 2:
+						print("boy")
+						self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "boy")])
+					case 3:
+						print("girl")
+						self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "girl")])
+						
+					case 4:
+						print("no")
+						self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "no")])
+					case 5:
+						print("ok")
+						self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "ok")])
+					case 6:
+						print("help")
+						self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "help")])
+					case 7:
+						print("hello")
+						self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "hello")])
+					case 8:
+						print("finish")
+						self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "finish")])
+					case 9:
+						print("me")
+						self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "finish")])
+					default:
+						print("ERROR")
+						self.videoResult = nil
+					}
+				}
+			}
+		} catch let error as NSError {
+			print("Failed to load: \(error.localizedDescription)")
+		}
+	}
+
+	func interpretServerPrediction(data: Data){
+		do {
+			// make sure this JSON is in the format we expect
+			if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+				// try to read out a string array
+				if let scores: [String:Double] = json["scores"] as? [String:Double] {
+					print(scores)
+					let greatestScore = scores.max { a, b in a.value < b.value }
+					print(greatestScore!.key)
+					
+					
+				}
+			}
+		} catch let error as NSError {
+			print("Failed to load: \(error.localizedDescription)")
+		}
+	}
+/// Returns the RGB data representation of the given image buffer with the specified `byteCount`.
   ///
   /// - Parameters
   ///   - buffer: The pixel buffer to convert to RGB data.
@@ -340,65 +419,8 @@ class ModelDataHandler {
 //						print("responseString = \(responseString)")
 						
 						DispatchQueue.main.async {
-//							print(responseString)
-//							let dataOFResponse = Data(responseString!)
-							do {
-								// make sure this JSON is in the format we expect
-								if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-									// try to read out a string array
-									if let scores:Array<Double> = json["scores"] as? Array<Double> {
-										print(scores)
-										var max : Double = 0
-										var index: Int = 0
-										var count: Int = 0
-										for score in scores{
-											if score > max{
-												max = score
-												index = count
-											}
-											count += 1
-										}
-										switch index {
-											case 0:
-												print("yes")
-												self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "yes")])
-											case 1:
-												print("again")
-												self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "again")])
-											case 2:
-												print("boy")
-												self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "boy")])
-											case 3:
-												print("girl")
-												self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "girl")])
-											
-											case 4:
-												print("no")
-												self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "no")])
-											case 5:
-												print("ok")
-												self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "ok")])
-											case 6:
-												print("help")
-												self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "help")])
-											case 7:
-												print("hello")
-												self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "hello")])
-											case 8:
-												print("finish")
-												self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "finish")])
-											case 9:
-											print("me")
-											self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "finish")])
-										default:
-											print("ERROR")
-											self.videoResult = nil
-										}
-									}
-								}
-							} catch let error as NSError {
-								print("Failed to load: \(error.localizedDescription)")
-							}
+//							oldServerResponeFunction()
+							self.interpretServerPrediction(data: data)
 						}
 						
 			//			defaultPresent(vc: )
