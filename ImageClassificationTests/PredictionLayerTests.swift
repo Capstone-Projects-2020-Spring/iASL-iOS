@@ -25,6 +25,7 @@ class PredictionLayerTests: XCTestCase {
     ///Tests the letter proximity swap function by letting the
     func testLetterProximitySwap(){
         let predictionLayer = PredictionLayer()
+        predictionLayer.letterProximitySwap(inputChar: <#T##String#>)
     }
     
     ///Inputs two sets of alphabets, one with similar proximity and no proximity, the test should pass if the alphabets with similarities return with an index between 0 - 4 and non similar alphabets should return -1
@@ -43,7 +44,9 @@ class PredictionLayerTests: XCTestCase {
     ///Inputs two sets of words, one with incomplete words, the test should pass if the function return a known completed word with an index between 0 - 4 and absolute non sense words should return nil
     func testFetchPossibleWord(){
         let predictionLayer = PredictionLayer()
-        
+        assert(predictionLayer.fetchPossibleWord(str: "wo") != nil, "Fetch possible word Test Passed")
+        assert(predictionLayer.fetchPossibleWord(str: "ccccc") == [], "Fetch possible word Test Passed")
+        assert(predictionLayer.fetchPossibleWord(str: "wo")![0] == "would", "Fetch possible word Test Passed")
     }
     
     
