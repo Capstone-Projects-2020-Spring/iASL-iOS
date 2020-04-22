@@ -78,25 +78,11 @@ class ViewControllerUITests: XCTestCase {
     
     ///Test by raising the keyboard and then type and then hit the keybaord button to remove the keybaord
     func testKeyboardExpandibility(){
-        let textview = XCUIApplication().children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 2).children(matching: .textView).element
-        
         
         let app = XCUIApplication()
         app/*@START_MENU_TOKEN@*/.staticTexts["Keyboard"]/*[[".buttons[\"Keyboard\"].staticTexts[\"Keyboard\"]",".staticTexts[\"Keyboard\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
         
-        let gKey = app/*@START_MENU_TOKEN@*/.keys["G"]/*[[".keyboards.keys[\"G\"]",".keys[\"G\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-        gKey.tap()
-        gKey.tap()
-        
-        let hKey = app/*@START_MENU_TOKEN@*/.keys["h"]/*[[".keyboards.keys[\"h\"]",".keys[\"h\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-        hKey.tap()
-        hKey.tap()
-        hKey.tap()
-        
-        let gKey2 = app/*@START_MENU_TOKEN@*/.keys["g"]/*[[".keyboards.keys[\"g\"]",".keys[\"g\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-        gKey2.tap()
-        gKey2.tap()
-        hKey.tap()
+        let hKey = app/*@START_MENU_TOKEN@*/.keys["H"]/*[[".keyboards.keys[\"H\"]",".keys[\"H\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
         hKey.tap()
         app.buttons["ASL"].tap()
         
@@ -121,14 +107,7 @@ class ViewControllerUITests: XCTestCase {
     func testSliderBySliding(){
         
         
-        let app = XCUIApplication()
-        app.launch()
-        app/*@START_MENU_TOKEN@*/.staticTexts["More"]/*[[".buttons[\"More\"].staticTexts[\"More\"]",".staticTexts[\"More\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-        app.sliders["50%"].swipeRight()
         
-        let element = app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 2)
-        element/*@START_MENU_TOKEN@*/.press(forDuration: 2.0);/*[[".tap()",".press(forDuration: 2.0);"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-        element.swipeLeft()
         
 
     }
@@ -143,11 +122,9 @@ class ViewControllerUITests: XCTestCase {
     func testTrainButton(){
         
         let app = XCUIApplication()
-        app.launch()
         app.buttons["More"].tap()
-        let helpUsLearnAslStaticText = app/*@START_MENU_TOKEN@*/.staticTexts["Help Us Learn ASL"]/*[[".buttons[\"Help Us Learn ASL\"].staticTexts[\"Help Us Learn ASL\"]",".staticTexts[\"Help Us Learn ASL\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-        helpUsLearnAslStaticText.tap()
-        helpUsLearnAslStaticText.tap()
+        app.sliders["50%"]/*@START_MENU_TOKEN@*/.press(forDuration: 1.4);/*[[".tap()",".press(forDuration: 1.4);"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+        app.buttons["Close Dashboard"].tap()
         
         
     }
