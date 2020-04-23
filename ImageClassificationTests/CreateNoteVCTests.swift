@@ -7,11 +7,21 @@
 //
 
 import XCTest
+@testable import iASL
 
 class CreateNoteVCTests: XCTestCase {
+    
+    let partner = "bill_id"
+    
+    //need to sign in
+    let email = "Test1@gmail.com"
+    let password = "password"
+    let uid = "ppmK3FXm7gPc6HwhS5wOvBtfLFP2"
+    
+    var createNotesVC: CreateNoteVC?
 
     override func setUp() {
-        
+        createNotesVC = CreateNoteVC()
     }
     
     override func tearDown() {

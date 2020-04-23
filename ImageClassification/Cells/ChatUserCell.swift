@@ -43,7 +43,7 @@ class ChatUserCell: UITableViewCell {
         didSet {
             
             //calls the Message object model function
-            if let id = message?.chatPartnerId() {
+            if let id = message?.chatPartnerId(uid: getUid()!) {
                 setNameLabel(id)
             }
             
@@ -58,6 +58,15 @@ class ChatUserCell: UITableViewCell {
             }
             
         }
+    }
+    
+    ///Gets and returns the UID of the user who is signed in
+    func getUid() -> String? {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("could not get the UID")
+            return ""
+        }
+        return uid
     }
     
     ///Sets the name label to the name gotten by the message variable

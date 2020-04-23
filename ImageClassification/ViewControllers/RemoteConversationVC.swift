@@ -78,7 +78,7 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         //composedMessageSetup()
 
         //observeMessages()
-        observeUserMessages()
+        observeUserMessages(uid: getUid()!)
 
     }
 
@@ -92,11 +92,16 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
     }
 
     ///Function for observing messages added to the Firebase database. Puts them in an array of type Messages to be used by the table view.
-    func observeUserMessages() {
+    func observeUserMessages(uid: String) -> Bool {
 
-        guard let uid = Auth.auth().currentUser?.uid else {
-            print("could not get UID")
-            return
+//        guard let uid = Auth.auth().currentUser?.uid else {
+//            print("could not get UID")
+//            return
+//        }
+        
+        //means this function did not run
+        if uid == "" {
+            return false
         }
 
         let ref = Database.database().reference().child("user-messages").child(uid)
@@ -124,7 +129,7 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
                     //one message per receiver
 
                     //finally, this is the solution to the problem commented our below (I think)
-                    if let chatPartnerId = message.chatPartnerId() {
+                    if let chatPartnerId = message.chatPartnerId(uid: uid) {
                         self.messagesDictionary[chatPartnerId] = message
 
                         print("keys: ", self.messagesDictionary.keys)
@@ -150,7 +155,9 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
             }, withCancel: nil)
 
         }, withCancel: nil)
-
+        
+        //means this function ran
+        return true
     }
 
     /**
@@ -225,6 +232,7 @@ extension RemoteConversationVC {
     ///For each cell in the table view, returns a custom cell with a message particular message
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "chatCell") as! ChatUserCell
+        cell.accessibilityIdentifier = "remoteTableViewCell_\(indexPath.row)" //for testing
         //let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "chatCell")
 
         //get the message
@@ -246,7 +254,7 @@ extension RemoteConversationVC {
 
         let message = messages[indexPath.row]
 
-        guard let chatPartnerId = message.chatPartnerId() else {
+        guard let chatPartnerId = message.chatPartnerId(uid: getUid()!) else {
             return
         }
 
@@ -279,7 +287,7 @@ extension RemoteConversationVC {
             let senderId = message.senderId!
             let receiverId = message.receiverId!
 
-            guard let chatPartnerId = message.chatPartnerId() else {
+            guard let chatPartnerId = message.chatPartnerId(uid: getUid()!) else {
                 return
             }
 
@@ -288,14 +296,27 @@ extension RemoteConversationVC {
             handleDeleteNoteAreYouSure(indexPath: indexPath)
         }
     }
+    
+    ///Gets and returns the UID of the user who is signed in
+    func getUid() -> String? {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("could not get the UID")
+            return ""
+        }
+        return uid
+    }
 
     ///Handles the deleting of the note
-    func handleDeleteNote() {
+    func handleDeleteNote(uid: String) -> Bool {
 
         //need to find the user ID since we are only deleting the USERS versions of these notes
-        guard let uid = Auth.auth().currentUser?.uid else {
-            print("could not get UID")
-            return
+//        guard let uid = Auth.auth().currentUser?.uid else {
+//            print("could not get UID")
+//            return
+//        }
+        
+        if uid == "" {
+            return false
         }
 
         //remove the messages for the current user
@@ -327,7 +348,7 @@ extension RemoteConversationVC {
         //erase the array and string to start over with a new delete next time
         partnerToDelete = ""
         messagesToDelete.removeAll()
-
+        return true
     }
 
     ///Asks the users in an alert if they would like to proceed with deleting their conversation
@@ -343,7 +364,7 @@ extension RemoteConversationVC {
             print("remove changes pressed")
             print("indexpath.row: ", indexPath.row)
 
-            self.handleDeleteNote()
+            self.handleDeleteNote(uid: self.getUid()!)
 
             self.messages.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .bottom)
@@ -371,7 +392,7 @@ extension RemoteConversationVC {
         messagesDictionary.removeAll()
         tableView.reloadData()
 
-        observeUserMessages()
+        observeUserMessages(uid: getUid()!)
 
         let vc = ChatVC()
         vc.chatPartner = user
@@ -416,7 +437,7 @@ extension RemoteConversationVC {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.delegate = self
         tableView.dataSource = self
-
+        tableView.accessibilityIdentifier = "testingRemoteVCTableView"
         tableView.register(ChatUserCell.self, forCellReuseIdentifier: "chatCell")
         refreshControl.addTarget(self, action: #selector(refreshTableViewOnPull), for: .valueChanged)
 

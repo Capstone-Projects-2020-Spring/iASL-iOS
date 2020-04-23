@@ -49,6 +49,15 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             //observeUserNotes()
 
     }
+    
+    ///Gets and returns the UID of the user who is signed in
+    func getUid() -> String? {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("could not get the UID")
+            return ""
+        }
+        return uid
+    }
 
     ///Handles what happens when the user pulls on the table view to refresh
     @objc func refreshTableViewOnPull() {
@@ -56,7 +65,7 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
         notes.removeAll()
         self.tableView.reloadData()
-        observeUserNotes()
+        observeUserNotes(uid: getUid()!)
 
         refreshControl.endRefreshing()
     }
@@ -66,7 +75,7 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         print("view will disappear")
         notes.removeAll()
         tableView.reloadData()
-        observeUserNotes()
+        observeUserNotes(uid: getUid()!)
     }
 
     ///This is what happens when the view did appear
@@ -101,10 +110,14 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 //    }
 
     ///Function for observing notes from firebase (used to gather list of notes for user to see in their list of notes)
-    func observeUserNotes() {
-        guard let uid = Auth.auth().currentUser?.uid else {
-            print("could not get UID")
-            return
+    func observeUserNotes(uid: String) -> Bool {
+//        guard let uid = Auth.auth().currentUser?.uid else {
+//            print("could not get UID")
+//            return
+//        }
+        
+        if uid == "" {
+            return false
         }
 
         //gets the id of the user inside the user-notes node
@@ -146,6 +159,8 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             }, withCancel: nil)
             self.tableView.reloadData()
         }, withCancel: nil)
+        
+        return true
     }
 
     /**
@@ -153,12 +168,16 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
      
      - Parameters: the ID of the note to be deleted
      */
-    func handleDeleteNote(noteId: String) {
+    func handleDeleteNote(noteId: String, uid: String) -> Bool {
 
         //need to get the ID of the user
-        guard let uid = Auth.auth().currentUser?.uid else {
-            print("could not get UID")
-            return
+//        guard let uid = Auth.auth().currentUser?.uid else {
+//            print("could not get UID")
+//            return
+//        }
+        
+        if uid == "" {
+            return false
         }
 
         //need to get a reference to their user-notes node
@@ -169,6 +188,7 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let notesRef = Database.database().reference().child("notes").child(noteId)
         notesRef.removeValue()
 
+        return true
     }
 
     /**
@@ -192,7 +212,7 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             self.notes.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .bottom)
             self.tableView.reloadData()
-            self.handleDeleteNote(noteId: noteId)
+            self.handleDeleteNote(noteId: noteId, uid: self.getUid()!)
         }
 
         let alert = UIAlertController(title: "This is permanent!", message: "Are you sure you want to delete this?", preferredStyle: .alert)

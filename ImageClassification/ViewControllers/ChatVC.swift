@@ -28,7 +28,8 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
             topLabel.text = chatPartner?.name
 
             //observe the messages
-            observeMessages()
+            observeMessages(uid: getUid()!)
+
         }
     }
 
@@ -77,7 +78,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         collectionViewSetup()
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-           NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
 
     }
 
@@ -97,15 +98,25 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         }
     }
     
-    func test() -> Bool {
-        return false
-    }
-
-    ///Observes messages from Firebase and loads them into an array of type Message to be used by the collectionview. Has logic for determining which messages were from the sender and which were from the receiver
-    func observeMessages() -> Bool {
-
+    ///Gets and returns the UID of the user who is signed in
+    func getUid() -> String? {
         guard let uid = Auth.auth().currentUser?.uid else {
             print("could not get the UID")
+            return ""
+        }
+        return uid
+    }
+
+    //had to change this around for mocking
+    ///Observes messages from Firebase and loads them into an array of type Message to be used by the collectionview. Has logic for determining which messages were from the sender and which were from the receiver
+    func observeMessages(uid: String) -> Bool {
+
+//        guard let uid = Auth.auth().currentUser?.uid else {
+//            print("could not get the UID")
+//            return false
+//        }
+        
+        if uid == "" {
             return false
         }
 
@@ -127,13 +138,17 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
                 message.text = dictionary["text"] as? String
                 message.timestamp = dictionary["timestamp"] as? NSNumber
 
-                if message.chatPartnerId() == self.chatPartner?.id {
+                if message.chatPartnerId(uid: self.getUid()!) == self.chatPartner?.id {
                     //add the messages we received to the messages array
                     self.messages.append(message)
 
                     //reload the table
                     DispatchQueue.main.async {
                         self.collectionView.reloadData()
+                        
+                        let indexPath = IndexPath(row: self.messages.count-1, section: 0)
+                        self.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: false)
+                        
                     }
 
                 }
@@ -154,14 +169,13 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         collectionView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         collectionView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         collectionView.topAnchor.constraint(equalTo: topBar.bottomAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: composedMessage
-			.topAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: composedMessage.topAnchor).isActive = true
 
         //makes it always scroll vertical, even when there are not enough collection cells to require scrolling
         collectionView.alwaysBounceVertical = true
 
         //makes it so the top message is not snug to the top of the view
-        collectionView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0)
+        collectionView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
 
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -180,7 +194,8 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         let message = messages[indexPath.row]
         cell.textView.text = message.text
 
-        print(message.timestamp!)
+        //print(message.timestamp!)
+        
 
         setupCell(cell: cell, message: message)
 

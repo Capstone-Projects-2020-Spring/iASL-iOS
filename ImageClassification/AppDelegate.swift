@@ -57,31 +57,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     
     
-//    #if DEBUG
-//        if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil {
-//            // Code only executes when tests are running
-//            print("TESTS ARE RUNNINGGGGGGGGGGGGGGG")
-//            let email = "Test1@gmail.com"
-//            let password = "password"
-//
-//            //sign in with username and password
-//            Auth.auth().signIn(withEmail: email, password: password) { (_, err) in
-//                if err != nil {
-//                    print(err!)
-//                    return
-//                }
-//
-//                //successfully signed in
-//                print("you signed in successfully")
-//            }
-//
+    #if DEBUG
+        if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil {
+            // Code only executes when tests are running
+            print("TESTS ARE RUNNINGGGGGGGGGGGGGGG")
+            let email = "Test1@gmail.com"
+            let password = "password"
+
+            //sign in with username and password
+            Auth.auth().signIn(withEmail: email, password: password) { (_, err) in
+                if err != nil {
+                    print(err!)
+                    return
+                }
+
+                //successfully signed in
+                print("you signed in successfully")
+            }
+
 //            window = UIWindow(frame: UIScreen.main.bounds)
 //            window?.rootViewController = ViewController()
 //            window?.makeKeyAndVisible()
-//            return true
-//        }
-//
-//    #endif
+            return true
+        }
+
+    #endif
     
     //need a local scope so code can continue afterwards
     

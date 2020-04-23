@@ -19,28 +19,11 @@ class ChatVCTests: XCTestCase {
     let uid = "ppmK3FXm7gPc6HwhS5wOvBtfLFP2"
 
     
-    var remote: RemoteConversationVC?
-    var login: LoginVC?
-    var message: Message?
+    var chat: ChatVC?
     
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        
-        remote = RemoteConversationVC()
-        login = LoginVC()
-        message = Message()
-        
-        print("called setup")
-        
-        login?.emailTextField.text = email
-        login?.passwordTextField.text = password
-        
-        //need to create a message obj first
-        
-        message?.receiverId = "bill_id"
-        message?.senderId = uid
-        message?.text = "text"
-        message?.timestamp = 1
+        chat = ChatVC()
     }
     
     override class func tearDown() {
@@ -50,39 +33,19 @@ class ChatVCTests: XCTestCase {
     ///Checks if the observe message function is successful in calling by looking for a boolean representing success as a result
     func testObserveMessagesSucceeds() {
         
-        //log the user in
-//        login?.emailTextField.text = email
-//        login?.passwordTextField.text = password
-//        login?.handleLogin()
-//        
-//        print(login?.getCurrentUser())
-        
         //call the function to see if it succeeded
-        let chatVC = ChatVC()
-//        chatVC.loginVC = login
-//        chatVC.loginVC?.emailTextField.text = email
-//        chatVC.loginVC?.passwordTextField.text = password
-//        print(chatVC.loginVC?.emailTextField.text)
-//        chatVC.loginVC?.handleLogin()
-        //chatVC.emailTextField.text = email
-        //chatVC.passwordTextField.text = password
-        //chatVC.handleLoginForTesting(email: email, password: password)
-        print("get current user: ", chatVC.getCurrentUser())
-        let succeeded = chatVC.observeMessages()
+        let succeeded = chat?.observeMessages(uid: uid)
         
-//        XCTAssertTrue(succeeded)
+        XCTAssertTrue(succeeded!)
     }
     
     ///Checks if the observe message function fails as a result of the user not being signed in by looking for a boolean representing success as a result
     func testObserveMessagesFails() {
-        //log the user out
-        remote?.handleLogout()
         
         //call the function to see if it failed
-        let chatVC = ChatVC()
-        let failed = chatVC.observeMessages()
+        let failed = chat?.observeMessages(uid: "")
         
-        XCTAssertFalse(failed)
+        XCTAssertFalse(failed!)
     }
 
 }

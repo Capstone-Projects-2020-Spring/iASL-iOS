@@ -24,16 +24,26 @@ class Message: NSObject {
     var timestamp: NSNumber?
 
     ///This function returns the ID of the person who is not the current user and who is the person the current user is chatting with
-    func chatPartnerId() -> String? {
-        print(senderId)
-        print(receiverId)
-        if senderId == Auth.auth().currentUser?.uid {
+    func chatPartnerId(uid: String) -> String? {
+        print(senderId!)
+        print(receiverId!)
+        print(uid)
+        if senderId == uid {
             print("receiver")
             return receiverId
         } else {
-            print("from here")
+            print("sender")
             return senderId
         }
+    }
+    
+    ///Gets and returns the UID of the current signed in user
+    func getUid() -> String? {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("could not get the UID")
+            return ""
+        }
+        return uid
     }
     
     ///Handles what happens when the user logins in with an existing account. For signing in during testing
