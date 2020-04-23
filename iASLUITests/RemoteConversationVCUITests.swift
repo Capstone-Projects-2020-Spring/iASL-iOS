@@ -9,12 +9,37 @@
 import XCTest
 
 class RemoteConversationVCUITests: XCTestCase {
+    
+    let partner = "bill_id"
+    
+    //need to sign in
+    let email = "Test1@gmail.com"
+    let password = "password"
+    let uid = "ppmK3FXm7gPc6HwhS5wOvBtfLFP2"
 
     override func setUp() {
-        
+        XCUIApplication().launch()
     }
     
     override func tearDown() {
+        
+    }
+    
+    ///Test if the observe user messages function can run by looking for a boolean representing success as a result
+    func testObserveUserMessagesSuccess() {
+        
+        let app = XCUIApplication()
+        app/*@START_MENU_TOKEN@*/.staticTexts["Already a user? Login"]/*[[".buttons[\"Already a user? Login\"].staticTexts[\"Already a user? Login\"]",".staticTexts[\"Already a user? Login\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        let emailTextField = app.textFields["Email Address"]
+        emailTextField.tap()
+        emailTextField.typeText(email)
+        
+        let passwordTextField = app.secureTextFields["Password"]
+        passwordTextField.tap()
+        passwordTextField.typeText(password)
+        
+        app.buttons["Login"].tap()
+                
         
     }
     

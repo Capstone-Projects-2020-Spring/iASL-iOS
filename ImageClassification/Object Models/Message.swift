@@ -25,10 +25,32 @@ class Message: NSObject {
 
     ///This function returns the ID of the person who is not the current user and who is the person the current user is chatting with
     func chatPartnerId() -> String? {
+        print(senderId)
+        print(receiverId)
         if senderId == Auth.auth().currentUser?.uid {
+            print("receiver")
             return receiverId
         } else {
+            print("from here")
             return senderId
+        }
+    }
+    
+    ///Handles what happens when the user logins in with an existing account. For signing in during testing
+    func handleLoginForTesting(email: String, password: String) {
+
+        //sign in with username and password
+        Auth.auth().signIn(withEmail: email, password: password) { (_, err) in
+            if err != nil {
+                print(err!)
+                return
+            } else {
+                //add email and password into keychain if they want
+                //self.handleSaveKeychain(email: email, password: password)
+                //successfully signed in
+                print("you signed in successfully")
+                //self.handleLeaveLogin()
+            }
         }
     }
 }

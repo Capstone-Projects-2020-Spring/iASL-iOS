@@ -420,10 +420,10 @@ extension ChatVC {
         //sign in with username and password
         Auth.auth().signIn(withEmail: email, password: password) { (_, err) in
             if err != nil {
-                print(err!)
-                let alert = UIAlertController(title: "Alert", message: err?.localizedDescription, preferredStyle: UIAlertController.Style.alert)
-                alert.addAction(UIAlertAction(title: "Continue", style: UIAlertAction.Style.default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
+                print("error", err!)
+//                let alert = UIAlertController(title: "Alert", message: err?.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+//                alert.addAction(UIAlertAction(title: "Continue", style: UIAlertAction.Style.default, handler: nil))
+//                self.present(alert, animated: true, completion: nil)
                 return
             } else {
                 //add email and password into keychain if they want
@@ -433,6 +433,38 @@ extension ChatVC {
                 //self.handleLeaveLogin()
             }
         }
+    }
+    
+    func handleLogoutForTesting() {
+
+        print("handle logout tapped")
+
+        //log the user out of firebase
+        do {
+            try Auth.auth().signOut()
+        } catch let logoutError {
+            print(logoutError)
+        }
+
+    }
+    
+    func getCurrentUser() -> String {
+        var variable = "failed"
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("could not get UID")
+            return ""
+        }
+
+        let ref = Database.database().reference().child("users").child(uid)
+        ref.observe(.value) { (snapshot) in
+
+            if let dictionary = snapshot.value as? [String: AnyObject] {
+                let name = dictionary["name"] as? String
+                print(name!)
+                variable = name!
+            }
+        }
+        return variable
     }
     
     //MARK: Junky Functions

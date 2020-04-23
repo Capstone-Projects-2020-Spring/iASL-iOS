@@ -36,33 +36,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     FirebaseApp.configure()
 
     let keychain = KeychainSwift(keyPrefix: "iasl_")
+    
+    print("called app delegate")
+    
 
-    //need a local scope so code can continue afterwards
-
-    //if we can get email and password from keychain, skip sign in screen
-    if let email = keychain.get("email"), let password = keychain.get("password") {
-        print("Did not get email and password")
-
-        //sign in with username and password
-        Auth.auth().signIn(withEmail: email, password: password) { (_, err) in
-            if err != nil {
-                print(err!)
-                return
-            }
-
-            //successfully signed in
-            print("you signed in successfully")
-        }
-
-        window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = ViewController()
-        window?.makeKeyAndVisible()
-
-    } else {
-        window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = LoginVC()
-        window?.makeKeyAndVisible()
-    }
 
     //just for editing the chatVC
 //    window = UIWindow(frame: UIScreen.main.bounds)
@@ -73,10 +50,68 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     Messaging.messaging().delegate = self
 
-    self.window?.makeKeyAndVisible()
+    
 //	if CommandLine.arguments.contains("--MonkeyPaws") {
 //		paws = MonkeyPaws(view: window!)
 //	}
+    
+    
+    
+//    #if DEBUG
+//        if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil {
+//            // Code only executes when tests are running
+//            print("TESTS ARE RUNNINGGGGGGGGGGGGGGG")
+//            let email = "Test1@gmail.com"
+//            let password = "password"
+//
+//            //sign in with username and password
+//            Auth.auth().signIn(withEmail: email, password: password) { (_, err) in
+//                if err != nil {
+//                    print(err!)
+//                    return
+//                }
+//
+//                //successfully signed in
+//                print("you signed in successfully")
+//            }
+//
+//            window = UIWindow(frame: UIScreen.main.bounds)
+//            window?.rootViewController = ViewController()
+//            window?.makeKeyAndVisible()
+//            return true
+//        }
+//
+//    #endif
+    
+    //need a local scope so code can continue afterwards
+    
+    //if we can get email and password from keychain, skip sign in screen
+    if let email = keychain.get("email"), let password = keychain.get("password") {
+        print("Did not get email and password")
+        
+        //sign in with username and password
+        Auth.auth().signIn(withEmail: email, password: password) { (_, err) in
+            if err != nil {
+                print(err!)
+                return
+            }
+            
+            //successfully signed in
+            print("you signed in successfully")
+        }
+        
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = ViewController()
+        window?.makeKeyAndVisible()
+        
+    } else {
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = LoginVC()
+        window?.makeKeyAndVisible()
+    }
+    
+    self.window?.makeKeyAndVisible()
+    
     return true
 
   }

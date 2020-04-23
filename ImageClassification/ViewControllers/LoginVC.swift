@@ -508,24 +508,24 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         }
     }
     
-//    func getCurrentUser() -> String {
-//        var variable = "failed"
-//        guard let uid = Auth.auth().currentUser?.uid else {
-//            print("could not get UID")
-//            return ""
-//        }
-//
-//        let ref = Database.database().reference().child("users").child(uid)
-//        ref.observe(.value) { (snapshot) in
-//
-//            if let dictionary = snapshot.value as? [String: AnyObject] {
-//                let name = dictionary["name"] as? String
-//                print(name)
-//                variable = name!
-//            }
-//        }
-//        return variable
-//    }
+    func getCurrentUser() -> String {
+        var variable = "failed"
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("could not get UID")
+            return ""
+        }
+
+        let ref = Database.database().reference().child("users").child(uid)
+        ref.observe(.value) { (snapshot) in
+
+            if let dictionary = snapshot.value as? [String: AnyObject] {
+                let name = dictionary["name"] as? String
+                print(name)
+                variable = name!
+            }
+        }
+        return variable
+    }
 
     ///Handles what happens when the user logins in with an existing account
     func handleLogin() {
@@ -537,9 +537,14 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 
             return
         }
+        
+        print("We are in the login")
+        print(email)
+        print(password)
 
         //sign in with username and password
         Auth.auth().signIn(withEmail: email, password: password) { (_, err) in
+            print(err)
             if err != nil {
                 print(err!)
                 let alert = UIAlertController(title: "Alert", message: err?.localizedDescription, preferredStyle: UIAlertController.Style.alert)
