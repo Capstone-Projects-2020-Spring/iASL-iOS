@@ -30,22 +30,41 @@ class CreateNoteVCTests: XCTestCase {
     
     ///Test if the handle new note is successful by looking for a variable that represents success as a result
     func testHandleNewNoteSuccess() {
+        let testSuccess = createNotesVC?.handleNewNote(noteText: "note", title: "title", owner: uid)
         
+        XCTAssertTrue(testSuccess!)
     }
     
     ///Test if the handle new note is a failure by looking for a variable that represents failure as a result
     func testHandleNewNoteFailure() {
+        let testFailure = createNotesVC?.handleNewNote(noteText: "note", title: "title", owner: "")
         
+        XCTAssertFalse(testFailure!)
     }
     
     ///Test if the handle update note is successful by looking for a variable that represents success as a result
     func testHandleUpdateNoteSuccess() {
+        let key = "key"
+        createNotesVC?.noteToUpdateKey = key
+        let testSuccess = createNotesVC?.handleUpdateNote(noteText: "note", title: "title", owner: uid)
         
+        XCTAssertTrue(testSuccess!)
     }
     
     ///Test if the handle update note is a failure by looking for a variable that represents failure as a result
     func testHandleUpdateNoteFailure() {
+        let key = "key"
+        createNotesVC?.noteToUpdateKey = key
+        let testFailure = createNotesVC?.handleUpdateNote(noteText: "note", title: "title", owner: "")
         
+        XCTAssertFalse(testFailure!)
+    }
+    
+    ///Test if the handle update note is a failure by looking for a variable that represents failure as a result
+    func testHandleUpdateNoteFailureNoKey() {
+        let testFailure = createNotesVC?.handleUpdateNote(noteText: "note", title: "title", owner: uid)
+        
+        XCTAssertFalse(testFailure!)
     }
 
 }

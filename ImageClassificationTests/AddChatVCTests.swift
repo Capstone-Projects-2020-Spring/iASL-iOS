@@ -7,11 +7,14 @@
 //
 
 import XCTest
+@testable import iASL
 
 class AddChatVCTests: XCTestCase {
+    
+    var addChat: AddChatVC?
 
     override func setUp() {
-        
+        addChat = AddChatVC()
     }
     
     override func tearDown() {
@@ -20,7 +23,9 @@ class AddChatVCTests: XCTestCase {
     
     ///Test if the get users function is successful by looking for a boolean that represents success as a result
     func testGetUsers() {
+        let success = addChat?.getUsers()
         
+        XCTAssertTrue(success!)
     }
 
 }
