@@ -78,7 +78,7 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         //composedMessageSetup()
 
         //observeMessages()
-        observeUserMessages(uid: getUid()!)
+        observeUserMessages(uid: getUid())
 
     }
 
@@ -254,7 +254,7 @@ extension RemoteConversationVC {
 
         let message = messages[indexPath.row]
 
-        guard let chatPartnerId = message.chatPartnerId(uid: getUid()!) else {
+        guard let chatPartnerId = message.chatPartnerId(uid: getUid()) else {
             return
         }
 
@@ -287,7 +287,7 @@ extension RemoteConversationVC {
             let senderId = message.senderId!
             let receiverId = message.receiverId!
 
-            guard let chatPartnerId = message.chatPartnerId(uid: getUid()!) else {
+            guard let chatPartnerId = message.chatPartnerId(uid: getUid()) else {
                 return
             }
 
@@ -298,7 +298,7 @@ extension RemoteConversationVC {
     }
     
     ///Gets and returns the UID of the user who is signed in
-    func getUid() -> String? {
+    func getUid() -> String {
         guard let uid = Auth.auth().currentUser?.uid else {
             print("could not get the UID")
             return ""
@@ -364,7 +364,7 @@ extension RemoteConversationVC {
             print("remove changes pressed")
             print("indexpath.row: ", indexPath.row)
 
-            self.handleDeleteNote(uid: self.getUid()!)
+            self.handleDeleteNote(uid: self.getUid())
 
             self.messages.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .bottom)
@@ -392,7 +392,7 @@ extension RemoteConversationVC {
         messagesDictionary.removeAll()
         tableView.reloadData()
 
-        observeUserMessages(uid: getUid()!)
+        observeUserMessages(uid: getUid())
 
         let vc = ChatVC()
         vc.chatPartner = user

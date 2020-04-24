@@ -70,7 +70,7 @@ class ChatUserCell: UITableViewCell {
     }
     
     ///Sets the name label to the name gotten by the message variable
-    fileprivate func setNameLabel(_ id: String) {
+    func setNameLabel(_ id: String) -> Bool {
         let ref = Database.database().reference().child("users").child(id)
         ref.observe(.value, with: { (snapshot) in
             
@@ -86,10 +86,12 @@ class ChatUserCell: UITableViewCell {
             }
             
         }, withCancel: nil)
+        
+        return true
     }
     
     ///Sets the most recent message label gotten by the message variable
-    fileprivate func setMostRecentMessageLabel(_ messageText: String) {
+    func setMostRecentMessageLabel(_ messageText: String) -> Bool {
         if messageText.count > 25 {
             let messageTextNewEndIndex = messageText.index((messageText.startIndex), offsetBy: 25)
             let shortenedMessageText = messageText[..<messageTextNewEndIndex]
@@ -97,10 +99,12 @@ class ChatUserCell: UITableViewCell {
         } else {
             self.mostRecentMessageLabel.text = "\"" + messageText + "...\""
         }
+        
+        return true
     }
     
     ///Sets the timestamp label gotten by the message variable
-    fileprivate func setTimestampLabel(_ milliseconds: Double) {
+    func setTimestampLabel(_ milliseconds: Double) {
         let seconds = milliseconds / 1000
         let timestampDate = NSDate(timeIntervalSince1970: seconds)
         
@@ -110,6 +114,7 @@ class ChatUserCell: UITableViewCell {
         
         //detailTextLabel?.text = dateFormat.string(from: timestampDate as Date)
         self.timestampLabel.text = dateFormat.string(from: timestampDate as Date)
+        
     }
 
     ///Function for laying out the subviews

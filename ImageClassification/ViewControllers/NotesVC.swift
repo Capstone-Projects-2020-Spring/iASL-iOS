@@ -51,7 +51,7 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     }
     
     ///Gets and returns the UID of the user who is signed in
-    func getUid() -> String? {
+    func getUid() -> String {
         guard let uid = Auth.auth().currentUser?.uid else {
             print("could not get the UID")
             return ""
@@ -65,7 +65,7 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
         notes.removeAll()
         self.tableView.reloadData()
-        observeUserNotes(uid: getUid()!)
+        observeUserNotes(uid: getUid())
 
         refreshControl.endRefreshing()
     }
@@ -75,7 +75,7 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         print("view will disappear")
         notes.removeAll()
         tableView.reloadData()
-        observeUserNotes(uid: getUid()!)
+        observeUserNotes(uid: getUid())
     }
 
     ///This is what happens when the view did appear
@@ -212,7 +212,7 @@ class NotesVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
             self.notes.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .bottom)
             self.tableView.reloadData()
-            self.handleDeleteNote(noteId: noteId, uid: self.getUid()!)
+            self.handleDeleteNote(noteId: noteId, uid: self.getUid())
         }
 
         let alert = UIAlertController(title: "This is permanent!", message: "Are you sure you want to delete this?", preferredStyle: .alert)
@@ -237,7 +237,8 @@ extension NotesVC {
     ///Each cell in the table view gets handled here
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "notesTableViewCell") as! NotesTableViewCell
-
+        cell.accessibilityIdentifier = "notesTableViewCell_\(indexPath.row)" //for testing
+        
         let note = notes[indexPath.row]
         cell.note = note
 
@@ -334,7 +335,7 @@ extension NotesVC {
         tableView.register(NotesTableViewCell.self, forCellReuseIdentifier: "notesTableViewCell")
         tableView.delegate = self
         tableView.dataSource = self
-
+        tableView.accessibilityIdentifier = "testingNotesVCTableView"
         refreshControl.addTarget(self, action: #selector(refreshTableViewOnPull), for: .valueChanged)
 
         //adding the pull to refresh

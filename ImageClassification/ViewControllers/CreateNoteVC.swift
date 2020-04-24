@@ -200,7 +200,7 @@ extension CreateNoteVC: UITextViewDelegate, UITextFieldDelegate {
     }
     
     ///Gets and returns the UID of the user who is signed in
-    func getUid() -> String? {
+    func getUid() -> String{
         guard let uid = Auth.auth().currentUser?.uid else {
             print("could not get the UID")
             return ""
@@ -217,9 +217,7 @@ extension CreateNoteVC: UITextViewDelegate, UITextFieldDelegate {
             return
         }
         
-        guard let uid = getUid() else {
-            return
-        }
+        let uid = getUid()
 
         
         //two cases: new note created and old note needs to be updated

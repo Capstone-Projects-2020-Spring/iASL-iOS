@@ -19,9 +19,11 @@ class CreateNoteVCTests: XCTestCase {
     let uid = "ppmK3FXm7gPc6HwhS5wOvBtfLFP2"
     
     var createNotesVC: CreateNoteVC?
+    var note: Note?
 
     override func setUp() {
         createNotesVC = CreateNoteVC()
+        note = nil
     }
     
     override func tearDown() {
@@ -65,6 +67,37 @@ class CreateNoteVCTests: XCTestCase {
         let testFailure = createNotesVC?.handleUpdateNote(noteText: "note", title: "title", owner: uid)
         
         XCTAssertFalse(testFailure!)
+    }
+    
+    ///Test if the save button works by testing if the save button gets toggled. Output would be changed text
+    func testSaveButtonEnabledAndToggled() {
+        createNotesVC?.saveButton.isEnabled = false
+        
+        createNotesVC?.toggleSaveButtonDisabled()
+        
+        let disabled = createNotesVC?.saveButton.isEnabled
+        
+        XCTAssertFalse(disabled!)
+        
+        createNotesVC?.toggleSaveButtonEnabled()
+        
+        let enabled = createNotesVC?.saveButton.isEnabled
+        
+        XCTAssertTrue(enabled!)
+    }
+    
+    ///Test if the note can load another note by tappnig on the table view and seeing if the output has some text was presented in the new VC
+    func testLoadNoteWorks() {
+        
+        createNotesVC?.note = note
+        
+        createNotesVC?.loadNote()
+        
+        let text = createNotesVC?.textView.placeholder
+        
+        XCTAssertEqual(text!, "Type note here...")
+        
+        //textView.placeholder = "Type note here..."
     }
 
 }

@@ -35,7 +35,7 @@ class ChatVCUITests: XCTestCase {
         app.buttons["chatIcon"].tap()
         //tap on table view
         let table = app.tables.matching(identifier: "testingRemoteVCTableView")
-        let cell = table.cells.element(matching: .cell, identifier: "remoteTableViewCell_0")
+        let cell = table.cells.element(matching: .cell, identifier: "remoteTableViewCell_1")
         cell.tap()
     }
     
@@ -46,8 +46,6 @@ class ChatVCUITests: XCTestCase {
     ///This will test if the collection view is able to load. Output is the existence of a cell in the collection view
     func testIfCollectionViewLoads() {
         
-
-        
         let app = XCUIApplication()
 
         let collectionViewsQuery = app.collectionViews
@@ -56,32 +54,66 @@ class ChatVCUITests: XCTestCase {
         
     }
     
-    ///This will test if the message that was sent from the user is pink. Output is a matching color
-    func testIfSentMessageIsPink() {
-        let app = XCUIApplication()
-
-        let collectionViewsQuery = app.collectionViews
-        //collectionViewsQuery.children(matching: .cell).element(boundBy: 18).children(matching: .textView).element.tap()
-        let receivedMessage = collectionViewsQuery/*@START_MENU_TOKEN@*/.textViews.containing(.staticText, identifier:"Lpp").element/*[[".cells.textViews.containing(.staticText, identifier:\"Lpp\").element",".textViews.containing(.staticText, identifier:\"Lpp\").element"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-        print(receivedMessage.textFields)
-        
-    }
-    
-    ///This will test if the message that was sent from the partner is gray. Output is a matching color
-    func testIfReceivedMessageIsPink() {
-        //collectionViewsQuery/*@START_MENU_TOKEN@*/.textViews/*[[".cells.textViews",".textViews"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.staticTexts["Hello"].tap()
-        //app.staticTexts["Liam Miller"].tap()
-        //app.buttons["back"].tap()
-    }
-    
     ///This will test if a message sends and appears in the chatVC. Output is the existence of a message bubble
     func testMessageSent() {
+        
+        let app = XCUIApplication()
+        let collectionViewsQuery = app.collectionViews
+        collectionViewsQuery.children(matching: .cell).element(boundBy: 9).children(matching: .other).element(boundBy: 0).tap()
+        
+        let textView = app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .textView).element
+        textView.tap()
+        textView.tap()
+        
+        //need to increase this count each time we test
+        textView.typeText("Testing a message")
+        
+        let sendButton = app.buttons["send"]
+        sendButton.tap()
+        sendButton.tap()
+        let newestMessage = collectionViewsQuery/*@START_MENU_TOKEN@*/.textViews/*[[".cells.textViews",".textViews"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.staticTexts["Testing a message"]
+        
+        sleep(10)
+        
+        XCTAssertTrue(newestMessage.exists)
         
     }
     
     ///Checks if the keyboard goes away if you tap somewhere else on the screen. Output is a boolean variable defining success
     func testIfKeyboardDisappearsOnTappedElsewhere() {
         
+        let app = XCUIApplication()
+        let collectionViewsQuery = app.collectionViews
+        collectionViewsQuery.children(matching: .cell).element(boundBy: 9).children(matching: .other).element(boundBy: 0).tap()
+        
+        let textView = app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .textView).element
+        textView.tap()
+        textView.tap()
+        
+        
+        let keyboard1Button = app.buttons["keyboard 1"]
+        keyboard1Button.tap()
+        keyboard1Button.tap()
+        
+        sleep(10)
+        
+        //XCTAssertEqual(app.keyboards.count, 1) //keyboard exists
+        XCTAssertEqual(app.keyboards.count, 0) //keyboard does not exist
+    }
+    
+    func testKeyboardAppearsOnTap() {
+        let app = XCUIApplication()
+        let collectionViewsQuery = app.collectionViews
+        collectionViewsQuery.children(matching: .cell).element(boundBy: 9).children(matching: .other).element(boundBy: 0).tap()
+        
+        let textView = app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .textView).element
+        textView.tap()
+        textView.tap()
+        
+        sleep(10)
+        
+        //XCTAssertEqual(app.keyboards.count, 1) //keyboard exists
+        XCTAssertEqual(app.keyboards.count, 0) //keyboard does not exist
     }
 
 }

@@ -22,11 +22,8 @@
 		606C60D8244AD1030090A4AC /* RemoteConversationVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60D7244AD1030090A4AC /* RemoteConversationVCTests.swift */; };
 		606C60DA244AD4A10090A4AC /* NotesVCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60D9244AD4A10090A4AC /* NotesVCUITests.swift */; };
 		606C60DC244AD5020090A4AC /* NotesVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60DB244AD5020090A4AC /* NotesVCTests.swift */; };
-		606C60DE244AD6B70090A4AC /* CreateNoteVCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60DD244AD6B70090A4AC /* CreateNoteVCUITests.swift */; };
 		606C60E0244AD6F50090A4AC /* CreateNoteVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60DF244AD6F50090A4AC /* CreateNoteVCTests.swift */; };
-		606C60E2244AD8FC0090A4AC /* AddChatVCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60E1244AD8FC0090A4AC /* AddChatVCUITests.swift */; };
 		606C60E4244ADBD40090A4AC /* AddChatVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60E3244ADBD40090A4AC /* AddChatVCTests.swift */; };
-		606C60E6244ADCC90090A4AC /* MessageUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60E5244ADCC90090A4AC /* MessageUITests.swift */; };
 		6092C6D7243FB0D500C4CF7B /* NotesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6092C6D6243FB0D500C4CF7B /* NotesTableViewCell.swift */; };
 		670E273924248A78003E129E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 670E273824248A77003E129E /* GoogleService-Info.plist */; };
 		670E273C2424904A003E129E /* model.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 670E273B2424904A003E129E /* model.tflite */; };
@@ -89,11 +86,8 @@
 		606C60D7244AD1030090A4AC /* RemoteConversationVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConversationVCTests.swift; sourceTree = "<group>"; };
 		606C60D9244AD4A10090A4AC /* NotesVCUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesVCUITests.swift; sourceTree = "<group>"; };
 		606C60DB244AD5020090A4AC /* NotesVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesVCTests.swift; sourceTree = "<group>"; };
-		606C60DD244AD6B70090A4AC /* CreateNoteVCUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNoteVCUITests.swift; sourceTree = "<group>"; };
 		606C60DF244AD6F50090A4AC /* CreateNoteVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNoteVCTests.swift; sourceTree = "<group>"; };
-		606C60E1244AD8FC0090A4AC /* AddChatVCUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatVCUITests.swift; sourceTree = "<group>"; };
 		606C60E3244ADBD40090A4AC /* AddChatVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatVCTests.swift; sourceTree = "<group>"; };
-		606C60E5244ADCC90090A4AC /* MessageUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageUITests.swift; sourceTree = "<group>"; };
 		6092C6D6243FB0D500C4CF7B /* NotesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableViewCell.swift; sourceTree = "<group>"; };
 		670E273824248A77003E129E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		670E273B2424904A003E129E /* model.tflite */ = {isa = PBXFileReference; lastKnownFileType = file; path = model.tflite; sourceTree = "<group>"; };
@@ -208,12 +202,9 @@
 				67ABF92524301CCE00881646 /* ASLKeyboardUITests.swift */,
 				67ABF92424301CCE00881646 /* iASLUITests-Bridging-Header.h */,
 				606C60D1244AC7810090A4AC /* ChatVCUITests.swift */,
-				606C60E5244ADCC90090A4AC /* MessageUITests.swift */,
 				606C60D3244ACCE80090A4AC /* LoginVCUITests.swift */,
 				606C60D5244AD04C0090A4AC /* RemoteConversationVCUITests.swift */,
 				606C60D9244AD4A10090A4AC /* NotesVCUITests.swift */,
-				606C60DD244AD6B70090A4AC /* CreateNoteVCUITests.swift */,
-				606C60E1244AD8FC0090A4AC /* AddChatVCUITests.swift */,
 			);
 			path = iASLUITests;
 			sourceTree = "<group>";
@@ -587,13 +578,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				606C60DE244AD6B70090A4AC /* CreateNoteVCUITests.swift in Sources */,
 				606C60D2244AC7810090A4AC /* ChatVCUITests.swift in Sources */,
 				606C60D4244ACCE80090A4AC /* LoginVCUITests.swift in Sources */,
 				67ABF92624301CCE00881646 /* ASLKeyboardUITests.swift in Sources */,
 				606C60DA244AD4A10090A4AC /* NotesVCUITests.swift in Sources */,
-				606C60E6244ADCC90090A4AC /* MessageUITests.swift in Sources */,
-				606C60E2244AD8FC0090A4AC /* AddChatVCUITests.swift in Sources */,
 				606C60D6244AD04C0090A4AC /* RemoteConversationVCUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

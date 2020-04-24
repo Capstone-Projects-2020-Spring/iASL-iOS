@@ -28,7 +28,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
             topLabel.text = chatPartner?.name
 
             //observe the messages
-            observeMessages(uid: getUid()!)
+            observeMessages(uid: getUid())
 
         }
     }
@@ -99,7 +99,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
     }
     
     ///Gets and returns the UID of the user who is signed in
-    func getUid() -> String? {
+    func getUid() -> String {
         guard let uid = Auth.auth().currentUser?.uid else {
             print("could not get the UID")
             return ""
@@ -138,7 +138,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
                 message.text = dictionary["text"] as? String
                 message.timestamp = dictionary["timestamp"] as? NSNumber
 
-                if message.chatPartnerId(uid: self.getUid()!) == self.chatPartner?.id {
+                if message.chatPartnerId(uid: self.getUid()) == self.chatPartner?.id {
                     //add the messages we received to the messages array
                     self.messages.append(message)
 
@@ -194,10 +194,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         let message = messages[indexPath.row]
         cell.textView.text = message.text
 
-        //print(message.timestamp!)
-        
-
-        setupCell(cell: cell, message: message)
+        setupCell(cell: cell, message: message, uid: getUid())
 
         //modify the bubbleView width?
         cell.bubbleViewWidthAnchor?.constant = estimateFrameForText(text: message.text!).width + 32 //32 is just a guess
@@ -206,8 +203,8 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
     }
 
     ///This function determines what the chat bubble is going to look like. If it is a sender message, it will be pink and on the right side of the collection view. If it is an incoming message, it will be gray and on the left side of the collection view.
-    func setupCell(cell: ChatMessageCell, message: Message) {
-        if message.senderId == Auth.auth().currentUser?.uid {
+    func setupCell(cell: ChatMessageCell, message: Message, uid: String) {
+        if message.senderId == uid {
             //outgoing blue
             cell.bubbleView.backgroundColor = .systemPink
             cell.textView.textColor = .white

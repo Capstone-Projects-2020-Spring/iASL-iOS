@@ -55,7 +55,5 @@ class NotesVCTests: XCTestCase {
         
         XCTAssertFalse(testDeleteNote!)
     }
-    
-    
 
 }

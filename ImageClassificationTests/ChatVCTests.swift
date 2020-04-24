@@ -18,12 +18,22 @@ class ChatVCTests: XCTestCase {
     let password = "password"
     let uid = "ppmK3FXm7gPc6HwhS5wOvBtfLFP2"
 
+    var message: Message?
+    var cell: ChatMessageCell?
     
     var chat: ChatVC?
     
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
         chat = ChatVC()
+        
+        message = Message()
+        message?.receiverId = "bill_id"
+        message?.senderId = uid
+        message?.text = "text"
+        message?.timestamp = 1
+        
+        cell = ChatMessageCell()
     }
     
     override class func tearDown() {
@@ -46,6 +56,29 @@ class ChatVCTests: XCTestCase {
         let failed = chat?.observeMessages(uid: "")
         
         XCTAssertFalse(failed!)
+    }
+    
+    ///This will test if the message that was sent from the user has white text. Output is a matching color
+    func testIfSentMessageHasWhiteText() {
+        
+        chat?.setupCell(cell: cell!, message: message!, uid: uid)
+        
+        let cellTextColor = cell?.textView.textColor!
+        let systemColor = UIColor.white
+        
+        XCTAssertEqual(cellTextColor, systemColor)
+        
+    }
+    
+    ///This will test if the message that was sent from the partner has black text. Output is a matching color
+    func testIfReceivedMessageHasBlackText() {
+        
+        chat?.setupCell(cell: cell!, message: message!, uid: partner)
+        
+        let cellTextColor = cell?.textView.textColor!
+        let systemColor = UIColor.black
+        
+        XCTAssertEqual(cellTextColor, systemColor)
     }
 
 }

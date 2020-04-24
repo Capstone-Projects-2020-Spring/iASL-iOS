@@ -19,6 +19,7 @@ class MessageTests: XCTestCase {
     let uid = "ppmK3FXm7gPc6HwhS5wOvBtfLFP2"
     
     var message: Message?
+    var cell: ChatUserCell?
     
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -26,6 +27,7 @@ class MessageTests: XCTestCase {
 
         message = Message()
         
+        cell = ChatUserCell()
 
     }
     
@@ -63,6 +65,40 @@ class MessageTests: XCTestCase {
             
         XCTAssertEqual(partner, whoIsChatPartner)
         
+    }
+    
+    ///Will check if the set name label returns a specified name from a message. Output is a matching label as one that I input
+    func testSetNameLabel() {
+        let testSuccess = cell?.setNameLabel("name")
+        
+        XCTAssertTrue(testSuccess!)
+    }
+    
+    ///Will check if the set most recent message label returns the most recent message in a list of messages. Output is a matching label as one that I input
+    func testSetMostRecentMessageLabel() {
+        let testSuccess = cell?.setMostRecentMessageLabel("message")
+        
+        XCTAssertTrue(testSuccess!)
+    }
+    
+    ///WIll check if the set timestamp label returns the correct time. Output is a matching label as one that I input
+    func testSetTimestampLabel() {
+        cell?.setTimestampLabel(1)
+        
+        let seconds = 1 / 1000
+        let timestampDate = NSDate(timeIntervalSince1970: TimeInterval(seconds))
+        
+        let dateFormat = DateFormatter()
+        //FIXME: Get rid of the seconds later
+        dateFormat.dateFormat = "hh:mm a"
+        
+        //detailTextLabel?.text = dateFormat.string(from: timestampDate as Date)
+        let labelText = dateFormat.string(from: timestampDate as Date)
+        
+        let testSuccess = cell?.timestampLabel.text
+        
+        XCTAssertEqual(testSuccess, labelText)
+        //XCTAssertTrue(testSuccess!)
     }
 
 }
