@@ -64,9 +64,9 @@ class ModelDataHandler {
 	/// How many channels in the image (3 for RGB or 4 if it’s RGBA, but it shouldn’t be RGBA in our case.)
   let inputChannels = 3
 	/// the width the input is scaled to
-  let inputWidth = 50
+  let inputWidth = 200
 	/// The height the input is scaled to
-  let inputHeight = 50
+  let inputHeight = 200
 
   // MARK: - Private Properties
 
@@ -79,7 +79,6 @@ class ModelDataHandler {
   /// Information about the alpha component in RGBA data.
   private let alphaComponent = (baseOffset: 4, moduloRemainder: 3)
 
-	private var frames: Array<String> = []
   // MARK: - Initialization
 
   /// A failable initializer for `ModelDataHandler`. A new instance is created if the model and
@@ -184,9 +183,8 @@ class ModelDataHandler {
     let topNInferences = getTopN(results: results)
 
     // Return the inference time and inference results.
-    return videoResult
-	
-	}
+    return Result(inferenceTime: interval, inferences: topNInferences)
+  }
 
   // MARK: - Private Methods
 
@@ -218,87 +216,8 @@ class ModelDataHandler {
                    "valid labels file and try again.")
     }
   }
-	var videoResult: Result?
-	fileprivate func oldServerResponeFunction(data: Data) {
-		//							print(responseString)
-		//							let dataOFResponse = Data(responseString!)
-		do {
-			// make sure this JSON is in the format we expect
-			if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-				// try to read out a string array
-				if let scores:Array<Double> = json["scores"] as? Array<Double> {
-					print(scores)
-					var max : Double = 0
-					var index: Int = 0
-					var count: Int = 0
-					for score in scores{
-						if score > max{
-							max = score
-							index = count
-						}
-						count += 1
-					}
-					switch index {
-					case 0:
-						print("yes")
-						self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "yes")])
-					case 1:
-						print("again")
-						self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "again")])
-					case 2:
-						print("boy")
-						self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "boy")])
-					case 3:
-						print("girl")
-						self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "girl")])
-						
-					case 4:
-						print("no")
-						self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "no")])
-					case 5:
-						print("ok")
-						self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "ok")])
-					case 6:
-						print("help")
-						self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "help")])
-					case 7:
-						print("hello")
-						self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "hello")])
-					case 8:
-						print("finish")
-						self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "finish")])
-					case 9:
-						print("me")
-						self.videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(max), label: "finish")])
-					default:
-						print("ERROR")
-						self.videoResult = nil
-					}
-				}
-			}
-		} catch let error as NSError {
-			print("Failed to load: \(error.localizedDescription)")
-		}
-	}
 
-	func interpretServerPrediction(data: Data){
-		do {
-			// make sure this JSON is in the format we expect
-			if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-				// try to read out a string array
-				if let scores: [String:Double] = json["scores"] as? [String:Double] {
-					print(scores)
-					let greatestScore = scores.max { a, b in a.value < b.value }
-					print(greatestScore!.key)
-					
-					
-				}
-			}
-		} catch let error as NSError {
-			print("Failed to load: \(error.localizedDescription)")
-		}
-	}
-/// Returns the RGB data representation of the given image buffer with the specified `byteCount`.
+  /// Returns the RGB data representation of the given image buffer with the specified `byteCount`.
   ///
   /// - Parameters
   ///   - buffer: The pixel buffer to convert to RGB data.
@@ -308,18 +227,18 @@ class ModelDataHandler {
   ///       floating point values).
   /// - Returns: The RGB data representation of the image buffer or `nil` if the buffer could not be
   ///     converted.
-	private func rgbDataFromBuffer(
-		_ buffer: CVPixelBuffer,
-		byteCount: Int,
-		isModelQuantized: Bool
-	) -> Data? {
-		CVPixelBufferLockBaseAddress(buffer, .readOnly)
-		defer {
-			CVPixelBufferUnlockBaseAddress(buffer, .readOnly)
-		}
-		guard let sourceData = CVPixelBufferGetBaseAddress(buffer) else {
-			return nil
-		}
+  private func rgbDataFromBuffer(
+    _ buffer: CVPixelBuffer,
+    byteCount: Int,
+    isModelQuantized: Bool
+  ) -> Data? {
+    CVPixelBufferLockBaseAddress(buffer, .readOnly)
+    defer {
+      CVPixelBufferUnlockBaseAddress(buffer, .readOnly)
+    }
+    guard let sourceData = CVPixelBufferGetBaseAddress(buffer) else {
+      return nil
+    }
 
     let width = CVPixelBufferGetWidth(buffer)
     let height = CVPixelBufferGetHeight(buffer)
@@ -364,79 +283,9 @@ class ModelDataHandler {
     if isModelQuantized {
         return byteData
     }
-	
+
     // Not quantized, convert to floats
     let bytes = [UInt8](unsafeData: byteData)!
-	
-	//data to send
-	let base64String = byteData.base64EncodedString()
-	if frames.count == 40 {
-		//Ian
-		
-		let frame = frames.joined()
-			let url = URL(string: "http://192.168.73.155:8080/predict")!
-			
-			//request
-			let jsonEncoder = JSONEncoder()
-			let paramaters: [String:Any] = ["vid_stuff":frame]
-
-			var request = URLRequest(url: url)
-		//	request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-
-		//		let send = try! JSONSerialization.data(withJSONObject: paramaters, options: .prettyPrinted)
-			request.httpBody = paramaters.percentEncoded()
-			request.httpMethod = "POST"
-			//SEND
-			let task = URLSession.shared.dataTask(with: request) { data, response, error in
-						guard let data = data,
-							let response = response as? HTTPURLResponse,
-							error == nil else {                                              // check for fundamental networking error
-							print("error", error ?? "Unknown error")
-								if let error = error as NSError?, error.domain == NSURLErrorDomain && error.code == NSURLErrorNotConnectedToInternet {
-									  //not connected
-									DispatchQueue.main.async {
-									print("NO INTERNET")
-									}
-									
-								}else{
-									DispatchQueue.main.async {
-										print( "Error \(error.debugDescription.description)")
-									}
-								}
-							return
-						}
-
-						guard (200 ... 299) ~= response.statusCode else {                    // check for http errors
-							print("statusCode should be 2xx, but is \(response.statusCode)")
-							print("response = \(response)")
-							DispatchQueue.main.async {
-								print("Message was not sent. Status code is \(response.statusCode).")
-							}
-							return
-						}
-
-						let responseString = String(data: data, encoding: .utf8)
-//						print("responseString = \(responseString)")
-						
-						DispatchQueue.main.async {
-//							oldServerResponeFunction()
-							self.interpretServerPrediction(data: data)
-						}
-						
-			//			defaultPresent(vc: )
-					}
-
-					task.resume()
-		frames.removeAll()
-	}
-	frames.append(base64String)
-	print("CURRENT NUMBER OF FRAMES\(frames.count)")
-	// url of server
-	//Tarek
-	//	let url = URL(string: "http://192.168.1.39:8080/predict_img")!
-	
-	//		defaultPresent(vc: EmailCustomerListVC())
-		
     var floats = [Float]()
     for index in 0..<bytes.count {
         floats.append((Float(bytes[index]) / 127.5) - 1.0)
@@ -481,26 +330,4 @@ extension Array {
     }
     #endif  // swift(>=5.0)
   }
-}
-extension Dictionary {
-    func percentEncoded() -> Data? {
-        return map { key, value in
-            let escapedKey = "\(key)".addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
-            let escapedValue = "\(value)".addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
-            return escapedKey + "=" + escapedValue
-        }
-        .joined(separator: "&")
-        .data(using: .utf8)
-    }
-	
-}
-extension CharacterSet {
-    static let urlQueryValueAllowed: CharacterSet = {
-        let generalDelimitersToEncode = ":#[]@" // does not include "?" or "/" due to RFC 3986 - Section 3.4
-        let subDelimitersToEncode = "!$&'()*+,;="
-
-        var allowed = CharacterSet.urlQueryAllowed
-        allowed.remove(charactersIn: "\(generalDelimitersToEncode)\(subDelimitersToEncode)")
-        return allowed
-    }()
 }

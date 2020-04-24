@@ -37,22 +37,12 @@ class CameraBoard: UIView {
 	///Short term cache to store the string currently being processed by the keybaord
     var stringCache = String()
 	//Viet inspired variables
-/*
-      ?  (__)  ?
-   ?   (oo)   ?
-  /-------\/
- / |     ||
-*  ||----||
-   ^^    ^^
-  Where Cow	*/
-/// Array to hopefully collect frames.
-var frames:[CVPixelBuffer] = []
-
+    
     ///Count for the times output result was verified
     var verificationCount = 0
     ///Short term storage to store the latest predicted output
     var verificationCache = ""
-
+    
 	/// The lastLetter predicted.
  	var lastLetter:String?
  	/// Space, del, or nothing predicted.
@@ -67,7 +57,7 @@ var frames:[CVPixelBuffer] = []
     var prediction = ["", "", ""]
     /// Handles all `UITextView` operations such as text insertion, and deletion.
 	weak var target: UIKeyInput?
-
+    
 	// MARK: Constants
 	/// The coded delay for when the model is called to make an inference on the `CVPixelBuffer` in `didOutput()`.
     private let delayBetweenInferencesMs: Double = 1000
@@ -85,7 +75,7 @@ var frames:[CVPixelBuffer] = []
     /// Handles all data preprocessing and makes calls to run inference through the `Interpreter`.
     private var modelDataHandler: ModelDataHandler? =
         ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo)
-
+	
 	/// A set of methods a subclass of UIResponder uses to implement simple text entry.
 	/// - Parameter target: The target text view to modify.
 	init(target: UIKeyInput) {
@@ -109,13 +99,13 @@ var frames:[CVPixelBuffer] = []
         cameraCapture.delegate = self
         //collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
     }
-
+	
     ///Required function for checking if there is a fatal error
 	/// - Parameter coder: An abstract class that serves as the basis for objects that enable archiving and distribution of other objects.
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-
+	
 	/// Tells the view that its superview is about to change to the specified superview.
 	/// - Parameter newSuperview: A view object that will be the new superview of the receiver. This object may be nil.
 	override func willMove(toSuperview newSuperview: UIView?) {
@@ -148,7 +138,7 @@ extension CameraBoard: CameraFeedManagerDelegate {
 			self.predictionButton[count].setTitle("\(prediction) \(confidence)", for: .normal)
 		}
 	}
-
+	
 	/// This is a temporary function to visualize that delete is being predicted.
 	fileprivate func setPredictionToDelete() {
 		self.predictionButton[0].setTitle("delete", for: .normal)
@@ -170,35 +160,6 @@ extension CameraBoard: CameraFeedManagerDelegate {
 	}
 
 	func didOutput(pixelBuffer: CVPixelBuffer) {
-
-		if frames.count == 13 {
-			print("GOT EM")
-			frames.removeAll()
-		}
-
-		frames.append(pixelBuffer)
-		print(frames.count)
-		/*
-		                        (*)                  (*)
-		   (__)                  ^                    ^                (__)
-		   (oo)                  |      |             |               @(oo)@
-		   [..]                  |      =             |                [..]@@
-		\ |  U           (-)     |     | |            | (-)             U  @@@@
-		 ||   ==<_\=====/_|______=_____|=|____________=__|____\====/_>==   ||
-		 ||   )  ||||||||||||||||||||||||||||||||||||||||||||||||||||  (   ||
-		 ||___)==||||||||||||||||||||||||||||||||||||||||||||||||||||==(___||
-		 |\====| |||||||||||||||||||||||||||||||||||||||||||||||||||| |====/|
-		 |  \  |     |                                          |     |  /  |
-		 =   * =     =                                          =     = *   =
-						   cows having candlelight dinner
-
-		Also below is the code for the finger spelling classification.
-		*/
-       /*
-		let currentTimeMs = Date().timeIntervalSince1970 * 1000
-        guard (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs else { return }
-        previousInferenceTimeMs = currentTimeMs
-
         /// Pass the pixel buffer to TensorFlow Lite to perform inference.
         result = modelDataHandler?.runModel(onFrame: pixelBuffer)
         if let output = result {
@@ -211,7 +172,7 @@ extension CameraBoard: CameraFeedManagerDelegate {
             print("\(verificationCount) \(verificationCache) == \(output.inferences[0].label)")
             if verificationCount == 2 && verificationCache == output.inferences[0].label {
                 verificationCount = 0
-
+                
                 let currentTimeMs = Date().timeIntervalSince1970 * 1000
                 if (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs{
                    executeASLtoText()
@@ -225,11 +186,10 @@ extension CameraBoard: CameraFeedManagerDelegate {
                 verificationCount = 0
             }
         }
-*/
-
+        
     }
 
-
+	
 	/// Executes any Infered ASL Commends such as insertion of a letter, adding space, or deletion.
     func executeASLtoText() {
         switch result?.inferences[0].label {
@@ -250,7 +210,7 @@ extension CameraBoard: CameraFeedManagerDelegate {
         }
     }
 
-
+	
 	/// Presents alert if camera permission was denied.
     func presentCameraPermissionsDeniedAlert() {
         let alertController = UIAlertController(title: "Camera Permissions Denied", message: "Camera permissions have been denied for this app. You can change this by going to Settings", preferredStyle: .alert)
@@ -266,7 +226,7 @@ extension CameraBoard: CameraFeedManagerDelegate {
 
         previewView.shouldUseClipboardImage = true
     }
-
+	
 	/// Presents alert if camera configuration has failed.
     func presentVideoConfigurationErrorAlert() {
         let alert = UIAlertController(title: "Camera Configuration Failed", message: "There was an error while configuring camera.", preferredStyle: .alert)
@@ -275,7 +235,7 @@ extension CameraBoard: CameraFeedManagerDelegate {
 //        self.present(alert, animated: true)
         previewView.shouldUseClipboardImage = true
     }
-
+	
    /// Handles session run time error by updating the UI and providing a button if session can be manually resumed.
     func sessionRunTimeErrorOccured() {
         self.resumeButton.isHidden = false
@@ -306,7 +266,7 @@ extension CameraBoard: CameraFeedManagerDelegate {
 }
 
 extension CameraBoard {
-
+	
 	/// Sets up the position of the prediction buttons.
     func predictionStackSetup() {
         addSubview(predictionStack)
@@ -341,7 +301,7 @@ extension CameraBoard {
         }
     }
 
-
+	
 	/// Called when the prediction button has been held down. Should insert text multiple times.
 	/// - Parameter sender: The prediction button.
     @objc func predictionButtonHoldDown(_ sender: UIButton) {
@@ -351,7 +311,7 @@ extension CameraBoard {
 //            }
 //        }
     }
-
+	
 	/// Called when the prediction button is tapped. Should insert the current prediction.
 	/// - Parameter sender: The prediction button.
     @objc func predictionButtonTapped(_ sender: UIButton) {
@@ -371,7 +331,7 @@ extension CameraBoard {
 //        print(prediction.count)
 //        updateStack(prediction: prediction)
     }
-
+	
 	/// Sets up the container for Camera Keyboard.
     func caboardViewSetup() {
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
@@ -388,7 +348,7 @@ extension CameraBoard {
         caboardView.heightAnchor.constraint(equalToConstant: 230).isActive = true
         caboardView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
     }
-
+	
 	/// Sets up the camera view finder position.
     func previewViewSetup() {
         caboardView.addSubview(previewView)
@@ -401,7 +361,7 @@ extension CameraBoard {
 //		previewView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5).isActive = true
         previewView.backgroundColor = .black
     }
-
+	
 	/// Sets up the positioning of the `Next` key.
     func nextButtonSetup() {
         buttonStack.addArrangedSubview(nextButton)
@@ -428,7 +388,7 @@ extension CameraBoard {
         buttonStack.distribution = .fillEqually
         buttonStack.spacing = 5
     }
-
+	
 	/// Sets up the position of the delete key.
     func deleteButtonSetup() {
         buttonStack.addArrangedSubview(deleteButton)
@@ -448,7 +408,7 @@ extension CameraBoard {
         longPressGestureRecognizer.cancelsTouchesInView = false
 		self.addGestureRecognizer(longPressGestureRecognizer)
     }
-
+	
 	/// Handles long press on delete key.
 	@objc func handleLongPress() {
 		deleteChar {
@@ -468,7 +428,7 @@ extension CameraBoard {
 		}
 
 	}
-
+	
 	/// Adds a nice cover for devices without a homebutton.
     func bottomCoverSetup() {
         let bottomCover = UIView()
