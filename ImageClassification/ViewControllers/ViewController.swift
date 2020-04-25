@@ -17,6 +17,7 @@ import UIKit
 import Speech
 import Firebase
 import KeychainSwift
+import Vision
 
 /**Main View controller that's viewed if the user is already signed in or after the user signs into the app. This is where the users carry's out ASL to text to speech and speech to text to communicate with non-deaf/mute people*/
 class ViewController: UIViewController {
@@ -73,6 +74,7 @@ class ViewController: UIViewController {
     let cameraUnavailableLabel = UILabel()
     ///Button to resume camera operation
     let resumeButton = UIButton()
+    let guideButton = UIButton()
 
     ///Keychain reference for when we need to clear the keychain if someone logs out
     let keychain = KeychainSwift(keyPrefix: "iasl_")
@@ -159,6 +161,7 @@ class ViewController: UIViewController {
         predictionAssistButtonSetup()
         sliderSetup()
         areaBoundSetup()
+        guideButtonSetup()
         //hideKeyboardWhenTappedAround()
         //speak()
 
@@ -331,6 +334,8 @@ class ViewController: UIViewController {
 extension ViewController: CameraFeedManagerDelegate {
 
 	func didOutput(pixelBuffer: CVPixelBuffer) {
+        
+        
         /// Pass the pixel buffer to TensorFlow Lite to perform inference.
         result = modelDataHandler?.runModel(onFrame: pixelBuffer)
         if let output = result {
@@ -644,7 +649,28 @@ extension ViewController {
             speakerButton.backgroundColor = .systemRed
         }
     }
+    
+    func guideButtonSetup(){
+        controlView.addSubview(guideButton)
+        guideButton.translatesAutoresizingMaskIntoConstraints = false
+        guideButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
+        guideButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -view.frame.size.width/2).isActive = true
+        guideButton.topAnchor.constraint(equalTo: trainButton.bottomAnchor, constant: 20).isActive = true
+        guideButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        guideButton.setTitle("Guide", for: .normal)
+        guideButton.setTitleColor(.white, for: .normal)
+        guideButton.layer.cornerRadius = 10
+        guideButton.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMinYCorner]
+        guideButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        guideButton.backgroundColor = .systemPurple
+        guideButton.addTarget(self, action: #selector(guideButtonTapped), for: .touchUpInside)
+    }
 
+    @objc func guideButtonTapped(){
+        let vc = GuideView()
+        present(vc, animated: true, completion: nil)
+    }
+    
     ///Setup position/size/style of the  train button and add it on screen
     func trainButtonSetup() {
         controlView.addSubview(trainButton)
@@ -734,6 +760,7 @@ extension ViewController {
             dismissKeyboard()
         }
     }
+    
 
     ///Setup position/size/style of the dash board and add it on screen
     func controlViewSetup() {
@@ -742,7 +769,7 @@ extension ViewController {
         controlViewHeightAnchor = controlView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -54)
         controlView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         controlView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        controlView.heightAnchor.constraint(equalToConstant: view.frame.size.height/2).isActive = true
+        controlView.heightAnchor.constraint(equalToConstant: 335).isActive = true
         controlViewHeightAnchor.isActive = true
         controlView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         controlView.clipsToBounds = true
@@ -795,11 +822,12 @@ extension ViewController {
 
         logOutButton.translatesAutoresizingMaskIntoConstraints = false
         logOutButton.topAnchor.constraint(equalTo: trainButton.bottomAnchor, constant: 20).isActive = true
-        logOutButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
+        logOutButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: view.frame.size.width/2).isActive = true
         logOutButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -10).isActive = true
         logOutButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         logOutButton.setTitle("Log out", for: .normal)
         logOutButton.backgroundColor = .systemRed
+        logOutButton.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner]
         logOutButton.layer.cornerRadius = 10
         logOutButton.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
 
