@@ -338,7 +338,6 @@ extension ViewController: CameraFeedManagerDelegate {
         if let output = result {
             if output.inferences[0].label != "nothing" {
                 print("\(output.inferences[0].label) \(output.inferences[0].confidence)")
-                
             }
             if verificationCount == 0 {
                 verificationCache = output.inferences[0].label
@@ -348,6 +347,9 @@ extension ViewController: CameraFeedManagerDelegate {
                 self.outputTextView2.text = self.outputTextView.text
                 if output.inferences[0].label != "nothing" {
                     self.outputTextView2.text.append(output.inferences[0].label)
+                    self.areaBound.isHidden = true
+                } else {
+                    self.areaBound.isHidden = false
                 }
             }
             if verificationCount == 2 && verificationCache == output.inferences[0].label {
@@ -966,14 +968,8 @@ extension ViewController {
 	func executeASLtoText() {
 		switch result?.inferences[0].label {
 		case "del":
-            DispatchQueue.main.async {
-                self.areaBound.isHidden = true
-            }
 			deleteCharacter()
 		case "space":
-            DispatchQueue.main.async {
-                self.areaBound.isHidden = true
-            }
 			addSpace()
             speak()
 		case "nothing":
@@ -981,7 +977,6 @@ extension ViewController {
 		default:
 
 			DispatchQueue.main.async {
-                self.areaBound.isHidden = true
 				let confidence = self.result!.inferences[0].confidence
 				let prediction: String = self.result!.inferences[0].label.description
                 print("actual \(prediction) output \(self.predictionLayer.letterProximitySwap(inputChar: prediction))")
