@@ -244,7 +244,7 @@ class ViewController: UIViewController {
 
         UIView.animate(withDuration: 0.2, animations: {
             self.heightAnchor.constant = -self.view.frame.size.height/4
-            self.outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.6)
             self.view.layoutIfNeeded()
         })
     }
