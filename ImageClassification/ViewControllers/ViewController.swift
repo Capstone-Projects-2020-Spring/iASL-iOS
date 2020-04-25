@@ -246,7 +246,7 @@ class ViewController: UIViewController {
 
         UIView.animate(withDuration: 0.2, animations: {
             self.heightAnchor.constant = -self.view.frame.size.height/4
-            self.outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.6)
             self.view.layoutIfNeeded()
         })
     }
@@ -340,7 +340,6 @@ extension ViewController: CameraFeedManagerDelegate {
         if let output = result {
             if output.inferences[0].label != "nothing" {
                 print("\(output.inferences[0].label) \(output.inferences[0].confidence)")
-                
             }
             if verificationCount == 0 {
                 verificationCache = output.inferences[0].label
@@ -350,6 +349,9 @@ extension ViewController: CameraFeedManagerDelegate {
                 self.outputTextView2.text = self.outputTextView.text
                 if output.inferences[0].label != "nothing" {
                     self.outputTextView2.text.append(output.inferences[0].label)
+                    self.areaBound.isHidden = true
+                } else {
+                    self.areaBound.isHidden = false
                 }
             }
             if verificationCount == 2 && verificationCache == output.inferences[0].label {
@@ -991,14 +993,8 @@ extension ViewController {
 	func executeASLtoText() {
 		switch result?.inferences[0].label {
 		case "del":
-            DispatchQueue.main.async {
-                self.areaBound.isHidden = true
-            }
 			deleteCharacter()
 		case "space":
-            DispatchQueue.main.async {
-                self.areaBound.isHidden = true
-            }
 			addSpace()
             speak()
 		case "nothing":
@@ -1006,7 +1002,6 @@ extension ViewController {
 		default:
 
 			DispatchQueue.main.async {
-                self.areaBound.isHidden = true
 				let confidence = self.result!.inferences[0].confidence
 				let prediction: String = self.result!.inferences[0].label.description
                 print("actual \(prediction) output \(self.predictionLayer.letterProximitySwap(inputChar: prediction))")
