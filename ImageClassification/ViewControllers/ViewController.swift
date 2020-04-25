@@ -74,7 +74,8 @@ class ViewController: UIViewController {
     ///Button to resume camera operation
     let resumeButton = UIButton()
     let guideButton = UIButton()
-
+    ///Another textview to go underneath the current textview
+    let outputTextView2 = UITextView()
     ///Keychain reference for when we need to clear the keychain if someone logs out
     let keychain = KeychainSwift(keyPrefix: "iasl_")
 
@@ -141,6 +142,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         previewViewSetup()
         textViewHolderSetup()
+        outputTextView2Setup()
         outputTextViewSetup()
         topBarSetup()
         cameraUnavailableLabelSetup()
@@ -149,7 +151,6 @@ class ViewController: UIViewController {
         resumeButtonSetup()
         liveButtonSetup()
         controlViewSetup()
-
         controlButtonStackSetup()
         controlButtonSetup()
         speakerButtonSetup()
@@ -334,17 +335,23 @@ extension ViewController: CameraFeedManagerDelegate {
 
 	func didOutput(pixelBuffer: CVPixelBuffer) {
         
-        
         /// Pass the pixel buffer to TensorFlow Lite to perform inference.
         result = modelDataHandler?.runModel(onFrame: pixelBuffer)
         if let output = result {
             if output.inferences[0].label != "nothing" {
                 print("\(output.inferences[0].label) \(output.inferences[0].confidence)")
+                
             }
             if verificationCount == 0 {
                 verificationCache = output.inferences[0].label
             }
             print("\(verificationCount) \(verificationCache) == \(output.inferences[0].label)")
+            DispatchQueue.main.async {
+                self.outputTextView2.text = self.outputTextView.text
+                if output.inferences[0].label != "nothing" {
+                    self.outputTextView2.text.append(output.inferences[0].label)
+                }
+            }
             if verificationCount == 2 && verificationCache == output.inferences[0].label {
                 verificationCount = 0
 
@@ -362,6 +369,8 @@ extension ViewController: CameraFeedManagerDelegate {
                 verificationCache = ""
                 verificationCount = 0
             }
+            
+            
         }
         DispatchQueue.main.async {
             let resolution = CGSize(width: CVPixelBufferGetWidth(pixelBuffer), height: CVPixelBufferGetHeight(pixelBuffer))
@@ -614,6 +623,22 @@ extension ViewController {
         outputTextView.autocorrectionType = .no
     }
 
+    func outputTextView2Setup() {
+        textViewHolder.addSubview(outputTextView2)
+        outputTextView2.translatesAutoresizingMaskIntoConstraints = false
+        outputTextView2.bottomAnchor.constraint(equalTo: textViewHolder.bottomAnchor).isActive = true
+        outputTextView2.leadingAnchor.constraint(equalTo: textViewHolder.leadingAnchor).isActive = true
+        outputTextView2.trailingAnchor.constraint(equalTo: textViewHolder.trailingAnchor).isActive = true
+        outputTextView2.topAnchor.constraint(equalTo: textViewHolder.topAnchor).isActive = true
+        outputTextView2.isEditable = false
+        outputTextView2.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.8)
+        outputTextView2.text = ""
+        outputTextView2.textColor = .black
+        outputTextView2.font = UIFont.boldSystemFont(ofSize: 30)
+        outputTextView2.isUserInteractionEnabled = true
+        outputTextView2.autocorrectionType = .no
+    }
+    
     ///Invokes audio engine to speak the text on output text view
     func speak() {
         DispatchQueue.main.async {
