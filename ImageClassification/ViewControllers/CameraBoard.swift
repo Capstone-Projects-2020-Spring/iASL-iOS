@@ -192,22 +192,25 @@ extension CameraBoard: CameraFeedManagerDelegate {
 	
 	/// Executes any Infered ASL Commends such as insertion of a letter, adding space, or deletion.
     func executeASLtoText() {
-        switch result?.inferences[0].label {
-        case "del":
-            self.setPredictionToDelete()
-            self.target?.deleteBackward()
-        case "space":
-            self.setPredictiontoSpace()
-            self.target?.insertText(" ")
-        case "nothing":
-            if true {}
-        default:
-            if let outputResult = result?.inferences[0].label {
-                DispatchQueue.main.async {
-                    self.target?.insertText((self.result?.inferences[0].label)!)
-                }
-            }
-        }
+		//MUST BE ON MAIN THREAD
+		DispatchQueue.main.async {
+			switch self.result?.inferences[0].label {
+			case "del":
+				self.setPredictionToDelete()
+				self.target?.deleteBackward()
+			case "space":
+				self.setPredictiontoSpace()
+				self.target?.insertText(" ")
+			case "nothing":
+				if true {}
+			default:
+				if let outputResult = self.result?.inferences[0].label {
+					DispatchQueue.main.async {
+						self.target?.insertText((self.result?.inferences[0].label)!)
+					}
+				}
+			}
+		}
     }
 
 	
