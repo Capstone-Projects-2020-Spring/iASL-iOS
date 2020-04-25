@@ -150,7 +150,6 @@ class ViewController: UIViewController {
         resumeButtonSetup()
         liveButtonSetup()
         controlViewSetup()
-        
         controlButtonStackSetup()
         controlButtonSetup()
         speakerButtonSetup()
