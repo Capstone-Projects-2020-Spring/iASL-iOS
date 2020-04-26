@@ -46,6 +46,7 @@ class VideoModelDataHandler{
   private let alphaComponent = (baseOffset: 4, moduloRemainder: 3)
 
 	private var frames: Array<String> = []
+	var videoCount = 0
   // MARK: - Initialization
 
   /// A failable initializer for `ModelDataHandler`. A new instance is created if the model and
@@ -197,9 +198,10 @@ class VideoModelDataHandler{
 	let base64String = byteData.base64EncodedString()
 	if frames.count == 40 {
 		//Ian
-		
+		videoCount += 1
 		let frame = frames.joined()
-			let url = URL(string: "http://192.168.73.155:8080/predict")!
+//			let url = URL(string: "http://192.168.73.155:8080/predict")!
+			let url = URL(string: "http://34.70.195.11:8080/predict")!
 //			let url = URL(string: "https://iasl.azurewebsites.net:8080/predict")!
 			//request
 			let jsonEncoder = JSONEncoder()
@@ -212,46 +214,49 @@ class VideoModelDataHandler{
 			request.httpBody = paramaters.percentEncoded()
 			request.httpMethod = "POST"
 			//SEND
+		if videoCount % 3 == 1{
 			let task = URLSession.shared.dataTask(with: request) { data, response, error in
-						guard let data = data,
-							let response = response as? HTTPURLResponse,
-							error == nil else {                                              // check for fundamental networking error
-							print("error", error ?? "Unknown error")
-								if let error = error as NSError?, error.domain == NSURLErrorDomain && error.code == NSURLErrorNotConnectedToInternet {
-									  //not connected
+									guard let data = data,
+										let response = response as? HTTPURLResponse,
+										error == nil else {                                              // check for fundamental networking error
+										print("error", error ?? "Unknown error")
+											if let error = error as NSError?, error.domain == NSURLErrorDomain && error.code == NSURLErrorNotConnectedToInternet {
+												  //not connected
+												DispatchQueue.main.async {
+												print("NO INTERNET")
+												}
+												
+											}else{
+												DispatchQueue.main.async {
+													print( "Error \(error.debugDescription.description)")
+												}
+											}
+										return
+									}
+
+									guard (200 ... 299) ~= response.statusCode else {                    // check for http errors
+										print("statusCode should be 2xx, but is \(response.statusCode)")
+										print("response = \(response)")
+										DispatchQueue.main.async {
+											print("Message was not sent. Status code is \(response.statusCode).")
+										}
+										return
+									}
+
+									let responseString = String(data: data, encoding: .utf8)
+			//						print("responseString = \(responseString)")
+									
 									DispatchQueue.main.async {
-									print("NO INTERNET")
+			//							oldServerResponeFunction()
+										self.interpretServerPrediction(data: data)
 									}
 									
-								}else{
-									DispatchQueue.main.async {
-										print( "Error \(error.debugDescription.description)")
-									}
+						//			defaultPresent(vc: )
 								}
-							return
-						}
 
-						guard (200 ... 299) ~= response.statusCode else {                    // check for http errors
-							print("statusCode should be 2xx, but is \(response.statusCode)")
-							print("response = \(response)")
-							DispatchQueue.main.async {
-								print("Message was not sent. Status code is \(response.statusCode).")
-							}
-							return
-						}
-
-						let responseString = String(data: data, encoding: .utf8)
-//						print("responseString = \(responseString)")
-						
-						DispatchQueue.main.async {
-//							oldServerResponeFunction()
-							self.interpretServerPrediction(data: data)
-						}
-						
-			//			defaultPresent(vc: )
-					}
-
-					task.resume()
+								task.resume()
+		}
+			
 		frames.removeAll()
 	}
 	frames.append(base64String)
