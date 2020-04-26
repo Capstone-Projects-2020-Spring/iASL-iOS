@@ -11,10 +11,23 @@
 		60075D67242C00B500D84544 /* AddChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60075D66242C00B500D84544 /* AddChatVC.swift */; };
 		6013906A2437E1B100BFD61E /* ChatUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60075D68242C29F700D84544 /* ChatUserCell.swift */; };
 		6013906C2438F07200BFD61E /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6013906B2438F07200BFD61E /* Note.swift */; };
+		601C1F13244A0C6700F44299 /* MessageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 601C1F12244A0C6700F44299 /* MessageTests.swift */; };
+		601C1F15244A60AF00F44299 /* ChatVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 601C1F14244A60AE00F44299 /* ChatVCTests.swift */; };
 		602388952425A43E0041E2C3 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602388942425A43E0041E2C3 /* LoginVC.swift */; };
 		602388972426D9A40041E2C3 /* ChatMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602388962426D9A40041E2C3 /* ChatMessageCell.swift */; };
 		6023889A2426E37A0041E2C3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602388992426E37A0041E2C3 /* User.swift */; };
 		6023889C2426E3A40041E2C3 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6023889B2426E3A40041E2C3 /* Message.swift */; };
+		602A22232455299A00800829 /* iASLUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602A22222455299A00800829 /* iASLUITests.swift */; };
+		602A2225245529AC00800829 /* SpeechToTextVCTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602A2224245529AC00800829 /* SpeechToTextVCTest.swift */; };
+		602A2227245529F200800829 /* ViewControllerLogicTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602A2226245529F200800829 /* ViewControllerLogicTest.swift */; };
+		606C60D2244AC7810090A4AC /* ChatVCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60D1244AC7810090A4AC /* ChatVCUITests.swift */; };
+		606C60D4244ACCE80090A4AC /* LoginVCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60D3244ACCE80090A4AC /* LoginVCUITests.swift */; };
+		606C60D6244AD04C0090A4AC /* RemoteConversationVCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60D5244AD04C0090A4AC /* RemoteConversationVCUITests.swift */; };
+		606C60D8244AD1030090A4AC /* RemoteConversationVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60D7244AD1030090A4AC /* RemoteConversationVCTests.swift */; };
+		606C60DA244AD4A10090A4AC /* NotesVCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60D9244AD4A10090A4AC /* NotesVCUITests.swift */; };
+		606C60DC244AD5020090A4AC /* NotesVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60DB244AD5020090A4AC /* NotesVCTests.swift */; };
+		606C60E0244AD6F50090A4AC /* CreateNoteVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60DF244AD6F50090A4AC /* CreateNoteVCTests.swift */; };
+		606C60E4244ADBD40090A4AC /* AddChatVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60E3244ADBD40090A4AC /* AddChatVCTests.swift */; };
 		6092C6D7243FB0D500C4CF7B /* NotesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6092C6D6243FB0D500C4CF7B /* NotesTableViewCell.swift */; };
 		670E273924248A78003E129E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 670E273824248A77003E129E /* GoogleService-Info.plist */; };
 		670E273C2424904A003E129E /* model.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 670E273B2424904A003E129E /* model.tflite */; };
@@ -23,6 +36,7 @@
 		67ABF9282430299200881646 /* ASLKeyboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67ABF9272430299200881646 /* ASLKeyboardTests.swift */; };
 		67B31A99242C038C00DC15C4 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B31A98242C038C00DC15C4 /* ChatVC.swift */; };
 		6E045A892455EB8C00C4E53C /* SpeechToTextVCTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E045A882455EB8C00C4E53C /* SpeechToTextVCTest.swift */; };
+		6E045A8B24560A8400C4E53C /* 1FirstTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E045A8A24560A8400C4E53C /* 1FirstTest.swift */; };
 		6E23ACD52416BE8E00495F02 /* RemoteConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E23ACD42416BE8E00495F02 /* RemoteConversationVC.swift */; };
 		6E3469932421CD64009F1E7D /* SpeechToTextVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E3469922421CD64009F1E7D /* SpeechToTextVC.swift */; };
 		6E3BDDB5244AD224005170F9 /* PredictionLayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E3BDDB4244AD224005170F9 /* PredictionLayerTests.swift */; };
@@ -67,10 +81,23 @@
 		60075D66242C00B500D84544 /* AddChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatVC.swift; sourceTree = "<group>"; };
 		60075D68242C29F700D84544 /* ChatUserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUserCell.swift; sourceTree = "<group>"; };
 		6013906B2438F07200BFD61E /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
+		601C1F12244A0C6700F44299 /* MessageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTests.swift; sourceTree = "<group>"; };
+		601C1F14244A60AE00F44299 /* ChatVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVCTests.swift; sourceTree = "<group>"; };
 		602388942425A43E0041E2C3 /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		602388962426D9A40041E2C3 /* ChatMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageCell.swift; sourceTree = "<group>"; };
 		602388992426E37A0041E2C3 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		6023889B2426E3A40041E2C3 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		602A22222455299A00800829 /* iASLUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iASLUITests.swift; sourceTree = "<group>"; };
+		602A2224245529AC00800829 /* SpeechToTextVCTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechToTextVCTest.swift; sourceTree = "<group>"; };
+		602A2226245529F200800829 /* ViewControllerLogicTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerLogicTest.swift; sourceTree = "<group>"; };
+		606C60D1244AC7810090A4AC /* ChatVCUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVCUITests.swift; sourceTree = "<group>"; };
+		606C60D3244ACCE80090A4AC /* LoginVCUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVCUITests.swift; sourceTree = "<group>"; };
+		606C60D5244AD04C0090A4AC /* RemoteConversationVCUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConversationVCUITests.swift; sourceTree = "<group>"; };
+		606C60D7244AD1030090A4AC /* RemoteConversationVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConversationVCTests.swift; sourceTree = "<group>"; };
+		606C60D9244AD4A10090A4AC /* NotesVCUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesVCUITests.swift; sourceTree = "<group>"; };
+		606C60DB244AD5020090A4AC /* NotesVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesVCTests.swift; sourceTree = "<group>"; };
+		606C60DF244AD6F50090A4AC /* CreateNoteVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNoteVCTests.swift; sourceTree = "<group>"; };
+		606C60E3244ADBD40090A4AC /* AddChatVCTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatVCTests.swift; sourceTree = "<group>"; };
 		6092C6D6243FB0D500C4CF7B /* NotesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesTableViewCell.swift; sourceTree = "<group>"; };
 		65F3F0ED86672027FB2A57C5 /* Pods-ImageClassification.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageClassification.release.xcconfig"; path = "Target Support Files/Pods-ImageClassification/Pods-ImageClassification.release.xcconfig"; sourceTree = "<group>"; };
 		670E273824248A77003E129E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -86,6 +113,7 @@
 		67B31A98242C038C00DC15C4 /* ChatVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatVC.swift; sourceTree = "<group>"; };
 		695AE7454CF1B1D5F0F30F7C /* Pods-iASLUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iASLUITests.release.xcconfig"; path = "Target Support Files/Pods-iASLUITests/Pods-iASLUITests.release.xcconfig"; sourceTree = "<group>"; };
 		6E045A882455EB8C00C4E53C /* SpeechToTextVCTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechToTextVCTest.swift; sourceTree = "<group>"; };
+		6E045A8A24560A8400C4E53C /* 1FirstTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 1FirstTest.swift; sourceTree = "<group>"; };
 		6E23ACD42416BE8E00495F02 /* RemoteConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConversationVC.swift; sourceTree = "<group>"; };
 		6E23ACD62416CB4000495F02 /* iASL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iASL.entitlements; sourceTree = "<group>"; };
 		6E3469922421CD64009F1E7D /* SpeechToTextVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechToTextVC.swift; sourceTree = "<group>"; };
@@ -168,10 +196,17 @@
 		6765C7E423FB35F60083A5C5 /* ImageClassificationTests */ = {
 			isa = PBXGroup;
 			children = (
+				602A2226245529F200800829 /* ViewControllerLogicTest.swift */,
 				6765C7E523FB35F60083A5C5 /* ImageClassificationTests.swift */,
 				6E3BDDB4244AD224005170F9 /* PredictionLayerTests.swift */,
 				6765C7E723FB35F60083A5C5 /* Info.plist */,
 				67ABF9272430299200881646 /* ASLKeyboardTests.swift */,
+				601C1F12244A0C6700F44299 /* MessageTests.swift */,
+				601C1F14244A60AE00F44299 /* ChatVCTests.swift */,
+				606C60D7244AD1030090A4AC /* RemoteConversationVCTests.swift */,
+				606C60DB244AD5020090A4AC /* NotesVCTests.swift */,
+				606C60DF244AD6F50090A4AC /* CreateNoteVCTests.swift */,
+				606C60E3244ADBD40090A4AC /* AddChatVCTests.swift */,
 			);
 			path = ImageClassificationTests;
 			sourceTree = "<group>";
@@ -179,11 +214,18 @@
 		67ABF91B24301C1C00881646 /* iASLUITests */ = {
 			isa = PBXGroup;
 			children = (
+				602A2224245529AC00800829 /* SpeechToTextVCTest.swift */,
+				6E045A8A24560A8400C4E53C /* 1FirstTest.swift */,
+				602A22222455299A00800829 /* iASLUITests.swift */,
 				67ABF91E24301C1C00881646 /* Info.plist */,
 				67ABF92524301CCE00881646 /* ASLKeyboardUITests.swift */,
 				6E045A882455EB8C00C4E53C /* SpeechToTextVCTest.swift */,
 				6EF769D7244B75AF00462E31 /* ViewControllerUITests.swift */,
 				67ABF92424301CCE00881646 /* iASLUITests-Bridging-Header.h */,
+				606C60D1244AC7810090A4AC /* ChatVCUITests.swift */,
+				606C60D3244ACCE80090A4AC /* LoginVCUITests.swift */,
+				606C60D5244AD04C0090A4AC /* RemoteConversationVCUITests.swift */,
+				606C60D9244AD4A10090A4AC /* NotesVCUITests.swift */,
 			);
 			path = iASLUITests;
 			sourceTree = "<group>";
@@ -542,9 +584,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				606C60DC244AD5020090A4AC /* NotesVCTests.swift in Sources */,
+				601C1F15244A60AF00F44299 /* ChatVCTests.swift in Sources */,
 				6765C7E623FB35F60083A5C5 /* ImageClassificationTests.swift in Sources */,
+				601C1F13244A0C6700F44299 /* MessageTests.swift in Sources */,
+				606C60E4244ADBD40090A4AC /* AddChatVCTests.swift in Sources */,
+				606C60E0244AD6F50090A4AC /* CreateNoteVCTests.swift in Sources */,
+				606C60D8244AD1030090A4AC /* RemoteConversationVCTests.swift in Sources */,
 				67ABF9282430299200881646 /* ASLKeyboardTests.swift in Sources */,
 				6E3BDDB5244AD224005170F9 /* PredictionLayerTests.swift in Sources */,
+				602A2227245529F200800829 /* ViewControllerLogicTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -553,8 +602,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E045A892455EB8C00C4E53C /* SpeechToTextVCTest.swift in Sources */,
+				606C60D2244AC7810090A4AC /* ChatVCUITests.swift in Sources */,
+				6E045A8B24560A8400C4E53C /* 1FirstTest.swift in Sources */,
+				606C60D4244ACCE80090A4AC /* LoginVCUITests.swift in Sources */,
 				6EF769D8244B75AF00462E31 /* ViewControllerUITests.swift in Sources */,
 				67ABF92624301CCE00881646 /* ASLKeyboardUITests.swift in Sources */,
+				602A2225245529AC00800829 /* SpeechToTextVCTest.swift in Sources */,
+				606C60DA244AD4A10090A4AC /* NotesVCUITests.swift in Sources */,
+				602A22232455299A00800829 /* iASLUITests.swift in Sources */,
+				606C60D6244AD04C0090A4AC /* RemoteConversationVCUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

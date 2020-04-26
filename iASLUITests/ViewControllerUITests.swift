@@ -9,12 +9,29 @@
 import XCTest
 
 class ViewControllerUITests: XCTestCase {
+    
+    let partner = "bill_id"
+    
+    //need to sign in
+    let email = "Test1@gmail.com"
+    let password = "password"
+    let uid = "ppmK3FXm7gPc6HwhS5wOvBtfLFP2"
 
     override func setUp() {
+        XCUIApplication().launch()
         let app = XCUIApplication()
-        app.launch()
-
+        app/*@START_MENU_TOKEN@*/.staticTexts["Already a user? Login"]/*[[".buttons[\"Already a user? Login\"].staticTexts[\"Already a user? Login\"]",".staticTexts[\"Already a user? Login\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        let emailTextField = app.textFields["Email Address"]
+        emailTextField.tap()
+        emailTextField.typeText(email)
         
+        let passwordTextField = app.secureTextFields["Password"]
+        passwordTextField.tap()
+        passwordTextField.typeText(password)
+        
+        app.buttons["Login"].tap()
+        sleep(5)
+
     }
 
     override func tearDown() {
@@ -25,7 +42,6 @@ class ViewControllerUITests: XCTestCase {
     func testTransitionToNotesAndBack(){
         
         let app = XCUIApplication()
-        app.launch()
         app.buttons["notesIcon"].tap()
         app.buttons["back"].tap()
         
@@ -34,7 +50,6 @@ class ViewControllerUITests: XCTestCase {
     ///Checks the action to go to contacts and then get back by pressing buttons
     func testTransitionToContactsAndBack(){
         let app = XCUIApplication()
-        app.launch()
         app.buttons["chatIcon"].tap()
         app.buttons["back"].tap()
         
@@ -43,9 +58,11 @@ class ViewControllerUITests: XCTestCase {
     ///Test output textview expansion and contraction by swiping up and down
     func testExpandAndContractOutputTextView(){
         
-        let textView = XCUIApplication().children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 2).children(matching: .textView).element(boundBy: 1)
-        textView.swipeDown()
-        textView.swipeUp()
+        
+        let element = XCUIApplication().children(matching: .window).element(boundBy: 0).children(matching: .other).element(boundBy: 1).children(matching: .other).element.children(matching: .other).element(boundBy: 2)
+        element.swipeDown()
+        element.children(matching: .textView).element(boundBy: 1).swipeUp()
+        
         
         
     }
@@ -54,9 +71,9 @@ class ViewControllerUITests: XCTestCase {
     func testExpandAndContractDashboard(){
         
         let app = XCUIApplication()
-        app.launch()
-        app/*@START_MENU_TOKEN@*/.staticTexts["More"]/*[[".buttons[\"More\"].staticTexts[\"More\"]",".staticTexts[\"More\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.buttons["More"].tap()
         app.buttons["Close Dashboard"].tap()
+        
     }
     
     ///Check the transition from main view controller to transcription vc by tapping on the live button
@@ -94,18 +111,8 @@ class ViewControllerUITests: XCTestCase {
     func testSpeakButtonByTapping(){
         
         let app = XCUIApplication()
-        let textView = app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 2).children(matching: .textView).element(boundBy: 1)
-        textView.tap()
-        app/*@START_MENU_TOKEN@*/.staticTexts["Keyboard"]/*[[".buttons[\"Keyboard\"].staticTexts[\"Keyboard\"]",".staticTexts[\"Keyboard\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-        app/*@START_MENU_TOKEN@*/.keys["D"]/*[[".keyboards.keys[\"D\"]",".keys[\"D\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-        
-        let dKey = app/*@START_MENU_TOKEN@*/.keys["d"]/*[[".keyboards.keys[\"d\"]",".keys[\"d\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-        dKey.tap()
-        dKey.tap()
-        textView.tap()
-        textView.tap()
-        
-                        
+        app.buttons["Speak"].tap()
+        app.buttons["Mute"].tap()
         
         
     }
@@ -121,7 +128,34 @@ class ViewControllerUITests: XCTestCase {
 
     ///Test logout button by tapping it and logging out of the app
     func testLogOutButton(){
- 
+
+        let app = XCUIApplication()
+//        app/*@START_MENU_TOKEN@*/.staticTexts["Already a user? Login"]/*[[".buttons[\"Already a user? Login\"].staticTexts[\"Already a user? Login\"]",".staticTexts[\"Already a user? Login\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+//        let emailTextField = app.textFields["Email Address"]
+//        emailTextField.tap()
+//        emailTextField.typeText(email)
+//
+//        let passwordTextField = app.secureTextFields["Password"]
+//        passwordTextField.tap()
+//        passwordTextField.typeText(password)
+//
+//        app.buttons["Login"].tap()
+//        sleep(5)
+        
+        app.buttons["More"].tap()
+        app.buttons["Log out"].tap()
+        
+        let logo = app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 0)
+        
+        XCTAssertTrue(logo.exists)
+        
+        let nameTextField = app.textFields["Name"]
+        
+        XCTAssertTrue(nameTextField.exists)
+        
+//        XCTAssertTrue(emailTextField.exists)
+//
+//        XCTAssertTrue(passwordTextField.exists)
         
     }
     
@@ -143,16 +177,12 @@ class ViewControllerUITests: XCTestCase {
     
     ///Test clear button by removing something added to the output text view and then removing them
     func testClearButton(){
-        
-        
-        let app = XCUIApplication()
-        app/*@START_MENU_TOKEN@*/.staticTexts["Keyboard"]/*[[".buttons[\"Keyboard\"].staticTexts[\"Keyboard\"]",".staticTexts[\"Keyboard\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-        
-        let dKey = app/*@START_MENU_TOKEN@*/.keys["D"]/*[[".keyboards.keys[\"D\"]",".keys[\"D\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
-                dKey.tap()
-        app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 2).children(matching: .textView).element(boundBy: 1).tap()
-        XCUIApplication().buttons["Clear"].tap()
-       
+        let testText = "This is a test"
+        let output = XCUIApplication().children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 2).children(matching: .textView).element(boundBy: 1)
+        XCUIApplication().buttons["Keyboard"].tap()
+        output.tap()
+        output.typeText(testText)
+        XCUIApplication().buttons["Speak"].tap()
         
         
     }

@@ -45,6 +45,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 	/// - Parameter animated: If `true`, the view was added to the window using an animation.
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(true)
+        print("printing welcome \(defaults.bool(forKey: "WelcomeVersion1.0.0"))")
 		if defaults.bool(forKey: "WelcomeVersion1.0.0") {
 					   return
 				   } else {
@@ -511,6 +512,25 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             }
         }
     }
+    
+    func getCurrentUser() -> String {
+        var variable = "failed"
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("could not get UID")
+            return ""
+        }
+
+        let ref = Database.database().reference().child("users").child(uid)
+        ref.observe(.value) { (snapshot) in
+
+            if let dictionary = snapshot.value as? [String: AnyObject] {
+                let name = dictionary["name"] as? String
+                print(name)
+                variable = name!
+            }
+        }
+        return variable
+    }
 
     ///Handles what happens when the user logins in with an existing account
     func handleLogin() {
@@ -522,9 +542,14 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 
             return
         }
+        
+        print("We are in the login")
+        print(email)
+        print(password)
 
         //sign in with username and password
         Auth.auth().signIn(withEmail: email, password: password) { (_, err) in
+            print(err)
             if err != nil {
                 print(err!)
                 let alert = UIAlertController(title: "Alert", message: err?.localizedDescription, preferredStyle: UIAlertController.Style.alert)

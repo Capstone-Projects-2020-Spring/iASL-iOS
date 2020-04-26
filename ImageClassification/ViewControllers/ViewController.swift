@@ -140,6 +140,7 @@ class ViewController: UIViewController {
     ///Main function to call all the necessary GUI and backend functions
     override func viewDidLoad() {
         super.viewDidLoad()
+                
         previewViewSetup()
         textViewHolderSetup()
         outputTextView2Setup()

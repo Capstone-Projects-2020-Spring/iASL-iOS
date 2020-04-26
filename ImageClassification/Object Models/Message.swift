@@ -24,11 +24,43 @@ class Message: NSObject {
     var timestamp: NSNumber?
 
     ///This function returns the ID of the person who is not the current user and who is the person the current user is chatting with
-    func chatPartnerId() -> String? {
-        if senderId == Auth.auth().currentUser?.uid {
+    func chatPartnerId(uid: String) -> String? {
+        print(senderId!)
+        print(receiverId!)
+        print(uid)
+        if senderId == uid {
+            print("receiver")
             return receiverId
         } else {
+            print("sender")
             return senderId
+        }
+    }
+    
+    ///Gets and returns the UID of the current signed in user
+    func getUid() -> String? {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("could not get the UID")
+            return ""
+        }
+        return uid
+    }
+    
+    ///Handles what happens when the user logins in with an existing account. For signing in during testing
+    func handleLoginForTesting(email: String, password: String) {
+
+        //sign in with username and password
+        Auth.auth().signIn(withEmail: email, password: password) { (_, err) in
+            if err != nil {
+                print(err!)
+                return
+            } else {
+                //add email and password into keychain if they want
+                //self.handleSaveKeychain(email: email, password: password)
+                //successfully signed in
+                print("you signed in successfully")
+                //self.handleLeaveLogin()
+            }
         }
     }
 }

@@ -22,6 +22,8 @@ import KeychainSwift
 
 /// Global variable to access user defaults.
 let defaults = UserDefaults.standard
+var ranBefore:Bool?
+
 @UIApplicationMain
 /** Manages your app’s shared behaviors. The app delegate is effectively the root object of your app, and it works in conjunction with UIApplication to manage some interactions with the system. Like the UIApplication object, UIKit creates your app delegate object early in your app’s launch cycle so it is always present.
 */
@@ -41,35 +43,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     requestTranscribePermissions()
 
     FirebaseApp.configure()
-
+    
     let keychain = KeychainSwift(keyPrefix: "iasl_")
+    
+    print("called app delegate")
+    
 
-    //need a local scope so code can continue afterwards
-
-    //if we can get email and password from keychain, skip sign in screen
-    if let email = keychain.get("email"), let password = keychain.get("password") {
-        print("Did not get email and password")
-
-        //sign in with username and password
-        Auth.auth().signIn(withEmail: email, password: password) { (_, err) in
-            if err != nil {
-                print(err!)
-                return
-            }
-
-            //successfully signed in
-            print("you signed in successfully")
-        }
-
-        window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = ViewController()
-        window?.makeKeyAndVisible()
-
-    } else {
-        window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = LoginVC()
-        window?.makeKeyAndVisible()
-    }
 
     //just for editing the chatVC
 //    window = UIWindow(frame: UIScreen.main.bounds)
@@ -80,10 +59,68 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     Messaging.messaging().delegate = self
 
-    self.window?.makeKeyAndVisible()
+    
 //	if CommandLine.arguments.contains("--MonkeyPaws") {
 //		paws = MonkeyPaws(view: window!)
 //	}
+    
+    
+    
+    #if DEBUG
+        if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil {
+            // Code only executes when tests are running
+            print("TESTS ARE RUNNINGGGGGGGGGGGGGGG")
+            let email = "Test1@gmail.com"
+            let password = "password"
+
+            //sign in with username and password
+            Auth.auth().signIn(withEmail: email, password: password) { (_, err) in
+                if err != nil {
+                    print(err!)
+                    return
+                }
+
+                //successfully signed in
+                print("you signed in successfully")
+            }
+
+//            window = UIWindow(frame: UIScreen.main.bounds)
+//            window?.rootViewController = ViewController()
+//            window?.makeKeyAndVisible()
+            return true
+        }
+
+    #endif
+    
+    //need a local scope so code can continue afterwards
+    
+    //if we can get email and password from keychain, skip sign in screen
+    if let email = keychain.get("email"), let password = keychain.get("password") {
+        print("Did not get email and password")
+        
+        //sign in with username and password
+        Auth.auth().signIn(withEmail: email, password: password) { (_, err) in
+            if err != nil {
+                print(err!)
+                return
+            }
+            
+            //successfully signed in
+            print("you signed in successfully")
+        }
+        
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = ViewController()
+        window?.makeKeyAndVisible()
+        
+    } else {
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = LoginVC()
+        window?.makeKeyAndVisible()
+    }
+    
+    self.window?.makeKeyAndVisible()
+    
     return true
 
   }

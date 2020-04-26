@@ -22,27 +22,38 @@ class NotesTableViewCell: UITableViewCell {
             //need to manage the length of the noteLabel
             //let noteTextIndex = note?.text?.endIndex
             if let noteText = note?.text {
-                if noteText.count > 25 {
-                    let noteTextNewEndIndex = noteText.index((noteText.startIndex), offsetBy: 25)
-                    let shortenedNoteText = noteText[..<noteTextNewEndIndex]
-                    noteLabel.text = "\"" + shortenedNoteText + "...\""
-                } else {
-                    noteLabel.text = "\"" + noteText + "...\""
-                }
+                setNoteLabel(noteText)
             }
 
             //set the timestamp appropriately
             if let milliseconds = note?.timestamp?.doubleValue {
-                let seconds = milliseconds / 1000
-                let timestampDate = Date(timeIntervalSince1970: seconds)
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "MM-dd-yyyy"
-                //dateFormatter.dateFormat = "yyyy-MM-dd HH:mm" //Specify your format that you want
-                let strDate = dateFormatter.string(from: timestampDate)
-                timestampLabel.text = strDate
+                setTimestampLabel(milliseconds)
             }
         }
     }
+    
+    ///Sets the note label from the note variable
+    fileprivate func setNoteLabel(_ noteText: String) {
+        if noteText.count > 25 {
+            let noteTextNewEndIndex = noteText.index((noteText.startIndex), offsetBy: 25)
+            let shortenedNoteText = noteText[..<noteTextNewEndIndex]
+            noteLabel.text = "\"" + shortenedNoteText + "...\""
+        } else {
+            noteLabel.text = "\"" + noteText + "...\""
+        }
+    }
+    
+    ///Sets the timestamp label from the note variable
+    fileprivate func setTimestampLabel(_ milliseconds: Double) {
+        let seconds = milliseconds / 1000
+        let timestampDate = Date(timeIntervalSince1970: seconds)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy"
+        //dateFormatter.dateFormat = "yyyy-MM-dd HH:mm" //Specify your format that you want
+        let strDate = dateFormatter.string(from: timestampDate)
+        timestampLabel.text = strDate
+    }
+
 
     ///A closure for the note title label
     let titleLabel: UILabel = {
