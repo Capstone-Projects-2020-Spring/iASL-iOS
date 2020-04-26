@@ -233,8 +233,6 @@ class VideoModelDataHandler{
 										error == nil else {                                              // check for fundamental networking error
 										print("error", error ?? "Unknown error")
 											if let error = error as NSError?, error.domain == NSURLErrorDomain && error.code == NSURLErrorNotConnectedToInternet {
-												// adding swiftlint disable because it's bugging out and thinking the 'a' in Dispatch is a variable....
-												// swiftlint:disable identifier_name
 												  //not connected
 												DispatchQueue.main.async {
 												print("NO INTERNET")
