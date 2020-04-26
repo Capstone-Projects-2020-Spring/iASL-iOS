@@ -73,6 +73,7 @@ class ViewController: UIViewController {
     let cameraUnavailableLabel = UILabel()
     ///Button to resume camera operation
     let resumeButton = UIButton()
+    let guideButton = UIButton()
     ///Another textview to go underneath the current textview
     let outputTextView2 = UITextView()
     ///Keychain reference for when we need to clear the keychain if someone logs out
@@ -160,6 +161,7 @@ class ViewController: UIViewController {
         predictionAssistButtonSetup()
         sliderSetup()
         areaBoundSetup()
+        guideButtonSetup()
         //hideKeyboardWhenTappedAround()
         //speak()
 
@@ -673,7 +675,28 @@ extension ViewController {
             speakerButton.backgroundColor = .systemRed
         }
     }
+    
+    func guideButtonSetup(){
+        controlView.addSubview(guideButton)
+        guideButton.translatesAutoresizingMaskIntoConstraints = false
+        guideButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
+        guideButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -view.frame.size.width/2).isActive = true
+        guideButton.topAnchor.constraint(equalTo: trainButton.bottomAnchor, constant: 20).isActive = true
+        guideButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        guideButton.setTitle("Guide", for: .normal)
+        guideButton.setTitleColor(.white, for: .normal)
+        guideButton.layer.cornerRadius = 10
+        guideButton.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMinYCorner]
+        guideButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        guideButton.backgroundColor = .systemPurple
+        guideButton.addTarget(self, action: #selector(guideButtonTapped), for: .touchUpInside)
+    }
 
+    @objc func guideButtonTapped(){
+        let vc = GuideView()
+        present(vc, animated: true, completion: nil)
+    }
+    
     ///Setup position/size/style of the  train button and add it on screen
     func trainButtonSetup() {
         controlView.addSubview(trainButton)
@@ -763,6 +786,7 @@ extension ViewController {
             dismissKeyboard()
         }
     }
+    
 
     ///Setup position/size/style of the dash board and add it on screen
     func controlViewSetup() {
@@ -771,7 +795,7 @@ extension ViewController {
         controlViewHeightAnchor = controlView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -54)
         controlView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         controlView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        controlView.heightAnchor.constraint(equalToConstant: view.frame.size.height/2).isActive = true
+        controlView.heightAnchor.constraint(equalToConstant: 335).isActive = true
         controlViewHeightAnchor.isActive = true
         controlView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         controlView.clipsToBounds = true
@@ -824,11 +848,12 @@ extension ViewController {
 
         logOutButton.translatesAutoresizingMaskIntoConstraints = false
         logOutButton.topAnchor.constraint(equalTo: trainButton.bottomAnchor, constant: 20).isActive = true
-        logOutButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
+        logOutButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: view.frame.size.width/2).isActive = true
         logOutButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -10).isActive = true
         logOutButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         logOutButton.setTitle("Log out", for: .normal)
         logOutButton.backgroundColor = .systemRed
+        logOutButton.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner]
         logOutButton.layer.cornerRadius = 10
         logOutButton.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
 
