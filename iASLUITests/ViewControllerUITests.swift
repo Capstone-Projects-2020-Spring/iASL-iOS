@@ -42,11 +42,11 @@ class ViewControllerUITests: XCTestCase {
     
     ///Test output textview expansion and contraction by swiping up and down
     func testExpandAndContractOutputTextView(){
-        let app = XCUIApplication()
-        app.launch()
-        let textView = XCUIApplication().children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 2).children(matching: .textView).element
+        
+        let textView = XCUIApplication().children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 2).children(matching: .textView).element(boundBy: 1)
         textView.swipeDown()
         textView.swipeUp()
+        
         
     }
     
@@ -94,12 +94,19 @@ class ViewControllerUITests: XCTestCase {
     func testSpeakButtonByTapping(){
         
         let app = XCUIApplication()
-        app.launch()
-        let textView = app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 2).children(matching: .textView).element
+        let textView = app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 2).children(matching: .textView).element(boundBy: 1)
         textView.tap()
         app/*@START_MENU_TOKEN@*/.staticTexts["Keyboard"]/*[[".buttons[\"Keyboard\"].staticTexts[\"Keyboard\"]",".staticTexts[\"Keyboard\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app/*@START_MENU_TOKEN@*/.keys["D"]/*[[".keyboards.keys[\"D\"]",".keys[\"D\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        
+        let dKey = app/*@START_MENU_TOKEN@*/.keys["d"]/*[[".keyboards.keys[\"d\"]",".keys[\"d\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+        dKey.tap()
+        dKey.tap()
         textView.tap()
-        app.buttons["ASL"].tap()
+        textView.tap()
+        
+                        
+        
         
     }
     
@@ -137,13 +144,16 @@ class ViewControllerUITests: XCTestCase {
     ///Test clear button by removing something added to the output text view and then removing them
     func testClearButton(){
         
+        
         let app = XCUIApplication()
-        app.launch()
-        let textToInput = "Hello this is a test"
-        DispatchQueue.main.async {
-            let outputTextView = app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 2).children(matching: .textView).element
-            outputTextView.typeText(textToInput)
-        }
+        app/*@START_MENU_TOKEN@*/.staticTexts["Keyboard"]/*[[".buttons[\"Keyboard\"].staticTexts[\"Keyboard\"]",".staticTexts[\"Keyboard\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        
+        let dKey = app/*@START_MENU_TOKEN@*/.keys["D"]/*[[".keyboards.keys[\"D\"]",".keys[\"D\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+                dKey.tap()
+        app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 2).children(matching: .textView).element(boundBy: 1).tap()
+        XCUIApplication().buttons["Clear"].tap()
+       
+        
         
     }
     
