@@ -39,7 +39,7 @@ class VideoModelDataHandler{
 	/// The height the input is scaled to
   let inputHeight = 50
 
-  // MARK: - Private Properties
+	// MARK: - Private Properties
 	var textView: UITextView?
 	var cameraBoard: CameraBoard?
 	
@@ -233,11 +233,12 @@ class VideoModelDataHandler{
 										error == nil else {                                              // check for fundamental networking error
 										print("error", error ?? "Unknown error")
 											if let error = error as NSError?, error.domain == NSURLErrorDomain && error.code == NSURLErrorNotConnectedToInternet {
+												// adding swiftlint disable because it's bugging out and thinking the 'a' in Dispatch is a variable....
+												// swiftlint:disable identifier_name
 												  //not connected
 												DispatchQueue.main.async {
 												print("NO INTERNET")
 												}
-												
 											}else{
 												DispatchQueue.main.async {
 													print( "Error \(error.debugDescription.description)")
@@ -245,6 +246,7 @@ class VideoModelDataHandler{
 											}
 										return
 									}
+				// swiftlint:enable identifier_name
 
 									guard (200 ... 299) ~= response.statusCode else {                    // check for http errors
 										print("statusCode should be 2xx, but is \(response.statusCode)")

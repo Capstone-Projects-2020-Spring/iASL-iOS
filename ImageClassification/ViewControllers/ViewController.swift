@@ -984,12 +984,11 @@ extension ViewController {
         slider.setValue(50, animated: false)
 
         slider.addTarget(self, action: #selector(changeValue(_:)), for: .valueChanged)
-
-    }
+	}
 
     ///Action that listens to value chage and sets the speed for the voice utterance
-    @objc func changeValue(_ sender: UISlider) {
-        print("value is", Int(sender.value))
+	@objc func changeValue(_ sender: UISlider) {
+		print("value is", Int(sender.value))
         speechSpeedDegree = sender.value
     }
     
