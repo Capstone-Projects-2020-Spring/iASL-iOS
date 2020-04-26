@@ -57,12 +57,24 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         collection.register(ChatMessageCell.self, forCellWithReuseIdentifier: cellId)
         return collection
     }()
+    
+    let messageInputContainerView: UIView = {
+        let messageView = UIView()
+        messageView.translatesAutoresizingMaskIntoConstraints = false
+        messageView.backgroundColor = .clear
+        return messageView
+    }()
+    
+    ///This is the bottom anchor of the container holding the send button, the compose message textview, and the keyboard button
+    var messageInputContainerViewBottomAnchor: NSLayoutConstraint?
 
     ///Function called when the view loads. Used to setup all of the important structural parts of the view controller.
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         hideKeyboardWhenTappedAround()
+        
+        setupMessageContainerView()
 
         topBarSetup()
         backButtonSetup()
@@ -81,17 +93,41 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
 
     ///Called when the keyboard is about to show
     @objc func keyboardWillShow(notification: NSNotification) {
+//            if self.view.frame.origin.y == 0 {
+//                self.view.frame.origin.y -= keyboardSize.height
+//            }
+        guard let keyboardDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {
+            print("could not find keyboard duration")
+            return
+        }
+        
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height
+            if self.messageInputContainerViewBottomAnchor?.constant == 0 {
+                self.messageInputContainerViewBottomAnchor?.constant -= keyboardSize.height
+                
+                UIView.animate(withDuration: keyboardDuration) {
+                    self.view.layoutIfNeeded()
+                }
             }
         }
     }
 
     ///Called when the keyboard is abouot to hide
     @objc func keyboardWillHide(notification: NSNotification) {
-        if self.view.frame.origin.y != 0 {
-            self.view.frame.origin.y = 0
+//        if self.view.frame.origin.y != 0 {
+//            self.view.frame.origin.y = 0
+//        }
+        guard let keyboardDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {
+            print("could not find keyboard duration")
+            return
+        }
+        
+        if self.messageInputContainerViewBottomAnchor?.constant != 0 {
+            self.messageInputContainerViewBottomAnchor?.constant = 0
+            
+            UIView.animate(withDuration: keyboardDuration) {
+                self.view.layoutIfNeeded()
+            }
         }
     }
 
@@ -146,8 +182,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         collectionView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         collectionView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         collectionView.topAnchor.constraint(equalTo: topBar.bottomAnchor).isActive = true
-        collectionView.bottomAnchor.constraint(equalTo: composedMessage
-			.topAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: composedMessage.topAnchor).isActive = true
 
         //makes it always scroll vertical, even when there are not enough collection cells to require scrolling
         collectionView.alwaysBounceVertical = true
@@ -299,14 +334,23 @@ extension ChatVC {
         //clear the composed message part
         composedMessage.text = ""
     }
+    
+    func setupMessageContainerView() {
+        view.addSubview(messageInputContainerView)
+        messageInputContainerViewBottomAnchor = messageInputContainerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        messageInputContainerViewBottomAnchor?.isActive = true
+        messageInputContainerView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        messageInputContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        messageInputContainerView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+    }
 
     ///Sets up the send button in the subveiw and defines its constraints and important features
     func sendButtonSetup() {
         view.addSubview(sendButton)
         sendButton.translatesAutoresizingMaskIntoConstraints = false
         //sendButton.leadingAnchor.constraint(equalTo: composedMessage.leadingAnchor, constant: 5).isActive = true
-        sendButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
-        sendButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
+        sendButton.bottomAnchor.constraint(equalTo: messageInputContainerView.bottomAnchor, constant: -10).isActive = true
+        sendButton.trailingAnchor.constraint(equalTo: messageInputContainerView.trailingAnchor, constant: -10).isActive = true
 		sendButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
 		sendButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         sendButton.setImage(#imageLiteral(resourceName: "send"), for: .normal)
@@ -318,10 +362,11 @@ extension ChatVC {
         view.addSubview(composedMessage)
         composedMessage.translatesAutoresizingMaskIntoConstraints = false
         composedMessage.leadingAnchor.constraint(equalTo: keyboardButton.trailingAnchor, constant: 10).isActive = true
-		composedMessage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
+		composedMessage.bottomAnchor.constraint(equalTo: messageInputContainerView.bottomAnchor, constant: -10).isActive = true
 //		composedMessage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8)
         composedMessage.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -10).isActive = true
         composedMessage.heightAnchor.constraint(equalToConstant: 40).isActive = true
+//        composedMessage.topAnchor.constraint(equalTo: messageInputContainerView.topAnchor).isActive = true
 		composedMessage.center = view.center
         composedMessage.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         composedMessage.layer.borderWidth = 1
@@ -384,8 +429,8 @@ extension ChatVC {
     func keybaordButtonSetup() {
         view.addSubview(keyboardButton)
         keyboardButton.translatesAutoresizingMaskIntoConstraints = false
-        keyboardButton.leadingAnchor.constraint(lessThanOrEqualTo: view.leadingAnchor, constant: 10).isActive = true
-        keyboardButton.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -10).isActive = true
+        keyboardButton.leadingAnchor.constraint(lessThanOrEqualTo: messageInputContainerView.leadingAnchor, constant: 10).isActive = true
+        keyboardButton.bottomAnchor.constraint(lessThanOrEqualTo: messageInputContainerView.bottomAnchor, constant: -10).isActive = true
         keyboardButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         keyboardButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         keyboardButton.setImage(#imageLiteral(resourceName: "keyboard-1"), for: .normal)

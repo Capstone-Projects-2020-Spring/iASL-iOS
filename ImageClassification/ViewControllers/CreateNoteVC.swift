@@ -69,19 +69,37 @@ class CreateNoteVC: UIViewController {
     
     ///Called when the keyboard is about to show
     @objc func keyboardWillShow(notification: NSNotification) {
+        guard let keyboardDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {
+            print("could not find keyboard duration")
+            return
+        }
+        
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if self.textViewBottomAnchor?.constant == 0 {
                 self.textViewBottomAnchor?.constant -= keyboardSize.height
                 self.keyboardButtonBottomAnchor?.constant -= keyboardSize.height
+                
+                UIView.animate(withDuration: keyboardDuration) {
+                    self.view.layoutIfNeeded()
+                }
             }
         }
     }
 
     ///Called when the keyboard is abouot to hide
     @objc func keyboardWillHide(notification: NSNotification) {
+        guard let keyboardDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {
+            print("could not find keyboard duration")
+            return
+        }
+        
         if self.textViewBottomAnchor?.constant != 0 {
             self.textViewBottomAnchor?.constant = 0
             self.keyboardButtonBottomAnchor?.constant = -10
+            
+            UIView.animate(withDuration: keyboardDuration) {
+                self.view.layoutIfNeeded()
+            }
         }
     }
 
