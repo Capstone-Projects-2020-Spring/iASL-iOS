@@ -15,7 +15,8 @@
 
 import UIKit
 import Accelerate
-
+import Foundation
+import CoreImage
 extension CVPixelBuffer {
 
   /**
@@ -141,5 +142,45 @@ extension CVPixelBuffer {
 
     return pixelBuffer
   }
+	func videoCenter() -> CVPixelBuffer? {
+		
+//		let imageWidth = CVPixelBufferGetWidth(self)
+//		let imageHeight = CVPixelBufferGetHeight(self)
+//		let pixelBufferType = CVPixelBufferGetPixelFormatType(self)
+		
+		let attrs = [
+		  kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue,
+		  kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue
+		] as CFDictionary
 
+		let ciImage = CIImage(cvPixelBuffer: self)
+		
+//		 let cgIm = ciImage.cgImage
+		let srcWidth = CGFloat(ciImage.extent.width)
+		let srcHeight = CGFloat(ciImage.extent.height)
+		
+		let dstWidth: CGFloat = 50
+		let dstHeight: CGFloat = 50
+		
+		let scaleX = dstWidth / srcWidth
+		let scaleY = dstHeight / srcHeight
+		let scale = min(scaleX, scaleY)
+		
+		let transform = CGAffineTransform.init(scaleX: scaleX, y: scaleY)
+		let output = ciImage.transformed(by: transform).cropped(to: CGRect(x: 0, y: 0, width: dstWidth, height: dstHeight))
+		let context = CIContext()
+		var buffy:CVPixelBuffer?
+		let status = CVPixelBufferCreate(kCFAllocatorDefault,
+										 Int(dstWidth),
+										 Int(dstHeight),
+										 kCVPixelFormatType_32BGRA,
+										 attrs,
+										 &buffy)
+		context.render(output, to: buffy!)
+		if let pixelDude:CVPixelBuffer = buffy {
+//			let ciImage = CIImage(cvPixelBuffer: pixelDude)
+			return pixelDude
+		}
+		return nil
+	}
 }

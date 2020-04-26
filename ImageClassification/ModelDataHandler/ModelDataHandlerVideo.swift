@@ -40,7 +40,7 @@ class VideoModelDataHandler{
   let inputHeight = 50
 
   // MARK: - Private Properties
-
+	var textView: UITextView?
  
   /// Information about the alpha component in RGBA data.
   private let alphaComponent = (baseOffset: 4, moduloRemainder: 3)
@@ -51,14 +51,14 @@ class VideoModelDataHandler{
 
   /// A failable initializer for `ModelDataHandler`. A new instance is created if the model and
   /// labels files are successfully loaded from the app's main bundle. Default `threadCount` is 1.
-  init?() {
-
+	init?(textView:UITextView) {
+		self.textView = textView
   }
 
   // MARK: - Internal Methods
 
   /// Performs image preprocessing, invokes the `Interpreter`, and processes the inference results.
-  func runModel(onFrame pixelBuffer: CVPixelBuffer) -> Result? {
+  func runModel(onFrame pixelBuffer: CVPixelBuffer) {
 
     let sourcePixelFormat = CVPixelBufferGetPixelFormatType(pixelBuffer)
     assert(sourcePixelFormat == kCVPixelFormatType_32ARGB ||
@@ -70,10 +70,11 @@ class VideoModelDataHandler{
 
     // Crops the image to the biggest square in the center and scales it down to model dimensions.
     let scaledSize = CGSize(width: inputWidth, height: inputHeight)
-    guard let thumbnailPixelBuffer = pixelBuffer.centerThumbnail(ofSize: scaledSize) else {
-      return nil
+	guard let thumbnailPixelBuffer = pixelBuffer.videoCenter() else {
+      return
     }
-
+	let imageDude = CIImage(cvPixelBuffer: thumbnailPixelBuffer)
+	
     let interval: TimeInterval
     do {
       
@@ -85,7 +86,7 @@ class VideoModelDataHandler{
         isModelQuantized: false
       ) else {
         print("Failed to convert the image buffer to RGB data.")
-        return nil
+        return
       }
 
 
@@ -95,8 +96,8 @@ class VideoModelDataHandler{
 
 
    
-    // Return the inference time and inference results.
-    return videoResult
+    
+    
 	
 	}
 	}
@@ -115,8 +116,8 @@ class VideoModelDataHandler{
 					print(scores)
 					let greatestScore = scores.max { a, b in a.value < b.value }
 					print(greatestScore!.key)
-					videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(greatestScore!.value), label: greatestScore!.key)])
-					
+//					videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(greatestScore!.value), label: greatestScore!.key)])
+					textView?.text.append(greatestScore!.key)
 				}
 			}
 		} catch let error as NSError {
@@ -190,7 +191,7 @@ class VideoModelDataHandler{
     if isModelQuantized {
         return byteData
     }
-	
+		
     // Not quantized, convert to floats
     let bytes = [UInt8](unsafeData: byteData)!
 	
@@ -200,8 +201,8 @@ class VideoModelDataHandler{
 		//Ian
 		videoCount += 1
 		let frame = frames.joined()
-//			let url = URL(string: "http://192.168.73.155:8080/predict")!
-			let url = URL(string: "http://34.70.195.11:8080/predict")!
+			let url = URL(string: "http://192.168.73.155:8080/predict")!
+//			let url = URL(string: "http://34.70.195.11:8080/predict")!
 //			let url = URL(string: "https://iasl.azurewebsites.net:8080/predict")!
 			//request
 			let jsonEncoder = JSONEncoder()
