@@ -9,9 +9,17 @@
 import XCTest
 
 class ViewControllerUITests: XCTestCase {
+    
+    let partner = "bill_id"
+    
+    //need to sign in
+    let email = "Test1@gmail.com"
+    let password = "password"
+    let uid = "ppmK3FXm7gPc6HwhS5wOvBtfLFP2"
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        XCUIApplication().launch()
     }
 
     override func tearDown() {
@@ -65,6 +73,33 @@ class ViewControllerUITests: XCTestCase {
 
     ///Test logout button by tapping it and logging out of the app
     func testLogOutButton(){
+        let app = XCUIApplication()
+        app/*@START_MENU_TOKEN@*/.staticTexts["Already a user? Login"]/*[[".buttons[\"Already a user? Login\"].staticTexts[\"Already a user? Login\"]",".staticTexts[\"Already a user? Login\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        let emailTextField = app.textFields["Email Address"]
+        emailTextField.tap()
+        emailTextField.typeText(email)
+        
+        let passwordTextField = app.secureTextFields["Password"]
+        passwordTextField.tap()
+        passwordTextField.typeText(password)
+        
+        app.buttons["Login"].tap()
+        sleep(5)
+        
+        app.buttons["More"].tap()
+        app.buttons["Log out"].tap()
+        
+        let logo = app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 0)
+        
+        XCTAssertTrue(logo.exists)
+        
+        let nameTextField = app.textFields["Name"]
+        
+        XCTAssertTrue(nameTextField.exists)
+        
+        XCTAssertTrue(emailTextField.exists)
+        
+        XCTAssertTrue(passwordTextField.exists)
         
     }
     

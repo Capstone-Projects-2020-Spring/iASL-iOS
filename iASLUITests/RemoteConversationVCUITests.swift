@@ -62,11 +62,6 @@ class RemoteConversationVCUITests: XCTestCase {
                 
     }
     
-    ///Test if the logout button works as expected by seeing if a button on the login view becomes present. Output is the existence of an element from the login vc
-    func testHandleLogout() {
-        
-    }
-    
     ///Test if the back buttons for AddChatVC and RemoteConversationsVC gets us to a new view by checking for the existence of something in the new view as output
     func testBackButtons() {
         let app = XCUIApplication()
