@@ -244,7 +244,6 @@ class VideoModelDataHandler{
 											}
 										return
 									}
-				// swiftlint:enable identifier_name
 
 									guard (200 ... 299) ~= response.statusCode else {                    // check for http errors
 										print("statusCode should be 2xx, but is \(response.statusCode)")
