@@ -88,6 +88,7 @@ class ViewController: UIViewController {
     // MARK: Instance Variables
     ///Result that's output by the model
     private var result: Result?
+	private var videoResult:Result?
     ///Time from the previous prediction
     private var previousInferenceTimeMs: TimeInterval = Date.distantPast.timeIntervalSince1970 * 1000
 
@@ -99,7 +100,7 @@ class ViewController: UIViewController {
     /// Handles all data preprocessing and makes calls to run inference through the `Interpreter`.
     private var modelDataHandler: ModelDataHandler? =
         ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo, threadCount: 2)
-	
+	private var videoModelHandler: VideoModelDataHandler? = VideoModelDataHandler()
 	fileprivate func setPreviewViewOrientaion() {
 		switch UIDevice.current.orientation {
 		case .portrait:
@@ -350,7 +351,12 @@ extension ViewController: CameraFeedManagerDelegate {
 
 	func didOutput(pixelBuffer: CVPixelBuffer) {
         /// Pass the pixel buffer to TensorFlow Lite to perform inference.
-        result = modelDataHandler?.runModel(onFrame: pixelBuffer)
+		if  UIDevice.current.orientation != .portrait{
+			videoResult = videoModelHandler?.runModel(onFrame: pixelBuffer)
+			
+		}else{
+			result = modelDataHandler?.runModel(onFrame: pixelBuffer)
+		}
         if let output = result {
             if output.inferences[0].label != "nothing" {
                 print("\(output.inferences[0].label) \(output.inferences[0].confidence)")
@@ -377,6 +383,19 @@ extension ViewController: CameraFeedManagerDelegate {
                 verificationCount = 0
             }
         }
+		if let output = videoResult{
+			if output.inferences[0].label != "nothing" {
+						   print("\(output.inferences[0].label) \(output.inferences[0].confidence)")
+				DispatchQueue.main.async {
+					self.areaBound.isHidden = true
+					let confidence = self.videoResult!.inferences[0].confidence
+					let prediction: String = self.videoResult!.inferences[0].label.description
+					
+					self.outputTextView.text.append(prediction)
+				}
+			}
+					  
+		}
         DispatchQueue.main.async {
             let resolution = CGSize(width: CVPixelBufferGetWidth(pixelBuffer), height: CVPixelBufferGetHeight(pixelBuffer))
         }

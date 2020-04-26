@@ -114,7 +114,7 @@ class VideoModelDataHandler{
 					print(scores)
 					let greatestScore = scores.max { a, b in a.value < b.value }
 					print(greatestScore!.key)
-					
+					videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(greatestScore!.value), label: greatestScore!.key)])
 					
 				}
 			}
