@@ -161,8 +161,15 @@ extension CameraBoard: CameraFeedManagerDelegate {
 
 	func didOutput(pixelBuffer: CVPixelBuffer) {
         /// Pass the pixel buffer to TensorFlow Lite to perform inference.
+        
         result = modelDataHandler?.runModel(onFrame: pixelBuffer)
         if let output = result {
+            DispatchQueue.main.async {
+                if output.inferences[0].label != "nothing" {
+                    self.predictionButton[0].setTitle("\(output.inferences[0].label)", for: .normal)
+                }
+            }
+            
             if output.inferences[0].label != "nothing" {
                 print("\(output.inferences[0].label) \(output.inferences[0].confidence)")
             }
@@ -192,22 +199,25 @@ extension CameraBoard: CameraFeedManagerDelegate {
 	
 	/// Executes any Infered ASL Commends such as insertion of a letter, adding space, or deletion.
     func executeASLtoText() {
-        switch result?.inferences[0].label {
-        case "del":
-            self.setPredictionToDelete()
-            self.target?.deleteBackward()
-        case "space":
-            self.setPredictiontoSpace()
-            self.target?.insertText(" ")
-        case "nothing":
-            if true {}
-        default:
-            if let outputResult = result?.inferences[0].label {
-                DispatchQueue.main.async {
-                    self.target?.insertText((self.result?.inferences[0].label)!)
-                }
-            }
-        }
+		//MUST BE ON MAIN THREAD
+		DispatchQueue.main.async {
+			switch self.result?.inferences[0].label {
+			case "del":
+				self.setPredictionToDelete()
+				self.target?.deleteBackward()
+			case "space":
+				self.setPredictiontoSpace()
+				self.target?.insertText(" ")
+			case "nothing":
+				if true {}
+			default:
+				if let outputResult = self.result?.inferences[0].label {
+					DispatchQueue.main.async {
+						self.target?.insertText((self.result?.inferences[0].label)!)
+					}
+				}
+			}
+		}
     }
 
 	
@@ -286,12 +296,13 @@ extension CameraBoard {
             range = predictionButton.count
         }
         var buttonIndex = 0
-        while buttonIndex < 3 {
+        while buttonIndex < 1 {
             predictionButton.append(UIButton())
             predictionStack.addArrangedSubview(predictionButton[buttonIndex])
             predictionStack.translatesAutoresizingMaskIntoConstraints = false
             predictionButton[buttonIndex].titleLabel?.textAlignment = .left
             predictionButton[buttonIndex].setTitle("", for: .normal)
+            predictionButton[buttonIndex].titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
             predictionButton[buttonIndex].backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.2)
             predictionButton[buttonIndex].setTitleColor(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1), for: .normal)
             predictionButton[buttonIndex].addTarget(self, action: #selector(predictionButtonHoldDown(_:)), for: .touchDown)

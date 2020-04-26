@@ -73,7 +73,9 @@ class ViewController: UIViewController {
     let cameraUnavailableLabel = UILabel()
     ///Button to resume camera operation
     let resumeButton = UIButton()
-
+    let guideButton = UIButton()
+    ///Another textview to go underneath the current textview
+    let outputTextView2 = UITextView()
     ///Keychain reference for when we need to clear the keychain if someone logs out
     let keychain = KeychainSwift(keyPrefix: "iasl_")
 
@@ -158,6 +160,7 @@ class ViewController: UIViewController {
         previewViewSetup()
 		setPreviewViewOrientaion()
         textViewHolderSetup()
+        outputTextView2Setup()
         outputTextViewSetup()
         topBarSetup()
         cameraUnavailableLabelSetup()
@@ -166,7 +169,6 @@ class ViewController: UIViewController {
         resumeButtonSetup()
         liveButtonSetup()
         controlViewSetup()
-
         controlButtonStackSetup()
         controlButtonSetup()
         speakerButtonSetup()
@@ -177,6 +179,7 @@ class ViewController: UIViewController {
         predictionAssistButtonSetup()
         sliderSetup()
         areaBoundSetup()
+        guideButtonSetup()
         //hideKeyboardWhenTappedAround()
         //speak()
 
@@ -261,7 +264,7 @@ class ViewController: UIViewController {
 
         UIView.animate(withDuration: 0.2, animations: {
             self.heightAnchor.constant = -self.view.frame.size.height/4
-            self.outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            self.outputTextView.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.6)
             self.view.layoutIfNeeded()
         })
     }
@@ -350,6 +353,7 @@ class ViewController: UIViewController {
 extension ViewController: CameraFeedManagerDelegate {
 
 	func didOutput(pixelBuffer: CVPixelBuffer) {
+        
         /// Pass the pixel buffer to TensorFlow Lite to perform inference.
 		if  UIDevice.current.orientation != .portrait{
 			videoResult = videoModelHandler?.runModel(onFrame: pixelBuffer)
@@ -365,6 +369,15 @@ extension ViewController: CameraFeedManagerDelegate {
                 verificationCache = output.inferences[0].label
             }
             print("\(verificationCount) \(verificationCache) == \(output.inferences[0].label)")
+            DispatchQueue.main.async {
+                self.outputTextView2.text = self.outputTextView.text
+                if output.inferences[0].label != "nothing" {
+                    self.outputTextView2.text.append(output.inferences[0].label)
+                    self.areaBound.isHidden = true
+                } else {
+                    self.areaBound.isHidden = false
+                }
+            }
             if verificationCount == 2 && verificationCache == output.inferences[0].label {
                 verificationCount = 0
 
@@ -382,6 +395,8 @@ extension ViewController: CameraFeedManagerDelegate {
                 verificationCache = ""
                 verificationCount = 0
             }
+            
+            
         }
 		if let output = videoResult{
 			if output.inferences[0].label != "nothing" {
@@ -648,6 +663,22 @@ extension ViewController {
         outputTextView.autocorrectionType = .no
     }
 
+    func outputTextView2Setup() {
+        textViewHolder.addSubview(outputTextView2)
+        outputTextView2.translatesAutoresizingMaskIntoConstraints = false
+        outputTextView2.bottomAnchor.constraint(equalTo: textViewHolder.bottomAnchor).isActive = true
+        outputTextView2.leadingAnchor.constraint(equalTo: textViewHolder.leadingAnchor).isActive = true
+        outputTextView2.trailingAnchor.constraint(equalTo: textViewHolder.trailingAnchor).isActive = true
+        outputTextView2.topAnchor.constraint(equalTo: textViewHolder.topAnchor).isActive = true
+        outputTextView2.isEditable = false
+        outputTextView2.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.8)
+        outputTextView2.text = ""
+        outputTextView2.textColor = .black
+        outputTextView2.font = UIFont.boldSystemFont(ofSize: 30)
+        outputTextView2.isUserInteractionEnabled = true
+        outputTextView2.autocorrectionType = .no
+    }
+    
     ///Invokes audio engine to speak the text on output text view
     func speak() {
         DispatchQueue.main.async {
@@ -682,7 +713,28 @@ extension ViewController {
             speakerButton.backgroundColor = .systemRed
         }
     }
+    
+    func guideButtonSetup(){
+        controlView.addSubview(guideButton)
+        guideButton.translatesAutoresizingMaskIntoConstraints = false
+        guideButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
+        guideButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -view.frame.size.width/2).isActive = true
+        guideButton.topAnchor.constraint(equalTo: trainButton.bottomAnchor, constant: 20).isActive = true
+        guideButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        guideButton.setTitle("Guide", for: .normal)
+        guideButton.setTitleColor(.white, for: .normal)
+        guideButton.layer.cornerRadius = 10
+        guideButton.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMinYCorner]
+        guideButton.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        guideButton.backgroundColor = .systemPurple
+        guideButton.addTarget(self, action: #selector(guideButtonTapped), for: .touchUpInside)
+    }
 
+    @objc func guideButtonTapped(){
+        let vc = GuideView()
+        present(vc, animated: true, completion: nil)
+    }
+    
     ///Setup position/size/style of the  train button and add it on screen
     func trainButtonSetup() {
         controlView.addSubview(trainButton)
@@ -772,6 +824,7 @@ extension ViewController {
             dismissKeyboard()
         }
     }
+    
 
     ///Setup position/size/style of the dash board and add it on screen
     func controlViewSetup() {
@@ -780,7 +833,7 @@ extension ViewController {
         controlViewHeightAnchor = controlView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -54)
         controlView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         controlView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        controlView.heightAnchor.constraint(equalToConstant: view.frame.size.height/2).isActive = true
+        controlView.heightAnchor.constraint(equalToConstant: 335).isActive = true
         controlViewHeightAnchor.isActive = true
         controlView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         controlView.clipsToBounds = true
@@ -833,11 +886,12 @@ extension ViewController {
 
         logOutButton.translatesAutoresizingMaskIntoConstraints = false
         logOutButton.topAnchor.constraint(equalTo: trainButton.bottomAnchor, constant: 20).isActive = true
-        logOutButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 10).isActive = true
+        logOutButton.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: view.frame.size.width/2).isActive = true
         logOutButton.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -10).isActive = true
         logOutButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         logOutButton.setTitle("Log out", for: .normal)
         logOutButton.backgroundColor = .systemRed
+        logOutButton.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMaxXMinYCorner]
         logOutButton.layer.cornerRadius = 10
         logOutButton.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
 
@@ -977,14 +1031,8 @@ extension ViewController {
 	func executeASLtoText() {
 		switch result?.inferences[0].label {
 		case "del":
-            DispatchQueue.main.async {
-                self.areaBound.isHidden = true
-            }
 			deleteCharacter()
 		case "space":
-            DispatchQueue.main.async {
-                self.areaBound.isHidden = true
-            }
 			addSpace()
             speak()
 		case "nothing":
@@ -992,7 +1040,6 @@ extension ViewController {
 		default:
 
 			DispatchQueue.main.async {
-                self.areaBound.isHidden = true
 				let confidence = self.result!.inferences[0].confidence
 				let prediction: String = self.result!.inferences[0].label.description
                 print("actual \(prediction) output \(self.predictionLayer.letterProximitySwap(inputChar: prediction))")
