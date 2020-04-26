@@ -117,7 +117,7 @@ class VideoModelDataHandler{
 				// try to read out a string array
 				if let scores: [String:Double] = json["scores"] as? [String:Double] {
 					print(scores)
-					let greatestScore = scores.max { a, b in a.value < b.value }
+					let greatestScore = scores.max { predictionA, predictionB in predictionA.value < predictionB.value }
 					print(greatestScore!.key)
 //					videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(greatestScore!.value), label: greatestScore!.key)])
 					if greatestScore!.value > 0.90 && greatestScore!.key != "nothing" {
