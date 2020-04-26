@@ -80,7 +80,7 @@ class ViewController: UIViewController {
     let keychain = KeychainSwift(keyPrefix: "iasl_")
 
 	///variable to check whether to use internal model or server model
-	var serverModel = false
+	var shouldUseServerModel = false
 	
     // MARK: Global Variables
     ///Constraint to keep track of the height of the output text view, whether it's collapsed or expanded
@@ -123,15 +123,15 @@ class ViewController: UIViewController {
 	fileprivate func setServerModel() {
 		switch UIDevice.current.orientation {
 		case .portrait:
-			serverModel = false
+			shouldUseServerModel = false
 		case .landscapeLeft:
-			serverModel = true
+			shouldUseServerModel = true
 		case .landscapeRight:
-			serverModel = true
+			shouldUseServerModel = true
 		case .portraitUpsideDown:
-			serverModel = false
+			shouldUseServerModel = false
 		default:
-			serverModel = false
+			shouldUseServerModel = false
 		}
 	}
 	/// Notifies the container that the size of its view is about to change.
@@ -375,7 +375,7 @@ extension ViewController: CameraFeedManagerDelegate {
         
         /// Pass the pixel buffer to TensorFlow Lite to perform inference.
 		//Check to see if the device is in portriat
-		if serverModel{
+		if shouldUseServerModel{
 			//  run video model
 			videoModelHandler?.runModel(onFrame: pixelBuffer)
 			
@@ -398,7 +398,7 @@ extension ViewController: CameraFeedManagerDelegate {
 					switch possibleOutput{
 					case "del":
 						self.outputTextView2.text.append("⌫")
-					default:						
+					default:
 						self.outputTextView2.text.append(possibleOutput)
 					}
                     self.areaBound.isHidden = true

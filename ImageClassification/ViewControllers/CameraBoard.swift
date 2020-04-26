@@ -76,6 +76,8 @@ class CameraBoard: UIView {
     private var modelDataHandler: ModelDataHandler? =
         ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo)
 	
+	private var videoModelHandler: VideoModelDataHandler?
+	var shouldUseServerModel = true
 	/// A set of methods a subclass of UIResponder uses to implement simple text entry.
 	/// - Parameter target: The target text view to modify.
 	init(target: UIKeyInput) {
@@ -97,6 +99,7 @@ class CameraBoard: UIView {
                                                object: nil)
         #endif
         cameraCapture.delegate = self
+		videoModelHandler = VideoModelDataHandler(cameraBoard: self)
         //collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
     }
 	
@@ -161,7 +164,9 @@ extension CameraBoard: CameraFeedManagerDelegate {
 
 	func didOutput(pixelBuffer: CVPixelBuffer) {
         /// Pass the pixel buffer to TensorFlow Lite to perform inference.
-        
+		if shouldUseServerModel{
+			videoModelHandler?.runModel(onFrame: pixelBuffer)
+		}else{
         result = modelDataHandler?.runModel(onFrame: pixelBuffer)
         if let output = result {
             DispatchQueue.main.async {
@@ -193,7 +198,7 @@ extension CameraBoard: CameraFeedManagerDelegate {
                 verificationCount = 0
             }
         }
-        
+		}
     }
 
 	

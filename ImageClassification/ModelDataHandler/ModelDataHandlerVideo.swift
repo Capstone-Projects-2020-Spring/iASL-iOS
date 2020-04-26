@@ -41,7 +41,8 @@ class VideoModelDataHandler{
 
   // MARK: - Private Properties
 	var textView: UITextView?
- 
+	var cameraBoard: CameraBoard?
+	
   /// Information about the alpha component in RGBA data.
   private let alphaComponent = (baseOffset: 4, moduloRemainder: 3)
 
@@ -53,8 +54,10 @@ class VideoModelDataHandler{
   /// labels files are successfully loaded from the app's main bundle. Default `threadCount` is 1.
 	init?(textView:UITextView) {
 		self.textView = textView
-  }
-
+	}
+	init?(cameraBoard: CameraBoard){
+		self.cameraBoard = cameraBoard
+	}
   // MARK: - Internal Methods
 
   /// Performs image preprocessing, invokes the `Interpreter`, and processes the inference results.
@@ -118,7 +121,12 @@ class VideoModelDataHandler{
 					print(greatestScore!.key)
 //					videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(greatestScore!.value), label: greatestScore!.key)])
 					if greatestScore!.value > 0.90 && greatestScore!.key != "nothing" {
-						textView?.text.append(greatestScore!.key)
+						if let textViewHandle = textView{
+							textViewHandle.text.append(greatestScore!.key)
+						}
+						if let cameraBoardHandle = cameraBoard{
+							cameraBoard?.target?.insertText(greatestScore!.key)
+						}
 					}
 					
 				}
