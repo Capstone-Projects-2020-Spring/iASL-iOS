@@ -44,7 +44,8 @@ class ChatMessageCell: UICollectionViewCell {
         return view
     }()
 
-    ///This is called each time the collection view cell is used. It is being used to call the set up functions for the message bubbles and the text view that holds the text
+	/// This is called each time the collection view cell is used. It is being used to call the set up functions for the message bubbles and the text view that holds the text
+	/// - Parameter frame: A rectangle specifying the initial location and size of the table view in its superview’s coordinates. The frame of the table view changes as table cells are added and deleted.
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -54,6 +55,7 @@ class ChatMessageCell: UICollectionViewCell {
     }
 
     ///Required function for checking if there is a fatal error
+	/// - Parameter coder: An abstract class that serves as the basis for objects that enable archiving and distribution of other objects.
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

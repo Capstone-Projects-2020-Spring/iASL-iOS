@@ -40,25 +40,26 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
     ///Variable for the table view that holds the list of chats
     let tableView = UITableView()
     ///Variable closure for the logout button
-    let logoutButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .clear
-        button.setTitle("Logout", for: .normal)
-        button.setTitleColor(.systemPink, for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        //button.layer.cornerRadius = 5
-        //button.layer.masksToBounds = true
-        button.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
-        return button
-    }()
+//    let logoutButton: UIButton = {
+//        let button = UIButton()
+//        button.backgroundColor = .clear
+//        button.setTitle("Logout", for: .normal)
+//        button.setTitleColor(.systemPink, for: .normal)
+//        button.translatesAutoresizingMaskIntoConstraints = false
+//        //button.layer.cornerRadius = 5
+//        //button.layer.masksToBounds = true
+//        button.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
+//        return button
+//    }()
 
     ///Variable closure for the button used to add a chat
     let addChatButton: UIButton = {
-        let image: UIImage = UIImage(named: "plus")!
+        //let image: UIImage = UIImage(named: "plus")!
         let button = UIButton()
         button.backgroundColor = .clear
-        button.setImage(image, for: .normal) //FIXME: get a different logo
-        button.layer.cornerRadius = button.frame.width / 2
+        //button.setImage(image, for: .normal) //FIXME: get a different logo
+        button.setTitle("Add", for: .normal)
+        //button.layer.cornerRadius = button.frame.width / 2
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(handleAddChat), for: .touchUpInside)
         return button
@@ -73,7 +74,7 @@ class RemoteConversationVC: UIViewController, UITableViewDataSource, UITableView
         topLabelSetup()
         tableViewSetup()
 
-        logoutButtonSetup()
+        //logoutButtonSetup()
         addChatButtonSetup()
         //composedMessageSetup()
 
@@ -538,25 +539,30 @@ extension RemoteConversationVC {
         present(loginController, animated: true, completion: nil)
     }
 
-    ///Sets the anchors and adds the button to the top bar
-    func logoutButtonSetup() {
-        //x, y, height, width
-        topBar.addSubview(logoutButton)
-
-        logoutButton.trailingAnchor.constraint(equalTo: topBar.trailingAnchor, constant: -10).isActive = true
-        logoutButton.bottomAnchor.constraint(equalTo: topBar.bottomAnchor, constant: -10).isActive = true
-        logoutButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        //logoutButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-    }
+//    ///Sets the anchors and adds the button to the top bar
+//    func logoutButtonSetup() {
+//        //x, y, height, width
+//        topBar.addSubview(logoutButton)
+//
+//        logoutButton.trailingAnchor.constraint(equalTo: topBar.trailingAnchor, constant: -10).isActive = true
+//        logoutButton.bottomAnchor.constraint(equalTo: topBar.bottomAnchor, constant: -10).isActive = true
+//        logoutButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+//        //logoutButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+//    }
 
     ///Adds the add chat button to the subveiw and defines its constraints
     func addChatButtonSetup() {
         view.addSubview(addChatButton)
+        
+        //Leo I moved it to top right to where logout button was
+        addChatButton.trailingAnchor.constraint(equalTo: topBar.trailingAnchor, constant: -10).isActive = true
+        addChatButton.bottomAnchor.constraint(equalTo: topBar.bottomAnchor, constant: -10).isActive = true
+        addChatButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
 
-        addChatButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        addChatButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
-        addChatButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        addChatButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
+//        addChatButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+//        addChatButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
+//        addChatButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+//        addChatButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
     }
 
 }

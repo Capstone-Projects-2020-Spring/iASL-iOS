@@ -343,6 +343,7 @@ extension ChatVC {
         composedMessage.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -10).isActive = true
         composedMessage.heightAnchor.constraint(equalToConstant: 40).isActive = true
 		composedMessage.center = view.center
+        composedMessage.backgroundColor = .white
         composedMessage.layer.borderColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         composedMessage.layer.borderWidth = 1
         composedMessage.layer.cornerRadius = 10
@@ -400,6 +401,7 @@ extension ChatVC {
         topLabel.textColor = .white
     }
 
+    ///Adds the keyboard label to the subview and defines its constraints
     func keybaordButtonSetup() {
         view.addSubview(keyboardButton)
         keyboardButton.translatesAutoresizingMaskIntoConstraints = false
@@ -480,20 +482,12 @@ extension ChatVC {
     }
     
     //MARK: Junky Functions
-    ///Change the color of the status bar
+	/// Change the color of the status bar
+	/// - Parameter animated: If true, the view is being added to the window using an animation.
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNeedsStatusBarAppearanceUpdate()
-          #if !targetEnvironment(simulator)
-//          cameraCapture.checkCameraConfigurationAndStartSession()
-          #endif
     }
-    #if !targetEnvironment(simulator)
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-//        cameraCapture.stopSession()
-    }
-    #endif
 
     ///Change the color of the status bar
     override var preferredStatusBarStyle: UIStatusBarStyle {

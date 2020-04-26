@@ -75,7 +75,9 @@ class CameraBoard: UIView {
     /// Handles all data preprocessing and makes calls to run inference through the `Interpreter`.
     private var modelDataHandler: ModelDataHandler? =
         ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo)
-
+	
+	/// A set of methods a subclass of UIResponder uses to implement simple text entry.
+	/// - Parameter target: The target text view to modify.
 	init(target: UIKeyInput) {
 		super.init(frame: .zero)
 		self.target = target
@@ -97,17 +99,23 @@ class CameraBoard: UIView {
         cameraCapture.delegate = self
         //collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
     }
-
+	
+    ///Required function for checking if there is a fatal error
+	/// - Parameter coder: An abstract class that serves as the basis for objects that enable archiving and distribution of other objects.
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-
+	
+	/// Tells the view that its superview is about to change to the specified superview.
+	/// - Parameter newSuperview: A view object that will be the new superview of the receiver. This object may be nil.
 	override func willMove(toSuperview newSuperview: UIView?) {
 		super.willMove(toSuperview: newSuperview)
         #if !targetEnvironment(simulator)
         cameraCapture.checkCameraConfigurationAndStartSession()
         #endif
 	}
+	/// Overridden by subclasses to perform additional actions before subviews are removed from the view.
+	/// - Parameter subview: The subview that will be removed.
 	override func willRemoveSubview(_ subview: UIView) {
 		super.willRemoveSubview(subview)
 		#if !targetEnvironment(simulator)
@@ -153,8 +161,15 @@ extension CameraBoard: CameraFeedManagerDelegate {
 
 	func didOutput(pixelBuffer: CVPixelBuffer) {
         /// Pass the pixel buffer to TensorFlow Lite to perform inference.
+        
         result = modelDataHandler?.runModel(onFrame: pixelBuffer)
         if let output = result {
+            DispatchQueue.main.async {
+                if output.inferences[0].label != "nothing" {
+                    self.predictionButton[0].setTitle("\(output.inferences[0].label)", for: .normal)
+                }
+            }
+            
             if output.inferences[0].label != "nothing" {
                 print("\(output.inferences[0].label) \(output.inferences[0].confidence)")
             }
@@ -181,31 +196,32 @@ extension CameraBoard: CameraFeedManagerDelegate {
         
     }
 
-
-    func predictWord() {
-
-    }
-    
+	
+	/// Executes any Infered ASL Commends such as insertion of a letter, adding space, or deletion.
     func executeASLtoText() {
-        switch result?.inferences[0].label {
-        case "del":
-            self.setPredictionToDelete()
-            self.target?.deleteBackward()
-        case "space":
-            self.setPredictiontoSpace()
-            self.target?.insertText(" ")
-        case "nothing":
-            if true {}
-        default:
-            if let outputResult = result?.inferences[0].label {
-                DispatchQueue.main.async {
-                    self.target?.insertText((self.result?.inferences[0].label)!)
-                }
-            }
-        }
+		//MUST BE ON MAIN THREAD
+		DispatchQueue.main.async {
+			switch self.result?.inferences[0].label {
+			case "del":
+				self.setPredictionToDelete()
+				self.target?.deleteBackward()
+			case "space":
+				self.setPredictiontoSpace()
+				self.target?.insertText(" ")
+			case "nothing":
+				if true {}
+			default:
+				if let outputResult = self.result?.inferences[0].label {
+					DispatchQueue.main.async {
+						self.target?.insertText((self.result?.inferences[0].label)!)
+					}
+				}
+			}
+		}
     }
 
-
+	
+	/// Presents alert if camera permission was denied.
     func presentCameraPermissionsDeniedAlert() {
         let alertController = UIAlertController(title: "Camera Permissions Denied", message: "Camera permissions have been denied for this app. You can change this by going to Settings", preferredStyle: .alert)
 
@@ -220,7 +236,8 @@ extension CameraBoard: CameraFeedManagerDelegate {
 
         previewView.shouldUseClipboardImage = true
     }
-
+	
+	/// Presents alert if camera configuration has failed.
     func presentVideoConfigurationErrorAlert() {
         let alert = UIAlertController(title: "Camera Configuration Failed", message: "There was an error while configuring camera.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -228,26 +245,25 @@ extension CameraBoard: CameraFeedManagerDelegate {
 //        self.present(alert, animated: true)
         previewView.shouldUseClipboardImage = true
     }
-
+	
+   /// Handles session run time error by updating the UI and providing a button if session can be manually resumed.
     func sessionRunTimeErrorOccured() {
-        // Handles session run time error by updating the UI and providing a button if session can be manually resumed.
         self.resumeButton.isHidden = false
         previewView.shouldUseClipboardImage = true
     }
 
     // MARK: Session Handling Alerts
+	/// Updates the UI when session is interupted.
     func sessionWasInterrupted(canResumeManually resumeManually: Bool) {
 
-        // Updates the UI when session is interupted.
         if resumeManually {
             self.resumeButton.isHidden = false
         } else {
             self.cameraUnavailableLabel.isHidden = false
         }
     }
-
+	/// Updates UI once session interruption has ended.
     func sessionInterruptionEnded() {
-        // Updates UI once session interruption has ended.
         if !self.cameraUnavailableLabel.isHidden {
             self.cameraUnavailableLabel.isHidden = true
         }
@@ -280,12 +296,13 @@ extension CameraBoard {
             range = predictionButton.count
         }
         var buttonIndex = 0
-        while buttonIndex < 3 {
+        while buttonIndex < 1 {
             predictionButton.append(UIButton())
             predictionStack.addArrangedSubview(predictionButton[buttonIndex])
             predictionStack.translatesAutoresizingMaskIntoConstraints = false
             predictionButton[buttonIndex].titleLabel?.textAlignment = .left
             predictionButton[buttonIndex].setTitle("", for: .normal)
+            predictionButton[buttonIndex].titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
             predictionButton[buttonIndex].backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0).withAlphaComponent(0.2)
             predictionButton[buttonIndex].setTitleColor(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1), for: .normal)
             predictionButton[buttonIndex].addTarget(self, action: #selector(predictionButtonHoldDown(_:)), for: .touchDown)
@@ -295,7 +312,9 @@ extension CameraBoard {
         }
     }
 
-
+	
+	/// Called when the prediction button has been held down. Should insert text multiple times.
+	/// - Parameter sender: The prediction button.
     @objc func predictionButtonHoldDown(_ sender: UIButton) {
 //        for butt in predictionButton {
 //            if sender == butt {
@@ -303,7 +322,9 @@ extension CameraBoard {
 //            }
 //        }
     }
-
+	
+	/// Called when the prediction button is tapped. Should insert the current prediction.
+	/// - Parameter sender: The prediction button.
     @objc func predictionButtonTapped(_ sender: UIButton) {
 //        for butt in predictionButton {
 //            if sender == butt {

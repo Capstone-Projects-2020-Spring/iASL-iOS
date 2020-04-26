@@ -11,6 +11,9 @@ import UIKit
 
 extension UIView {
 
+    
+    /// Rotate a UIView according to the given angle
+    /// - Parameter angle: the amount of angle to rotate
     func rotate(angle: CGFloat) {
         let radians = angle / 180.0 * CGFloat.pi
         let rotation = self.transform.rotated(by: radians)
@@ -19,18 +22,22 @@ extension UIView {
 }
 
 extension UIViewController {
+    
+    /// Activates touch recognizer on current UIViewController. It hides keyboard when tapped outside the keyboard area
     func hideKeyboardWhenTappedAround() {
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
     }
-
+    ///Dismiss the keyboard
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
 }
 extension UIView {
-
+    
+    /// Shakes the given UIView with rubber motion
+    /// - Parameter viewToShake: UIView to shake
     func shake(viewToShake: UIView) {
         let animation = CABasicAnimation(keyPath: "position")
         animation.duration = 0.07

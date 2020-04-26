@@ -123,7 +123,10 @@ class ChatUserCell: UITableViewCell {
 
     }
 
-    ///Init function that is called whenever this class is used. This calls the main set up functions for the constraints and the subviews
+	/// Init function that is called whenever this class is used. This calls the main set up functions for the constraints and the subviews
+	/// - Parameters:
+	///   - style: A constant indicating a cell style. See UITableViewCell.CellStyle for descriptions of these constants.
+	///   - reuseIdentifier: A string used to identify the cell object if it is to be reused for drawing multiple rows of a table view. Pass nil if the cell object is not to be reused. You should use the same reuse identifier for all cells of the same form.
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
 
@@ -133,6 +136,7 @@ class ChatUserCell: UITableViewCell {
     }
 
     ///Required init function in case of fatal error
+	/// - Parameter coder: An abstract class that serves as the basis for objects that enable archiving and distribution of other objects.
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
