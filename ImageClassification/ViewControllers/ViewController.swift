@@ -79,6 +79,9 @@ class ViewController: UIViewController {
     ///Keychain reference for when we need to clear the keychain if someone logs out
     let keychain = KeychainSwift(keyPrefix: "iasl_")
 
+	///variable to check whether to use internal model or server model
+	var serverModel = false
+	
     // MARK: Global Variables
     ///Constraint to keep track of the height of the output text view, whether it's collapsed or expanded
     var heightAnchor = NSLayoutConstraint()
@@ -117,7 +120,20 @@ class ViewController: UIViewController {
 			previewView.previewLayer.connection?.videoOrientation = .landscapeRight
 		}
 	}
-	
+	fileprivate func setServerModel() {
+		switch UIDevice.current.orientation {
+		case .portrait:
+			serverModel = false
+		case .landscapeLeft:
+			serverModel = true
+		case .landscapeRight:
+			serverModel = true
+		case .portraitUpsideDown:
+			serverModel = false
+		default:
+			serverModel = false
+		}
+	}
 	/// Notifies the container that the size of its view is about to change.
 	/// - Parameters:
 	///   - size: The new size for the container’s view.
@@ -127,6 +143,7 @@ class ViewController: UIViewController {
 		// check current view controller
 		guard let currentPresentedViewController = self.presentedViewController else {
 			setPreviewViewOrientaion()
+			setServerModel()
 			// if its the main view controller check if its upside down
         if UIDevice.current.orientation == UIDeviceOrientation.portraitUpsideDown {
             liveButton.isSelected = true
@@ -358,13 +375,13 @@ extension ViewController: CameraFeedManagerDelegate {
         
         /// Pass the pixel buffer to TensorFlow Lite to perform inference.
 		//Check to see if the device is in portriat
-		if  UIDevice.current.orientation != .portrait{
+		if serverModel{
 			//  run video model
 			videoModelHandler?.runModel(onFrame: pixelBuffer)
 			
 		}else{
 			//else tflite model
-//			result = modelDataHandler?.runModel(onFrame: pixelBuffer)
+			result = modelDataHandler?.runModel(onFrame: pixelBuffer)
 		}
         if let output = result {
             if output.inferences[0].label != "nothing" {
@@ -377,7 +394,13 @@ extension ViewController: CameraFeedManagerDelegate {
             DispatchQueue.main.async {
                 self.outputTextView2.text = self.outputTextView.text
                 if output.inferences[0].label != "nothing" {
-                    self.outputTextView2.text.append(output.inferences[0].label)
+					let possibleOutput = output.inferences[0].label
+					switch possibleOutput{
+					case "del":
+						self.outputTextView2.text.append("⌫")
+					default:						
+						self.outputTextView2.text.append(possibleOutput)
+					}
                     self.areaBound.isHidden = true
                 } else {
                     self.areaBound.isHidden = false
@@ -404,9 +427,6 @@ extension ViewController: CameraFeedManagerDelegate {
             
         }
 		
-        DispatchQueue.main.async {
-            let resolution = CGSize(width: CVPixelBufferGetWidth(pixelBuffer), height: CVPixelBufferGetHeight(pixelBuffer))
-        }
     }
 
     // MARK: Session Handling Alerts

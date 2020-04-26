@@ -117,7 +117,10 @@ class VideoModelDataHandler{
 					let greatestScore = scores.max { a, b in a.value < b.value }
 					print(greatestScore!.key)
 //					videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(greatestScore!.value), label: greatestScore!.key)])
-					textView?.text.append(greatestScore!.key)
+					if greatestScore!.value > 0.90 && greatestScore!.key != "nothing" {
+						textView?.text.append(greatestScore!.key)
+					}
+					
 				}
 			}
 		} catch let error as NSError {
