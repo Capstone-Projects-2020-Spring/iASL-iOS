@@ -108,6 +108,9 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
                 UIView.animate(withDuration: keyboardDuration) {
                     self.view.layoutIfNeeded()
                 }
+                
+                let indexPath = IndexPath(row: self.messages.count-1, section: 0)
+                self.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
             }
         }
     }
@@ -128,6 +131,9 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
             UIView.animate(withDuration: keyboardDuration) {
                 self.view.layoutIfNeeded()
             }
+            
+            let indexPath = IndexPath(row: self.messages.count-1, section: 0)
+            self.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
         }
     }
 
