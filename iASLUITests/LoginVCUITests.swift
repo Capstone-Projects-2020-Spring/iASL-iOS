@@ -110,6 +110,8 @@ class LoginVCUITests: XCTestCase {
         
         app.buttons["Login"].tap()
         
+        sleep(5)
+        
         //everything past this point is after the user has logged in
         let yoButton = app.buttons["yo"]
         

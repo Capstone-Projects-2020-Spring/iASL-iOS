@@ -35,7 +35,7 @@ class ChatVCUITests: XCTestCase {
         app.buttons["chatIcon"].tap()
         //tap on table view
         let table = app.tables.matching(identifier: "testingRemoteVCTableView")
-        let cell = table.cells.element(matching: .cell, identifier: "remoteTableViewCell_1")
+        let cell = table.cells.element(matching: .cell, identifier: "remoteTableViewCell_0")
         cell.tap()
     }
     

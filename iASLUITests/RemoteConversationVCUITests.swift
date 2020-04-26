@@ -42,7 +42,7 @@ class RemoteConversationVCUITests: XCTestCase {
     func testAddChatButtonGoesToNewView() {
         
         let app = XCUIApplication()
-        app.buttons["plus"].tap()
+        app.buttons["Add"].tap()
         let titleLabel = app.staticTexts["Add a Chat"]
         
         XCTAssertTrue(titleLabel.exists)
@@ -70,7 +70,7 @@ class RemoteConversationVCUITests: XCTestCase {
     ///Test if the back buttons for AddChatVC and RemoteConversationsVC gets us to a new view by checking for the existence of something in the new view as output
     func testBackButtons() {
         let app = XCUIApplication()
-        app.buttons["plus"].tap()
+        app.buttons["Add"].tap()
         
         let backButton = app.buttons["back"]
         backButton.tap()
