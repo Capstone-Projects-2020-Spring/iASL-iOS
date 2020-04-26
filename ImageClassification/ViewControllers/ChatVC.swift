@@ -170,6 +170,9 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
                     //reload the table
                     DispatchQueue.main.async {
                         self.collectionView.reloadData()
+                        
+                        let indexPath = IndexPath(row: self.messages.count-1, section: 0)
+                        self.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: false)
                     }
 
                 }
@@ -194,7 +197,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         collectionView.alwaysBounceVertical = true
 
         //makes it so the top message is not snug to the top of the view
-        collectionView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0)
+        collectionView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
 
         collectionView.delegate = self
         collectionView.dataSource = self
