@@ -45,7 +45,11 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 	/// - Parameter animated: If `true`, the view was added to the window using an animation.
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(true)
-        print("printing welcome \(defaults.bool(forKey: "WelcomeVersion1.0.0"))")
+        
+        #if DEBUG
+            return
+        #endif
+
 		if defaults.bool(forKey: "WelcomeVersion1.0.0") {
 					   return
 				   } else {
