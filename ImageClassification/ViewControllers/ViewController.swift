@@ -121,17 +121,19 @@ class ViewController: UIViewController {
 		}
 	}
 	fileprivate func setServerModel() {
-		switch UIDevice.current.orientation {
-		case .portrait:
-			shouldUseServerModel = false
-		case .landscapeLeft:
-			shouldUseServerModel = true
-		case .landscapeRight:
-			shouldUseServerModel = true
-		case .portraitUpsideDown:
-			shouldUseServerModel = false
-		default:
-			shouldUseServerModel = false
+		DispatchQueue.main.async {
+			switch UIDevice.current.orientation.isPortrait {
+			case true:
+				print("Don't use server model")
+				self.shouldUseServerModel = false
+			case false:
+				print("USE SERVER MODEL")
+				self.outputTextView2.text.removeAll()
+				self.areaBound.isHidden = true
+				self.shouldUseServerModel = true
+			
+			}
+		
 		}
 	}
 	/// Notifies the container that the size of its view is about to change.
@@ -143,7 +145,7 @@ class ViewController: UIViewController {
 		// check current view controller
 		guard let currentPresentedViewController = self.presentedViewController else {
 			setPreviewViewOrientaion()
-			setServerModel()
+			
 			// if its the main view controller check if its upside down
         if UIDevice.current.orientation == UIDeviceOrientation.portraitUpsideDown {
             liveButton.isSelected = true
@@ -174,6 +176,8 @@ class ViewController: UIViewController {
     ///Main function to call all the necessary GUI and backend functions
     override func viewDidLoad() {
         super.viewDidLoad()
+		//Rotation Notification
+		NotificationCenter.default.addObserver(self, selector: #selector(ViewController.rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
         previewViewSetup()
 		setPreviewViewOrientaion()
         textViewHolderSetup()
@@ -378,54 +382,62 @@ extension ViewController: CameraFeedManagerDelegate {
 		if shouldUseServerModel{
 			//  run video model
 			videoModelHandler?.runModel(onFrame: pixelBuffer)
+			result = nil
+			DispatchQueue.main.async {
+				self.outputTextView2.text = self.outputTextView.text
+		
+				self.areaBound.isHidden = true
+			}
+			
 			
 		}else{
 			//else tflite model
 			result = modelDataHandler?.runModel(onFrame: pixelBuffer)
+			if let output = result {
+					   if output.inferences[0].label != "nothing" {
+						   print("\(output.inferences[0].label) \(output.inferences[0].confidence)")
+					   }
+					   if verificationCount == 0 {
+						   verificationCache = output.inferences[0].label
+					   }
+					   print("\(verificationCount) \(verificationCache) == \(output.inferences[0].label)")
+					   DispatchQueue.main.async {
+						   self.outputTextView2.text = self.outputTextView.text
+						   if output.inferences[0].label != "nothing" {
+							   let possibleOutput = output.inferences[0].label
+							   switch possibleOutput{
+							   case "del":
+								   self.outputTextView2.text.append("⌫")
+							   default:
+								   self.outputTextView2.text.append(possibleOutput)
+							   }
+							   self.areaBound.isHidden = true
+						   } else {
+							   self.areaBound.isHidden = false
+						   }
+					   }
+					   if verificationCount == 2 && verificationCache == output.inferences[0].label {
+						   verificationCount = 0
+
+						   let currentTimeMs = Date().timeIntervalSince1970 * 1000
+						   if (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs{
+							   executeASLtoText()
+							   print("pushed")
+						   } else { return }
+						   previousInferenceTimeMs = currentTimeMs
+
+
+					   } else if verificationCount < 2 {
+						   verificationCount += 1
+					   } else if verificationCache != output.inferences[0].label {
+						   verificationCache = ""
+						   verificationCount = 0
+					   }
+					   
+					   
+				   }
 		}
-        if let output = result {
-            if output.inferences[0].label != "nothing" {
-                print("\(output.inferences[0].label) \(output.inferences[0].confidence)")
-            }
-            if verificationCount == 0 {
-                verificationCache = output.inferences[0].label
-            }
-            print("\(verificationCount) \(verificationCache) == \(output.inferences[0].label)")
-            DispatchQueue.main.async {
-                self.outputTextView2.text = self.outputTextView.text
-                if output.inferences[0].label != "nothing" {
-					let possibleOutput = output.inferences[0].label
-					switch possibleOutput{
-					case "del":
-						self.outputTextView2.text.append("⌫")
-					default:
-						self.outputTextView2.text.append(possibleOutput)
-					}
-                    self.areaBound.isHidden = true
-                } else {
-                    self.areaBound.isHidden = false
-                }
-            }
-            if verificationCount == 2 && verificationCache == output.inferences[0].label {
-                verificationCount = 0
-
-                let currentTimeMs = Date().timeIntervalSince1970 * 1000
-                if (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs{
-                    executeASLtoText()
-                    print("pushed")
-                } else { return }
-                previousInferenceTimeMs = currentTimeMs
-
-
-            } else if verificationCount < 2 {
-                verificationCount += 1
-            } else if verificationCache != output.inferences[0].label {
-                verificationCache = ""
-                verificationCount = 0
-            }
-            
-            
-        }
+       
 		
     }
 
@@ -1059,5 +1071,16 @@ extension ViewController {
 			}
 		}
 
+	}
+	/// Function to determine rotation.
+	@objc func rotated() {
+		setServerModel()
+		if UIDevice.current.orientation.isLandscape {
+        print("Landscape")
+		}
+
+		if UIDevice.current.orientation.isPortrait {
+        print("Portrait")
+		}
 	}
 }
