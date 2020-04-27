@@ -25,10 +25,16 @@ class CreateNoteVC: UIViewController {
     let userNotesConstant: String = "user-notes"
     ///Variable for the back button to go to the previous veiw controller
     let backButton = UIButton()
+    ///Button used to switch between the iASL keyboard and the standard Apple Keyboard
+    let keyboardButton = UIButton()
     ///Variable for the textview for the text of the note
     let textView = KMPlaceholderTextView()
     ///Variable for the textfield that holds the title of the note
     let noteTitle = UITextField()
+    ///Variable for changing the bottom anchor of the text view when the keyboard appears and disappears
+    var textViewBottomAnchor: NSLayoutConstraint?
+    ///Variable for changing the bottom anchor of the keyboard button when the keyboard appears and disappears
+    var keyboardButtonBottomAnchor: NSLayoutConstraint?
 
     ///Save button for saving notes
     let saveButton: UIButton = {
@@ -46,11 +52,55 @@ class CreateNoteVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        hideKeyboardWhenTappedAround()
+        
+        
         setupSaveNoteButton()
         backButtonSetup()
         noteTitleSetup()
         textViewSetup()
+        keyboardButtonSetup()
+        
         loadNote()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    ///Called when the keyboard is about to show
+    @objc func keyboardWillShow(notification: NSNotification) {
+        guard let keyboardDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {
+            print("could not find keyboard duration")
+            return
+        }
+        
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.textViewBottomAnchor?.constant == 0 {
+                self.textViewBottomAnchor?.constant -= keyboardSize.height
+                self.keyboardButtonBottomAnchor?.constant -= keyboardSize.height
+                
+                UIView.animate(withDuration: keyboardDuration) {
+                    self.view.layoutIfNeeded()
+                }
+            }
+        }
+    }
+
+    ///Called when the keyboard is abouot to hide
+    @objc func keyboardWillHide(notification: NSNotification) {
+        guard let keyboardDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {
+            print("could not find keyboard duration")
+            return
+        }
+        
+        if self.textViewBottomAnchor?.constant != 0 {
+            self.textViewBottomAnchor?.constant = 0
+            self.keyboardButtonBottomAnchor?.constant = -10
+            
+            UIView.animate(withDuration: keyboardDuration) {
+                self.view.layoutIfNeeded()
+            }
+        }
     }
 
     ///If the note already exists, loads the contents into the VC. if it does not exist, set placeholders
@@ -282,6 +332,35 @@ extension CreateNoteVC: UITextViewDelegate, UITextFieldDelegate {
             })
         }
     }
+    
+    ///Adds the keyboard label to the subview and defines its constraints
+    func keyboardButtonSetup() {
+        view.addSubview(keyboardButton)
+        //keyboardButton.backgroundColor = .white
+        keyboardButton.translatesAutoresizingMaskIntoConstraints = false
+        keyboardButton.leadingAnchor.constraint(lessThanOrEqualTo: view.leadingAnchor, constant: 10).isActive = true
+        keyboardButtonBottomAnchor = keyboardButton.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -10)
+        keyboardButtonBottomAnchor?.isActive = true
+        keyboardButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        keyboardButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        keyboardButton.setImage(#imageLiteral(resourceName: "keyboard-1"), for: .normal)
+        keyboardButton.setImage(#imageLiteral(resourceName: "yoBlack"), for: .selected)
+        keyboardButton.addTarget(self, action: #selector(keyboardButtonTapped), for: .touchUpInside)
+    }
+
+    ///Handles what happens when the keyboard button is tapped. Handles logic for switching between different keyboards
+    @objc func keyboardButtonTapped() {
+        if keyboardButton.isSelected {
+            keyboardButton.isSelected = false
+            textView.inputView = CameraBoard(target: textView)
+            textView.reloadInputViews()
+        } else {
+            keyboardButton.isSelected = true
+            textView.inputView = nil
+            textView.reloadInputViews()
+        }
+
+    }
 
     ///Sets up the note title and defines its constraints
     func noteTitleSetup() {
@@ -301,7 +380,10 @@ extension CreateNoteVC: UITextViewDelegate, UITextFieldDelegate {
         textView.placeholder = ""
         textView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
         textView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
-        textView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        textViewBottomAnchor = textView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        textViewBottomAnchor?.isActive = true
+        
         textView.topAnchor.constraint(equalTo: noteTitle.bottomAnchor, constant: 5).isActive = true
         textView.font = UIFont.systemFont(ofSize: 20)
 		textView.inputView = CameraBoard(target: textView)

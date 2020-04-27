@@ -173,30 +173,28 @@ extension CameraBoard: CameraFeedManagerDelegate {
                 if output.inferences[0].label != "nothing" {
                     self.predictionButton[0].setTitle("\(output.inferences[0].label)", for: .normal)
                 }
-            }
             
-            if output.inferences[0].label != "nothing" {
-                print("\(output.inferences[0].label) \(output.inferences[0].confidence)")
+	
+				if self.verificationCount == 0 {
+					self.verificationCache = output.inferences[0].label
             }
-            if verificationCount == 0 {
-                verificationCache = output.inferences[0].label
-            }
-            print("\(verificationCount) \(verificationCache) == \(output.inferences[0].label)")
-            if verificationCount == 2 && verificationCache == output.inferences[0].label {
-                verificationCount = 0
+				print("\(self.verificationCount) \(self.verificationCache) == \(output.inferences[0].label)")
+				if self.verificationCount == 2 && self.verificationCache == output.inferences[0].label {
+					self.verificationCount = 0
                 
                 let currentTimeMs = Date().timeIntervalSince1970 * 1000
-                if (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs{
-                   executeASLtoText()
+					if (currentTimeMs - self.previousInferenceTimeMs) >= self.delayBetweenInferencesMs{
+						self.executeASLtoText()
                     print("pushed")
                 } else { return }
-                previousInferenceTimeMs = currentTimeMs
-            } else if verificationCount < 2 {
-                verificationCount += 1
-            } else if verificationCache != output.inferences[0].label {
-                verificationCache = ""
-                verificationCount = 0
+					self.previousInferenceTimeMs = currentTimeMs
+				} else if self.verificationCount < 2 {
+					self.verificationCount += 1
+				} else if self.verificationCache != output.inferences[0].label {
+					self.verificationCache = ""
+					self.verificationCount = 0
             }
+			}
         }
 		}
     }
@@ -208,10 +206,10 @@ extension CameraBoard: CameraFeedManagerDelegate {
 		DispatchQueue.main.async {
 			switch self.result?.inferences[0].label {
 			case "del":
-				self.setPredictionToDelete()
+				
 				self.target?.deleteBackward()
 			case "space":
-				self.setPredictiontoSpace()
+				
 				self.target?.insertText(" ")
 			case "nothing":
 				if true {}
