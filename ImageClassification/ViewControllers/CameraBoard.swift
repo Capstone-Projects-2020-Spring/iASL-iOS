@@ -84,6 +84,7 @@ class CameraBoard: UIView {
 		super.init(frame: .zero)
 		self.target = target
 		autoresizingMask = [.flexibleWidth, .flexibleHeight]
+		NotificationCenter.default.addObserver(self, selector: #selector(CameraBoard.rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
         caboardViewSetup()
         previewViewSetup()
         buttonStackSetup()
@@ -478,4 +479,44 @@ extension CameraBoard {
             self.didOutput(pixelBuffer: buffer)
         }
     }
+	fileprivate func setPreviewViewOrientaion() {
+		switch UIDevice.current.orientation {
+		case .portrait:
+			previewView.previewLayer.connection?.videoOrientation = .portrait
+		case .landscapeLeft:
+			previewView.previewLayer.connection?.videoOrientation = .landscapeRight
+		case .landscapeRight:
+			previewView.previewLayer.connection?.videoOrientation = .landscapeLeft
+		case .portraitUpsideDown:
+			previewView.previewLayer.connection?.videoOrientation = .portraitUpsideDown
+		default:
+			previewView.previewLayer.connection?.videoOrientation = .landscapeRight
+		}
+	}
+	/// Function to determine rotation.
+	@objc func rotated() {
+		setServerModel()
+		setPreviewViewOrientaion()
+		if UIDevice.current.orientation.isLandscape {
+        print("Landscape")
+		}
+
+		if UIDevice.current.orientation.isPortrait {
+        print("Portrait")
+		}
+	}
+	fileprivate func setServerModel() {
+		DispatchQueue.main.async {
+			switch UIDevice.current.orientation.isPortrait {
+			case true:
+				print("Don't use server model")
+				self.shouldUseServerModel = false
+			case false:
+				print("USE SERVER MODEL")
+				self.shouldUseServerModel = true
+			
+			}
+		
+		}
+	}
 }
