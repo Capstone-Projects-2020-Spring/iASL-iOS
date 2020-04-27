@@ -2,6 +2,7 @@
 ![Integration Testing](https://github.com/Capstone-Projects-2020-Spring/iASL-iOS/workflows/Integration%20Testing/badge.svg)
 [![codecov](https://codecov.io/gh/Capstone-Projects-2020-Spring/iASL-iOS/branch/master/graph/badge.svg)](https://codecov.io/gh/Capstone-Projects-2020-Spring/iASL-iOS)
 
+![iASLPoster](PosteriASL.001.jpeg)
 ## Overview
 This repository is for the iASL Android application. The app will use the iOS device's front-facing camera to record the user signing in ASL. It will then attempt to convert the ASL to text by using machine learning. The application will also support a speech-to-text feature to allow Deaf individuals to read what the other person is saying aloud.
 
