@@ -120,12 +120,12 @@ class VideoModelDataHandler{
 					let greatestScore = scores.max { predictionA, predictionB in predictionA.value < predictionB.value }
 					print(greatestScore!.key)
 //					videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(greatestScore!.value), label: greatestScore!.key)])
-					if greatestScore!.value > 0.90 && greatestScore!.key != "nothing" {
+					if greatestScore!.key != "nothing" {
 						if let textViewHandle = textView{
-							textViewHandle.text.append(greatestScore!.key)
+							textViewHandle.text.append("\(greatestScore!.key) ")
 						}
 						if let cameraBoardHandle = cameraBoard{
-							cameraBoard?.target?.insertText(greatestScore!.key)
+							cameraBoard?.target?.insertText("\(greatestScore!.key) ")
 						}
 					}
 					
