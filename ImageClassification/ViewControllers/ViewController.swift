@@ -80,7 +80,7 @@ class ViewController: UIViewController {
     let keychain = KeychainSwift(keyPrefix: "iasl_")
 
 	///variable to check whether to use internal model or server model
-	var shouldUseServerModel: Bool?
+	var shouldUseServerModel: Bool? = false
 	
     // MARK: Global Variables
     ///Constraint to keep track of the height of the output text view, whether it's collapsed or expanded
