@@ -80,7 +80,7 @@ class ViewController: UIViewController {
     let keychain = KeychainSwift(keyPrefix: "iasl_")
 
 	///variable to check whether to use internal model or server model
-	var shouldUseServerModel = false
+	var shouldUseServerModel: Bool?
 	
     // MARK: Global Variables
     ///Constraint to keep track of the height of the output text view, whether it's collapsed or expanded
@@ -117,7 +117,7 @@ class ViewController: UIViewController {
 		case .portraitUpsideDown:
 			previewView.previewLayer.connection?.videoOrientation = .portraitUpsideDown
 		default:
-			previewView.previewLayer.connection?.videoOrientation = .landscapeRight
+			previewView.previewLayer.connection?.videoOrientation = .portrait
 		}
 	}
 	fileprivate func setServerModel() {
@@ -133,7 +133,9 @@ class ViewController: UIViewController {
 				self.shouldUseServerModel = true
 			
 			}
-		
+			if UIDevice.current.orientation == .faceUp{
+				self.shouldUseServerModel = false
+			}
 		}
 	}
 	/// Notifies the container that the size of its view is about to change.
@@ -316,6 +318,7 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 		setPreviewViewOrientaion()
+		setServerModel()
         #if !targetEnvironment(simulator)
         cameraCapture.checkCameraConfigurationAndStartSession()
         #endif
@@ -379,7 +382,7 @@ extension ViewController: CameraFeedManagerDelegate {
         
         /// Pass the pixel buffer to TensorFlow Lite to perform inference.
 		//Check to see if the device is in portriat
-		if shouldUseServerModel{
+		if shouldUseServerModel ?? false{
 			//  run video model
 			videoModelHandler?.runModel(onFrame: pixelBuffer)
 			result = nil

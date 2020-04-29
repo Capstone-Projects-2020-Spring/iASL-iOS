@@ -490,7 +490,7 @@ extension CameraBoard {
 		case .portraitUpsideDown:
 			previewView.previewLayer.connection?.videoOrientation = .portraitUpsideDown
 		default:
-			previewView.previewLayer.connection?.videoOrientation = .landscapeRight
+			previewView.previewLayer.connection?.videoOrientation = .portrait
 		}
 	}
 	/// Function to determine rotation.
@@ -504,6 +504,7 @@ extension CameraBoard {
 		if UIDevice.current.orientation.isPortrait {
         print("Portrait")
 		}
+		cameraCapture.updateVideoOrientation()
 	}
 	fileprivate func setServerModel() {
 		DispatchQueue.main.async {
@@ -515,6 +516,9 @@ extension CameraBoard {
 				print("USE SERVER MODEL")
 				self.shouldUseServerModel = true
 			
+			}
+			if UIDevice.current.orientation == .faceUp{
+				self.shouldUseServerModel = false
 			}
 		
 		}

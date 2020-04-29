@@ -120,7 +120,7 @@ class VideoModelDataHandler{
 					let greatestScore = scores.max { predictionA, predictionB in predictionA.value < predictionB.value }
 					print(greatestScore!.key)
 //					videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(greatestScore!.value), label: greatestScore!.key)])
-					if greatestScore!.key != "nothing" {
+					if greatestScore!.key != "nothing" && greatestScore!.value >= 0.95 {
 						if let textViewHandle = textView{
 							textViewHandle.text.append("\(greatestScore!.key) ")
 						}
@@ -212,8 +212,8 @@ class VideoModelDataHandler{
 		//Ian
 		videoCount += 1
 		let frame = frames.joined()
-			let url = URL(string: "http://192.168.73.155:8080/predict")!
-//			let url = URL(string: "http://34.70.195.11:8080/predict")!
+//			let url = URL(string: "http://192.168.73.155:8080/predict")!
+			let url = URL(string: "http://34.70.195.11:8080/predict")!
 //			let url = URL(string: "https://iasl.azurewebsites.net:8080/predict")!
 			//request
 			let jsonEncoder = JSONEncoder()

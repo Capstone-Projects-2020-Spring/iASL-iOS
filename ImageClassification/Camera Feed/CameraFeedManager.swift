@@ -268,7 +268,7 @@ class CameraFeedManager: NSObject {
 		case .portraitUpsideDown:
 			self.previewView.previewLayer.connection?.videoOrientation = .portraitUpsideDown
 		default:
-			self.previewView.previewLayer.connection?.videoOrientation = .landscapeRight
+			self.previewView.previewLayer.connection?.videoOrientation = .portrait
 		}
 	}
 	fileprivate func setVideoOutputOrientaion() {
@@ -282,7 +282,7 @@ class CameraFeedManager: NSObject {
 		case .portraitUpsideDown:
 			videoDataOutput.connection(with: .video)?.videoOrientation = .portraitUpsideDown
 		default:
-			videoDataOutput.connection(with: .video)?.videoOrientation = .landscapeRight
+			videoDataOutput.connection(with: .video)?.videoOrientation = .portrait
 		}
 	}
 	/**
