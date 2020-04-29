@@ -1082,5 +1082,6 @@ extension ViewController {
 		if UIDevice.current.orientation.isPortrait {
         print("Portrait")
 		}
+		cameraCapture.updateVideoOrientation()
 	}
 }

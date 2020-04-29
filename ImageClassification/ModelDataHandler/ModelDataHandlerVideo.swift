@@ -76,7 +76,7 @@ class VideoModelDataHandler{
 	guard let thumbnailPixelBuffer = pixelBuffer.videoCenter() else {
       return
     }
-	let imageDude = CIImage(cvPixelBuffer: thumbnailPixelBuffer)
+	let imageDebug = CIImage(cvPixelBuffer: thumbnailPixelBuffer)//This variable is here for debugging purposes to see what the ML Model sees.
 	
     let interval: TimeInterval
     do {
@@ -226,7 +226,7 @@ class VideoModelDataHandler{
 			request.httpBody = paramaters.percentEncoded()
 			request.httpMethod = "POST"
 			//SEND
-		if videoCount % 3 == 1{
+//		if videoCount % 3 == 1{
 			let task = URLSession.shared.dataTask(with: request) { data, response, error in
 									guard let data = data,
 										let response = response as? HTTPURLResponse,
@@ -266,7 +266,7 @@ class VideoModelDataHandler{
 								}
 
 								task.resume()
-		}
+//		}
 			
 		frames.removeAll()
 	}
@@ -312,3 +312,4 @@ extension CharacterSet {
         return allowed
     }()
 }
+

@@ -403,3 +403,9 @@ extension CameraFeedManager: AVCaptureVideoDataOutputSampleBufferDelegate {
 	}
 
 }
+extension CameraFeedManager{
+	public func updateVideoOrientation( ){
+		setPreviewViewOrientaion()
+		setVideoOutputOrientaion()
+	}
+}
