@@ -5,6 +5,6 @@ before_script: |
     pod install
     ./RunScripts/download_models.sh
 script: |
-    xcodebuild clean test -workspace ImageClassification.xcworkspace -scheme ImageClassification -destination "${destination}" -enableCodeCoverage YES CODE_SIGNING_ALLOWED=NO ONLY_ACTIVE_ARCH=NO
+    xcodebuild clean test -workspace ImageClassification.xcworkspace -scheme ImageClassification -destination "platform=iOS Simulator,name=iPhone 11,OS=13.3" -enableCodeCoverage YES CODE_SIGNING_ALLOWED=NO ONLY_ACTIVE_ARCH=NO
 after_success:
     bash <(curl -s https://codecov.io/bash) -J 'ImageClassification' -t codecovtoken
