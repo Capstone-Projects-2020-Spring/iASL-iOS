@@ -51,8 +51,11 @@ You can build it and run with the iPhone Simulator, but the app will raise a
 1.  Clone this GitHub repository to your workstation. `bash git clone
     https://github.com/Capstone-Projects-2020-Spring/iASL-iOS.git`
 
-2.  Install the pod to generate the workspace file: `bash cd
-    examples/lite/examples/image_classification/ios pod install`
+2.  Install the pod to generate the workspace file: 
+```bash
+bash cd iASL-iOS/
+bash pod install
+```
 
 Note: If you have installed this pod before and that command doesn't work, try
 `pod update`.
