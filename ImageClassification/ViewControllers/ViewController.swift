@@ -1093,5 +1093,4 @@ extension ViewController:VideoModelDelegate{
         self.outputTextView.text.append("\(text) ")
     }
 
-	
 }
