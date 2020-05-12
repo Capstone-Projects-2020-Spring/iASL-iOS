@@ -78,7 +78,7 @@ class ViewController: UIViewController {
     let outputTextView2 = UITextView()
     ///Keychain reference for when we need to clear the keychain if someone logs out
     let keychain = KeychainSwift(keyPrefix: "iasl_")
-
+	
 	///variable to check whether to use internal model or server model
 	var shouldUseServerModel: Bool? = false
 	
@@ -205,7 +205,7 @@ class ViewController: UIViewController {
         guideButtonSetup()
         //hideKeyboardWhenTappedAround()
         //speak()
-
+		
 
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -241,8 +241,7 @@ class ViewController: UIViewController {
                                                object: nil)
         #endif
         cameraCapture.delegate = self
-		videoModelHandler = VideoModelDataHandler(textView: self.outputTextView)
-
+		videoModelHandler = VideoModelDataHandler(delegate: self)
     }
 
 	/// Raise the whoe View when the keybaord appears
@@ -319,6 +318,7 @@ class ViewController: UIViewController {
         super.viewWillAppear(animated)
 		setPreviewViewOrientaion()
 		setServerModel()
+		
         #if !targetEnvironment(simulator)
         cameraCapture.checkCameraConfigurationAndStartSession()
         #endif
@@ -1087,4 +1087,11 @@ extension ViewController {
 		}
 		cameraCapture.updateVideoOrientation()
 	}
+}
+extension ViewController:VideoModelDelegate{
+    func insertText(_ text: String) {
+        self.outputTextView.text.append("\(text) ")
+    }
+
+	
 }

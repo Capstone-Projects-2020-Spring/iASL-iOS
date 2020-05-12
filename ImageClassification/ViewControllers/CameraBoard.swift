@@ -100,7 +100,8 @@ class CameraBoard: UIView {
                                                object: nil)
         #endif
         cameraCapture.delegate = self
-		videoModelHandler = VideoModelDataHandler(cameraBoard: self)
+		videoModelHandler = VideoModelDataHandler(delegate: self)
+//		videoModelHandler?.videoModelDelegate = self
         //collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
     }
 	
@@ -523,4 +524,10 @@ extension CameraBoard {
 		
 		}
 	}
+}
+extension CameraBoard: VideoModelDelegate{
+    func insertText(_ text: String) {
+		self.target?.insertText("\(text) ")
+    }
+
 }

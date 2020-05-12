@@ -42,7 +42,7 @@ class VideoModelDataHandler{
 	// MARK: - Private Properties
 	var textView: UITextView?
 	var cameraBoard: CameraBoard?
-	
+	var videoModelDelegate: VideoModelDelegate?
   /// Information about the alpha component in RGBA data.
   private let alphaComponent = (baseOffset: 4, moduloRemainder: 3)
 
@@ -52,12 +52,10 @@ class VideoModelDataHandler{
 
   /// A failable initializer for `ModelDataHandler`. A new instance is created if the model and
   /// labels files are successfully loaded from the app's main bundle. Default `threadCount` is 1.
-	init?(textView:UITextView) {
-		self.textView = textView
+	init?(delegate: VideoModelDelegate) {
+		self.videoModelDelegate = delegate
 	}
-	init?(cameraBoard: CameraBoard){
-		self.cameraBoard = cameraBoard
-	}
+
   // MARK: - Internal Methods
 
   /// Performs image preprocessing, invokes the `Interpreter`, and processes the inference results.
@@ -110,7 +108,17 @@ class VideoModelDataHandler{
   
 	var videoResult: Result?
 
-	func interpretServerPrediction(data: Data){
+	fileprivate func insertText(_ greatestScore: Dictionary<String, Double>.Element?) {
+//		if let textViewHandle = textView{
+//			textViewHandle.text.append("\(greatestScore!.key) ")
+//		}
+//		if let cameraBoardHandle = cameraBoard{
+//			cameraBoard?.target?.insertText("\(greatestScore!.key) ")
+//		}
+		videoModelDelegate?.insertText(greatestScore!.key)
+	}
+
+func interpretServerPrediction(data: Data){
 		do {
 			// make sure this JSON is in the format we expect
 			if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
@@ -121,12 +129,7 @@ class VideoModelDataHandler{
 					print(greatestScore!.key)
 //					videoResult = Result(inferenceTime: 0, inferences: [Inference(confidence: Float(greatestScore!.value), label: greatestScore!.key)])
 					if greatestScore!.key != "nothing" && greatestScore!.value >= 0.95 {
-						if let textViewHandle = textView{
-							textViewHandle.text.append("\(greatestScore!.key) ")
-						}
-						if let cameraBoardHandle = cameraBoard{
-							cameraBoard?.target?.insertText("\(greatestScore!.key) ")
-						}
+						insertText(greatestScore)
 					}
 					
 				}
@@ -313,3 +316,6 @@ extension CharacterSet {
     }()
 }
 
+protocol VideoModelDelegate {
+	func insertText(_ text: String)
+}
