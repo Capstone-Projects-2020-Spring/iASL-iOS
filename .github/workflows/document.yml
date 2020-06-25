@@ -13,7 +13,7 @@ jobs:
     - name: trigger single Job
       uses: appleboy/jenkins-action@master
       with:
-        url: "http://git.avalonbloom.com:8888"
+        url: "https://fishschool.avalonbloom.com/"
         user: "ian"
         token: ${{ secrets.JENKINS_API_TOKEN }}
         job: "iASLDocumentCode"
