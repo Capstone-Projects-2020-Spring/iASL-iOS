@@ -404,6 +404,7 @@ extension CameraFeedManager: AVCaptureVideoDataOutputSampleBufferDelegate {
 
 }
 extension CameraFeedManager{
+/// Updates the orientation of the video viewfinder.
 	public func updateVideoOrientation( ){
 		setPreviewViewOrientaion()
 		setVideoOutputOrientaion()
