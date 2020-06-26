@@ -2,8 +2,9 @@
 ![Integration Testing](https://github.com/Capstone-Projects-2020-Spring/iASL-iOS/workflows/Integration%20Testing/badge.svg)
 [![codecov](https://codecov.io/gh/Capstone-Projects-2020-Spring/iASL-iOS/branch/master/graph/badge.svg)](https://codecov.io/gh/Capstone-Projects-2020-Spring/iASL-iOS)
 
+![iASLPoster](PosteriASL.001.jpeg)
 ## Overview
-This repository is for the iASL Android application. The app will use the iOS device's front-facing camera to record the user signing in ASL. It will then attempt to convert the ASL to text by using machine learning. The application will also support a speech-to-text feature to allow Deaf individuals to read what the other person is saying aloud.
+This repository is for the iASL iOS application. The app will use the iOS device's front-facing camera to record the user signing in ASL. It will then attempt to convert the ASL to text by using machine learning. The application will also support a speech-to-text feature to allow Deaf individuals to read what the other person is saying aloud.
 
 Users will be able to save the ASL to text as a note. iASL also features an instant messaging feature. Users can sign in front of the camera, or speak into the microphone, and have the resulting text be sent to someone else.
 
@@ -50,8 +51,11 @@ You can build it and run with the iPhone Simulator, but the app will raise a
 1.  Clone this GitHub repository to your workstation. `bash git clone
     https://github.com/Capstone-Projects-2020-Spring/iASL-iOS.git`
 
-2.  Install the pod to generate the workspace file: `bash cd
-    examples/lite/examples/image_classification/ios pod install`
+2.  Install the pod to generate the workspace file: 
+```bash
+bash cd iASL-iOS/
+bash pod install
+```
 
 Note: If you have installed this pod before and that command doesn't work, try
 `pod update`.
