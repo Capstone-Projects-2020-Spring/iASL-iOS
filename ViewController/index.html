@@ -1,0 +1,2387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iASL - ViewController</title>
+    <base href="https://capstone-projects-2020-spring.github.io/iASL-iOS/"/>
+    <style type="text/css">
+    :root {
+    --system-red: rgb(255, 59, 48);
+    --system-orange: rgb(255, 149, 0);
+    --system-yellow: rgb(255, 204, 0);
+    --system-green: rgb(52, 199, 89);
+    --system-teal: rgb(90, 200, 250);
+    --system-blue: rgb(0, 122, 255);
+    --system-indigo: rgb(88, 86, 214);
+    --system-purple: rgb(175, 82, 222);
+    --system-pink: rgb(255, 45, 85);
+    --system-gray: rgb(142, 142, 147);
+    --system-gray2: rgb(174, 174, 178);
+    --system-gray3: rgb(199, 199, 204);
+    --system-gray4: rgb(209, 209, 214);
+    --system-gray5: rgb(229, 229, 234);
+    --system-gray6: rgb(242, 242, 247);
+
+    --label: rgb(0, 0, 0);
+    --secondary-label: rgb(60, 60, 67);
+    --tertiary-label: rgb(72, 72, 74);
+    --quaternary-label: rgb(99, 99, 102);
+    --placeholder-text: rgb(142, 142, 147);
+    --link: rgb(0, 122, 255);
+    --separator: rgb(229, 229, 234);
+    --opaque-separator: rgb(198, 198, 200);
+    --system-fill: rgb(120, 120, 128);
+    --secondary-system-fill: rgb(120, 120, 128);
+    --tertiary-system-fill: rgb(118, 118, 128);
+    --quaternary-system-fill: rgb(116, 116, 128);
+    --system-background: rgb(255, 255, 255);
+    --secondary-system-background: rgb(242, 242, 247);
+    --tertiary-system-background: rgb(255, 255, 255);
+    --system-grouped-background: rgb(242, 242, 247);
+    --secondary-system-grouped-background: rgb(255, 255, 255);
+    --tertiary-system-grouped-background: rgb(242, 242, 247);
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+    :root {
+        --system-red: color(display-p3 1 0.2314 0.1882);
+        --system-orange: color(display-p3 1 0.5843 0);
+        --system-yellow: color(display-p3 1 0.8 0);
+        --system-green: color(display-p3 0.2039 0.7804 0.349);
+        --system-teal: color(display-p3 0.3529 0.7843 0.9804);
+        --system-blue: color(display-p3 0 0.4784 1);
+        --system-indigo: color(display-p3 0.3451 0.3373 0.8392);
+        --system-purple: color(display-p3 0.6863 0.3216 0.8706);
+        --system-pink: color(display-p3 1 0.1765 0.3333);
+        --system-gray: color(display-p3 0.5569 0.5569 0.5765);
+        --system-gray2: color(display-p3 0.6824 0.6824 0.698);
+        --system-gray3: color(display-p3 0.7804 0.7804 0.8);
+        --system-gray4: color(display-p3 0.8196 0.8196 0.8392);
+        --system-gray5: color(display-p3 0.898 0.898 0.9176);
+        --system-gray6: color(display-p3 0.949 0.949 0.9686);
+
+        --label: color(display-p3 0 0 0);
+        --secondary-label: color(display-p3 0.2353 0.2353 0.2627);
+        --tertiary-label: color(display-p3 0.2823 0.2823 0.2901);
+        --quaternary-label: color(display-p3 0.4627 0.4627 0.5019);
+        --placeholder-text: color(display-p3 0.5568 0.5568 0.5764);
+        --link: color(display-p3 0 0.4784 1);
+        --separator: color(display-p3 0.898 0.898 0.9176);
+        --opaque-separator: color(display-p3 0.7765 0.7765 0.7843);
+        --system-fill: color(display-p3 0.4706 0.4706 0.502);
+        --secondary-system-fill: color(display-p3 0.4706 0.4706 0.502);
+        --tertiary-system-fill: color(display-p3 0.4627 0.4627 0.502);
+        --quaternary-system-fill: color(display-p3 0.4549 0.4549 0.502);
+        --system-background: color(display-p3 1 1 1);
+        --secondary-system-background: color(display-p3 0.949 0.949 0.9686);
+        --tertiary-system-background: color(display-p3 1 1 1);
+        --system-grouped-background: color(display-p3 0.949 0.949 0.9686);
+        --secondary-system-grouped-background: color(display-p3 1 1 1);
+        --tertiary-system-grouped-background: color(
+            display-p3 0.949 0.949 0.9686
+        );
+    }
+}
+
+/*
+@media (prefers-color-scheme: dark) {
+    :root {
+        --system-red: rgb(255, 69, 58);
+        --system-orange: rgb(255, 159, 10);
+        --system-yellow: rgb(255, 214, 10);
+        --system-green: rgb(48, 209, 88);
+        --system-teal: rgb(100, 210, 255);
+        --system-blue: rgb(10, 132, 255);
+        --system-indigo: rgb(94, 92, 230);
+        --system-purple: rgb(191, 90, 242);
+        --system-pink: rgb(255, 55, 95);
+        --system-gray: rgb(142, 142, 147);
+        --system-gray2: rgb(99, 99, 102);
+        --system-gray3: rgb(72, 72, 74);
+        --system-gray4: rgb(58, 58, 60);
+        --system-gray5: rgb(44, 44, 46);
+        --system-gray6: rgb(28, 28, 30);
+
+        --label: rgb(255, 255, 255);
+        --secondary-label: rgb(235, 235, 245);
+        --tertiary-label: rgb(235, 235, 245);
+        --quaternary-label: rgb(235, 235, 245);
+        --placeholder-text: rgb(235, 235, 245);
+        --link: rgb(9, 132, 255);
+        --separator: rgb(44, 44, 46);
+        --opaque-separator: rgb(56, 56, 58);
+        --system-fill: rgb(120, 120, 128);
+        --secondary-system-fill: rgb(120, 120, 128);
+        --tertiary-system-fill: rgb(118, 118, 128);
+        --quaternary-system-fill: rgb(118, 118, 128);
+        --system-background: rgb(0, 0, 0);
+        --secondary-system-background: rgb(28, 28, 30);
+        --tertiary-system-background: rgb(44, 44, 46);
+        --system-grouped-background: rgb(0, 0, 0);
+        --secondary-system-grouped-background: rgb(28, 28, 30);
+        --tertiary-system-grouped-background: rgb(44, 44, 46);
+    }
+
+    @supports (color: color(display-p3 1 1 1)) {
+        :root {
+            --system-red: color(display-p3 1 0.4118 0.3804);
+            --system-orange: color(display-p3 1 0.702 0.251);
+            --system-yellow: color(display-p3 1 0.8314 0.149);
+            --system-green: color(display-p3 0.1882 0.8588 0.3569);
+            --system-teal: color(display-p3 0.4392 0.8431 1);
+            --system-blue: color(display-p3 0.251 0.6118 1);
+            --system-indigo: color(display-p3 0.4902 0.4784 1);
+            --system-purple: color(display-p3 0.8549 0.5608 1);
+            --system-pink: color(display-p3 1 0.3922 0.5098);
+            --system-gray: color(display-p3 0.6824 0.6824 0.698);
+            --system-gray2: color(display-p3 0.4863 0.4863 0.502);
+            --system-gray3: color(display-p3 0.3294 0.3294 0.3373);
+            --system-gray4: color(display-p3 0.2667 0.2667 0.2745);
+            --system-gray5: color(display-p3 0.2118 0.2118 0.2196);
+            --system-gray6: color(display-p3 0.1412 0.1412 0.149);
+
+            --label: color(display-p3 1 1 1);
+            --secondary-label: color(display-p3 0.9216 0.9216 0.9608);
+            --tertiary-label: color(display-p3 0.9216 0.9216 0.9608);
+            --quaternary-label: color(display-p3 0.9216 0.9216 0.9608);
+            --placeholder-text: color(display-p3 0.9216 0.9216 0.9608);
+            --link: color(display-p3 0.03529 0.5176 1);
+            --separator: color(display-p3 0.2118 0.2118 0.2196);
+            --opaque-separator: color(display-p3 0.2196 0.2196 0.2275);
+            --system-fill: color(display-p3 0.4706 0.4706 0.502);
+            --secondary-system-fill: color(display-p3 0.4706 0.4706 0.502);
+            --tertiary-system-fill: color(display-p3 0.4627 0.4627 0.502);
+            --quaternary-system-fill: color(display-p3 0.4627 0.4627 0.502);
+            --system-background: color(display-p3 0 0 0);
+            --secondary-system-background: color(
+                display-p3 0.1412 0.1412 0.149
+            );
+            --tertiary-system-background: color(
+                display-p3 0.2118 0.2118 0.2196
+            );
+            --system-grouped-background: color(display-p3 0 0 0);
+            --secondary-system-grouped-background: color(
+                display-p3 0.1412 0.1412 0.149
+            );
+            --tertiary-system-grouped-background: color(
+                display-p3 0.2118 0.2118 0.2196
+            );
+        }
+    }
+} */
+
+:root {
+    --large-title: 600 32pt / 39pt sans-serif;
+    --title-1: 600 26pt / 32pt sans-serif;
+    --title-2: 600 20pt / 25pt sans-serif;
+    --title-3: 500 18pt / 23pt sans-serif;
+    --headline: 500 15pt / 20pt sans-serif;
+    --body: 300 15pt / 20pt sans-serif;
+    --callout: 300 14pt / 19pt sans-serif;
+    --subhead: 300 13pt / 18pt sans-serif;
+    --footnote: 300 12pt / 16pt sans-serif;
+    --caption-1: 300 11pt / 13pt sans-serif;
+    --caption-2: 300 11pt / 13pt sans-serif;
+}
+
+:root {
+    --icon-case: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect fill='%2389c5e6' height='90' rx='8' stroke='%236bb7e1' stroke-miterlimit='10' stroke-width='4' width='90' x='5' y='5'/%3E%3Cpath d='m20.21 50c0-20.7 11.9-32.79 30.8-32.79 16 0 28.21 10.33 28.7 25.32h-15.52c-.79-7.53-6.1-12.42-13.19-12.42-8.79 0-14.37 7.52-14.37 19.82s5.54 20 14.41 20c7.08 0 12.22-4.66 13.23-12.09h15.52c-.74 15.07-12.43 25-28.78 25-19.01-.03-30.8-12.12-30.8-32.84z' fill='%23fff'/%3E%3C/svg%3E%0A");
+    --icon-class: url("data:image/svg+xml;utf8,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect fill='%239b98e6' height='90' rx='8' stroke='%235856d6' stroke-miterlimit='10' stroke-width='4' width='90' x='5' y='5'/%3E%3Cpath d='m20.21 50c0-20.7 11.9-32.79 30.8-32.79 16 0 28.21 10.33 28.7 25.32h-15.52c-.79-7.53-6.1-12.42-13.19-12.42-8.79 0-14.37 7.52-14.37 19.82s5.54 20 14.41 20c7.08 0 12.22-4.66 13.23-12.09h15.52c-.74 15.07-12.43 25-28.78 25-19.01-.03-30.8-12.12-30.8-32.84z' fill='%23fff'/%3E%3C/svg%3E");
+    --icon-enumeration: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect fill='%23eca95b' height='90' rx='8' stroke='%23e89234' stroke-miterlimit='10' stroke-width='4' width='90' x='5.17' y='5'/%3E%3Cpath d='m71.9 81.71h-43.47v-63.42h43.47v13h-27.34v12.62h25.71v11.87h-25.71v12.92h27.34z' fill='%23fff'/%3E%3C/svg%3E%0A");
+    --icon-extension: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect fill='%23eca95b' height='90' rx='8' stroke='%23e89234' stroke-miterlimit='10' stroke-width='4' width='90' x='5' y='5'/%3E%3Cg fill='%23fff'%3E%3Cpath d='m54.43 81.93h-33.92v-63.86h33.92v12.26h-21.82v13.8h20.45v11.32h-20.45v14.22h21.82z'/%3E%3Cpath d='m68.74 74.58h-.27l-2.78 7.35h-7.28l5.59-12.61-6-12.54h8l2.74 7.3h.27l2.76-7.3h7.64l-6.14 12.54 5.89 12.61h-7.64z'/%3E%3C/g%3E%3C/svg%3E%0A");
+    --icon-function: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect fill='%237ac673' height='90' rx='8' stroke='%235bb74f' stroke-miterlimit='10' stroke-width='4' width='90' x='5' y='5'/%3E%3Cpath d='m24.25 75.66a5.47 5.47 0 0 1 5.75-5.73c1.55 0 3.55.41 6.46.41 3.19 0 4.78-1.55 5.46-6.65l1.5-10.14h-9.34a6 6 0 1 1 0-12h11.1l1.09-7.27c1.55-10.89 8.01-16.58 17.73-16.58 6.69 0 11.74 1.77 11.74 6.64a5.47 5.47 0 0 1 -5.74 5.73c-1.55 0-3.55-.41-6.46-.41-3.14 0-4.73 1.51-5.46 6.65l-.78 5.27h11.44a6 6 0 1 1 .05 12h-13.19l-1.78 12.11c-1.59 10.92-8.1 16.61-17.82 16.61-6.7 0-11.75-1.77-11.75-6.64z' fill='%23fff'/%3E%3C/svg%3E%0A");
+    --icon-method: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect fill='%235a98f8' height='90' rx='8' stroke='%232974ed' stroke-miterlimit='10' stroke-width='4' width='90' x='5' y='5'/%3E%3Cpath d='m70.61 81.71v-39.6h-.31l-15.69 39.6h-9.22l-15.65-39.6h-.35v39.6h-14.19v-63.42h18.63l16 41.44h.36l16-41.44h18.61v63.42z' fill='%23fff'/%3E%3C/svg%3E%0A");
+    --icon-property: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect fill='%2389c5e6' height='90' rx='8' stroke='%236bb7e1' stroke-miterlimit='10' stroke-width='4' width='90' x='5' y='5'/%3E%3Cpath d='m52.31 18.29c13.62 0 22.85 8.84 22.85 22.46s-9.71 22.37-23.82 22.37h-10.34v18.59h-16.16v-63.42zm-11.31 32.71h7c6.85 0 10.89-3.56 10.89-10.2s-4.08-10.16-10.89-10.16h-7z' fill='%23fff'/%3E%3C/svg%3E%0A");
+    --icon-protocol: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect fill='%23ff6682' height='90' rx='8' stroke='%23ff2d55' stroke-miterlimit='10' stroke-width='4' width='90' x='5' y='5'/%3E%3Cg fill='%23fff'%3E%3Cpath d='m46.28 18.29c11.84 0 20 8.66 20 21.71s-8.44 21.71-20.6 21.71h-10.81v20h-12.09v-63.42zm-11.41 33.05h8.13c6.93 0 11-4 11-11.29s-4-11.25-10.93-11.25h-8.2z'/%3E%3Cpath d='m62 57.45h8v4.77h.16c.84-3.45 2.54-5.12 5.17-5.12a5.06 5.06 0 0 1 1.92.35v7.55a5.69 5.69 0 0 0 -2.39-.51c-3.08 0-4.66 1.74-4.66 5.12v12.1h-8.2z'/%3E%3C/g%3E%3C/svg%3E%0A");
+    --icon-structure: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect fill='%23b57edf' height='90' rx='8' stroke='%239454c2' stroke-miterlimit='10' stroke-width='4' width='90' x='5' y='5'/%3E%3Cpath d='m38.38 63c.74 4.53 5.62 7.16 11.82 7.16s10.37-2.81 10.37-6.68c0-3.51-2.73-5.31-10.24-6.76l-6.5-1.23c-12.66-2.35-19.21-8.49-19.21-18.21 0-12.22 10.59-20.09 25.18-20.09 16 0 25.36 7.83 25.53 19.91h-15c-.26-4.57-4.57-7.29-10.42-7.29s-9.31 2.63-9.31 6.37c0 3.34 2.9 5.18 9.8 6.5l6.5 1.23c13.56 2.6 19.71 8.09 19.71 18.09 0 12.74-10 20.83-26.72 20.83-15.82 0-26.28-7.3-26.5-19.78z' fill='%23fff'/%3E%3C/svg%3E%0A");
+    --icon-typealias: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect fill='%237ac673' height='90' rx='8' stroke='%235bb74f' stroke-miterlimit='10' stroke-width='4' width='90' x='5' y='5'/%3E%3Cpath d='m42 81.71v-50.41h-17.53v-13h51.06v13h-17.53v50.41z' fill='%23fff'/%3E%3C/svg%3E%0A");
+    --icon-variable: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Crect fill='%237ac673' height='90' rx='8' stroke='%235bb74f' stroke-miterlimit='10' stroke-width='4' width='90' x='5' y='5'/%3E%3Cpath d='m39.85 81.71-20.22-63.42h18.37l12.18 47.64h.35l12.17-47.64h17.67l-20.22 63.42z' fill='%23fff'/%3E%3C/svg%3E%0A");
+}
+
+/************/
+
+body,
+input,
+textarea,
+select,
+button {
+    font-synthesis: none;
+    -moz-font-feature-settings: "kern";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    direction: ltr;
+    text-align: left;
+}
+
+h1:first-of-type,
+h2:first-of-type,
+h3:first-of-type,
+h4:first-of-type,
+h5:first-of-type,
+h6:first-of-type {
+    margin-top: 0;
+}
+
+h1 code,
+h2 code,
+h3 code,
+h4 code,
+h5 code,
+h6 code {
+    font-family: inherit;
+    font-weight: inherit;
+}
+
+h1 img,
+h2 img,
+h3 img,
+h4 img,
+h5 img,
+h6 img {
+    margin: 0 0.5em 0.2em 0;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+img + h1 {
+    margin-top: 0.5em;
+}
+
+img + h1,
+img + h2,
+img + h3,
+img + h4,
+img + h5,
+img + h6 {
+    margin-top: 0.3em;
+}
+
+h1 + *,
+h2 + *,
+h3 + *,
+h4 + *,
+h5 + *,
+h6 + * {
+    margin-top: 0.8em;
+}
+
+:is(h1, h2, h3, h4, h5, h6) + :is(h1, h2, h3, h4, h5, h6) {
+    margin-top: 0.4em;
+}
+
+:matches(h1, h2, h3, h4, h5, h6) + :matches(h1, h2, h3, h4, h5, h6) {
+    margin-top: 0.4em;
+}
+
+:is(p, ul, ol) + :is(h1, h2, h3, h4, h5, h6) {
+    margin-top: 1.6em;
+}
+
+:matches(p, ul, ol) + :matches(h1, h2, h3, h4, h5, h6) {
+    margin-top: 1.6em;
+}
+
+:is(p, ul, ol) + * {
+    margin-top: 0.8em;
+}
+
+:matches(p, ul, ol) + * {
+    margin-top: 0.8em;
+}
+
+ul,
+ol {
+    margin-left: 1.17647em;
+}
+
+:matches(ul, ol) :matches(ul, ol) {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+nav h2 {
+    color: var(--secondary-label);
+    text-transform: uppercase;
+    font-variant: small-caps;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+nav ul,
+nav ol {
+    margin: 0;
+    list-style: none;
+}
+
+nav li li {
+    font-size: smaller;
+}
+
+a:link,
+a:visited {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+a:active {
+    text-decoration: none;
+}
+
+p + a {
+    display: inline-block;
+}
+
+b,
+strong {
+    font-weight: 600;
+}
+
+.summary,
+.discussion {
+    font: var(--callout);
+}
+
+article > .discussion {
+    margin-bottom: 2em;
+}
+
+.discussion .highlight {
+    font: var(--caption-1);
+    background: transparent;
+    border: 1px var(--separator) solid;
+}
+
+em,
+i,
+cite,
+dfn {
+    font-style: italic;
+}
+
+/* sup {
+    font-size: 0.6em;
+    vertical-align: top;
+    position: relative;
+    bottom: -0.2em;
+} */
+
+:matches(h1, h2, h3) sup {
+    font-size: 0.4em;
+}
+
+sup a {
+    vertical-align: inherit;
+    color: inherit;
+}
+
+sup a:hover {
+    color: var(--link);
+    text-decoration: none;
+}
+
+sub {
+    line-height: 1;
+}
+
+abbr {
+    border: 0;
+}
+
+:lang(ja),
+:lang(ko),
+:lang(th),
+:lang(zh) {
+    font-style: normal;
+}
+
+:lang(ko) {
+    word-break: keep-all;
+}
+
+form fieldset {
+    width: 95%;
+    margin: 1em auto;
+    max-width: 450px;
+}
+
+form label {
+    position: relative;
+    display: block;
+    margin-bottom: 14px;
+    width: 100%;
+    font-size: 1em;
+    font-weight: 400;
+    line-height: 1.5em;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+input[type="tel"],
+input[type="url"],
+textarea {
+    margin: 0;
+    width: 100%;
+    height: 34px;
+    font-family: inherit;
+    font-size: 100%;
+    font-weight: 400;
+    border: 1px solid var(--separator);
+    border-radius: 4px;
+    padding: 0 1em 0;
+    position: relative;
+    z-index: 1;
+    color: #333333;
+    vertical-align: top;
+}
+
+input[type="text"],
+input[type="text"]:focus,
+input[type="email"],
+input[type="email"]:focus,
+input[type="number"],
+input[type="number"]:focus,
+input[type="password"],
+input[type="password"]:focus,
+input[type="tel"],
+input[type="tel"]:focus,
+input[type="url"],
+input[type="url"]:focus,
+textarea,
+textarea:focus {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="password"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+textarea:focus {
+    border-color: #0088cc;
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 3px rgba(0, 136, 204, 0.3);
+    box-shadow: 0 0 0 3px rgba(0, 136, 204, 0.3);
+    z-index: 9;
+}
+
+input[type="text"]:-moz-read-only,
+input[type="text"]:-moz-read-only,
+input[type="email"]:-moz-read-only,
+input[type="email"]:-moz-read-only,
+input[type="number"]:-moz-read-only,
+input[type="number"]:-moz-read-only,
+input[type="password"]:-moz-read-only,
+input[type="password"]:-moz-read-only,
+input[type="tel"]:-moz-read-only,
+input[type="tel"]:-moz-read-only,
+input[type="url"]:-moz-read-only,
+input[type="url"]:-moz-read-only {
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding-left: 0;
+}
+
+input[type="text"]:-moz-read-only,
+input[type="text"]:read-only,
+input[type="email"]:-moz-read-only,
+input[type="email"]:read-only,
+input[type="number"]:-moz-read-only,
+input[type="number"]:read-only,
+input[type="password"]:-moz-read-only,
+input[type="password"]:read-only,
+input[type="tel"]:-moz-read-only,
+input[type="tel"]:read-only,
+input[type="url"]:-moz-read-only,
+input[type="url"]:read-only {
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding-left: 0;
+}
+
+::-webkit-input-placeholder,
+:-moz-placeholder,
+::-moz-placeholder,
+:-ms-input-placeholder {
+    color: var(--placeholder-text);
+}
+
+textarea {
+    min-height: 134px;
+    line-height: 1.4737;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    resize: vertical;
+}
+textarea,
+textarea:focus {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+select {
+    background: transparent;
+    width: 100%;
+    height: 34px;
+    padding: 0 1em;
+    font-size: 1em;
+    font-family: inherit;
+    border-radius: 4px;
+    border: none;
+    margin: 0;
+    cursor: pointer;
+}
+select,
+select:focus {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+select:focus {
+    border-color: #0088cc;
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 3px rgba(0, 136, 204, 0.3);
+    box-shadow: 0 0 0 3px rgba(0, 136, 204, 0.3);
+    z-index: 9;
+}
+
+input[type="file"] {
+    margin: 0;
+    font-family: inherit;
+    font-size: 100%;
+    background: #fafafa;
+    width: 100%;
+    height: 34px;
+    border-radius: 4px;
+    padding: 6px 1em;
+    position: relative;
+    z-index: 1;
+    color: #333333;
+    vertical-align: top;
+    cursor: pointer;
+}
+
+input[type="file"]:focus {
+    border-color: #0088cc;
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 3px rgba(0, 136, 204, 0.3);
+    box-shadow: 0 0 0 3px rgba(0, 136, 204, 0.3);
+    z-index: 9;
+}
+input[type="file"]:focus,
+input[type="file"]:focus:focus {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+button,
+button:focus,
+input[type="reset"],
+input[type="reset"]:focus,
+input[type="submit"],
+input[type="submit"]:focus {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+:matches(button, input[type="reset"], input[type="submit"]) {
+    background-color: #e3e3e3;
+    background: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        from(white),
+        to(#e3e3e3)
+    );
+    background: linear-gradient(white, #e3e3e3);
+    border-color: #d6d6d6;
+    color: #0070c9;
+}
+:matches(button, input[type="reset"], input[type="submit"]):hover {
+    background-color: #eeeeee;
+    background: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        from(white),
+        to(#eeeeee)
+    );
+    background: linear-gradient(white, #eeeeee);
+    border-color: #d9d9d9;
+}
+:matches(button, input[type="reset"], input[type="submit"]):active {
+    background-color: gainsboro;
+    background: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        from(#f7f7f7),
+        to(gainsboro)
+    );
+    background: linear-gradient(#f7f7f7, gainsboro);
+    border-color: #d0d0d0;
+}
+:matches(button, input[type="reset"], input[type="submit"]):disabled {
+    background-color: #e3e3e3;
+    background: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        from(white),
+        to(#e3e3e3)
+    );
+    background: linear-gradient(white, #e3e3e3);
+    border-color: #d6d6d6;
+    color: #0070c9;
+}
+
+/*  */
+
+body {
+    background: var(--system-grouped-background);
+    font: var(--body);
+    font-family: ui-system, -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--label);
+}
+
+h1 {
+    font: var(--large-title);
+}
+
+h2 {
+    font: var(--title-2);
+}
+
+h3 {
+    font: var(--title-3);
+}
+
+h4,
+h5,
+h6 {
+    font: var(--headline);
+}
+
+/* strong,
+    th,
+    dt {
+        font: var(--headline);
+    } */
+
+a {
+    color: var(--link);
+}
+
+label {
+    font: var(--callout);
+}
+
+label,
+input {
+    display: block;
+}
+
+input {
+    margin-bottom: 1em;
+}
+
+/* button,
+    input[type="submit"] {
+        color: var(--link);
+        background: transparent;
+        border: none;
+        padding: 0.5em;
+    } */
+
+/*********************/
+
+hr {
+    border: none;
+    border-top: 1px var(--separator) solid;
+    margin: 1em 0;
+}
+
+table {
+    width: 100%;
+    font: var(--caption-1);
+    caption-side: bottom;
+    margin-bottom: 2em;
+}
+
+th,
+td {
+    padding: 0 1em;
+}
+
+th {
+    font-weight: 600;
+    text-align: left;
+}
+
+thead th {
+    border-bottom: 1px var(--separator) solid;
+}
+
+tr:last-of-type td,
+tr:last-of-type th {
+    border-bottom: none;
+}
+
+th,
+td {
+    border-bottom: 1px var(--separator) solid;
+    color: var(--secondary-label);
+}
+
+caption {
+    text-align: left;
+    margin-top: 2em;
+    font: var(--caption-2);
+    color: var(--tertiary-label);
+}
+
+code,
+.graph text {
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+        "Courier New", monospace;
+    font-weight: 300;
+}
+
+.graph > polygon {
+    display: none;
+}
+
+.graph text {
+    fill: currentColor !important;
+}
+
+.graph path,
+.graph ellipse,
+.graph rect,
+.graph polygon {
+    stroke: currentColor !important;
+}
+
+body {
+    width: 90vw;
+    max-width: 1280px;
+    margin: 1em auto;
+}
+
+body > header {
+    font: var(--title-1);
+}
+
+body > header a {
+    color: var(--label);
+}
+
+body > header span {
+    font-weight: normal;
+}
+
+body > header sup {
+    text-transform: uppercase;
+    font-size: small;
+    font-weight: 300;
+    color: var(--secondary-label);
+    letter-spacing: 0.1ch;
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        width: 96vw;
+        max-width: 100%;
+    }
+
+    body > header {
+        font: var(--title-3);
+        text-align: left;
+        padding: 1em 0;
+    }
+
+    body > nav {
+        display: none;
+    }
+
+    body > main {
+        padding: 0 1em;
+    }
+
+    #relationships figure {
+        display: none;
+    }
+
+    section > [role="article"][class] pre {
+        margin-left: -2.5em;
+    }
+
+    section > [role="article"][class] div {
+        margin-left: -2em;
+    }
+}
+
+body > header {
+    padding: 0.5em 0;
+}
+
+main,
+nav {
+    overflow-x: scroll;
+}
+
+main {
+    background: var(--system-background);
+    border-radius: 8px;
+}
+
+form.search {
+}
+
+body > footer {
+    clear: both;
+    padding: 1em 0;
+    font: var(--caption-1);
+    color: var(--secondary-label);
+}
+
+main {
+    padding: 0 2em;
+    /* max-width: 66ch; */
+}
+
+nav {
+    width: 20vw;
+    float: right;
+    overflow: scroll;
+    padding: 0 1em 3em 1em;
+    margin-left: 1em;
+    position: sticky;
+    top: 1em;
+    max-height: 100vh;
+}
+
+nav a {
+    color: var(--secondary-label);
+}
+
+nav ul a {
+    color: var(--tertiary-label);
+}
+
+nav ol {
+    padding: 0;
+}
+
+nav ul {
+    padding: 0;
+    margin-bottom: 1em;
+    font: var(--callout);
+}
+
+nav ol > li > a {
+    font: var(--headline);
+    font-size: smaller;
+    display: block;
+    margin: 0.5em 0;
+}
+
+nav li {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+main section {
+    margin-bottom: 2em;
+    padding-bottom: 1em;
+    border-bottom: 1px var(--separator) solid;
+}
+
+main section:last-of-type {
+    margin-bottom: 0;
+    border-bottom: none;
+}
+
+/* main :matches(h1, h2, h3) {
+    position: sticky;
+    top: 0px;
+}
+
+main h1 {
+    z-index: 1;
+}
+
+main h2 {
+    z-index: 2;
+}
+
+main h3 {
+    z-index: 3;
+} */
+
+blockquote {
+    border-left: 4px var(--separator) solid;
+    padding-left: 2em;
+    margin-left: 0;
+    font-size: smaller;
+    color: var(--secondary-label);
+    --link: var(--secondary-label);
+}
+
+blockquote a {
+    text-decoration: underline;
+}
+
+article {
+    padding: 2em 0 1em 0;
+}
+
+article > .summary {
+    margin-bottom: 2em;
+    padding-bottom: 1em;
+    border-bottom: 1px var(--separator) solid;
+}
+
+article > .summary:last-child {
+    border-bottom: none;
+}
+
+.parameters th {
+    text-align: right;
+}
+
+.parameters td {
+    color: var(--secondary-label);
+}
+
+.parameters th + td {
+    text-align: center;
+}
+
+dl {
+    padding-top: 1em;
+}
+
+dt {
+    font: var(--headline);
+}
+
+dd {
+    margin-left: 2em;
+    margin-bottom: 1em;
+}
+
+dd p {
+    margin-top: 0;
+}
+
+.highlight {
+    background: var(--secondary-system-background);
+    border-radius: 8px;
+    font-size: smaller;
+    overflow-x: scroll;
+    white-space: pre-line;
+    padding: 1em;
+    padding-left: 3em;
+    text-indent: -2em;
+    margin-bottom: 2em;
+}
+
+.highlight .p {
+    white-space: nowrap;
+}
+
+.highlight .placeholder {
+    color: var(--label);
+}
+
+.highlight a {
+    text-decoration: underline;
+    color: var(--placeholder-text);
+}
+
+.highlight .literal,
+.highlight .keyword,
+.highlight .attribute {
+    color: var(--system-purple);
+}
+
+.highlight .number {
+    color: var(--system-blue);
+}
+
+.highlight .declaration {
+    color: var(--system-teal);
+}
+
+.highlight .type {
+    color: var(--system-indigo);
+}
+
+.highlight .directive {
+    color: var(--system-orange);
+}
+
+.highlight .comment {
+    color: var(--system-gray);
+}
+
+main summary:hover {
+    text-decoration: underline;
+}
+
+figure {
+    margin: 2em 0;
+    padding: 1em 0;
+}
+
+figure svg {
+    max-width: 100%;
+    height: auto !important;
+    margin: 0 auto;
+    display: block;
+}
+
+h1 small {
+    font-size: 0.5em;
+    line-height: 1.5;
+    display: block;
+    font-weight: normal;
+    color: var(--quaternary-label);
+}
+
+p code,
+dd code,
+li code {
+    font-size: smaller;
+    color: var(--secondary-label);
+}
+
+a code {
+    text-decoration: underline;
+}
+
+section > [role="article"][class],
+nav li[class],
+dl dt[class] {
+    background-image: var(--background-image);
+    background-size: 1em;
+    background-repeat: no-repeat;
+    background-position: left 0.25em;
+    padding-left: 3em;
+}
+
+dl dt[class] {
+    background-position-y: 0.125em;
+}
+
+section > [role="article"] {
+    margin-bottom: 1em;
+    padding-bottom: 1em;
+    border-bottom: 1px var(--separator) solid;
+    padding-left: 2em !important;
+}
+
+section > [role="article"]:last-of-type {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+nav li[class],
+dl dt[class] {
+    list-style: none;
+    text-indent: -1em;
+    margin-bottom: 0.5em;
+}
+
+nav li[class] {
+    padding-left: 2.5em;
+}
+
+.case,
+.enumeration_case {
+    --background-image: var(--icon-case);
+    --link: var(--system-teal);
+}
+
+.class {
+    --background-image: var(--icon-class);
+    --link: var(--system-indigo);
+}
+
+.enumeration {
+    --background-image: var(--icon-enumeration);
+    --link: var(--system-orange);
+}
+
+.extension {
+    --background-image: var(--icon-extension);
+    --link: var(--system-orange);
+}
+
+.function {
+    --background-image: var(--icon-function);
+    --link: var(--system-green);
+}
+
+.method,
+.initializer {
+    --background-image: var(--icon-method);
+    --link: var(--system-blue);
+}
+
+.property {
+    --background-image: var(--icon-property);
+    --link: var(--system-teal);
+}
+
+.protocol {
+    --background-image: var(--icon-protocol);
+    --link: var(--system-pink);
+}
+
+.structure {
+    --background-image: var(--icon-structure);
+    --link: var(--system-purple);
+}
+
+.typealias {
+    --background-image: var(--icon-typealias);
+    --link: var(--system-green);
+}
+
+.variable {
+    --background-image: var(--icon-variable);
+    --link: var(--system-green);
+}
+
+.unknown {
+    --link: var(--quaternary-label);
+    color: var(--link);
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <a href="https://capstone-projects-2020-spring.github.io/iASL-iOS/">
+            <strong>
+                iASL
+            </strong>
+            <span>Documentation</span>
+        </a>
+        <sup>Beta</sup>
+    </header>
+
+    <!--
+    <form class="search">
+        <input type="search" placeholder="Search" />
+    </form>
+    -->
+
+    <nav>
+        <div class="wrapper">
+            <h2>On This Page</h2>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="property"><a href="#viewcontroller.areabound">area​Bound</a></li><li class="property"><a href="#viewcontroller.remotechatbutton">remote​Chat​Button</a></li><li class="property"><a href="#viewcontroller.notesbutton">notes​Button</a></li><li class="property"><a href="#viewcontroller.livebutton">live​Button</a></li><li class="property"><a href="#viewcontroller.outputtextview">output​Text​View</a></li><li class="property"><a href="#viewcontroller.textviewholder">text​View​Holder</a></li><li class="property"><a href="#viewcontroller.speakerbutton">speaker​Button</a></li><li class="property"><a href="#viewcontroller.controlbuttonstack">control​Button​Stack</a></li><li class="property"><a href="#viewcontroller.clearbutton">clear​Button</a></li><li class="property"><a href="#viewcontroller.keyboardbutton">keyboard​Button</a></li><li class="property"><a href="#viewcontroller.trainbutton">train​Button</a></li><li class="property"><a href="#viewcontroller.logoutbutton">log​Out​Button</a></li><li class="property"><a href="#viewcontroller.controlview">control​View</a></li><li class="property"><a href="#viewcontroller.controlbutton">control​Button</a></li><li class="property"><a href="#viewcontroller.slider">slider</a></li><li class="property"><a href="#viewcontroller.speechspeeddegree">speech​Speed​Degree</a></li><li class="property"><a href="#viewcontroller.predictionassistbutton">prediction​Assist​Button</a></li><li class="property"><a href="#viewcontroller.predictionlayer">prediction​Layer</a></li><li class="property"><a href="#viewcontroller.synthesizer">synthesizer</a></li><li class="property"><a href="#viewcontroller.verificationcount">verification​Count</a></li><li class="property"><a href="#viewcontroller.verificationcache">verification​Cache</a></li><li class="property"><a href="#viewcontroller.topbar">top​Bar</a></li><li class="property"><a href="#viewcontroller.previewview">preview​View</a></li><li class="property"><a href="#viewcontroller.cameraunavailablelabel">camera​Unavailable​Label</a></li><li class="property"><a href="#viewcontroller.resumebutton">resume​Button</a></li><li class="property"><a href="#viewcontroller.guidebutton">guide​Button</a></li><li class="property"><a href="#viewcontroller.outputtextview2">output​Text​View2</a></li><li class="property"><a href="#viewcontroller.keychain">keychain</a></li><li class="property"><a href="#viewcontroller.heightanchor">height​Anchor</a></li><li class="property"><a href="#viewcontroller.controlviewheightanchor">control​View​Height​Anchor</a></li><li class="property"><a href="#viewcontroller.delaybetweeninferencesms">delay​Between​Inferences​Ms</a></li><li class="property"><a href="#viewcontroller.result">result</a></li><li class="property"><a href="#viewcontroller.previousinferencetimems">previous​Inference​Time​Ms</a></li><li class="property"><a href="#viewcontroller.cameracapture">camera​Capture</a></li><li class="property"><a href="#viewcontroller.modeldatahandler">model​Data​Handler</a></li><li class="property"><a href="#viewcontroller.preferredstatusbarstyle">preferred​Status​Bar​Style</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="method"><a href="#viewcontroller.viewwilltransition(to:with:)">view​Will​Transition(to:​with:​)</a></li><li class="method"><a href="#viewcontroller.viewdidload()">view​Did​Load()</a></li><li class="method"><a href="#viewcontroller.keyboardwillshow(notification:)">keyboard​Will​Show(notification:​)</a></li><li class="method"><a href="#viewcontroller.keyboardwillhide(notification:)">keyboard​Will​Hide(notification:​)</a></li><li class="method"><a href="#viewcontroller.handleswipeupgesture(_:)">handle​Swipe​UpGesture(_:​)</a></li><li class="method"><a href="#viewcontroller.handledownswipegesture(_:)">handle​Down​Swipe​Gesture(_:​)</a></li><li class="method"><a href="#viewcontroller.handleleftswipegesture(_:)">handle​Left​Swipe​Gesture(_:​)</a></li><li class="method"><a href="#viewcontroller.handlerightswipegesture(_:)">handle​Right​Swipe​Gesture(_:​)</a></li><li class="method"><a href="#viewcontroller.viewwillappear(_:)">view​Will​Appear(_:​)</a></li><li class="method"><a href="#viewcontroller.viewwilldisappear(_:)">view​Will​Disappear(_:​)</a></li><li class="method"><a href="#viewcontroller.presentunabletoresumesessionalert()">present​Unable​ToResume​Session​Alert()</a></li><li class="method"><a href="#viewcontroller.classifypasteboardimage()">classify​Pasteboard​Image()</a></li><li class="method"><a href="#viewcontroller.didoutput(pixelbuffer:)">did​Output(pixel​Buffer:​)</a></li><li class="method"><a href="#viewcontroller.sessionwasinterrupted(canresumemanually:)">session​Was​Interrupted(can​Resume​Manually:​)</a></li><li class="method"><a href="#viewcontroller.sessioninterruptionended()">session​Interruption​Ended()</a></li><li class="method"><a href="#viewcontroller.sessionruntimeerroroccured()">session​Run​Time​Error​Occured()</a></li><li class="method"><a href="#viewcontroller.presentcamerapermissionsdeniedalert()">present​Camera​Permissions​Denied​Alert()</a></li><li class="method"><a href="#viewcontroller.presentvideoconfigurationerroralert()">present​Video​Configuration​Error​Alert()</a></li><li class="method"><a href="#viewcontroller.previewviewsetup()">preview​View​Setup()</a></li><li class="method"><a href="#viewcontroller.topbarsetup()">top​Bar​Setup()</a></li><li class="method"><a href="#viewcontroller.cameraunavailablelabelsetup()">camera​Unavailable​Label​Setup()</a></li><li class="method"><a href="#viewcontroller.resumebuttonsetup()">resume​Button​Setup()</a></li><li class="method"><a href="#viewcontroller.remotechatbuttonsetup()">remote​Chat​Button​Setup()</a></li><li class="method"><a href="#viewcontroller.remotechatbuttontapped()">remote​Chat​Button​Tapped()</a></li><li class="method"><a href="#viewcontroller.livebuttonsetup()">live​Button​Setup()</a></li><li class="method"><a href="#viewcontroller.livebuttontapped()">live​Button​Tapped()</a></li><li class="method"><a href="#viewcontroller.notesbuttonsetup()">notes​Button​Setup()</a></li><li class="method"><a href="#viewcontroller.checkifloggedout()">check​IfLogged​Out()</a></li><li class="method"><a href="#viewcontroller.userisloggedout()">user​IsLogged​Out()</a></li><li class="method"><a href="#viewcontroller.notesbuttontapped()">notes​Button​Tapped()</a></li><li class="method"><a href="#viewcontroller.textviewholdersetup()">text​View​Holder​Setup()</a></li><li class="method"><a href="#viewcontroller.outputtextviewsetup()">output​Text​View​Setup()</a></li><li class="method"><a href="#viewcontroller.outputtextview2setup()">output​Text​View2Setup()</a></li><li class="method"><a href="#viewcontroller.speak()">speak()</a></li><li class="method"><a href="#viewcontroller.speakerbuttonsetup()">speaker​Button​Setup()</a></li><li class="method"><a href="#viewcontroller.speakerbuttontapped()">speaker​Button​Tapped()</a></li><li class="method"><a href="#viewcontroller.guidebuttonsetup()">guide​Button​Setup()</a></li><li class="method"><a href="#viewcontroller.guidebuttontapped()">guide​Button​Tapped()</a></li><li class="method"><a href="#viewcontroller.trainbuttonsetup()">train​Button​Setup()</a></li><li class="method"><a href="#viewcontroller.clearbuttonsetup()">clear​Button​Setup()</a></li><li class="method"><a href="#viewcontroller.clearbuttontapped()">clear​Button​Tapped()</a></li><li class="method"><a href="#viewcontroller.controlbuttonstacksetup()">control​Button​Stack​Setup()</a></li><li class="method"><a href="#viewcontroller.keyboardbuttonsetup()">keyboard​Button​Setup()</a></li><li class="method"><a href="#viewcontroller.keyboardbuttontapped()">keyboard​Button​Tapped()</a></li><li class="method"><a href="#viewcontroller.controlviewsetup()">control​View​Setup()</a></li><li class="method"><a href="#viewcontroller.controlbuttonsetup()">control​Button​Setup()</a></li><li class="method"><a href="#viewcontroller.controlbuttontapped(_:)">control​Button​Tapped(_:​)</a></li><li class="method"><a href="#viewcontroller.logoutbuttonsetup()">log​Out​Button​Setup()</a></li><li class="method"><a href="#viewcontroller.handlelogout()">handle​Logout()</a></li><li class="method"><a href="#viewcontroller.predictionassistbuttonsetup()">prediction​Assist​Button​Setup()</a></li><li class="method"><a href="#viewcontroller.predictionassistbuttontapped()">prediction​Assist​Button​Tapped()</a></li><li class="method"><a href="#viewcontroller.slidersetup()">slider​Setup()</a></li><li class="method"><a href="#viewcontroller.changevalue(_:)">change​Value(_:​)</a></li><li class="method"><a href="#viewcontroller.areaboundsetup()">area​Bound​Setup()</a></li><li class="method"><a href="#viewcontroller.deletecharacter()">delete​Character()</a></li><li class="method"><a href="#viewcontroller.addspace()">add​Space()</a></li><li class="method"><a href="#viewcontroller.executeasltotext()">execute​ASLto​Text()</a></li></ul></li></ol>
+        </div>
+    </nav>
+
+    <main>
+        <article>
+            <h1>
+    <small>Class</small>
+    <code class="name">View​Controller</code>
+</h1>
+
+<html><body><pre class="highlight"><code><span class="keyword">class</span> <span class="type">ViewController</span>: <span class="type">UIViewController</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Main View controller that's viewed if the user is already signed in or after the user signs into the app. This is where the users carry's out ASL to text to speech and speech to text to communicate with non-deaf/mute people</p>
+
+</div>
+<section id="relationships">
+    <h2 hidden>Relationships</h2>
+        <figure>
+    <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generated by graphviz version 2.42.3 (20191010.1750)
+ -->
+<!-- Title: %3 Pages: 1 -->
+<svg width="873pt" height="116pt"
+ viewBox="0.00 0.00 872.67 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>%3</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 868.67,-112 868.67,4 -4,4"/>
+<!-- ViewController -->
+<g id="node1" class="node class current">
+<title>ViewController</title>
+<g id="a_node1"><a xlink:href="/ViewController" xlink:title="ViewController">
+<path fill="none" stroke="black" stroke-width="3" d="M522.37,-108C522.37,-108 330.37,-108 330.37,-108 324.37,-108 318.37,-102 318.37,-96 318.37,-96 318.37,-84 318.37,-84 318.37,-78 324.37,-72 330.37,-72 330.37,-72 522.37,-72 522.37,-72 528.37,-72 534.37,-78 534.37,-84 534.37,-84 534.37,-96 534.37,-96 534.37,-102 528.37,-108 522.37,-108"/>
+<text text-anchor="middle" x="426.37" y="-86.95" font-family="Menlo" font-size="14.00">ViewController</text>
+</a>
+</g>
+</g>
+<!-- UIViewController -->
+<g id="node2" class="node unknown">
+<title>UIViewController</title>
+<path fill="none" stroke="black" d="M298.37,-36C298.37,-36 106.37,-36 106.37,-36 100.37,-36 94.37,-30 94.37,-24 94.37,-24 94.37,-12 94.37,-12 94.37,-6 100.37,0 106.37,0 106.37,0 298.37,0 298.37,0 304.37,0 310.37,-6 310.37,-12 310.37,-12 310.37,-24 310.37,-24 310.37,-30 304.37,-36 298.37,-36"/>
+<text text-anchor="middle" x="202.37" y="-14.95" font-family="Menlo" font-size="14.00">UIViewController</text>
+</g>
+<!-- ViewController&#45;&gt;UIViewController -->
+<g id="edge1" class="edge conformsTo">
+<title>ViewController&#45;&gt;UIViewController</title>
+<path fill="none" stroke="black" d="M371.86,-71.97C340.15,-62.06 300.01,-49.51 266.75,-39.12"/>
+<polygon fill="black" stroke="black" points="267.71,-35.75 257.12,-36.11 265.62,-42.43 267.71,-35.75"/>
+</g>
+<!-- CameraFeedManagerDelegate -->
+<g id="node3" class="node protocol">
+<title>CameraFeedManagerDelegate</title>
+<g id="a_node3"><a xlink:href="/CameraFeedManagerDelegate" xlink:title="CameraFeedManagerDelegate">
+<path fill="none" stroke="black" d="M752.58,-36C752.58,-36 550.15,-36 550.15,-36 544.15,-36 538.15,-30 538.15,-24 538.15,-24 538.15,-12 538.15,-12 538.15,-6 544.15,0 550.15,0 550.15,0 752.58,0 752.58,0 758.58,0 764.58,-6 764.58,-12 764.58,-12 764.58,-24 764.58,-24 764.58,-30 758.58,-36 752.58,-36"/>
+<text text-anchor="middle" x="651.37" y="-14.95" font-family="Menlo" font-size="14.00">CameraFeedManagerDelegate</text>
+</a>
+</g>
+</g>
+<!-- ViewController&#45;&gt;CameraFeedManagerDelegate -->
+<g id="edge2" class="edge conformsTo">
+<title>ViewController&#45;&gt;CameraFeedManagerDelegate</title>
+<path fill="none" stroke="black" d="M481.12,-71.97C512.97,-62.06 553.28,-49.51 586.69,-39.12"/>
+<polygon fill="black" stroke="black" points="587.86,-42.42 596.37,-36.11 585.78,-35.74 587.86,-42.42"/>
+</g>
+</g>
+</svg>
+
+
+    <figcaption hidden>Inheritance graph for ViewController.</figcaption>
+</figure>
+        <h3>Conforms To</h3>
+<dl>
+    <dt class="protocol"><code><a href="CameraFeedManagerDelegate">CameraFeedManagerDelegate</a></code></dt>
+<dd><p>Delegate that manages the camera feed and how data is sent to our machine learning model.</p>
+</dd>
+<dt class="unknown"><code>UIViewController</code></dt>
+</dl>
+</section>
+    <section id="properties">
+        <h2>Properties</h2>
+
+        <div role="article" class="class" id="viewcontroller.areabound">
+    <h3>
+        <code>area​Bound</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">areaBound</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>The read hollow box that shows the area where the video is being fetched from</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.remotechatbutton">
+    <h3>
+        <code>remote​Chat​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">remoteChatButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button to move to chat viewcontroller</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.notesbutton">
+    <h3>
+        <code>notes​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">notesButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button to move to notes viewcontroller</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.livebutton">
+    <h3>
+        <code>live​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">liveButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button to transition between speech to text</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.outputtextview">
+    <h3>
+        <code>output​Text​View</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">outputTextView</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>UITextView to show the letters/words predicted by the model</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.textviewholder">
+    <h3>
+        <code>text​View​Holder</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">textViewHolder</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>UIViewView for dashboard outputtextview</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.speakerbutton">
+    <h3>
+        <code>speaker​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">speakerButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button to invoke speach to text</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.controlbuttonstack">
+    <h3>
+        <code>control​Button​Stack</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">controlButtonStack</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>UIStackview to hold the four essentail buttons of the dashboard</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.clearbutton">
+    <h3>
+        <code>clear​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">clearButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button to clear the outputTextview</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.keyboardbutton">
+    <h3>
+        <code>keyboard​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">keyboardButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button to raise the screen and show the keybaord, prompting the user to type</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.trainbutton">
+    <h3>
+        <code>train​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">trainButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button for users to open training mode</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.logoutbutton">
+    <h3>
+        <code>log​Out​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">logOutButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button for users to logout of the app</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.controlview">
+    <h3>
+        <code>control​View</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">controlView</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>UIView to hold the dashboard</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.controlbutton">
+    <h3>
+        <code>control​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">controlButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button to expand and collapse the dashboard</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.slider">
+    <h3>
+        <code>slider</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">slider</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>UISlider for controlling the speed of the voice</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.speechspeeddegree">
+    <h3>
+        <code>speech​Speed​Degree</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">speechSpeedDegree</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Variable to keep track of the voice utterance</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.predictionassistbutton">
+    <h3>
+        <code>prediction​Assist​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">predictionAssistButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button to activate prediction assistant</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.predictionlayer">
+    <h3>
+        <code>prediction​Layer</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">predictionLayer</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Variable for prediction layer to carry out predictions</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.synthesizer">
+    <h3>
+        <code>synthesizer</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">synthesizer</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Syntesizer to generate from text to speech</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.verificationcount">
+    <h3>
+        <code>verification​Count</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">verificationCount</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Tracker for how many time the output from the model has been verified</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.verificationcache">
+    <h3>
+        <code>verification​Cache</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">verificationCache</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Cache to store result from last prediction</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.topbar">
+    <h3>
+        <code>top​Bar</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">topBar</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>UIView for top bar</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.previewview">
+    <h3>
+        <code>preview​View</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">previewView</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Preview view to show the video preview from camera</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.cameraunavailablelabel">
+    <h3>
+        <code>camera​Unavailable​Label</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">cameraUnavailableLabel</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Error message to show when the camera is unavailable</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.resumebutton">
+    <h3>
+        <code>resume​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">resumeButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button to resume camera operation</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.guidebutton">
+    <h3>
+        <code>guide​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">guideButton</span></code></pre></body></html>
+</div>
+<div role="article" class="class" id="viewcontroller.outputtextview2">
+    <h3>
+        <code>output​Text​View2</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">outputTextView2</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Another textview to go underneath the current textview</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.keychain">
+    <h3>
+        <code>keychain</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">keychain</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Keychain reference for when we need to clear the keychain if someone logs out</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.heightanchor">
+    <h3>
+        <code>height​Anchor</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">heightAnchor</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Constraint to keep track of the height of the output text view, whether it's collapsed or expanded</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.controlviewheightanchor">
+    <h3>
+        <code>control​View​Height​Anchor</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">controlViewHeightAnchor</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Constraint to keep track of the heigh of the dashboard, whether it's collapsed or expanded</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.delaybetweeninferencesms">
+    <h3>
+        <code>delay​Between​Inferences​Ms</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">delayBetweenInferencesMs</span>: <span class="type">Double</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Delay inbetween the prediction by the model (How often the app outputs a letter/word)</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.result">
+    <h3>
+        <code>result</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">result</span>: <a href="Result"><span class="type">Result</span></a>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Result that's output by the model</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.previousinferencetimems">
+    <h3>
+        <code>previous​Inference​Time​Ms</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">previousInferenceTimeMs</span>: <span class="type">TimeInterval</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Time from the previous prediction</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.cameracapture">
+    <h3>
+        <code>camera​Capture</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">cameraCapture</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Handles all the camera related functionality</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.modeldatahandler">
+    <h3>
+        <code>model​Data​Handler</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">modelDataHandler</span>: <a href="ModelDataHandler"><span class="type">ModelDataHandler</span></a>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Handles all data preprocessing and makes calls to run inference through the <code>Interpreter</code>.</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.preferredstatusbarstyle">
+    <h3>
+        <code>preferred​Status​Bar​Style</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">preferredStatusBarStyle</span>: <span class="type">UIStatusBarStyle</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Indicates the color of the status bar</p>
+
+</div>
+</div>
+    </section>
+    <section id="methods">
+        <h2>Methods</h2>
+
+        <div role="article" class="class" id="viewcontroller.viewwilltransition(to:with:)">
+    <h3>
+        <code>view​Will​Transition(to:​with:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewWillTransition</span>(<span class="variable">to</span> <span class="variable">size</span>: <span class="type">CGSize</span>, <span class="variable">with</span> <span class="variable">coordinator</span>: <span class="type">UIViewControllerTransitionCoordinator</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Notifies the container that the size of its view is about to change.</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>size</th>
+    <td><code class="type">CGSize</code></td></td>
+    <td><p>The new size for the container’s view.</p>
+</td>
+</tr>
+<tr>
+    <th>coordinator</th>
+    <td><code class="type">UIView​Controller​Transition​Coordinator</code></td></td>
+    <td><p>The transition coordinator object managing the size change. You can use this object to animate your changes or get information about the transition that is in progress. If the view controller is upside down we present speech to text.</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+<div role="article" class="class" id="viewcontroller.viewdidload()">
+    <h3>
+        <code>view​Did​Load()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewDidLoad</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Main function to call all the necessary GUI and backend functions</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.keyboardwillshow(notification:)">
+    <h3>
+        <code>keyboard​Will​Show(notification:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">keyboardWillShow</span>(<span class="variable">notification</span>: <span class="type">NSNotification</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Raise the whoe View when the keybaord appears</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>notification</th>
+    <td><code class="type">NSNotification</code></td></td>
+    <td><p>Notification posted immediately prior to the display of the keyboard.</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+<div role="article" class="class" id="viewcontroller.keyboardwillhide(notification:)">
+    <h3>
+        <code>keyboard​Will​Hide(notification:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">keyboardWillHide</span>(<span class="variable">notification</span>: <span class="type">NSNotification</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Lower the keyboard down when the keyboard disappears</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>notification</th>
+    <td><code class="type">NSNotification</code></td></td>
+    <td><p>Notification posted immediately prior to the dismissal of the keyboard.</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+<div role="article" class="class" id="viewcontroller.handleswipeupgesture(_:)">
+    <h3>
+        <code>handle​Swipe​UpGesture(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">handleSwipeUpGesture</span>(<span class="keyword">_</span> <span class="variable">sender</span>: <span class="type">UISwipeGestureRecognizer</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action invoked when swiped up</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>sender</th>
+    <td><code class="type">UISwipe​Gesture​Recognizer</code></td></td>
+    <td><p>the gesture recognizer itself</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+<div role="article" class="class" id="viewcontroller.handledownswipegesture(_:)">
+    <h3>
+        <code>handle​Down​Swipe​Gesture(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">handleDownSwipeGesture</span>(<span class="keyword">_</span> <span class="variable">sender</span>: <span class="type">UISwipeGestureRecognizer</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action invoked when swiped down</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>sender</th>
+    <td><code class="type">UISwipe​Gesture​Recognizer</code></td></td>
+    <td><p>the gesture recognizer itself</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+<div role="article" class="class" id="viewcontroller.handleleftswipegesture(_:)">
+    <h3>
+        <code>handle​Left​Swipe​Gesture(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">handleLeftSwipeGesture</span>(<span class="keyword">_</span> <span class="variable">sender</span>: <span class="type">UISwipeGestureRecognizer</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action invoked when swiped left</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>sender</th>
+    <td><code class="type">UISwipe​Gesture​Recognizer</code></td></td>
+    <td><p>the gesture recognizer itself</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+<div role="article" class="class" id="viewcontroller.handlerightswipegesture(_:)">
+    <h3>
+        <code>handle​Right​Swipe​Gesture(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">handleRightSwipeGesture</span>(<span class="keyword">_</span> <span class="variable">sender</span>: <span class="type">UISwipeGestureRecognizer</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action invoked when swiped right</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>sender</th>
+    <td><code class="type">UISwipe​Gesture​Recognizer</code></td></td>
+    <td><p>the gesture recognizer itself</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+<div role="article" class="class" id="viewcontroller.viewwillappear(_:)">
+    <h3>
+        <code>view​Will​Appear(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewWillAppear</span>(<span class="keyword">_</span> <span class="variable">animated</span>: <span class="type">Bool</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Notifies the view controller that its view is about to be added to a view hierarchy.</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>animated</th>
+    <td><code class="type">Bool</code></td></td>
+    <td><p>If true, the view is being added to the window using an animation.</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+<div role="article" class="class" id="viewcontroller.viewwilldisappear(_:)">
+    <h3>
+        <code>view​Will​Disappear(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewWillDisappear</span>(<span class="keyword">_</span> <span class="variable">animated</span>: <span class="type">Bool</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Notifies the view controller that its view is about to be removed from a view hierarchy.</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>animated</th>
+    <td><code class="type">Bool</code></td></td>
+    <td><p>If true, the disappearance of the view is being animated. We stop the camera session here.</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+<div role="article" class="class" id="viewcontroller.presentunabletoresumesessionalert()">
+    <h3>
+        <code>present​Unable​ToResume​Session​Alert()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">presentUnableToResumeSessionAlert</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Called if app can't resume camera session. Presents an alert to let the user know.</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.classifypasteboardimage()">
+    <h3>
+        <code>classify​Pasteboard​Image()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">classifyPasteboardImage</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Invoke the model to identify from the given image in pasteboard</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.didoutput(pixelbuffer:)">
+    <h3>
+        <code>did​Output(pixel​Buffer:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">didOutput</span>(<span class="variable">pixelBuffer</span>: <span class="type">CVPixelBuffer</span>)</code></pre></body></html>
+</div>
+<div role="article" class="class" id="viewcontroller.sessionwasinterrupted(canresumemanually:)">
+    <h3>
+        <code>session​Was​Interrupted(can​Resume​Manually:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">sessionWasInterrupted</span>(<span class="variable">canResumeManually</span> <span class="variable">resumeManually</span>: <span class="type">Bool</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Updates the UI when session is interupted.</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.sessioninterruptionended()">
+    <h3>
+        <code>session​Interruption​Ended()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">sessionInterruptionEnded</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Updates UI once session interruption has ended.</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.sessionruntimeerroroccured()">
+    <h3>
+        <code>session​Run​Time​Error​Occured()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">sessionRunTimeErrorOccured</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Handles session run time error by updating the UI and providing a button if session can be manually resumed.</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.presentcamerapermissionsdeniedalert()">
+    <h3>
+        <code>present​Camera​Permissions​Denied​Alert()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">presentCameraPermissionsDeniedAlert</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Presents alert if camera permission was denied.</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.presentvideoconfigurationerroralert()">
+    <h3>
+        <code>present​Video​Configuration​Error​Alert()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">presentVideoConfigurationErrorAlert</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Presents alert if camera configuration has failed.</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.previewviewsetup()">
+    <h3>
+        <code>preview​View​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">previewViewSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup the preview to show the live feed from the camera on screen</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.topbarsetup()">
+    <h3>
+        <code>top​Bar​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">topBarSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup top bar area to host top three buttons</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.cameraunavailablelabelsetup()">
+    <h3>
+        <code>camera​Unavailable​Label​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">cameraUnavailableLabelSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup the view the error message that the camera is not available</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.resumebuttonsetup()">
+    <h3>
+        <code>resume​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">resumeButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup the button to resume the camera operation</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.remotechatbuttonsetup()">
+    <h3>
+        <code>remote​Chat​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">remoteChatButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup the remote chat button and add it on the view</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.remotechatbuttontapped()">
+    <h3>
+        <code>remote​Chat​Button​Tapped()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">remoteChatButtonTapped</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action when the remote chat button is tapped. Present RemoteConversationVC</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.livebuttonsetup()">
+    <h3>
+        <code>live​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">liveButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup live button, Presentes SpeechToTextVC VC</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.livebuttontapped()">
+    <h3>
+        <code>live​Button​Tapped()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">liveButtonTapped</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action for live button to present SpeechToTextVC on screen</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.notesbuttonsetup()">
+    <h3>
+        <code>notes​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">notesButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup note button on screen</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.checkifloggedout()">
+    <h3>
+        <code>check​IfLogged​Out()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">checkIfLoggedOut</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>checks if there is a user logged in. If there is not, it opens the login VC</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.userisloggedout()">
+    <h3>
+        <code>user​IsLogged​Out()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">userIsLoggedOut</span>() -&gt; <span class="type">Bool</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Checks if the user is logged out so we can disable the log out button</p>
+
+</div>
+  <h4>Returns</h4>
+  <p>True if user is not looged in, false otherwise</p>
+
+</div>
+<div role="article" class="class" id="viewcontroller.notesbuttontapped()">
+    <h3>
+        <code>notes​Button​Tapped()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">notesButtonTapped</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action for note button. Presenets NoteVC</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.textviewholdersetup()">
+    <h3>
+        <code>text​View​Holder​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">textViewHolderSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup position/size/style of the textview holder and add it on screen</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.outputtextviewsetup()">
+    <h3>
+        <code>output​Text​View​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">outputTextViewSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup position/size/style of the outputtextview holder and add it on screen</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.outputtextview2setup()">
+    <h3>
+        <code>output​Text​View2Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">outputTextView2Setup</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="viewcontroller.speak()">
+    <h3>
+        <code>speak()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">speak</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Invokes audio engine to speak the text on output text view</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.speakerbuttonsetup()">
+    <h3>
+        <code>speaker​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">speakerButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup position/size/style of the speak button holder and add it on screen</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.speakerbuttontapped()">
+    <h3>
+        <code>speaker​Button​Tapped()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">speakerButtonTapped</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action invoked when speaker button tapped. Asks audio engine to play the speech generated from text</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.guidebuttonsetup()">
+    <h3>
+        <code>guide​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">guideButtonSetup</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="viewcontroller.guidebuttontapped()">
+    <h3>
+        <code>guide​Button​Tapped()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">guideButtonTapped</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="viewcontroller.trainbuttonsetup()">
+    <h3>
+        <code>train​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">trainButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup position/size/style of the  train button and add it on screen</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.clearbuttonsetup()">
+    <h3>
+        <code>clear​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">clearButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup position/size/style of the clear button and add it on screen</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.clearbuttontapped()">
+    <h3>
+        <code>clear​Button​Tapped()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">clearButtonTapped</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action invoked when clear button is tapped. Clearns the output text view</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.controlbuttonstacksetup()">
+    <h3>
+        <code>control​Button​Stack​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">controlButtonStackSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup position/size/style of the  control button stack and add it on screen</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.keyboardbuttonsetup()">
+    <h3>
+        <code>keyboard​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">keyboardButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup position/size/style of the keyboard button and add it on screen</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.keyboardbuttontapped()">
+    <h3>
+        <code>keyboard​Button​Tapped()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">keyboardButtonTapped</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action for when keyboard button is tapped, raises the view, activates output text view to edit and present the keyboard.</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.controlviewsetup()">
+    <h3>
+        <code>control​View​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">controlViewSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup position/size/style of the dash board and add it on screen</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.controlbuttonsetup()">
+    <h3>
+        <code>control​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">controlButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup position/size/style of the control button and add it on screen</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.controlbuttontapped(_:)">
+    <h3>
+        <code>control​Button​Tapped(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">controlButtonTapped</span>(<span class="keyword">_</span> <span class="variable">sender</span>: <span class="type">UIButton</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action for control button when tapped. Expands or collaps the dash button</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.logoutbuttonsetup()">
+    <h3>
+        <code>log​Out​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">logOutButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup position/size/style of the log out button and add it on screen</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.handlelogout()">
+    <h3>
+        <code>handle​Logout()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">handleLogout</span>()</code></pre></body></html>
+</div>
+<div role="article" class="class" id="viewcontroller.predictionassistbuttonsetup()">
+    <h3>
+        <code>prediction​Assist​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">predictionAssistButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup prediction assist button's location/size/styling and add on screen</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.predictionassistbuttontapped()">
+    <h3>
+        <code>prediction​Assist​Button​Tapped()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">predictionAssistButtonTapped</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action for prediction button tapped. Enables Prediction algorithm to help the ASL</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.slidersetup()">
+    <h3>
+        <code>slider​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">sliderSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup position/size/style of the speech speed slider and add it on screen</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.changevalue(_:)">
+    <h3>
+        <code>change​Value(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">changeValue</span>(<span class="keyword">_</span> <span class="variable">sender</span>: <span class="type">UISlider</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action that listens to value chage and sets the speed for the voice utterance</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.areaboundsetup()">
+    <h3>
+        <code>area​Bound​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">areaBoundSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup position/size/style of the area bound and add it on screen</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.deletecharacter()">
+    <h3>
+        <code>delete​Character()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">deleteCharacter</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>delete character from the output text veiw</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.addspace()">
+    <h3>
+        <code>add​Space()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">addSpace</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>add space to the output textview</p>
+
+</div>
+</div>
+<div role="article" class="class" id="viewcontroller.executeasltotext()">
+    <h3>
+        <code>execute​ASLto​Text()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">executeASLtoText</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Update the output view with the latest result from the model and add necessary spaces or delete character. Also invokes prediction layer to assist with the ASL to text.</p>
+
+</div>
+</div>
+    </section>
+
+
+
+        </article>
+    </main>
+
+    <footer>
+        <p>
+    Generated on <time datetime="2020-06-26T00:43:32-0400">June 26, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a>.
+</p>
+    </footer>
+</body>
+</html>
