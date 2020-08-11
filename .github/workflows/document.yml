@@ -7,13 +7,13 @@ on:
       - master
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Install GraphViz
-        run: |
-          brew install graphviz
+#       - uses: actions/checkout@v2
+#       - name: Install GraphViz
+#         run: |
+#           brew install graphviz
       - name: Generate Documentation
         uses: Applebaumian/swift-doc@master
         with:
