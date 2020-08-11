@@ -15,7 +15,8 @@ jobs:
 #         run: |
 #           brew install graphviz
       - name: Generate Documentation
-        uses: Applebaumian/swift-doc@master
+        uses: SwiftDocOrg/swift-doc@master
+#         uses: Applebaumian/swift-doc@master
         with:
           inputs: "ImageClassification"
           module-name: iASL
