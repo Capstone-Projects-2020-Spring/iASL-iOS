@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iASL - NotesVC</title>
+    <link rel="stylesheet" type="text/css" href="./all.css" media="all" />
+</head>
+<body>
+    <header>
+        <a href="./">
+            <strong>
+                iASL
+            </strong>
+            <span>Documentation</span>
+        </a>
+        <sup>Beta</sup>
+    </header>
+
+    <!--
+    <form class="search">
+        <input type="search" placeholder="Search" />
+    </form>
+    -->
+
+    <nav>
+        <div class="wrapper">
+            <h2>On This Page</h2>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="variable"><a href="#notesvc.notes">notes</a></li><li class="variable"><a href="#notesvc.usernotesconstant">user​Notes​Constant</a></li><li class="variable"><a href="#notesvc.refreshcontrol">refresh​Control</a></li><li class="variable"><a href="#notesvc.topbar">top​Bar</a></li><li class="variable"><a href="#notesvc.toplabel">top​Label</a></li><li class="variable"><a href="#notesvc.backbutton">back​Button</a></li><li class="variable"><a href="#notesvc.tableview">table​View</a></li><li class="variable"><a href="#notesvc.createnotebutton">create​Note​Button</a></li><li class="variable"><a href="#notesvc.supportedinterfaceorientations">supported​Interface​Orientations</a></li><li class="variable"><a href="#notesvc.preferredstatusbarstyle">preferred​Status​Bar​Style</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="function"><a href="#notesvc.viewdidload()">view​Did​Load()</a></li><li class="function"><a href="#notesvc.refreshtableviewonpull()">refresh​Table​View​OnPull()</a></li><li class="function"><a href="#notesvc.viewwilldisappear(_:)">view​Will​Disappear(_:​)</a></li><li class="function"><a href="#notesvc.viewdidappear(_:)">view​Did​Appear(_:​)</a></li><li class="function"><a href="#notesvc.observeusernotes()">observe​User​Notes()</a></li><li class="function"><a href="#notesvc.handledeletenote(noteid:)">handle​Delete​Note(note​Id:​)</a></li><li class="function"><a href="#notesvc.handledeletenoteareyousure(noteid:indexpath:)">handle​Delete​Note​Are​You​Sure(note​Id:​index​Path:​)</a></li><li class="function"><a href="#notesvc.tableview(_:numberofrowsinsection:)">table​View(_:​number​OfRows​InSection:​)</a></li><li class="function"><a href="#notesvc.tableview(_:cellforrowat:)">table​View(_:​cell​For​Row​At:​)</a></li><li class="function"><a href="#notesvc.tableview(_:commit:forrowat:)">table​View(_:​commit:​for​Row​At:​)</a></li><li class="function"><a href="#notesvc.tableview(_:heightforrowat:)">table​View(_:​height​For​Row​At:​)</a></li><li class="function"><a href="#notesvc.tableview(_:estimatedheightforrowat:)">table​View(_:​estimated​Height​For​Row​At:​)</a></li><li class="function"><a href="#notesvc.tableview(_:didselectrowat:)">table​View(_:​did​Select​Row​At:​)</a></li><li class="function"><a href="#notesvc.shownotefromtableview(note:)">show​Note​From​Table​View(note:​)</a></li><li class="function"><a href="#notesvc.viewwillappear(_:)">view​Will​Appear(_:​)</a></li><li class="function"><a href="#notesvc.tableviewsetup()">table​View​Setup()</a></li><li class="function"><a href="#notesvc.topbarsetup()">top​Bar​Setup()</a></li><li class="function"><a href="#notesvc.backbuttonsetup()">back​Button​Setup()</a></li><li class="function"><a href="#notesvc.createnotebuttonsetup()">create​Note​Button​Setup()</a></li><li class="function"><a href="#notesvc.createnotebuttontapped()">create​Note​Button​Tapped()</a></li><li class="function"><a href="#notesvc.backbuttontapped()">back​Button​Tapped()</a></li><li class="function"><a href="#notesvc.toplabelsetup()">top​Label​Setup()</a></li></ul></li></ol>
+        </div>
+    </nav>
+
+    <main>
+        <article>
+            <h1>
+    <small>Class</small>
+    <code class="name">Notes​VC</code>
+</h1>
+
+<html><body><pre class="highlight"><code><span class="keyword">class</span> <span class="type">NotesVC</span>: <span class="type">UIViewController</span>, <span class="type">UITableViewDataSource</span>, <span class="type">UITableViewDelegate</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This class is responsible for the main notes screen. It holds the table view of all of the users's notes as well as ways for users to create new notes and delete old ones.</p>
+
+</div>
+<section id="relationships">
+    <h2 hidden>Relationships</h2>
+        
+        <h3>Conforms To</h3>
+<dl>
+    <dt class="unknown"><code>UITableViewDataSource</code></dt>
+<dt class="unknown"><code>UITableViewDelegate</code></dt>
+<dt class="unknown"><code>UIViewController</code></dt>
+</dl>
+</section>
+    <section id="properties">
+        <h2>Properties</h2>
+
+        <div role="article" class="variable" id="notesvc.notes">
+    <h3>
+        <code>notes</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">notes</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Array of all the notes of the current user</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="notesvc.usernotesconstant">
+    <h3>
+        <code>user​Notes​Constant</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">userNotesConstant</span>: <span class="type">String</span> = <span class="string literal">"</span><span class="string literal">user-notes</span><span class="string literal">"</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Constant for the 'user-notes' node in Firebase</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="notesvc.refreshcontrol">
+    <h3>
+        <code>refresh​Control</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">refreshControl</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Variable for handling the pull to refresh for the table view</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="notesvc.topbar">
+    <h3>
+        <code>top​Bar</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">topBar</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Variable for the top bar</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="notesvc.toplabel">
+    <h3>
+        <code>top​Label</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">topLabel</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Variable for the top label which holds the name of the feature</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="notesvc.backbutton">
+    <h3>
+        <code>back​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">backButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Variable for the back button for when the user wants to go back to the previous view controller</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="notesvc.tableview">
+    <h3>
+        <code>table​View</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">tableView</span>: <span class="type">UITableView</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Table view variable for holding all of the users notes</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="notesvc.createnotebutton">
+    <h3>
+        <code>create​Note​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">createNoteButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button for creating a new note</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="notesvc.supportedinterfaceorientations">
+    <h3>
+        <code>supported​Interface​Orientations</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">supportedInterfaceOrientations</span>: <span class="type">UIInterfaceOrientationMask</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Determines which interface orientations are supported</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="notesvc.preferredstatusbarstyle">
+    <h3>
+        <code>preferred​Status​Bar​Style</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">preferredStatusBarStyle</span>: <span class="type">UIStatusBarStyle</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Change the color of the status bar</p>
+
+</div>
+</div>
+    </section>
+    <section id="methods">
+        <h2>Methods</h2>
+
+        <div role="article" class="function" id="notesvc.viewdidload()">
+    <h3>
+        <code>view​Did​Load()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewDidLoad</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Function that gets called initially and loads all of the setup functions</p>
+
+</div>
+</div>
+<div role="article" class="function" id="notesvc.refreshtableviewonpull()">
+    <h3>
+        <code>refresh​Table​View​OnPull()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">refreshTableViewOnPull</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Handles what happens when the user pulls on the table view to refresh</p>
+
+</div>
+</div>
+<div role="article" class="function" id="notesvc.viewwilldisappear(_:)">
+    <h3>
+        <code>view​Will​Disappear(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewWillDisappear</span>(<span class="keyword">_</span> <span class="variable">animated</span>: <span class="type">Bool</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>What happens when the view is about to disappear.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="notesvc.viewdidappear(_:)">
+    <h3>
+        <code>view​Did​Appear(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewDidAppear</span>(<span class="keyword">_</span> <span class="variable">animated</span>: <span class="type">Bool</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This is what happens when the view did appear</p>
+
+</div>
+</div>
+<div role="article" class="function" id="notesvc.observeusernotes()">
+    <h3>
+        <code>observe​User​Notes()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">observeUserNotes</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Function for observing notes from firebase (used to gather list of notes for user to see in their list of notes)</p>
+
+</div>
+</div>
+<div role="article" class="function" id="notesvc.handledeletenote(noteid:)">
+    <h3>
+        <code>handle​Delete​Note(note​Id:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">handleDeleteNote</span>(<span class="variable">noteId</span>: <span class="type">String</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Handles what happens when a note is to be deleted</p>
+
+</div>
+</div>
+<div role="article" class="function" id="notesvc.handledeletenoteareyousure(noteid:indexpath:)">
+    <h3>
+        <code>handle​Delete​Note​Are​You​Sure(note​Id:​index​Path:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">handleDeleteNoteAreYouSure</span>(<span class="variable">noteId</span>: <span class="type">String</span>, <span class="variable">indexPath</span>: <span class="type">IndexPath</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Presents an alert to the user with optinons if they tried to delete a note. They can proceed with deletion or cancel it</p>
+
+</div>
+</div>
+<div role="article" class="function" id="notesvc.tableview(_:numberofrowsinsection:)">
+    <h3>
+        <code>table​View(_:​number​OfRows​InSection:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">tableView</span>(<span class="keyword">_</span> <span class="variable">tableView</span>: <span class="type">UITableView</span>, <span class="variable">numberOfRowsInSection</span> <span class="variable">section</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Counts the number of items in a table view based on the size of the notes array</p>
+
+</div>
+</div>
+<div role="article" class="function" id="notesvc.tableview(_:cellforrowat:)">
+    <h3>
+        <code>table​View(_:​cell​For​Row​At:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">tableView</span>(<span class="keyword">_</span> <span class="variable">tableView</span>: <span class="type">UITableView</span>, <span class="variable">cellForRowAt</span> <span class="variable">indexPath</span>: <span class="type">IndexPath</span>) -&gt; <span class="type">UITableViewCell</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Each cell in the table view gets handled here</p>
+
+</div>
+</div>
+<div role="article" class="function" id="notesvc.tableview(_:commit:forrowat:)">
+    <h3>
+        <code>table​View(_:​commit:​for​Row​At:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">tableView</span>(<span class="keyword">_</span> <span class="variable">tableView</span>: <span class="type">UITableView</span>, <span class="variable">commit</span> <span class="variable">editingStyle</span>: <span class="type">UITableViewCell</span>.<span class="type">EditingStyle</span>, <span class="variable">forRowAt</span> <span class="variable">indexPath</span>: <span class="type">IndexPath</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Checks if the note is trying to be deleted at a certain row in the table view</p>
+
+</div>
+</div>
+<div role="article" class="function" id="notesvc.tableview(_:heightforrowat:)">
+    <h3>
+        <code>table​View(_:​height​For​Row​At:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">tableView</span>(<span class="keyword">_</span> <span class="variable">tableView</span>: <span class="type">UITableView</span>, <span class="variable">heightForRowAt</span> <span class="variable">indexPath</span>: <span class="type">IndexPath</span>) -&gt; <span class="type">CGFloat</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Returns the height of each row in the table view</p>
+
+</div>
+</div>
+<div role="article" class="function" id="notesvc.tableview(_:estimatedheightforrowat:)">
+    <h3>
+        <code>table​View(_:​estimated​Height​For​Row​At:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">tableView</span>(<span class="keyword">_</span> <span class="variable">tableView</span>: <span class="type">UITableView</span>, <span class="variable">estimatedHeightForRowAt</span> <span class="variable">indexPath</span>: <span class="type">IndexPath</span>) -&gt; <span class="type">CGFloat</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Returns the estimated height of each row in the table view</p>
+
+</div>
+</div>
+<div role="article" class="function" id="notesvc.tableview(_:didselectrowat:)">
+    <h3>
+        <code>table​View(_:​did​Select​Row​At:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">tableView</span>(<span class="keyword">_</span> <span class="variable">tableView</span>: <span class="type">UITableView</span>, <span class="variable">didSelectRowAt</span> <span class="variable">indexPath</span>: <span class="type">IndexPath</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Selecting a specific row in the table view</p>
+
+</div>
+</div>
+<div role="article" class="function" id="notesvc.shownotefromtableview(note:)">
+    <h3>
+        <code>show​Note​From​Table​View(note:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">showNoteFromTableView</span>(<span class="variable">note</span>: <a href="./Note"><span class="type">Note</span></a>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>When a user clicks on a note in the table view, this will get called and will send the user to the note creation/editing view controller</p>
+
+</div>
+</div>
+<div role="article" class="function" id="notesvc.viewwillappear(_:)">
+    <h3>
+        <code>view​Will​Appear(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewWillAppear</span>(<span class="keyword">_</span> <span class="variable">animated</span>: <span class="type">Bool</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Change the color of the status bar</p>
+
+</div>
+</div>
+<div role="article" class="function" id="notesvc.tableviewsetup()">
+    <h3>
+        <code>table​View​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">tableViewSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Set up the table view with constraints</p>
+
+</div>
+</div>
+<div role="article" class="function" id="notesvc.topbarsetup()">
+    <h3>
+        <code>top​Bar​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">topBarSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setting up the top bar with constraints</p>
+
+</div>
+</div>
+<div role="article" class="function" id="notesvc.backbuttonsetup()">
+    <h3>
+        <code>back​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">backButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Sets up the back button and defines its constraints</p>
+
+</div>
+</div>
+<div role="article" class="function" id="notesvc.createnotebuttonsetup()">
+    <h3>
+        <code>create​Note​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">createNoteButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Sets up the create note button and defines its constraints</p>
+
+</div>
+</div>
+<div role="article" class="function" id="notesvc.createnotebuttontapped()">
+    <h3>
+        <code>create​Note​Button​Tapped()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">createNoteButtonTapped</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Handles the create note button being tapped</p>
+
+</div>
+</div>
+<div role="article" class="function" id="notesvc.backbuttontapped()">
+    <h3>
+        <code>back​Button​Tapped()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">backButtonTapped</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Handles the back button being tapped</p>
+
+</div>
+</div>
+<div role="article" class="function" id="notesvc.toplabelsetup()">
+    <h3>
+        <code>top​Label​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">topLabelSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Sets up the top label for the name of the view controller and defines its constraints</p>
+
+</div>
+</div>
+    </section>
+
+
+
+        </article>
+    </main>
+
+    <footer>
+        <p>
+    Generated on <time datetime="2020-08-12T21:00:53+0000">August 12, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.4</span>.
+</p>
+    </footer>
+</body>
+</html>

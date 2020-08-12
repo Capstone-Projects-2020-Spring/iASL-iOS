@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iASL - ChatVC</title>
+    <link rel="stylesheet" type="text/css" href="./all.css" media="all" />
+</head>
+<body>
+    <header>
+        <a href="./">
+            <strong>
+                iASL
+            </strong>
+            <span>Documentation</span>
+        </a>
+        <sup>Beta</sup>
+    </header>
+
+    <!--
+    <form class="search">
+        <input type="search" placeholder="Search" />
+    </form>
+    -->
+
+    <nav>
+        <div class="wrapper">
+            <h2>On This Page</h2>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="variable"><a href="#chatvc.messagesconstant">messages​Constant</a></li><li class="variable"><a href="#chatvc.cellid">cell​Id</a></li><li class="variable"><a href="#chatvc.chatpartner">chat​Partner</a></li><li class="variable"><a href="#chatvc.messages">messages</a></li><li class="variable"><a href="#chatvc.composedmessage">composed​Message</a></li><li class="variable"><a href="#chatvc.topbar">top​Bar</a></li><li class="variable"><a href="#chatvc.toplabel">top​Label</a></li><li class="variable"><a href="#chatvc.backbutton">back​Button</a></li><li class="variable"><a href="#chatvc.sendbutton">send​Button</a></li><li class="variable"><a href="#chatvc.keyboardbutton">keyboard​Button</a></li><li class="variable"><a href="#chatvc.collectionview">collection​View</a></li><li class="variable"><a href="#chatvc.messageinputcontainerview">message​Input​Container​View</a></li><li class="variable"><a href="#chatvc.messageinputcontainerviewbottomanchor">message​Input​Container​View​Bottom​Anchor</a></li><li class="variable"><a href="#chatvc.preferredstatusbarstyle">preferred​Status​Bar​Style</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="function"><a href="#chatvc.viewdidload()">view​Did​Load()</a></li><li class="function"><a href="#chatvc.keyboardwillshow(notification:)">keyboard​Will​Show(notification:​)</a></li><li class="function"><a href="#chatvc.keyboardwillhide(notification:)">keyboard​Will​Hide(notification:​)</a></li><li class="function"><a href="#chatvc.observemessages()">observe​Messages()</a></li><li class="function"><a href="#chatvc.collectionviewsetup()">collection​View​Setup()</a></li><li class="function"><a href="#chatvc.collectionview(_:numberofitemsinsection:)">collection​View(_:​number​OfItems​InSection:​)</a></li><li class="function"><a href="#chatvc.collectionview(_:cellforitemat:)">collection​View(_:​cell​For​Item​At:​)</a></li><li class="function"><a href="#chatvc.setupcell(cell:message:)">setup​Cell(cell:​message:​)</a></li><li class="function"><a href="#chatvc.collectionview(_:layout:sizeforitemat:)">collection​View(_:​layout:​size​For​Item​At:​)</a></li><li class="function"><a href="#chatvc.estimateframefortext(text:)">estimate​Frame​For​Text(text:​)</a></li><li class="function"><a href="#chatvc.handlesendbutton()">handle​Send​Button()</a></li><li class="function"><a href="#chatvc.setupmessagecontainerview()">setup​Message​Container​View()</a></li><li class="function"><a href="#chatvc.sendbuttonsetup()">send​Button​Setup()</a></li><li class="function"><a href="#chatvc.composedmessagesetup()">composed​Message​Setup()</a></li><li class="function"><a href="#chatvc.topbarsetup()">top​Bar​Setup()</a></li><li class="function"><a href="#chatvc.backbuttonsetup()">back​Button​Setup()</a></li><li class="function"><a href="#chatvc.backbuttontapped()">back​Button​Tapped()</a></li><li class="function"><a href="#chatvc.toplabelsetup()">top​Label​Setup()</a></li><li class="function"><a href="#chatvc.keybaordbuttonsetup()">keybaord​Button​Setup()</a></li><li class="function"><a href="#chatvc.keyboardbuttontapped()">keyboard​Button​Tapped()</a></li><li class="function"><a href="#chatvc.viewwillappear(_:)">view​Will​Appear(_:​)</a></li></ul></li></ol>
+        </div>
+    </nav>
+
+    <main>
+        <article>
+            <h1>
+    <small>Class</small>
+    <code class="name">Chat​VC</code>
+</h1>
+
+<html><body><pre class="highlight"><code><span class="keyword">class</span> <span class="type">ChatVC</span>: <span class="type">UIViewController</span>, <span class="type">UITextViewDelegate</span>, <span class="type">UICollectionViewDataSource</span>, <span class="type">UICollectionViewDelegateFlowLayout</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This class is used to show an individual chat between two users. It shows the title bar at the top with the chat partner's name, it has alll the messages between the two users, and it demonstrates our iASL keyboard in use.</p>
+
+</div>
+<section id="relationships">
+    <h2 hidden>Relationships</h2>
+        
+        <h3>Conforms To</h3>
+<dl>
+    <dt class="unknown"><code>UICollectionViewDataSource</code></dt>
+<dt class="unknown"><code>UICollectionViewDelegateFlowLayout</code></dt>
+<dt class="unknown"><code>UITextViewDelegate</code></dt>
+<dt class="unknown"><code>UIViewController</code></dt>
+</dl>
+</section>
+    <section id="properties">
+        <h2>Properties</h2>
+
+        <div role="article" class="variable" id="chatvc.messagesconstant">
+    <h3>
+        <code>messages​Constant</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">messagesConstant</span>: <span class="type">String</span> = <span class="string literal">"</span><span class="string literal">messages</span><span class="string literal">"</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>A constant for the &quot;messages&quot; node in Firebase</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="chatvc.cellid">
+    <h3>
+        <code>cell​Id</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">cellId</span> = <span class="string literal">"</span><span class="string literal">cellId</span><span class="string literal">"</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Constant for the cellId in the collectionview</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="chatvc.chatpartner">
+    <h3>
+        <code>chat​Partner</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">chatPartner</span>: <a href="./User"><span class="type">User</span></a>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Chat Partner of Type User from our swift classes. Used to get the name of the chat partner for the top bar</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="chatvc.messages">
+    <h3>
+        <code>messages</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">messages</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Array of type Message from our swift classes that holds all of the messages observed from Firebase</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="chatvc.composedmessage">
+    <h3>
+        <code>composed​Message</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">composedMessage</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This is the message that is typed in the input box by the user</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="chatvc.topbar">
+    <h3>
+        <code>top​Bar</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">topBar</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This is the top bar that holds the user's name and has our navigation back button</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="chatvc.toplabel">
+    <h3>
+        <code>top​Label</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">topLabel</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>The label that holds the name of the chat partner</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="chatvc.backbutton">
+    <h3>
+        <code>back​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">backButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>The button for going back to the previous view, which is the list of active chats</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="chatvc.sendbutton">
+    <h3>
+        <code>send​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">sendButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button to be clicked by the user to send a message</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="chatvc.keyboardbutton">
+    <h3>
+        <code>keyboard​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">keyboardButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button used to switch between the iASL keyboard and the standard Apple Keyboard</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="chatvc.collectionview">
+    <h3>
+        <code>collection​View</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">collectionView</span>: <span class="type">UICollectionView</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This is the collection view that holds all of the messages sent between two users</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="chatvc.messageinputcontainerview">
+    <h3>
+        <code>message​Input​Container​View</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">messageInputContainerView</span>: <span class="type">UIView</span></code></pre></body></html>
+</div>
+<div role="article" class="variable" id="chatvc.messageinputcontainerviewbottomanchor">
+    <h3>
+        <code>message​Input​Container​View​Bottom​Anchor</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">messageInputContainerViewBottomAnchor</span>: <span class="type">NSLayoutConstraint</span>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This is the bottom anchor of the container holding the send button, the compose message textview, and the keyboard button</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="chatvc.preferredstatusbarstyle">
+    <h3>
+        <code>preferred​Status​Bar​Style</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">preferredStatusBarStyle</span>: <span class="type">UIStatusBarStyle</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Change the color of the status bar</p>
+
+</div>
+</div>
+    </section>
+    <section id="methods">
+        <h2>Methods</h2>
+
+        <div role="article" class="function" id="chatvc.viewdidload()">
+    <h3>
+        <code>view​Did​Load()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewDidLoad</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Function called when the view loads. Used to setup all of the important structural parts of the view controller.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="chatvc.keyboardwillshow(notification:)">
+    <h3>
+        <code>keyboard​Will​Show(notification:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">keyboardWillShow</span>(<span class="variable">notification</span>: <span class="type">NSNotification</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Called when the keyboard is about to show</p>
+
+</div>
+</div>
+<div role="article" class="function" id="chatvc.keyboardwillhide(notification:)">
+    <h3>
+        <code>keyboard​Will​Hide(notification:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">keyboardWillHide</span>(<span class="variable">notification</span>: <span class="type">NSNotification</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Called when the keyboard is abouot to hide</p>
+
+</div>
+</div>
+<div role="article" class="function" id="chatvc.observemessages()">
+    <h3>
+        <code>observe​Messages()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">observeMessages</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Observes messages from Firebase and loads them into an array of type Message to be used by the collectionview. Has logic for determining which messages were from the sender and which were from the receiver</p>
+
+</div>
+</div>
+<div role="article" class="function" id="chatvc.collectionviewsetup()">
+    <h3>
+        <code>collection​View​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">collectionViewSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Adds the collection view to the subview and defines the important aspects of the collection view</p>
+
+</div>
+</div>
+<div role="article" class="function" id="chatvc.collectionview(_:numberofitemsinsection:)">
+    <h3>
+        <code>collection​View(_:​number​OfItems​InSection:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">collectionView</span>(<span class="keyword">_</span> <span class="variable">collectionView</span>: <span class="type">UICollectionView</span>, <span class="variable">numberOfItemsInSection</span> <span class="variable">section</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Returns the number of messages so the collection view knows how many cells to load</p>
+
+</div>
+</div>
+<div role="article" class="function" id="chatvc.collectionview(_:cellforitemat:)">
+    <h3>
+        <code>collection​View(_:​cell​For​Item​At:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">collectionView</span>(<span class="keyword">_</span> <span class="variable">collectionView</span>: <span class="type">UICollectionView</span>, <span class="variable">cellForItemAt</span> <span class="variable">indexPath</span>: <span class="type">IndexPath</span>) -&gt; <span class="type">UICollectionViewCell</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Defines what happens at each cell in the collection view. This is where our custom collection view cell comes in handy.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="chatvc.setupcell(cell:message:)">
+    <h3>
+        <code>setup​Cell(cell:​message:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">setupCell</span>(<span class="variable">cell</span>: <a href="./ChatMessageCell"><span class="type">ChatMessageCell</span></a>, <span class="variable">message</span>: <a href="./Message"><span class="type">Message</span></a>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This function determines what the chat bubble is going to look like. If it is a sender message, it will be pink and on the right side of the collection view. If it is an incoming message, it will be gray and on the left side of the collection view.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="chatvc.collectionview(_:layout:sizeforitemat:)">
+    <h3>
+        <code>collection​View(_:​layout:​size​For​Item​At:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">collectionView</span>(<span class="keyword">_</span> <span class="variable">collectionView</span>: <span class="type">UICollectionView</span>, <span class="variable">layout</span> <span class="variable">collectionViewLayout</span>: <span class="type">UICollectionViewLayout</span>, <span class="variable">sizeForItemAt</span> <span class="variable">indexPath</span>: <span class="type">IndexPath</span>) -&gt; <span class="type">CGSize</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Determines the height of each cell in the collection view</p>
+
+</div>
+</div>
+<div role="article" class="function" id="chatvc.estimateframefortext(text:)">
+    <h3>
+        <code>estimate​Frame​For​Text(text:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">private</span> <span class="keyword">func</span> <span class="function">estimateFrameForText</span>(<span class="variable">text</span>: <span class="type">String</span>) -&gt; <span class="type">CGRect</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Estimates the frame for the text in the cell</p>
+
+</div>
+</div>
+<div role="article" class="function" id="chatvc.handlesendbutton()">
+    <h3>
+        <code>handle​Send​Button()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">handleSendButton</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Handles what happens when you send a message</p>
+
+</div>
+</div>
+<div role="article" class="function" id="chatvc.setupmessagecontainerview()">
+    <h3>
+        <code>setup​Message​Container​View()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">setupMessageContainerView</span>()</code></pre></body></html>
+</div>
+<div role="article" class="function" id="chatvc.sendbuttonsetup()">
+    <h3>
+        <code>send​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">sendButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Sets up the send button in the subveiw and defines its constraints and important features</p>
+
+</div>
+</div>
+<div role="article" class="function" id="chatvc.composedmessagesetup()">
+    <h3>
+        <code>composed​Message​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">composedMessageSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Sets up the composed message text view and defines its constraints and important features</p>
+
+</div>
+</div>
+<div role="article" class="function" id="chatvc.topbarsetup()">
+    <h3>
+        <code>top​Bar​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">topBarSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Adds the top bar to the subview and defines how it is supposed to look</p>
+
+</div>
+</div>
+<div role="article" class="function" id="chatvc.backbuttonsetup()">
+    <h3>
+        <code>back​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">backButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Adds the back button to the top bar subview and defines what it looks like</p>
+
+</div>
+</div>
+<div role="article" class="function" id="chatvc.backbuttontapped()">
+    <h3>
+        <code>back​Button​Tapped()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">backButtonTapped</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Handles what happens when the back button is tapped</p>
+
+</div>
+</div>
+<div role="article" class="function" id="chatvc.toplabelsetup()">
+    <h3>
+        <code>top​Label​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">topLabelSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Adds the top label for the name of the chat partner to the top bar subview and defines what the label looks like</p>
+
+</div>
+</div>
+<div role="article" class="function" id="chatvc.keybaordbuttonsetup()">
+    <h3>
+        <code>keybaord​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">keybaordButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Adds the keyboard label to the subview and defines its constraints</p>
+
+</div>
+</div>
+<div role="article" class="function" id="chatvc.keyboardbuttontapped()">
+    <h3>
+        <code>keyboard​Button​Tapped()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">keyboardButtonTapped</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Handles what happens when the keyboard button is tapped. Handles logic for switching between different keyboards</p>
+
+</div>
+</div>
+<div role="article" class="function" id="chatvc.viewwillappear(_:)">
+    <h3>
+        <code>view​Will​Appear(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewWillAppear</span>(<span class="keyword">_</span> <span class="variable">animated</span>: <span class="type">Bool</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Change the color of the status bar</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>animated</th>
+    <td><code class="type">Bool</code></td>
+    <td><p>If true, the view is being added to the window using an animation.</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+    </section>
+
+
+
+        </article>
+    </main>
+
+    <footer>
+        <p>
+    Generated on <time datetime="2020-08-12T21:00:53+0000">August 12, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.4</span>.
+</p>
+    </footer>
+</body>
+</html>

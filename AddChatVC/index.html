@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iASL - AddChatVC</title>
+    <link rel="stylesheet" type="text/css" href="./all.css" media="all" />
+</head>
+<body>
+    <header>
+        <a href="./">
+            <strong>
+                iASL
+            </strong>
+            <span>Documentation</span>
+        </a>
+        <sup>Beta</sup>
+    </header>
+
+    <!--
+    <form class="search">
+        <input type="search" placeholder="Search" />
+    </form>
+    -->
+
+    <nav>
+        <div class="wrapper">
+            <h2>On This Page</h2>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="variable"><a href="#addchatvc.cellid">cell​Id</a></li><li class="variable"><a href="#addchatvc.usersconstant">users​Constant</a></li><li class="variable"><a href="#addchatvc.users">users</a></li><li class="variable"><a href="#addchatvc.remoteconversations">remote​Conversations</a></li><li class="variable"><a href="#addchatvc.topbar">top​Bar</a></li><li class="variable"><a href="#addchatvc.toplabel">top​Label</a></li><li class="variable"><a href="#addchatvc.backbutton">back​Button</a></li><li class="variable"><a href="#addchatvc.tableview">table​View</a></li><li class="variable"><a href="#addchatvc.preferredstatusbarstyle">preferred​Status​Bar​Style</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="function"><a href="#addchatvc.viewdidload()">view​Did​Load()</a></li><li class="function"><a href="#addchatvc.getusers()">get​Users()</a></li><li class="function"><a href="#addchatvc.tableview(_:numberofrowsinsection:)">table​View(_:​number​OfRows​InSection:​)</a></li><li class="function"><a href="#addchatvc.tableview(_:cellforrowat:)">table​View(_:​cell​For​Row​At:​)</a></li><li class="function"><a href="#addchatvc.tableview(_:didselectrowat:)">table​View(_:​did​Select​Row​At:​)</a></li><li class="function"><a href="#addchatvc.tableviewsetup()">table​View​Setup()</a></li><li class="function"><a href="#addchatvc.topbarsetup()">top​Bar​Setup()</a></li><li class="function"><a href="#addchatvc.backbuttonsetup()">back​Button​Setup()</a></li><li class="function"><a href="#addchatvc.backbuttontapped()">back​Button​Tapped()</a></li><li class="function"><a href="#addchatvc.toplabelsetup()">top​Label​Setup()</a></li><li class="function"><a href="#addchatvc.viewwillappear(_:)">view​Will​Appear(_:​)</a></li></ul></li></ol>
+        </div>
+    </nav>
+
+    <main>
+        <article>
+            <h1>
+    <small>Class</small>
+    <code class="name">Add​Chat​VC</code>
+</h1>
+
+<html><body><pre class="highlight"><code><span class="keyword">class</span> <span class="type">AddChatVC</span>: <span class="type">UIViewController</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This class handles the ability for the user to choose a partner to chat with.</p>
+
+</div>
+<section id="relationships">
+    <h2 hidden>Relationships</h2>
+        
+        <h3>Conforms To</h3>
+<dl>
+    <dt class="unknown"><code>UITableViewDataSource</code></dt>
+<dt class="unknown"><code>UITableViewDelegate</code></dt>
+<dt class="unknown"><code>UIViewController</code></dt>
+</dl>
+</section>
+    <section id="properties">
+        <h2>Properties</h2>
+
+        <div role="article" class="variable" id="addchatvc.cellid">
+    <h3>
+        <code>cell​Id</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">cellId</span> = <span class="string literal">"</span><span class="string literal">cellId</span><span class="string literal">"</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Variable that holds the cell ID constant</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="addchatvc.usersconstant">
+    <h3>
+        <code>users​Constant</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">usersConstant</span>: <span class="type">String</span> = <span class="string literal">"</span><span class="string literal">users</span><span class="string literal">"</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Variable that holds the &quot;users&quot; constant for Firebase</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="addchatvc.users">
+    <h3>
+        <code>users</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">users</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>An array of users</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="addchatvc.remoteconversations">
+    <h3>
+        <code>remote​Conversations</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">remoteConversations</span>: <a href="./RemoteConversationVC"><span class="type">RemoteConversationVC</span></a>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Reference variable so we can transition into chatVC via remote conversations</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="addchatvc.topbar">
+    <h3>
+        <code>top​Bar</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">topBar</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Variable for a uiview for the top bar of the screen</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="addchatvc.toplabel">
+    <h3>
+        <code>top​Label</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">topLabel</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Variable for the top label that holds the name of the view controller</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="addchatvc.backbutton">
+    <h3>
+        <code>back​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">backButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button for users to go back to the previous view controller</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="addchatvc.tableview">
+    <h3>
+        <code>table​View</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">tableView</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Variable for the table view that holds all of the users' names</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="addchatvc.preferredstatusbarstyle">
+    <h3>
+        <code>preferred​Status​Bar​Style</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">preferredStatusBarStyle</span>: <span class="type">UIStatusBarStyle</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Change the color of the status bar</p>
+
+</div>
+</div>
+    </section>
+    <section id="methods">
+        <h2>Methods</h2>
+
+        <div role="article" class="function" id="addchatvc.viewdidload()">
+    <h3>
+        <code>view​Did​Load()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewDidLoad</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>View did load function that calls all of the setup functions</p>
+
+</div>
+</div>
+<div role="article" class="function" id="addchatvc.getusers()">
+    <h3>
+        <code>get​Users()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">getUsers</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Gets all of the users from the database and stores them in an array of Users</p>
+
+</div>
+</div>
+<div role="article" class="function" id="addchatvc.tableview(_:numberofrowsinsection:)">
+    <h3>
+        <code>table​View(_:​number​OfRows​InSection:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">tableView</span>(<span class="keyword">_</span> <span class="variable">tableView</span>: <span class="type">UITableView</span>, <span class="variable">numberOfRowsInSection</span> <span class="variable">section</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Returns the size of the users array so that the table view knows how many rows to load</p>
+
+</div>
+</div>
+<div role="article" class="function" id="addchatvc.tableview(_:cellforrowat:)">
+    <h3>
+        <code>table​View(_:​cell​For​Row​At:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">tableView</span>(<span class="keyword">_</span> <span class="variable">tableView</span>: <span class="type">UITableView</span>, <span class="variable">cellForRowAt</span> <span class="variable">indexPath</span>: <span class="type">IndexPath</span>) -&gt; <span class="type">UITableViewCell</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Determines what data gets loaded in each row of the table view, returns a table view cell with that data</p>
+
+</div>
+</div>
+<div role="article" class="function" id="addchatvc.tableview(_:didselectrowat:)">
+    <h3>
+        <code>table​View(_:​did​Select​Row​At:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">tableView</span>(<span class="keyword">_</span> <span class="variable">tableView</span>: <span class="type">UITableView</span>, <span class="variable">didSelectRowAt</span> <span class="variable">indexPath</span>: <span class="type">IndexPath</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Handles what happens when a user taps on a specific cell in the table view</p>
+
+</div>
+</div>
+<div role="article" class="function" id="addchatvc.tableviewsetup()">
+    <h3>
+        <code>table​View​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">tableViewSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Sets up the table view and defines its constraints</p>
+
+</div>
+</div>
+<div role="article" class="function" id="addchatvc.topbarsetup()">
+    <h3>
+        <code>top​Bar​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">topBarSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Sets up the top bar view and defines its constraints</p>
+
+</div>
+</div>
+<div role="article" class="function" id="addchatvc.backbuttonsetup()">
+    <h3>
+        <code>back​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">backButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Sets up the back button view and defines its constraints</p>
+
+</div>
+</div>
+<div role="article" class="function" id="addchatvc.backbuttontapped()">
+    <h3>
+        <code>back​Button​Tapped()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">backButtonTapped</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Handles what happens when the back button is tapped</p>
+
+</div>
+</div>
+<div role="article" class="function" id="addchatvc.toplabelsetup()">
+    <h3>
+        <code>top​Label​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">topLabelSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Sets up the top label view and defines its constraints</p>
+
+</div>
+</div>
+<div role="article" class="function" id="addchatvc.viewwillappear(_:)">
+    <h3>
+        <code>view​Will​Appear(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewWillAppear</span>(<span class="keyword">_</span> <span class="variable">animated</span>: <span class="type">Bool</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Change the color of the status bar</p>
+
+</div>
+</div>
+    </section>
+
+
+
+        </article>
+    </main>
+
+    <footer>
+        <p>
+    Generated on <time datetime="2020-08-12T21:00:53+0000">August 12, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.4</span>.
+</p>
+    </footer>
+</body>
+</html>

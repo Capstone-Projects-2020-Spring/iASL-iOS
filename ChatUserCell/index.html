@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iASL - ChatUserCell</title>
+    <link rel="stylesheet" type="text/css" href="./all.css" media="all" />
+</head>
+<body>
+    <header>
+        <a href="./">
+            <strong>
+                iASL
+            </strong>
+            <span>Documentation</span>
+        </a>
+        <sup>Beta</sup>
+    </header>
+
+    <!--
+    <form class="search">
+        <input type="search" placeholder="Search" />
+    </form>
+    -->
+
+    <nav>
+        <div class="wrapper">
+            <h2>On This Page</h2>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#chatusercell.init(style:reuseidentifier:)">init(style:​reuse​Identifier:​)</a></li><li class="initializer"><a href="#chatusercell.init?(coder:)">init?(coder:​)</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="variable"><a href="#chatusercell.message">message</a></li><li class="variable"><a href="#chatusercell.namelabel">name​Label</a></li><li class="variable"><a href="#chatusercell.mostrecentmessagelabel">most​Recent​Message​Label</a></li><li class="variable"><a href="#chatusercell.timestamplabel">timestamp​Label</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="function"><a href="#chatusercell.layoutsubviews()">layout​Subviews()</a></li><li class="function"><a href="#chatusercell.setupnamelabel()">setup​Name​Label()</a></li><li class="function"><a href="#chatusercell.setupmessagelabel()">setup​Message​Label()</a></li><li class="function"><a href="#chatusercell.setuptimestamplabel()">setup​Timestamp​Label()</a></li></ul></li></ol>
+        </div>
+    </nav>
+
+    <main>
+        <article>
+            <h1>
+    <small>Class</small>
+    <code class="name">Chat​User​Cell</code>
+</h1>
+
+<html><body><pre class="highlight"><code><span class="keyword">class</span> <span class="type">ChatUserCell</span>: <span class="type">UITableViewCell</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This class is for creating a custom cell in the table view of our main messaging feature screen. It handles the design of all the pieces that make up our custom cell and hanldes some logic for handling which information goes where.</p>
+
+</div>
+<section id="relationships">
+    <h2 hidden>Relationships</h2>
+        
+        <h3>Conforms To</h3>
+<dl>
+    <dt class="unknown"><code>UITableViewCell</code></dt>
+</dl>
+</section>
+    <section id="initializers">
+        <h2>Initializers</h2>
+
+        <div role="article" class="initializer" id="chatusercell.init(style:reuseidentifier:)">
+    <h3>
+        <code>init(style:​reuse​Identifier:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">init</span>(<span class="variable">style</span>: <span class="type">UITableViewCell</span>.<span class="type">CellStyle</span>, <span class="variable">reuseIdentifier</span>: <span class="type">String</span>?)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Init function that is called whenever this class is used. This calls the main set up functions for the constraints and the subviews</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>style</th>
+    <td><code class="type">UITable​View​Cell.​Cell​Style</code></td>
+    <td><p>A constant indicating a cell style. See UITableViewCell.CellStyle for descriptions of these constants.</p>
+</td>
+</tr>
+<tr>
+    <th>reuse​Identifier</th>
+    <td><code class="type">String?</code></td>
+    <td><p>A string used to identify the cell object if it is to be reused for drawing multiple rows of a table view. Pass nil if the cell object is not to be reused. You should use the same reuse identifier for all cells of the same form.</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+<div role="article" class="initializer" id="chatusercell.init?(coder:)">
+    <h3>
+        <code>init?(coder:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">required</span> <span class="keyword">init</span>?(<span class="variable">coder</span>: <span class="type">NSCoder</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Required init function in case of fatal error</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>coder</th>
+    <td><code class="type">NSCoder</code></td>
+    <td><p>An abstract class that serves as the basis for objects that enable archiving and distribution of other objects.</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+    </section>
+    <section id="properties">
+        <h2>Properties</h2>
+
+        <div role="article" class="variable" id="chatusercell.message">
+    <h3>
+        <code>message</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">message</span>: <a href="./Message"><span class="type">Message</span></a>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>In the table view, this sets the message and does the work for getting the name of the user and the message</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="chatusercell.namelabel">
+    <h3>
+        <code>name​Label</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">nameLabel</span>: <span class="type">UILabel</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This is a closure for the label that holds the name of the chatter</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="chatusercell.mostrecentmessagelabel">
+    <h3>
+        <code>most​Recent​Message​Label</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">mostRecentMessageLabel</span>: <span class="type">UILabel</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This is a closure for the label that holds the text of the most recent message sent in the chat</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="chatusercell.timestamplabel">
+    <h3>
+        <code>timestamp​Label</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">timestampLabel</span>: <span class="type">UILabel</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This is a closure for the timestamp label that holds the time that the most recently sent message was sent</p>
+
+</div>
+</div>
+    </section>
+    <section id="methods">
+        <h2>Methods</h2>
+
+        <div role="article" class="function" id="chatusercell.layoutsubviews()">
+    <h3>
+        <code>layout​Subviews()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">layoutSubviews</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Function for laying out the subviews</p>
+
+</div>
+</div>
+<div role="article" class="function" id="chatusercell.setupnamelabel()">
+    <h3>
+        <code>setup​Name​Label()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">setupNameLabel</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Adds the name label to the subview and defines where in the subveiw it will be placed</p>
+
+</div>
+</div>
+<div role="article" class="function" id="chatusercell.setupmessagelabel()">
+    <h3>
+        <code>setup​Message​Label()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">setupMessageLabel</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Adds the most recent message label to the subview and defines where in the subveiw it will be placed</p>
+
+</div>
+</div>
+<div role="article" class="function" id="chatusercell.setuptimestamplabel()">
+    <h3>
+        <code>setup​Timestamp​Label()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">setupTimestampLabel</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Adds the timestamp label to the subview and defines where in the subveiw it will be placed</p>
+
+</div>
+</div>
+    </section>
+
+
+
+        </article>
+    </main>
+
+    <footer>
+        <p>
+    Generated on <time datetime="2020-08-12T21:00:53+0000">August 12, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.4</span>.
+</p>
+    </footer>
+</body>
+</html>

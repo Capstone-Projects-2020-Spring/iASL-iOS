@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iASL - ModelDataHandler</title>
+    <link rel="stylesheet" type="text/css" href="./all.css" media="all" />
+</head>
+<body>
+    <header>
+        <a href="./">
+            <strong>
+                iASL
+            </strong>
+            <span>Documentation</span>
+        </a>
+        <sup>Beta</sup>
+    </header>
+
+    <!--
+    <form class="search">
+        <input type="search" placeholder="Search" />
+    </form>
+    -->
+
+    <nav>
+        <div class="wrapper">
+            <h2>On This Page</h2>
+            <ol><li><a href="#initializers">Initializers</a><ul><li class="initializer"><a href="#modeldatahandler.init?(modelfileinfo:labelsfileinfo:threadcount:)">init?(model​File​Info:​labels​File​Info:​thread​Count:​)</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="variable"><a href="#modeldatahandler.threadcount">thread​Count</a></li><li class="variable"><a href="#modeldatahandler.resultcount">result​Count</a></li><li class="variable"><a href="#modeldatahandler.threadcountlimit">thread​Count​Limit</a></li><li class="variable"><a href="#modeldatahandler.batchsize">batch​Size</a></li><li class="variable"><a href="#modeldatahandler.inputchannels">input​Channels</a></li><li class="variable"><a href="#modeldatahandler.inputwidth">input​Width</a></li><li class="variable"><a href="#modeldatahandler.inputheight">input​Height</a></li><li class="variable"><a href="#modeldatahandler.labels">labels</a></li><li class="variable"><a href="#modeldatahandler.interpreter">interpreter</a></li><li class="variable"><a href="#modeldatahandler.alphacomponent">alpha​Component</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="function"><a href="#modeldatahandler.runmodel(onframe:)">run​Model(on​Frame:​)</a></li><li class="function"><a href="#modeldatahandler.gettopn(results:)">get​Top​N(results:​)</a></li><li class="function"><a href="#modeldatahandler.loadlabels(fileinfo:)">load​Labels(file​Info:​)</a></li><li class="function"><a href="#modeldatahandler.rgbdatafrombuffer(_:bytecount:ismodelquantized:)">rgb​Data​From​Buffer(_:​byte​Count:​is​Model​Quantized:​)</a></li></ul></li></ol>
+        </div>
+    </nav>
+
+    <main>
+        <article>
+            <h1>
+    <small>Class</small>
+    <code class="name">Model​Data​Handler</code>
+</h1>
+
+<html><body><pre class="highlight"><code><span class="keyword">class</span> <span class="type">ModelDataHandler</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This class handles all data preprocessing and makes calls to run inference on a given frame
+by invoking the <code>Interpreter</code>. It then formats the inferences obtained and returns the top N
+results for a successful inference.</p>
+
+</div>
+
+    <section id="initializers">
+        <h2>Initializers</h2>
+
+        <div role="article" class="initializer" id="modeldatahandler.init?(modelfileinfo:labelsfileinfo:threadcount:)">
+    <h3>
+        <code>init?(model​File​Info:​labels​File​Info:​thread​Count:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">init</span>?(<span class="variable">modelFileInfo</span>: <a href="./FileInfo"><span class="type">FileInfo</span></a>, <span class="variable">labelsFileInfo</span>: <a href="./FileInfo"><span class="type">FileInfo</span></a>, <span class="variable">threadCount</span>: <span class="type">Int</span> = <span class="number literal">1</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>A failable initializer for <code>ModelDataHandler</code>. A new instance is created if the model and
+labels files are successfully loaded from the app's main bundle. Default <code>threadCount</code> is 1.</p>
+
+</div>
+</div>
+    </section>
+    <section id="properties">
+        <h2>Properties</h2>
+
+        <div role="article" class="variable" id="modeldatahandler.threadcount">
+    <h3>
+        <code>thread​Count</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">threadCount</span>: <span class="type">Int</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>The current thread count used by the TensorFlow Lite Interpreter.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="modeldatahandler.resultcount">
+    <h3>
+        <code>result​Count</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">resultCount</span> = <span class="number literal">3</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>The number of results to get from the model.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="modeldatahandler.threadcountlimit">
+    <h3>
+        <code>thread​Count​Limit</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">threadCountLimit</span> = <span class="number literal">10</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>The number of threads that can be deployed.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="modeldatahandler.batchsize">
+    <h3>
+        <code>batch​Size</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">batchSize</span> = <span class="number literal">1</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>How many samples propagate through the network at once</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="modeldatahandler.inputchannels">
+    <h3>
+        <code>input​Channels</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">inputChannels</span> = <span class="number literal">3</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>How many channels in the image (3 for RGB or 4 if it’s RGBA, but it shouldn’t be RGBA in our case.)</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="modeldatahandler.inputwidth">
+    <h3>
+        <code>input​Width</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">inputWidth</span> = <span class="number literal">200</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>the width the input is scaled to</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="modeldatahandler.inputheight">
+    <h3>
+        <code>input​Height</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">inputHeight</span> = <span class="number literal">200</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>The height the input is scaled to</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="modeldatahandler.labels">
+    <h3>
+        <code>labels</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">labels</span>: [<span class="type">String</span>] = []</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>List of labels from the given labels file.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="modeldatahandler.interpreter">
+    <h3>
+        <code>interpreter</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">interpreter</span>: <span class="type">Interpreter</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>TensorFlow Lite <code>Interpreter</code> object for performing inference on a given model.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="modeldatahandler.alphacomponent">
+    <h3>
+        <code>alpha​Component</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">alphaComponent</span> = (<span class="variable">baseOffset</span>: <span class="number literal">4</span>, <span class="variable">moduloRemainder</span>: <span class="number literal">3</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Information about the alpha component in RGBA data.</p>
+
+</div>
+</div>
+    </section>
+    <section id="methods">
+        <h2>Methods</h2>
+
+        <div role="article" class="function" id="modeldatahandler.runmodel(onframe:)">
+    <h3>
+        <code>run​Model(on​Frame:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">runModel</span>(<span class="variable">onFrame</span> <span class="variable">pixelBuffer</span>: <span class="type">CVPixelBuffer</span>) -&gt; <a href="./Result"><span class="type">Result</span></a>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Performs image preprocessing, invokes the <code>Interpreter</code>, and processes the inference results.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="modeldatahandler.gettopn(results:)">
+    <h3>
+        <code>get​Top​N(results:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">private</span> <span class="keyword">func</span> <span class="function">getTopN</span>(<span class="variable">results</span>: [<span class="type">Float</span>]) -&gt; [<a href="./Inference"><span class="type">Inference</span></a>]</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Returns the top N inference results sorted in descending order.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="modeldatahandler.loadlabels(fileinfo:)">
+    <h3>
+        <code>load​Labels(file​Info:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">private</span> <span class="keyword">func</span> <span class="function">loadLabels</span>(<span class="variable">fileInfo</span>: <a href="./FileInfo"><span class="type">FileInfo</span></a>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Loads the labels from the labels file and stores them in the <code>labels</code> property.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="modeldatahandler.rgbdatafrombuffer(_:bytecount:ismodelquantized:)">
+    <h3>
+        <code>rgb​Data​From​Buffer(_:​byte​Count:​is​Model​Quantized:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">private</span> <span class="keyword">func</span> <span class="function">rgbDataFromBuffer</span>(<span class="keyword">_</span> <span class="variable">buffer</span>: <span class="type">CVPixelBuffer</span>, <span class="variable">byteCount</span>: <span class="type">Int</span>, <span class="variable">isModelQuantized</span>: <span class="type">Bool</span>) -&gt; <span class="type">Data</span>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Returns the RGB data representation of the given image buffer with the specified <code>byteCount</code>.</p>
+
+</div>
+<div class="discussion">
+    <ul>
+<li>
+<p>Parameters</p>
+<ul>
+<li>buffer: The pixel buffer to convert to RGB data.</li>
+<li>byteCount: The expected byte count for the RGB data calculated using the values that the
+model was trained on: <code>batchSize * imageWidth * imageHeight * componentsCount</code>.</li>
+<li>isModelQuantized: Whether the model is quantized (i.e. fixed point values rather than
+floating point values).</li>
+</ul>
+</li>
+</ul>
+
+</div>
+  <h4>Returns</h4>
+  <p>The RGB data representation of the image buffer or <code>nil</code> if the buffer could not be converted.</p>
+
+</div>
+    </section>
+
+
+
+        </article>
+    </main>
+
+    <footer>
+        <p>
+    Generated on <time datetime="2020-08-12T21:00:53+0000">August 12, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.4</span>.
+</p>
+    </footer>
+</body>
+</html>

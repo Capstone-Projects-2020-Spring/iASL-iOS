@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iASL - ViewController</title>
+    <link rel="stylesheet" type="text/css" href="./all.css" media="all" />
+</head>
+<body>
+    <header>
+        <a href="./">
+            <strong>
+                iASL
+            </strong>
+            <span>Documentation</span>
+        </a>
+        <sup>Beta</sup>
+    </header>
+
+    <!--
+    <form class="search">
+        <input type="search" placeholder="Search" />
+    </form>
+    -->
+
+    <nav>
+        <div class="wrapper">
+            <h2>On This Page</h2>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="variable"><a href="#viewcontroller.areabound">area​Bound</a></li><li class="variable"><a href="#viewcontroller.remotechatbutton">remote​Chat​Button</a></li><li class="variable"><a href="#viewcontroller.notesbutton">notes​Button</a></li><li class="variable"><a href="#viewcontroller.livebutton">live​Button</a></li><li class="variable"><a href="#viewcontroller.outputtextview">output​Text​View</a></li><li class="variable"><a href="#viewcontroller.textviewholder">text​View​Holder</a></li><li class="variable"><a href="#viewcontroller.speakerbutton">speaker​Button</a></li><li class="variable"><a href="#viewcontroller.controlbuttonstack">control​Button​Stack</a></li><li class="variable"><a href="#viewcontroller.clearbutton">clear​Button</a></li><li class="variable"><a href="#viewcontroller.keyboardbutton">keyboard​Button</a></li><li class="variable"><a href="#viewcontroller.trainbutton">train​Button</a></li><li class="variable"><a href="#viewcontroller.logoutbutton">log​Out​Button</a></li><li class="variable"><a href="#viewcontroller.controlview">control​View</a></li><li class="variable"><a href="#viewcontroller.controlbutton">control​Button</a></li><li class="variable"><a href="#viewcontroller.slider">slider</a></li><li class="variable"><a href="#viewcontroller.speechspeeddegree">speech​Speed​Degree</a></li><li class="variable"><a href="#viewcontroller.predictionassistbutton">prediction​Assist​Button</a></li><li class="variable"><a href="#viewcontroller.predictionlayer">prediction​Layer</a></li><li class="variable"><a href="#viewcontroller.synthesizer">synthesizer</a></li><li class="variable"><a href="#viewcontroller.verificationcount">verification​Count</a></li><li class="variable"><a href="#viewcontroller.verificationcache">verification​Cache</a></li><li class="variable"><a href="#viewcontroller.topbar">top​Bar</a></li><li class="variable"><a href="#viewcontroller.previewview">preview​View</a></li><li class="variable"><a href="#viewcontroller.cameraunavailablelabel">camera​Unavailable​Label</a></li><li class="variable"><a href="#viewcontroller.resumebutton">resume​Button</a></li><li class="variable"><a href="#viewcontroller.guidebutton">guide​Button</a></li><li class="variable"><a href="#viewcontroller.outputtextview2">output​Text​View2</a></li><li class="variable"><a href="#viewcontroller.keychain">keychain</a></li><li class="variable"><a href="#viewcontroller.heightanchor">height​Anchor</a></li><li class="variable"><a href="#viewcontroller.controlviewheightanchor">control​View​Height​Anchor</a></li><li class="variable"><a href="#viewcontroller.delaybetweeninferencesms">delay​Between​Inferences​Ms</a></li><li class="variable"><a href="#viewcontroller.result">result</a></li><li class="variable"><a href="#viewcontroller.previousinferencetimems">previous​Inference​Time​Ms</a></li><li class="variable"><a href="#viewcontroller.cameracapture">camera​Capture</a></li><li class="variable"><a href="#viewcontroller.modeldatahandler">model​Data​Handler</a></li><li class="variable"><a href="#viewcontroller.preferredstatusbarstyle">preferred​Status​Bar​Style</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="function"><a href="#viewcontroller.viewwilltransition(to:with:)">view​Will​Transition(to:​with:​)</a></li><li class="function"><a href="#viewcontroller.viewdidload()">view​Did​Load()</a></li><li class="function"><a href="#viewcontroller.keyboardwillshow(notification:)">keyboard​Will​Show(notification:​)</a></li><li class="function"><a href="#viewcontroller.keyboardwillhide(notification:)">keyboard​Will​Hide(notification:​)</a></li><li class="function"><a href="#viewcontroller.handleswipeupgesture(_:)">handle​Swipe​UpGesture(_:​)</a></li><li class="function"><a href="#viewcontroller.handledownswipegesture(_:)">handle​Down​Swipe​Gesture(_:​)</a></li><li class="function"><a href="#viewcontroller.handleleftswipegesture(_:)">handle​Left​Swipe​Gesture(_:​)</a></li><li class="function"><a href="#viewcontroller.handlerightswipegesture(_:)">handle​Right​Swipe​Gesture(_:​)</a></li><li class="function"><a href="#viewcontroller.viewwillappear(_:)">view​Will​Appear(_:​)</a></li><li class="function"><a href="#viewcontroller.viewwilldisappear(_:)">view​Will​Disappear(_:​)</a></li><li class="function"><a href="#viewcontroller.presentunabletoresumesessionalert()">present​Unable​ToResume​Session​Alert()</a></li><li class="function"><a href="#viewcontroller.classifypasteboardimage()">classify​Pasteboard​Image()</a></li><li class="function"><a href="#viewcontroller.didoutput(pixelbuffer:)">did​Output(pixel​Buffer:​)</a></li><li class="function"><a href="#viewcontroller.sessionwasinterrupted(canresumemanually:)">session​Was​Interrupted(can​Resume​Manually:​)</a></li><li class="function"><a href="#viewcontroller.sessioninterruptionended()">session​Interruption​Ended()</a></li><li class="function"><a href="#viewcontroller.sessionruntimeerroroccured()">session​Run​Time​Error​Occured()</a></li><li class="function"><a href="#viewcontroller.presentcamerapermissionsdeniedalert()">present​Camera​Permissions​Denied​Alert()</a></li><li class="function"><a href="#viewcontroller.presentvideoconfigurationerroralert()">present​Video​Configuration​Error​Alert()</a></li><li class="function"><a href="#viewcontroller.previewviewsetup()">preview​View​Setup()</a></li><li class="function"><a href="#viewcontroller.topbarsetup()">top​Bar​Setup()</a></li><li class="function"><a href="#viewcontroller.cameraunavailablelabelsetup()">camera​Unavailable​Label​Setup()</a></li><li class="function"><a href="#viewcontroller.resumebuttonsetup()">resume​Button​Setup()</a></li><li class="function"><a href="#viewcontroller.remotechatbuttonsetup()">remote​Chat​Button​Setup()</a></li><li class="function"><a href="#viewcontroller.remotechatbuttontapped()">remote​Chat​Button​Tapped()</a></li><li class="function"><a href="#viewcontroller.livebuttonsetup()">live​Button​Setup()</a></li><li class="function"><a href="#viewcontroller.livebuttontapped()">live​Button​Tapped()</a></li><li class="function"><a href="#viewcontroller.notesbuttonsetup()">notes​Button​Setup()</a></li><li class="function"><a href="#viewcontroller.checkifloggedout()">check​IfLogged​Out()</a></li><li class="function"><a href="#viewcontroller.userisloggedout()">user​IsLogged​Out()</a></li><li class="function"><a href="#viewcontroller.notesbuttontapped()">notes​Button​Tapped()</a></li><li class="function"><a href="#viewcontroller.textviewholdersetup()">text​View​Holder​Setup()</a></li><li class="function"><a href="#viewcontroller.outputtextviewsetup()">output​Text​View​Setup()</a></li><li class="function"><a href="#viewcontroller.outputtextview2setup()">output​Text​View2Setup()</a></li><li class="function"><a href="#viewcontroller.speak()">speak()</a></li><li class="function"><a href="#viewcontroller.speakerbuttonsetup()">speaker​Button​Setup()</a></li><li class="function"><a href="#viewcontroller.speakerbuttontapped()">speaker​Button​Tapped()</a></li><li class="function"><a href="#viewcontroller.guidebuttonsetup()">guide​Button​Setup()</a></li><li class="function"><a href="#viewcontroller.guidebuttontapped()">guide​Button​Tapped()</a></li><li class="function"><a href="#viewcontroller.trainbuttonsetup()">train​Button​Setup()</a></li><li class="function"><a href="#viewcontroller.clearbuttonsetup()">clear​Button​Setup()</a></li><li class="function"><a href="#viewcontroller.clearbuttontapped()">clear​Button​Tapped()</a></li><li class="function"><a href="#viewcontroller.controlbuttonstacksetup()">control​Button​Stack​Setup()</a></li><li class="function"><a href="#viewcontroller.keyboardbuttonsetup()">keyboard​Button​Setup()</a></li><li class="function"><a href="#viewcontroller.keyboardbuttontapped()">keyboard​Button​Tapped()</a></li><li class="function"><a href="#viewcontroller.controlviewsetup()">control​View​Setup()</a></li><li class="function"><a href="#viewcontroller.controlbuttonsetup()">control​Button​Setup()</a></li><li class="function"><a href="#viewcontroller.controlbuttontapped(_:)">control​Button​Tapped(_:​)</a></li><li class="function"><a href="#viewcontroller.logoutbuttonsetup()">log​Out​Button​Setup()</a></li><li class="function"><a href="#viewcontroller.handlelogout()">handle​Logout()</a></li><li class="function"><a href="#viewcontroller.predictionassistbuttonsetup()">prediction​Assist​Button​Setup()</a></li><li class="function"><a href="#viewcontroller.predictionassistbuttontapped()">prediction​Assist​Button​Tapped()</a></li><li class="function"><a href="#viewcontroller.slidersetup()">slider​Setup()</a></li><li class="function"><a href="#viewcontroller.changevalue(_:)">change​Value(_:​)</a></li><li class="function"><a href="#viewcontroller.areaboundsetup()">area​Bound​Setup()</a></li><li class="function"><a href="#viewcontroller.deletecharacter()">delete​Character()</a></li><li class="function"><a href="#viewcontroller.addspace()">add​Space()</a></li><li class="function"><a href="#viewcontroller.executeasltotext()">execute​ASLto​Text()</a></li></ul></li></ol>
+        </div>
+    </nav>
+
+    <main>
+        <article>
+            <h1>
+    <small>Class</small>
+    <code class="name">View​Controller</code>
+</h1>
+
+<html><body><pre class="highlight"><code><span class="keyword">class</span> <span class="type">ViewController</span>: <span class="type">UIViewController</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Main View controller that's viewed if the user is already signed in or after the user signs into the app. This is where the users carry's out ASL to text to speech and speech to text to communicate with non-deaf/mute people</p>
+
+</div>
+<section id="relationships">
+    <h2 hidden>Relationships</h2>
+        
+        <h3>Conforms To</h3>
+<dl>
+    <dt class="protocol"><code><a href="./CameraFeedManagerDelegate">CameraFeedManagerDelegate</a></code></dt>
+<dd><p>Delegate that manages the camera feed and how data is sent to our machine learning model.</p>
+</dd>
+<dt class="unknown"><code>UIViewController</code></dt>
+</dl>
+</section>
+    <section id="properties">
+        <h2>Properties</h2>
+
+        <div role="article" class="variable" id="viewcontroller.areabound">
+    <h3>
+        <code>area​Bound</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">areaBound</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>The read hollow box that shows the area where the video is being fetched from</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.remotechatbutton">
+    <h3>
+        <code>remote​Chat​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">remoteChatButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button to move to chat viewcontroller</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.notesbutton">
+    <h3>
+        <code>notes​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">notesButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button to move to notes viewcontroller</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.livebutton">
+    <h3>
+        <code>live​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">liveButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button to transition between speech to text</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.outputtextview">
+    <h3>
+        <code>output​Text​View</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">outputTextView</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>UITextView to show the letters/words predicted by the model</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.textviewholder">
+    <h3>
+        <code>text​View​Holder</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">textViewHolder</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>UIViewView for dashboard outputtextview</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.speakerbutton">
+    <h3>
+        <code>speaker​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">speakerButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button to invoke speach to text</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.controlbuttonstack">
+    <h3>
+        <code>control​Button​Stack</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">controlButtonStack</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>UIStackview to hold the four essentail buttons of the dashboard</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.clearbutton">
+    <h3>
+        <code>clear​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">clearButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button to clear the outputTextview</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.keyboardbutton">
+    <h3>
+        <code>keyboard​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">keyboardButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button to raise the screen and show the keybaord, prompting the user to type</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.trainbutton">
+    <h3>
+        <code>train​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">trainButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button for users to open training mode</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.logoutbutton">
+    <h3>
+        <code>log​Out​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">logOutButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button for users to logout of the app</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.controlview">
+    <h3>
+        <code>control​View</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">controlView</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>UIView to hold the dashboard</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.controlbutton">
+    <h3>
+        <code>control​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">controlButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button to expand and collapse the dashboard</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.slider">
+    <h3>
+        <code>slider</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">slider</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>UISlider for controlling the speed of the voice</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.speechspeeddegree">
+    <h3>
+        <code>speech​Speed​Degree</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">speechSpeedDegree</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Variable to keep track of the voice utterance</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.predictionassistbutton">
+    <h3>
+        <code>prediction​Assist​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">predictionAssistButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button to activate prediction assistant</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.predictionlayer">
+    <h3>
+        <code>prediction​Layer</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">predictionLayer</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Variable for prediction layer to carry out predictions</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.synthesizer">
+    <h3>
+        <code>synthesizer</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">synthesizer</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Syntesizer to generate from text to speech</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.verificationcount">
+    <h3>
+        <code>verification​Count</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">verificationCount</span> = <span class="number literal">0</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Tracker for how many time the output from the model has been verified</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.verificationcache">
+    <h3>
+        <code>verification​Cache</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">verificationCache</span> = <span class="string literal">"</span><span class="string literal"/><span class="string literal">"</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Cache to store result from last prediction</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.topbar">
+    <h3>
+        <code>top​Bar</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">topBar</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>UIView for top bar</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.previewview">
+    <h3>
+        <code>preview​View</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">previewView</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Preview view to show the video preview from camera</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.cameraunavailablelabel">
+    <h3>
+        <code>camera​Unavailable​Label</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">cameraUnavailableLabel</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Error message to show when the camera is unavailable</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.resumebutton">
+    <h3>
+        <code>resume​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">resumeButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Button to resume camera operation</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.guidebutton">
+    <h3>
+        <code>guide​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">guideButton</span></code></pre></body></html>
+</div>
+<div role="article" class="variable" id="viewcontroller.outputtextview2">
+    <h3>
+        <code>output​Text​View2</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">outputTextView2</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Another textview to go underneath the current textview</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.keychain">
+    <h3>
+        <code>keychain</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">keychain</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Keychain reference for when we need to clear the keychain if someone logs out</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.heightanchor">
+    <h3>
+        <code>height​Anchor</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">heightAnchor</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Constraint to keep track of the height of the output text view, whether it's collapsed or expanded</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.controlviewheightanchor">
+    <h3>
+        <code>control​View​Height​Anchor</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">controlViewHeightAnchor</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Constraint to keep track of the heigh of the dashboard, whether it's collapsed or expanded</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.delaybetweeninferencesms">
+    <h3>
+        <code>delay​Between​Inferences​Ms</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">delayBetweenInferencesMs</span>: <span class="type">Double</span> = <span class="number literal">1000</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Delay inbetween the prediction by the model (How often the app outputs a letter/word)</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.result">
+    <h3>
+        <code>result</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">result</span>: <a href="./Result"><span class="type">Result</span></a>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Result that's output by the model</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.previousinferencetimems">
+    <h3>
+        <code>previous​Inference​Time​Ms</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">previousInferenceTimeMs</span>: <span class="type">TimeInterval</span> = <span class="variable">Date</span>.<span class="type">distantPast</span>.<span class="type">timeIntervalSince1970</span> * <span class="number literal">1000</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Time from the previous prediction</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.cameracapture">
+    <h3>
+        <code>camera​Capture</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">cameraCapture</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Handles all the camera related functionality</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.modeldatahandler">
+    <h3>
+        <code>model​Data​Handler</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">modelDataHandler</span>: <a href="./ModelDataHandler"><span class="type">ModelDataHandler</span></a>?</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Handles all data preprocessing and makes calls to run inference through the <code>Interpreter</code>.</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="viewcontroller.preferredstatusbarstyle">
+    <h3>
+        <code>preferred​Status​Bar​Style</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">preferredStatusBarStyle</span>: <span class="type">UIStatusBarStyle</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Indicates the color of the status bar</p>
+
+</div>
+</div>
+    </section>
+    <section id="methods">
+        <h2>Methods</h2>
+
+        <div role="article" class="function" id="viewcontroller.viewwilltransition(to:with:)">
+    <h3>
+        <code>view​Will​Transition(to:​with:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewWillTransition</span>(<span class="variable">to</span> <span class="variable">size</span>: <span class="type">CGSize</span>, <span class="variable">with</span> <span class="variable">coordinator</span>: <span class="type">UIViewControllerTransitionCoordinator</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Notifies the container that the size of its view is about to change.</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>size</th>
+    <td><code class="type">CGSize</code></td>
+    <td><p>The new size for the container’s view.</p>
+</td>
+</tr>
+<tr>
+    <th>coordinator</th>
+    <td><code class="type">UIView​Controller​Transition​Coordinator</code></td>
+    <td><p>The transition coordinator object managing the size change. You can use this object to animate your changes or get information about the transition that is in progress. If the view controller is upside down we present speech to text.</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+<div role="article" class="function" id="viewcontroller.viewdidload()">
+    <h3>
+        <code>view​Did​Load()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewDidLoad</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Main function to call all the necessary GUI and backend functions</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.keyboardwillshow(notification:)">
+    <h3>
+        <code>keyboard​Will​Show(notification:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">keyboardWillShow</span>(<span class="variable">notification</span>: <span class="type">NSNotification</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Raise the whoe View when the keybaord appears</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>notification</th>
+    <td><code class="type">NSNotification</code></td>
+    <td><p>Notification posted immediately prior to the display of the keyboard.</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+<div role="article" class="function" id="viewcontroller.keyboardwillhide(notification:)">
+    <h3>
+        <code>keyboard​Will​Hide(notification:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">keyboardWillHide</span>(<span class="variable">notification</span>: <span class="type">NSNotification</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Lower the keyboard down when the keyboard disappears</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>notification</th>
+    <td><code class="type">NSNotification</code></td>
+    <td><p>Notification posted immediately prior to the dismissal of the keyboard.</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+<div role="article" class="function" id="viewcontroller.handleswipeupgesture(_:)">
+    <h3>
+        <code>handle​Swipe​UpGesture(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">handleSwipeUpGesture</span>(<span class="keyword">_</span> <span class="variable">sender</span>: <span class="type">UISwipeGestureRecognizer</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action invoked when swiped up</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>sender</th>
+    <td><code class="type">UISwipe​Gesture​Recognizer</code></td>
+    <td><p>the gesture recognizer itself</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+<div role="article" class="function" id="viewcontroller.handledownswipegesture(_:)">
+    <h3>
+        <code>handle​Down​Swipe​Gesture(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">handleDownSwipeGesture</span>(<span class="keyword">_</span> <span class="variable">sender</span>: <span class="type">UISwipeGestureRecognizer</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action invoked when swiped down</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>sender</th>
+    <td><code class="type">UISwipe​Gesture​Recognizer</code></td>
+    <td><p>the gesture recognizer itself</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+<div role="article" class="function" id="viewcontroller.handleleftswipegesture(_:)">
+    <h3>
+        <code>handle​Left​Swipe​Gesture(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">handleLeftSwipeGesture</span>(<span class="keyword">_</span> <span class="variable">sender</span>: <span class="type">UISwipeGestureRecognizer</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action invoked when swiped left</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>sender</th>
+    <td><code class="type">UISwipe​Gesture​Recognizer</code></td>
+    <td><p>the gesture recognizer itself</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+<div role="article" class="function" id="viewcontroller.handlerightswipegesture(_:)">
+    <h3>
+        <code>handle​Right​Swipe​Gesture(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">handleRightSwipeGesture</span>(<span class="keyword">_</span> <span class="variable">sender</span>: <span class="type">UISwipeGestureRecognizer</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action invoked when swiped right</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>sender</th>
+    <td><code class="type">UISwipe​Gesture​Recognizer</code></td>
+    <td><p>the gesture recognizer itself</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+<div role="article" class="function" id="viewcontroller.viewwillappear(_:)">
+    <h3>
+        <code>view​Will​Appear(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewWillAppear</span>(<span class="keyword">_</span> <span class="variable">animated</span>: <span class="type">Bool</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Notifies the view controller that its view is about to be added to a view hierarchy.</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>animated</th>
+    <td><code class="type">Bool</code></td>
+    <td><p>If true, the view is being added to the window using an animation.</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+<div role="article" class="function" id="viewcontroller.viewwilldisappear(_:)">
+    <h3>
+        <code>view​Will​Disappear(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewWillDisappear</span>(<span class="keyword">_</span> <span class="variable">animated</span>: <span class="type">Bool</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Notifies the view controller that its view is about to be removed from a view hierarchy.</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>animated</th>
+    <td><code class="type">Bool</code></td>
+    <td><p>If true, the disappearance of the view is being animated. We stop the camera session here.</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+<div role="article" class="function" id="viewcontroller.presentunabletoresumesessionalert()">
+    <h3>
+        <code>present​Unable​ToResume​Session​Alert()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">presentUnableToResumeSessionAlert</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Called if app can't resume camera session. Presents an alert to let the user know.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.classifypasteboardimage()">
+    <h3>
+        <code>classify​Pasteboard​Image()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">classifyPasteboardImage</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Invoke the model to identify from the given image in pasteboard</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.didoutput(pixelbuffer:)">
+    <h3>
+        <code>did​Output(pixel​Buffer:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">didOutput</span>(<span class="variable">pixelBuffer</span>: <span class="type">CVPixelBuffer</span>)</code></pre></body></html>
+</div>
+<div role="article" class="function" id="viewcontroller.sessionwasinterrupted(canresumemanually:)">
+    <h3>
+        <code>session​Was​Interrupted(can​Resume​Manually:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">sessionWasInterrupted</span>(<span class="variable">canResumeManually</span> <span class="variable">resumeManually</span>: <span class="type">Bool</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Updates the UI when session is interupted.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.sessioninterruptionended()">
+    <h3>
+        <code>session​Interruption​Ended()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">sessionInterruptionEnded</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Updates UI once session interruption has ended.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.sessionruntimeerroroccured()">
+    <h3>
+        <code>session​Run​Time​Error​Occured()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">sessionRunTimeErrorOccured</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Handles session run time error by updating the UI and providing a button if session can be manually resumed.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.presentcamerapermissionsdeniedalert()">
+    <h3>
+        <code>present​Camera​Permissions​Denied​Alert()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">presentCameraPermissionsDeniedAlert</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Presents alert if camera permission was denied.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.presentvideoconfigurationerroralert()">
+    <h3>
+        <code>present​Video​Configuration​Error​Alert()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">presentVideoConfigurationErrorAlert</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Presents alert if camera configuration has failed.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.previewviewsetup()">
+    <h3>
+        <code>preview​View​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">previewViewSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup the preview to show the live feed from the camera on screen</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.topbarsetup()">
+    <h3>
+        <code>top​Bar​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">topBarSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup top bar area to host top three buttons</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.cameraunavailablelabelsetup()">
+    <h3>
+        <code>camera​Unavailable​Label​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">cameraUnavailableLabelSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup the view the error message that the camera is not available</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.resumebuttonsetup()">
+    <h3>
+        <code>resume​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">resumeButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup the button to resume the camera operation</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.remotechatbuttonsetup()">
+    <h3>
+        <code>remote​Chat​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">remoteChatButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup the remote chat button and add it on the view</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.remotechatbuttontapped()">
+    <h3>
+        <code>remote​Chat​Button​Tapped()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">remoteChatButtonTapped</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action when the remote chat button is tapped. Present RemoteConversationVC</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.livebuttonsetup()">
+    <h3>
+        <code>live​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">liveButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup live button, Presentes SpeechToTextVC VC</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.livebuttontapped()">
+    <h3>
+        <code>live​Button​Tapped()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">liveButtonTapped</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action for live button to present SpeechToTextVC on screen</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.notesbuttonsetup()">
+    <h3>
+        <code>notes​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">notesButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup note button on screen</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.checkifloggedout()">
+    <h3>
+        <code>check​IfLogged​Out()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">checkIfLoggedOut</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>checks if there is a user logged in. If there is not, it opens the login VC</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.userisloggedout()">
+    <h3>
+        <code>user​IsLogged​Out()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">userIsLoggedOut</span>() -&gt; <span class="type">Bool</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Checks if the user is logged out so we can disable the log out button</p>
+
+</div>
+  <h4>Returns</h4>
+  <p>True if user is not looged in, false otherwise</p>
+
+</div>
+<div role="article" class="function" id="viewcontroller.notesbuttontapped()">
+    <h3>
+        <code>notes​Button​Tapped()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">notesButtonTapped</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action for note button. Presenets NoteVC</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.textviewholdersetup()">
+    <h3>
+        <code>text​View​Holder​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">textViewHolderSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup position/size/style of the textview holder and add it on screen</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.outputtextviewsetup()">
+    <h3>
+        <code>output​Text​View​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">outputTextViewSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup position/size/style of the outputtextview holder and add it on screen</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.outputtextview2setup()">
+    <h3>
+        <code>output​Text​View2Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">outputTextView2Setup</span>()</code></pre></body></html>
+</div>
+<div role="article" class="function" id="viewcontroller.speak()">
+    <h3>
+        <code>speak()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">speak</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Invokes audio engine to speak the text on output text view</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.speakerbuttonsetup()">
+    <h3>
+        <code>speaker​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">speakerButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup position/size/style of the speak button holder and add it on screen</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.speakerbuttontapped()">
+    <h3>
+        <code>speaker​Button​Tapped()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">speakerButtonTapped</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action invoked when speaker button tapped. Asks audio engine to play the speech generated from text</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.guidebuttonsetup()">
+    <h3>
+        <code>guide​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">guideButtonSetup</span>()</code></pre></body></html>
+</div>
+<div role="article" class="function" id="viewcontroller.guidebuttontapped()">
+    <h3>
+        <code>guide​Button​Tapped()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">guideButtonTapped</span>()</code></pre></body></html>
+</div>
+<div role="article" class="function" id="viewcontroller.trainbuttonsetup()">
+    <h3>
+        <code>train​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">trainButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup position/size/style of the  train button and add it on screen</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.clearbuttonsetup()">
+    <h3>
+        <code>clear​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">clearButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup position/size/style of the clear button and add it on screen</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.clearbuttontapped()">
+    <h3>
+        <code>clear​Button​Tapped()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">clearButtonTapped</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action invoked when clear button is tapped. Clearns the output text view</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.controlbuttonstacksetup()">
+    <h3>
+        <code>control​Button​Stack​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">controlButtonStackSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup position/size/style of the  control button stack and add it on screen</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.keyboardbuttonsetup()">
+    <h3>
+        <code>keyboard​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">keyboardButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup position/size/style of the keyboard button and add it on screen</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.keyboardbuttontapped()">
+    <h3>
+        <code>keyboard​Button​Tapped()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">keyboardButtonTapped</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action for when keyboard button is tapped, raises the view, activates output text view to edit and present the keyboard.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.controlviewsetup()">
+    <h3>
+        <code>control​View​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">controlViewSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup position/size/style of the dash board and add it on screen</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.controlbuttonsetup()">
+    <h3>
+        <code>control​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">controlButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup position/size/style of the control button and add it on screen</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.controlbuttontapped(_:)">
+    <h3>
+        <code>control​Button​Tapped(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">controlButtonTapped</span>(<span class="keyword">_</span> <span class="variable">sender</span>: <span class="type">UIButton</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action for control button when tapped. Expands or collaps the dash button</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.logoutbuttonsetup()">
+    <h3>
+        <code>log​Out​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">logOutButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup position/size/style of the log out button and add it on screen</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.handlelogout()">
+    <h3>
+        <code>handle​Logout()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">handleLogout</span>()</code></pre></body></html>
+</div>
+<div role="article" class="function" id="viewcontroller.predictionassistbuttonsetup()">
+    <h3>
+        <code>prediction​Assist​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">predictionAssistButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup prediction assist button's location/size/styling and add on screen</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.predictionassistbuttontapped()">
+    <h3>
+        <code>prediction​Assist​Button​Tapped()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">predictionAssistButtonTapped</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action for prediction button tapped. Enables Prediction algorithm to help the ASL</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.slidersetup()">
+    <h3>
+        <code>slider​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">sliderSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup position/size/style of the speech speed slider and add it on screen</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.changevalue(_:)">
+    <h3>
+        <code>change​Value(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">changeValue</span>(<span class="keyword">_</span> <span class="variable">sender</span>: <span class="type">UISlider</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Action that listens to value chage and sets the speed for the voice utterance</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.areaboundsetup()">
+    <h3>
+        <code>area​Bound​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">areaBoundSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Setup position/size/style of the area bound and add it on screen</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.deletecharacter()">
+    <h3>
+        <code>delete​Character()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">deleteCharacter</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>delete character from the output text veiw</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.addspace()">
+    <h3>
+        <code>add​Space()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">addSpace</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>add space to the output textview</p>
+
+</div>
+</div>
+<div role="article" class="function" id="viewcontroller.executeasltotext()">
+    <h3>
+        <code>execute​ASLto​Text()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">executeASLtoText</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Update the output view with the latest result from the model and add necessary spaces or delete character. Also invokes prediction layer to assist with the ASL to text.</p>
+
+</div>
+</div>
+    </section>
+
+
+
+        </article>
+    </main>
+
+    <footer>
+        <p>
+    Generated on <time datetime="2020-08-12T21:00:53+0000">August 12, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.4</span>.
+</p>
+    </footer>
+</body>
+</html>

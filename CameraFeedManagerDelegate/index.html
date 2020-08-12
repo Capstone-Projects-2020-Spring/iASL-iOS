@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iASL - CameraFeedManagerDelegate</title>
+    <link rel="stylesheet" type="text/css" href="./all.css" media="all" />
+</head>
+<body>
+    <header>
+        <a href="./">
+            <strong>
+                iASL
+            </strong>
+            <span>Documentation</span>
+        </a>
+        <sup>Beta</sup>
+    </header>
+
+    <!--
+    <form class="search">
+        <input type="search" placeholder="Search" />
+    </form>
+    -->
+
+    <nav>
+        <div class="wrapper">
+            <h2>On This Page</h2>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Conforms To</a></li><li><a href="#relationships">Types Conforming to Camera​Feed​Manager​Delegate</a></li></ul></li><li><a href="#requirements">Requirements</a><ul><li class="function"><a href="#camerafeedmanagerdelegate.didoutput(pixelbuffer:)">did​Output(pixel​Buffer:​)</a></li><li class="function"><a href="#camerafeedmanagerdelegate.presentcamerapermissionsdeniedalert()">present​Camera​Permissions​Denied​Alert()</a></li><li class="function"><a href="#camerafeedmanagerdelegate.presentvideoconfigurationerroralert()">present​Video​Configuration​Error​Alert()</a></li><li class="function"><a href="#camerafeedmanagerdelegate.sessionruntimeerroroccured()">session​Run​Time​Error​Occured()</a></li><li class="function"><a href="#camerafeedmanagerdelegate.sessionwasinterrupted(canresumemanually:)">session​Was​Interrupted(can​Resume​Manually:​)</a></li><li class="function"><a href="#camerafeedmanagerdelegate.sessioninterruptionended()">session​Interruption​Ended()</a></li></ul></li></ol>
+        </div>
+    </nav>
+
+    <main>
+        <article>
+            <h1>
+    <small>Protocol</small>
+    <code class="name">Camera​Feed​Manager​Delegate</code>
+</h1>
+
+<html><body><pre class="highlight"><code><span class="keyword">protocol</span> <span class="type">CameraFeedManagerDelegate</span>: <span class="keyword">class</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Delegate that manages the camera feed and how data is sent to our machine learning model.</p>
+
+</div>
+<section id="relationships">
+    <h2 hidden>Relationships</h2>
+        
+        <h3>Conforms To</h3>
+<dl>
+    <dt class="unknown"><code>class</code></dt>
+</dl>
+<h3>Types Conforming to <code>Camera​Feed​Manager​Delegate</code></h3>
+<dl>
+    <dt class="class"><code><a href="./CameraBoard">CameraBoard</a></code></dt>
+<dd><p>Short for camera keyboard. This allows you to use our ASL recognition keyboard as an alternative text input source.</p>
+</dd>
+<dt class="class"><code><a href="./ViewController">ViewController</a></code></dt>
+<dd><p>Main View controller that's viewed if the user is already signed in or after the user signs into the app. This is where the users carry's out ASL to text to speech and speech to text to communicate with non-deaf/mute people</p>
+</dd>
+</dl>
+</section>
+
+
+
+    <section id="requirements">
+        <h2>Requirements</h2>
+
+        <div role="article" class="function" id="camerafeedmanagerdelegate.didoutput(pixelbuffer:)">
+    <h3>
+        <code>did​Output(pixel​Buffer:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">didOutput</span>(<span class="variable">pixelBuffer</span>: <span class="type">CVPixelBuffer</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This method delivers the pixel buffer of the current frame seen by the device's camera.</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>pixel​Buffer</th>
+    <td><code class="type">CVPixel​Buffer</code></td>
+    <td><p>A reference to a Core Video pixel buffer object to be infered. Basically the frame.</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+<div role="article" class="function" id="camerafeedmanagerdelegate.presentcamerapermissionsdeniedalert()">
+    <h3>
+        <code>present​Camera​Permissions​Denied​Alert()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">presentCameraPermissionsDeniedAlert</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This method initimates that the camera permissions have been denied.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="camerafeedmanagerdelegate.presentvideoconfigurationerroralert()">
+    <h3>
+        <code>present​Video​Configuration​Error​Alert()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">presentVideoConfigurationErrorAlert</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This method initimates that there was an error in video configurtion.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="camerafeedmanagerdelegate.sessionruntimeerroroccured()">
+    <h3>
+        <code>session​Run​Time​Error​Occured()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">sessionRunTimeErrorOccured</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This method initimates that a session runtime error occured.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="camerafeedmanagerdelegate.sessionwasinterrupted(canresumemanually:)">
+    <h3>
+        <code>session​Was​Interrupted(can​Resume​Manually:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">sessionWasInterrupted</span>(<span class="variable">canResumeManually</span> <span class="variable">resumeManually</span>: <span class="type">Bool</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This method initimates that the session was interrupted.</p>
+
+</div>
+<h4>Parameters</h4>
+
+<table class="parameters">
+  <thead hidden>
+  <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>resume​Manually</th>
+    <td><code class="type">Bool</code></td>
+    <td><p>boolean value for whether the session can be resumed manually</p>
+</td>
+</tr>
+  </tbody>
+</table>
+</div>
+<div role="article" class="function" id="camerafeedmanagerdelegate.sessioninterruptionended()">
+    <h3>
+        <code>session​Interruption​Ended()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">sessionInterruptionEnded</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This method initimates that the session interruption has ended.</p>
+
+</div>
+</div>
+    </section>
+        </article>
+    </main>
+
+    <footer>
+        <p>
+    Generated on <time datetime="2020-08-12T21:00:53+0000">August 12, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.4</span>.
+</p>
+    </footer>
+</body>
+</html>

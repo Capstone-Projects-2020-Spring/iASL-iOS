@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iASL - RemoteConversationVC</title>
+    <link rel="stylesheet" type="text/css" href="./all.css" media="all" />
+</head>
+<body>
+    <header>
+        <a href="./">
+            <strong>
+                iASL
+            </strong>
+            <span>Documentation</span>
+        </a>
+        <sup>Beta</sup>
+    </header>
+
+    <!--
+    <form class="search">
+        <input type="search" placeholder="Search" />
+    </form>
+    -->
+
+    <nav>
+        <div class="wrapper">
+            <h2>On This Page</h2>
+            <ol><li><a href="#relationships">Relationships</a><ul><li><a href="#relationships">Conforms To</a></li></ul></li><li><a href="#properties">Properties</a><ul><li class="variable"><a href="#remoteconversationvc.refreshcontrol">refresh​Control</a></li><li class="variable"><a href="#remoteconversationvc.messages">messages</a></li><li class="variable"><a href="#remoteconversationvc.messagesdictionary">messages​Dictionary</a></li><li class="variable"><a href="#remoteconversationvc.messagestodelete">messages​ToDelete</a></li><li class="variable"><a href="#remoteconversationvc.partnertodelete">partner​ToDelete</a></li><li class="variable"><a href="#remoteconversationvc.keychain">keychain</a></li><li class="variable"><a href="#remoteconversationvc.topbar">top​Bar</a></li><li class="variable"><a href="#remoteconversationvc.toplabel">top​Label</a></li><li class="variable"><a href="#remoteconversationvc.backbutton">back​Button</a></li><li class="variable"><a href="#remoteconversationvc.tableview">table​View</a></li><li class="variable"><a href="#remoteconversationvc.addchatbutton">add​Chat​Button</a></li><li class="variable"><a href="#remoteconversationvc.preferredstatusbarstyle">preferred​Status​Bar​Style</a></li></ul></li><li><a href="#methods">Methods</a><ul><li class="function"><a href="#remoteconversationvc.viewdidload()">view​Did​Load()</a></li><li class="function"><a href="#remoteconversationvc.refreshtableviewonpull()">refresh​Table​View​OnPull()</a></li><li class="function"><a href="#remoteconversationvc.observeusermessages()">observe​User​Messages()</a></li><li class="function"><a href="#remoteconversationvc.observedeletemessages(chatpartner:senderid:receiverid:)">observe​Delete​Messages(chat​Partner:​sender​Id:​receiver​Id:​)</a></li><li class="function"><a href="#remoteconversationvc.tableview(_:numberofrowsinsection:)">table​View(_:​number​OfRows​InSection:​)</a></li><li class="function"><a href="#remoteconversationvc.tableview(_:heightforrowat:)">table​View(_:​height​For​Row​At:​)</a></li><li class="function"><a href="#remoteconversationvc.tableview(_:estimatedheightforrowat:)">table​View(_:​estimated​Height​For​Row​At:​)</a></li><li class="function"><a href="#remoteconversationvc.tableview(_:cellforrowat:)">table​View(_:​cell​For​Row​At:​)</a></li><li class="function"><a href="#remoteconversationvc.tableview(_:didselectrowat:)">table​View(_:​did​Select​Row​At:​)</a></li><li class="function"><a href="#remoteconversationvc.tableview(_:commit:forrowat:)">table​View(_:​commit:​for​Row​At:​)</a></li><li class="function"><a href="#remoteconversationvc.handledeletenote()">handle​Delete​Note()</a></li><li class="function"><a href="#remoteconversationvc.handledeletenoteareyousure(indexpath:)">handle​Delete​Note​Are​You​Sure(index​Path:​)</a></li><li class="function"><a href="#remoteconversationvc.showchatvcforuser(user:)">show​Chat​VCFor​User(user:​)</a></li><li class="function"><a href="#remoteconversationvc.showchatvc(name:)">show​Chat​VC(name:​)</a></li><li class="function"><a href="#remoteconversationvc.viewwillappear(_:)">view​Will​Appear(_:​)</a></li><li class="function"><a href="#remoteconversationvc.tableviewsetup()">table​View​Setup()</a></li><li class="function"><a href="#remoteconversationvc.topbarsetup()">top​Bar​Setup()</a></li><li class="function"><a href="#remoteconversationvc.backbuttonsetup()">back​Button​Setup()</a></li><li class="function"><a href="#remoteconversationvc.backbuttontapped()">back​Button​Tapped()</a></li><li class="function"><a href="#remoteconversationvc.toplabelsetup()">top​Label​Setup()</a></li><li class="function"><a href="#remoteconversationvc.handleaddchat()">handle​Add​Chat()</a></li><li class="function"><a href="#remoteconversationvc.handlelogout()">handle​Logout()</a></li><li class="function"><a href="#remoteconversationvc.addchatbuttonsetup()">add​Chat​Button​Setup()</a></li></ul></li></ol>
+        </div>
+    </nav>
+
+    <main>
+        <article>
+            <h1>
+    <small>Class</small>
+    <code class="name">Remote​Conversation​VC</code>
+</h1>
+
+<html><body><pre class="highlight"><code><span class="keyword">class</span> <span class="type">RemoteConversationVC</span>: <span class="type">UIViewController</span>, <span class="type">UITableViewDataSource</span>, <span class="type">UITableViewDelegate</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This class is responsible for the main messaging screen. It holds the table view of all of the users's conversations as well as ways for users to create new conversations and delete old ones.</p>
+
+</div>
+<section id="relationships">
+    <h2 hidden>Relationships</h2>
+        
+        <h3>Conforms To</h3>
+<dl>
+    <dt class="unknown"><code>UITableViewDataSource</code></dt>
+<dt class="unknown"><code>UITableViewDelegate</code></dt>
+<dt class="unknown"><code>UIViewController</code></dt>
+</dl>
+</section>
+    <section id="properties">
+        <h2>Properties</h2>
+
+        <div role="article" class="variable" id="remoteconversationvc.refreshcontrol">
+    <h3>
+        <code>refresh​Control</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">refreshControl</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Variable for the pull to refresh mode in the table view</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="remoteconversationvc.messages">
+    <h3>
+        <code>messages</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">messages</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>This is where all the messages will go</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="remoteconversationvc.messagesdictionary">
+    <h3>
+        <code>messages​Dictionary</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">messagesDictionary</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>For organizing messages by name and most recent</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="remoteconversationvc.messagestodelete">
+    <h3>
+        <code>messages​ToDelete</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">messagesToDelete</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Holds the messages we need to delete when a conversation is deleted</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="remoteconversationvc.partnertodelete">
+    <h3>
+        <code>partner​ToDelete</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">partnerToDelete</span> = <span class="string literal">"</span><span class="string literal"/><span class="string literal">"</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>ID of the chat partner to delete</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="remoteconversationvc.keychain">
+    <h3>
+        <code>keychain</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">keychain</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Keychain reference for when we need to clear the keychain if someone logs out</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="remoteconversationvc.topbar">
+    <h3>
+        <code>top​Bar</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">topBar</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Variable for the top bar of the view</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="remoteconversationvc.toplabel">
+    <h3>
+        <code>top​Label</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">topLabel</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Variable for the label that holds the 'Chat&quot; name</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="remoteconversationvc.backbutton">
+    <h3>
+        <code>back​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">backButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Back button variable for going to previous view controller</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="remoteconversationvc.tableview">
+    <h3>
+        <code>table​View</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">tableView</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Variable for the table view that holds the list of chats</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="remoteconversationvc.addchatbutton">
+    <h3>
+        <code>add​Chat​Button</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">let</span> <span class="variable">addChatButton</span>: <span class="type">UIButton</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Variable closure for the logout button
+Variable closure for the button used to add a chat</p>
+
+</div>
+</div>
+<div role="article" class="variable" id="remoteconversationvc.preferredstatusbarstyle">
+    <h3>
+        <code>preferred​Status​Bar​Style</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">var</span> <span class="variable">preferredStatusBarStyle</span>: <span class="type">UIStatusBarStyle</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Change the color of the status bar</p>
+
+</div>
+</div>
+    </section>
+    <section id="methods">
+        <h2>Methods</h2>
+
+        <div role="article" class="function" id="remoteconversationvc.viewdidload()">
+    <h3>
+        <code>view​Did​Load()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewDidLoad</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>View did load function that calls all the important set up functions</p>
+
+</div>
+</div>
+<div role="article" class="function" id="remoteconversationvc.refreshtableviewonpull()">
+    <h3>
+        <code>refresh​Table​View​OnPull()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">refreshTableViewOnPull</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Called when the user pulls to refresh the table</p>
+
+</div>
+</div>
+<div role="article" class="function" id="remoteconversationvc.observeusermessages()">
+    <h3>
+        <code>observe​User​Messages()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">observeUserMessages</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Function for observing messages added to the Firebase database. Puts them in an array of type Messages to be used by the table view.</p>
+
+</div>
+</div>
+<div role="article" class="function" id="remoteconversationvc.observedeletemessages(chatpartner:senderid:receiverid:)">
+    <h3>
+        <code>observe​Delete​Messages(chat​Partner:​sender​Id:​receiver​Id:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">observeDeleteMessages</span>(<span class="variable">chatPartner</span>: <span class="type">String</span>, <span class="variable">senderId</span>: <span class="type">String</span>, <span class="variable">receiverId</span>: <span class="type">String</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Called when we need to figure out what messages and which conversation needs to be deleted</p>
+
+</div>
+</div>
+<div role="article" class="function" id="remoteconversationvc.tableview(_:numberofrowsinsection:)">
+    <h3>
+        <code>table​View(_:​number​OfRows​InSection:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">tableView</span>(<span class="keyword">_</span> <span class="variable">tableView</span>: <span class="type">UITableView</span>, <span class="variable">numberOfRowsInSection</span> <span class="variable">section</span>: <span class="type">Int</span>) -&gt; <span class="type">Int</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Returns the size of the messages array so it knows how many table view cells to make</p>
+
+</div>
+</div>
+<div role="article" class="function" id="remoteconversationvc.tableview(_:heightforrowat:)">
+    <h3>
+        <code>table​View(_:​height​For​Row​At:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">tableView</span>(<span class="keyword">_</span> <span class="variable">tableView</span>: <span class="type">UITableView</span>, <span class="variable">heightForRowAt</span> <span class="variable">indexPath</span>: <span class="type">IndexPath</span>) -&gt; <span class="type">CGFloat</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Returns the height for each row of the table view</p>
+
+</div>
+</div>
+<div role="article" class="function" id="remoteconversationvc.tableview(_:estimatedheightforrowat:)">
+    <h3>
+        <code>table​View(_:​estimated​Height​For​Row​At:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">tableView</span>(<span class="keyword">_</span> <span class="variable">tableView</span>: <span class="type">UITableView</span>, <span class="variable">estimatedHeightForRowAt</span> <span class="variable">indexPath</span>: <span class="type">IndexPath</span>) -&gt; <span class="type">CGFloat</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Returns the estimated height for each row of the table view</p>
+
+</div>
+</div>
+<div role="article" class="function" id="remoteconversationvc.tableview(_:cellforrowat:)">
+    <h3>
+        <code>table​View(_:​cell​For​Row​At:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">tableView</span>(<span class="keyword">_</span> <span class="variable">tableView</span>: <span class="type">UITableView</span>, <span class="variable">cellForRowAt</span> <span class="variable">indexPath</span>: <span class="type">IndexPath</span>) -&gt; <span class="type">UITableViewCell</span></code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>For each cell in the table view, returns a custom cell with a message particular message</p>
+
+</div>
+</div>
+<div role="article" class="function" id="remoteconversationvc.tableview(_:didselectrowat:)">
+    <h3>
+        <code>table​View(_:​did​Select​Row​At:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">tableView</span>(<span class="keyword">_</span> <span class="variable">tableView</span>: <span class="type">UITableView</span>, <span class="variable">didSelectRowAt</span> <span class="variable">indexPath</span>: <span class="type">IndexPath</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Handles what happens when a certain cell is selected</p>
+
+</div>
+</div>
+<div role="article" class="function" id="remoteconversationvc.tableview(_:commit:forrowat:)">
+    <h3>
+        <code>table​View(_:​commit:​for​Row​At:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">tableView</span>(<span class="keyword">_</span> <span class="variable">tableView</span>: <span class="type">UITableView</span>, <span class="variable">commit</span> <span class="variable">editingStyle</span>: <span class="type">UITableViewCell</span>.<span class="type">EditingStyle</span>, <span class="variable">forRowAt</span> <span class="variable">indexPath</span>: <span class="type">IndexPath</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Used for deleting a particular row in the table view</p>
+
+</div>
+</div>
+<div role="article" class="function" id="remoteconversationvc.handledeletenote()">
+    <h3>
+        <code>handle​Delete​Note()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">handleDeleteNote</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Handles the deleting of the note</p>
+
+</div>
+</div>
+<div role="article" class="function" id="remoteconversationvc.handledeletenoteareyousure(indexpath:)">
+    <h3>
+        <code>handle​Delete​Note​Are​You​Sure(index​Path:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">handleDeleteNoteAreYouSure</span>(<span class="variable">indexPath</span>: <span class="type">IndexPath</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Asks the users in an alert if they would like to proceed with deleting their conversation</p>
+
+</div>
+</div>
+<div role="article" class="function" id="remoteconversationvc.showchatvcforuser(user:)">
+    <h3>
+        <code>show​Chat​VCFor​User(user:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">showChatVCForUser</span>(<span class="variable">user</span>: <a href="./User"><span class="type">User</span></a>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Shows the chat VC when the user taps on the table view</p>
+
+</div>
+</div>
+<div role="article" class="function" id="remoteconversationvc.showchatvc(name:)">
+    <h3>
+        <code>show​Chat​VC(name:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">showChatVC</span>(<span class="variable">name</span>: <span class="type">String</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Shows the chat VC when the user taps on the table view</p>
+
+</div>
+</div>
+<div role="article" class="function" id="remoteconversationvc.viewwillappear(_:)">
+    <h3>
+        <code>view​Will​Appear(_:​)</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">override</span> <span class="keyword">func</span> <span class="function">viewWillAppear</span>(<span class="keyword">_</span> <span class="variable">animated</span>: <span class="type">Bool</span>)</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Change the color of the status bar</p>
+
+</div>
+</div>
+<div role="article" class="function" id="remoteconversationvc.tableviewsetup()">
+    <h3>
+        <code>table​View​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">tableViewSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Sets up the table view and defines its constraints</p>
+
+</div>
+</div>
+<div role="article" class="function" id="remoteconversationvc.topbarsetup()">
+    <h3>
+        <code>top​Bar​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">topBarSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Sets up the top bar and defiens its constraints</p>
+
+</div>
+</div>
+<div role="article" class="function" id="remoteconversationvc.backbuttonsetup()">
+    <h3>
+        <code>back​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">backButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Sets up the back button and defines its constraints</p>
+
+</div>
+</div>
+<div role="article" class="function" id="remoteconversationvc.backbuttontapped()">
+    <h3>
+        <code>back​Button​Tapped()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">backButtonTapped</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Handles what happens when the back button is tapped</p>
+
+</div>
+</div>
+<div role="article" class="function" id="remoteconversationvc.toplabelsetup()">
+    <h3>
+        <code>top​Label​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">topLabelSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Sets up the top label and defines its constraints</p>
+
+</div>
+</div>
+<div role="article" class="function" id="remoteconversationvc.handleaddchat()">
+    <h3>
+        <code>handle​Add​Chat()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">handleAddChat</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Add a user to a current conversation</p>
+
+</div>
+</div>
+<div role="article" class="function" id="remoteconversationvc.handlelogout()">
+    <h3>
+        <code>handle​Logout()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="attribute">@</span><span class="attribute">objc</span> <span class="keyword">func</span> <span class="function">handleLogout</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Handles the logout button, so it logs the user out of firebae and presents the login controller</p>
+
+</div>
+</div>
+<div role="article" class="function" id="remoteconversationvc.addchatbuttonsetup()">
+    <h3>
+        <code>add​Chat​Button​Setup()</code>
+    </h3>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">addChatButtonSetup</span>()</code></pre></body></html>
+<div class="summary" role="doc-abstract">
+    <p>Adds the add chat button to the subveiw and defines its constraints</p>
+
+</div>
+</div>
+    </section>
+
+
+
+        </article>
+    </main>
+
+    <footer>
+        <p>
+    Generated on <time datetime="2020-08-12T21:00:53+0000">August 12, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.4</span>.
+</p>
+    </footer>
+</body>
+</html>
