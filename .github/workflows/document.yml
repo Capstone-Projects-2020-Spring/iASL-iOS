@@ -20,6 +20,8 @@ jobs:
           module-name: iASL
           format: "html"
           output: "Documentation"
+      - name: Update Permissions
+        run: 'sudo chown --recursive $USER Documentation'
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
