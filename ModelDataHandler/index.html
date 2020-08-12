@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>iASL - ModelDataHandler</title>
-    <link rel="stylesheet" type="text/css" href="./all.css" media="all" />
+    <link rel="stylesheet" type="text/css" href="https://capstone-projects-2020-spring.github.io/iASL-iOS/all.css" media="all" />
 </head>
 <body>
     <header>
-        <a href="./">
+        <a href="https://capstone-projects-2020-spring.github.io/iASL-iOS/">
             <strong>
                 iASL
             </strong>
@@ -52,7 +52,7 @@ results for a successful inference.</p>
     <h3>
         <code>init?(model​File​Info:​labels​File​Info:​thread​Count:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">init</span>?(<span class="variable">modelFileInfo</span>: <a href="./FileInfo"><span class="type">FileInfo</span></a>, <span class="variable">labelsFileInfo</span>: <a href="./FileInfo"><span class="type">FileInfo</span></a>, <span class="variable">threadCount</span>: <span class="type">Int</span> = <span class="number literal">1</span>)</code></pre></body></html>
+    <html><body><pre class="highlight"><code><span class="keyword">init</span>?(<span class="variable">modelFileInfo</span>: <a href="https://capstone-projects-2020-spring.github.io/iASL-iOS/FileInfo"><span class="type">FileInfo</span></a>, <span class="variable">labelsFileInfo</span>: <a href="https://capstone-projects-2020-spring.github.io/iASL-iOS/FileInfo"><span class="type">FileInfo</span></a>, <span class="variable">threadCount</span>: <span class="type">Int</span> = <span class="number literal">1</span>)</code></pre></body></html>
 <div class="summary" role="doc-abstract">
     <p>A failable initializer for <code>ModelDataHandler</code>. A new instance is created if the model and
 labels files are successfully loaded from the app's main bundle. Default <code>threadCount</code> is 1.</p>
@@ -171,7 +171,7 @@ labels files are successfully loaded from the app's main bundle. Default <code>t
     <h3>
         <code>run​Model(on​Frame:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">runModel</span>(<span class="variable">onFrame</span> <span class="variable">pixelBuffer</span>: <span class="type">CVPixelBuffer</span>) -&gt; <a href="./Result"><span class="type">Result</span></a>?</code></pre></body></html>
+    <html><body><pre class="highlight"><code><span class="keyword">func</span> <span class="function">runModel</span>(<span class="variable">onFrame</span> <span class="variable">pixelBuffer</span>: <span class="type">CVPixelBuffer</span>) -&gt; <a href="https://capstone-projects-2020-spring.github.io/iASL-iOS/Result"><span class="type">Result</span></a>?</code></pre></body></html>
 <div class="summary" role="doc-abstract">
     <p>Performs image preprocessing, invokes the <code>Interpreter</code>, and processes the inference results.</p>
 
@@ -181,7 +181,7 @@ labels files are successfully loaded from the app's main bundle. Default <code>t
     <h3>
         <code>get​Top​N(results:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">private</span> <span class="keyword">func</span> <span class="function">getTopN</span>(<span class="variable">results</span>: [<span class="type">Float</span>]) -&gt; [<a href="./Inference"><span class="type">Inference</span></a>]</code></pre></body></html>
+    <html><body><pre class="highlight"><code><span class="keyword">private</span> <span class="keyword">func</span> <span class="function">getTopN</span>(<span class="variable">results</span>: [<span class="type">Float</span>]) -&gt; [<a href="https://capstone-projects-2020-spring.github.io/iASL-iOS/Inference"><span class="type">Inference</span></a>]</code></pre></body></html>
 <div class="summary" role="doc-abstract">
     <p>Returns the top N inference results sorted in descending order.</p>
 
@@ -191,7 +191,7 @@ labels files are successfully loaded from the app's main bundle. Default <code>t
     <h3>
         <code>load​Labels(file​Info:​)</code>
     </h3>
-    <html><body><pre class="highlight"><code><span class="keyword">private</span> <span class="keyword">func</span> <span class="function">loadLabels</span>(<span class="variable">fileInfo</span>: <a href="./FileInfo"><span class="type">FileInfo</span></a>)</code></pre></body></html>
+    <html><body><pre class="highlight"><code><span class="keyword">private</span> <span class="keyword">func</span> <span class="function">loadLabels</span>(<span class="variable">fileInfo</span>: <a href="https://capstone-projects-2020-spring.github.io/iASL-iOS/FileInfo"><span class="type">FileInfo</span></a>)</code></pre></body></html>
 <div class="summary" role="doc-abstract">
     <p>Loads the labels from the labels file and stores them in the <code>labels</code> property.</p>
 
@@ -234,7 +234,7 @@ floating point values).</li>
 
     <footer>
         <p>
-    Generated on <time datetime="2020-08-12T21:00:53+0000">August 12, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.4</span>.
+    Generated on <time datetime="2020-08-12T21:28:55+0000">August 12, 2020</time> using <a href="https://github.com/SwiftDocOrg/swift-doc">swift-doc</a> <span class="version">1.0.0-beta.4</span>.
 </p>
     </footer>
 </body>
