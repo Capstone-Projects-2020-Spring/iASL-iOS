@@ -12,6 +12,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
+      - name: Install GraphViz
+        run: |
+          brew install graphviz
       - name: Generate Documentation
 #         uses: SwiftDocOrg/swift-doc@master
         uses: Applebaumian/swift-doc@master
