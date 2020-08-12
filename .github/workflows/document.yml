@@ -10,10 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-#       - uses: actions/checkout@v2
-#       - name: Install GraphViz
-#         run: |
-#           brew install graphviz
+      - name: Checkout
+        uses: actions/checkout@v1
       - name: Generate Documentation
         uses: SwiftDocOrg/swift-doc@master
 #         uses: Applebaumian/swift-doc@master
