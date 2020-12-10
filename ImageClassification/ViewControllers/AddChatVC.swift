@@ -47,7 +47,7 @@ class AddChatVC: UIViewController {
     }
 
     ///Gets all of the users from the database and stores them in an array of Users
-    func getUsers() {
+    func getUsers() -> Bool {
         Database.database().reference().child(self.usersConstant).observe(.childAdded, with: { (snapshot) in
             //print(snapshot)
 
@@ -71,6 +71,8 @@ class AddChatVC: UIViewController {
 
             }
         }, withCancel: nil)
+        
+        return true
     }
     
 }

@@ -10,23 +10,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Install GraphViz
+        run: |
+          sudo apt install graphviz
       - name: Generate Documentation
+#         uses: SwiftDocOrg/swift-doc@master
         uses: Applebaumian/swift-doc@master
         with:
           inputs: "ImageClassification"
           module-name: iASL
           format: "html"
           output: "Documentation"
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@releases/v3
+          base-url: "https://capstone-projects-2020-spring.github.io/iASL-iOS/"
+      - name: Update Permissions
+        run: 'sudo chown --recursive $USER Documentation'
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: Documentation # The folder the action should deploy.
-#       - name: Upload Documentation to Wiki
-#         uses: SwiftDocOrg/github-wiki-publish-action@v1
-#         with:
-#           path: ".build/documentation"
-#         env:
-#           GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          github_token: ${{ secrets.ACCESS_TOKEN }}
+          publish_dir: ./Documentation

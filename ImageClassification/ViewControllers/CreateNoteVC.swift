@@ -25,10 +25,16 @@ class CreateNoteVC: UIViewController {
     let userNotesConstant: String = "user-notes"
     ///Variable for the back button to go to the previous veiw controller
     let backButton = UIButton()
+    ///Button used to switch between the iASL keyboard and the standard Apple Keyboard
+    let keyboardButton = UIButton()
     ///Variable for the textview for the text of the note
     let textView = KMPlaceholderTextView()
     ///Variable for the textfield that holds the title of the note
     let noteTitle = UITextField()
+    ///Variable for changing the bottom anchor of the text view when the keyboard appears and disappears
+    var textViewBottomAnchor: NSLayoutConstraint?
+    ///Variable for changing the bottom anchor of the keyboard button when the keyboard appears and disappears
+    var keyboardButtonBottomAnchor: NSLayoutConstraint?
 
     ///Save button for saving notes
     let saveButton: UIButton = {
@@ -46,11 +52,55 @@ class CreateNoteVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        hideKeyboardWhenTappedAround()
+        
+        
         setupSaveNoteButton()
         backButtonSetup()
         noteTitleSetup()
         textViewSetup()
+        keyboardButtonSetup()
+        
         loadNote()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    ///Called when the keyboard is about to show
+    @objc func keyboardWillShow(notification: NSNotification) {
+        guard let keyboardDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {
+            print("could not find keyboard duration")
+            return
+        }
+        
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.textViewBottomAnchor?.constant == 0 {
+                self.textViewBottomAnchor?.constant -= keyboardSize.height
+                self.keyboardButtonBottomAnchor?.constant -= keyboardSize.height
+                
+                UIView.animate(withDuration: keyboardDuration) {
+                    self.view.layoutIfNeeded()
+                }
+            }
+        }
+    }
+
+    ///Called when the keyboard is abouot to hide
+    @objc func keyboardWillHide(notification: NSNotification) {
+        guard let keyboardDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else {
+            print("could not find keyboard duration")
+            return
+        }
+        
+        if self.textViewBottomAnchor?.constant != 0 {
+            self.textViewBottomAnchor?.constant = 0
+            self.keyboardButtonBottomAnchor?.constant = -10
+            
+            UIView.animate(withDuration: keyboardDuration) {
+                self.view.layoutIfNeeded()
+            }
+        }
     }
 
     ///If the note already exists, loads the contents into the VC. if it does not exist, set placeholders
@@ -69,15 +119,19 @@ class CreateNoteVC: UIViewController {
     }
 
     ///Handles what happens when a new note is made
-    func handleNewNote() {
+    func handleNewNote(noteText: String, title: String, owner: String) -> Bool {
 
         print("handle new note")
         toggleSaveButtonDisabled()
 
         //need to save a message here, just like with messaging
-        guard let noteText = textView.text, let title = noteTitle.text else {
-            print("could not get message")
-            return
+//        guard let noteText = textView.text, let title = noteTitle.text else {
+//            print("could not get message")
+//            return false
+//        }
+        
+        if owner == "" {
+            return false
         }
 
         //get a reference ot the database at the "notes" node
@@ -86,10 +140,10 @@ class CreateNoteVC: UIViewController {
         let childRef = ref.childByAutoId()
 
         //owner is the owner id of the note
-        guard let owner = Auth.auth().currentUser?.uid else {
-            print("could not get necessary message information")
-            return
-        }
+//        guard let owner = Auth.auth().currentUser?.uid else {
+//            print("could not get necessary message information")
+//            return false
+//        }
 
         //gets it in milliseconds
         let timestamp: NSNumber = NSNumber(value: NSDate().timeIntervalSince1970 * 1000)
@@ -123,28 +177,34 @@ class CreateNoteVC: UIViewController {
             }
 
         }
+        
+        return true
     }
 
     ///Need to be able to overwrite an existing note
-    func handleUpdateNote() {
+    func handleUpdateNote(noteText: String, title: String, owner: String) -> Bool {
         print("handle update note")
         toggleSaveButtonDisabled()
 
         //need to save a message here, just like with messaging
-        guard let noteText = textView.text, let title = noteTitle.text else {
-            print("could not get message")
-            return
-        }
+//        guard let noteText = textView.text, let title = noteTitle.text else {
+//            print("could not get message")
+//            return
+//        }
 
         //owner is the owner id of the note
-        guard let owner = Auth.auth().currentUser?.uid else {
-            print("could not get necessary message information")
-            return
+//        guard let owner = Auth.auth().currentUser?.uid else {
+//            print("could not get necessary message information")
+//            return
+//        }
+        
+        if owner == "" {
+            return false
         }
 
         //key is the node at which we are updating the note
         guard let key = self.noteToUpdateKey else {
-            return
+            return false
         }
 
         //gets a reference to the database at the "notes" node
@@ -169,6 +229,7 @@ class CreateNoteVC: UIViewController {
             print("successfully updated the note in the notes node")
         }
 
+        return true
     }
 
 }
@@ -188,17 +249,34 @@ extension CreateNoteVC: UITextViewDelegate, UITextFieldDelegate {
         toggleSaveButtonEnabled()
     }
     
+    ///Gets and returns the UID of the user who is signed in
+    func getUid() -> String{
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("could not get the UID")
+            return ""
+        }
+        return uid
+    }
+    
     ///Handles what happens when a note is saved
     @objc func handleSaveNote() {
         print("save note button pressed")
         //print("Here is the note: ", textView.text!)
+        
+        guard let noteText = textView.text, let title = noteTitle.text else {
+            return
+        }
+        
+        let uid = getUid()
+
         
         //two cases: new note created and old note needs to be updated
         if note == nil {
             let newNote = Note()
             newNote.title = "Title"
             note = newNote
-            handleNewNote()
+            
+            handleNewNote(noteText: noteText, title: title, owner: uid)
             
             dismiss(animated: true, completion: { () in
                 print("completion handler new note")
@@ -208,7 +286,7 @@ extension CreateNoteVC: UITextViewDelegate, UITextFieldDelegate {
                 
             })
         } else {
-            handleUpdateNote()
+            handleUpdateNote(noteText: noteText, title: title, owner: uid)
             //            self.NotesVC?.notes.removeAll()
             //            self.NotesVC?.tableView.reloadData()
             //            self.NotesVC?.observeUserNotes()
@@ -282,6 +360,35 @@ extension CreateNoteVC: UITextViewDelegate, UITextFieldDelegate {
             })
         }
     }
+    
+    ///Adds the keyboard label to the subview and defines its constraints
+    func keyboardButtonSetup() {
+        view.addSubview(keyboardButton)
+        //keyboardButton.backgroundColor = .white
+        keyboardButton.translatesAutoresizingMaskIntoConstraints = false
+        keyboardButton.leadingAnchor.constraint(lessThanOrEqualTo: view.leadingAnchor, constant: 10).isActive = true
+        keyboardButtonBottomAnchor = keyboardButton.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -10)
+        keyboardButtonBottomAnchor?.isActive = true
+        keyboardButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        keyboardButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        keyboardButton.setImage(#imageLiteral(resourceName: "keyboard-1"), for: .normal)
+        keyboardButton.setImage(#imageLiteral(resourceName: "yoBlack"), for: .selected)
+        keyboardButton.addTarget(self, action: #selector(keyboardButtonTapped), for: .touchUpInside)
+    }
+
+    ///Handles what happens when the keyboard button is tapped. Handles logic for switching between different keyboards
+    @objc func keyboardButtonTapped() {
+        if keyboardButton.isSelected {
+            keyboardButton.isSelected = false
+            textView.inputView = CameraBoard(target: textView)
+            textView.reloadInputViews()
+        } else {
+            keyboardButton.isSelected = true
+            textView.inputView = nil
+            textView.reloadInputViews()
+        }
+
+    }
 
     ///Sets up the note title and defines its constraints
     func noteTitleSetup() {
@@ -301,7 +408,10 @@ extension CreateNoteVC: UITextViewDelegate, UITextFieldDelegate {
         textView.placeholder = ""
         textView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
         textView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
-        textView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        textViewBottomAnchor = textView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        textViewBottomAnchor?.isActive = true
+        
         textView.topAnchor.constraint(equalTo: noteTitle.bottomAnchor, constant: 5).isActive = true
         textView.font = UIFont.systemFont(ofSize: 20)
 		textView.inputView = CameraBoard(target: textView)

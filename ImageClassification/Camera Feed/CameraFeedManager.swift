@@ -16,10 +16,12 @@ import UIKit
 import AVFoundation
 
 // MARK: CameraFeedManagerDelegate Declaration
+/// Delegate that manages the camera feed and how data is sent to our machine learning model.
 protocol CameraFeedManagerDelegate: class {
 
 	/**
 	This method delivers the pixel buffer of the current frame seen by the device's camera.
+	- Parameter pixelBuffer: A reference to a Core Video pixel buffer object to be infered. Basically the frame.
 	*/
 	func didOutput(pixelBuffer: CVPixelBuffer)
 
@@ -40,6 +42,7 @@ protocol CameraFeedManagerDelegate: class {
 
 	/**
 	This method initimates that the session was interrupted.
+	- Parameter resumeManually: boolean value for whether the session can be resumed manually
 	*/
 	func sessionWasInterrupted(canResumeManually resumeManually: Bool)
 
@@ -69,17 +72,31 @@ class CameraFeedManager: NSObject {
     var count = 0
     var tempOutput = ""
 	// MARK: Camera Related Instance Variables
+	/// An object that manages capture activity and coordinates the flow of data from input devices to capture outputs.
 	private let session: AVCaptureSession = AVCaptureSession()
+	
+	/// The camera viewfinder.
 	private let previewView: PreviewView
+	
+	/// An object that manages the execution of session tasks serially or concurrently on your iASL's main thread or on a background thread.
 	private let sessionQueue = DispatchQueue(label: "sessionQueue")
+	
+	/// This enum holds the state of the camera initialization.
 	private var cameraConfiguration: CameraConfiguration = .failed
+	
+	/// A capture output that records video and provides access to video frames for processing.
 	private lazy var videoDataOutput = AVCaptureVideoDataOutput()
+	
+	/// Boolean to check whether the session is currently running.
 	private var isSessionRunning = false
 
 	// MARK: CameraFeedManagerDelegate
+	/// Delegate that manages the camera feed and how data is sent to our machine learning model.
 	weak var delegate: CameraFeedManagerDelegate?
 
 	// MARK: Initializer
+	/// Initializes the view with the camera viewfinder known as previewView.
+	/// - Parameter previewView: The camera viewfinder object.
 	init(previewView: PreviewView) {
 		self.previewView = previewView
 		super.init()
@@ -87,7 +104,7 @@ class CameraFeedManager: NSObject {
 		// Initializes the session
 		session.sessionPreset = .high
 		self.previewView.session = session
-		self.previewView.previewLayer.connection?.videoOrientation = .portrait
+		setPreviewViewOrientaion()
 		self.previewView.previewLayer.videoGravity = .resizeAspectFill
 		self.attemptToConfigureSession()
 	}
@@ -240,9 +257,37 @@ class CameraFeedManager: NSObject {
 			fatalError("Cannot create video device input")
 		}
 	}
-
+	fileprivate func setPreviewViewOrientaion() {
+		switch UIDevice.current.orientation {
+		case .portrait:
+			self.previewView.previewLayer.connection?.videoOrientation = .portrait
+		case .landscapeLeft:
+			self.previewView.previewLayer.connection?.videoOrientation = .landscapeRight
+		case .landscapeRight:
+			self.previewView.previewLayer.connection?.videoOrientation = .landscapeLeft
+		case .portraitUpsideDown:
+			self.previewView.previewLayer.connection?.videoOrientation = .portraitUpsideDown
+		default:
+			self.previewView.previewLayer.connection?.videoOrientation = .portrait
+		}
+	}
+	fileprivate func setVideoOutputOrientaion() {
+		switch UIDevice.current.orientation {
+		case .portrait:
+			videoDataOutput.connection(with: .video)?.videoOrientation = .portrait
+		case .landscapeLeft:
+			videoDataOutput.connection(with: .video)?.videoOrientation = .landscapeRight
+		case .landscapeRight:
+			videoDataOutput.connection(with: .video)?.videoOrientation = .landscapeLeft
+		case .portraitUpsideDown:
+			videoDataOutput.connection(with: .video)?.videoOrientation = .portraitUpsideDown
+		default:
+			videoDataOutput.connection(with: .video)?.videoOrientation = .portrait
+		}
+	}
 	/**
 	This method tries to an AVCaptureVideoDataOutput to the current AVCaptureSession.
+	- Returns: returns `true` if the session can output video.
 	*/
 	private func addVideoDataOutput() -> Bool {
 
@@ -253,19 +298,21 @@ class CameraFeedManager: NSObject {
 
 		if session.canAddOutput(videoDataOutput) {
 			session.addOutput(videoDataOutput)
-			videoDataOutput.connection(with: .video)?.videoOrientation = .portrait
+//			videoDataOutput.connection(with: .video)?.videoOrientation = .landscapeLeft
+			setVideoOutputOrientaion()
 			return true
 		}
 		return false
 	}
 
 	// MARK: Notification Observer Handling
+	/// Adds all of the observers for the camera controller.
 	private func addObservers() {
 		NotificationCenter.default.addObserver(self, selector: #selector(CameraFeedManager.sessionRuntimeErrorOccured(notification:)), name: NSNotification.Name.AVCaptureSessionRuntimeError, object: session)
 		NotificationCenter.default.addObserver(self, selector: #selector(CameraFeedManager.sessionWasInterrupted(notification:)), name: NSNotification.Name.AVCaptureSessionWasInterrupted, object: session)
 		NotificationCenter.default.addObserver(self, selector: #selector(CameraFeedManager.sessionInterruptionEnded), name: NSNotification.Name.AVCaptureSessionInterruptionEnded, object: session)
 	}
-
+	/// Removes all observers for the camera controller when we're done with them.
 	private func removeObservers() {
 		NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVCaptureSessionRuntimeError, object: session)
 		NotificationCenter.default.removeObserver(self, name: NSNotification.Name.AVCaptureSessionWasInterrupted, object: session)
@@ -273,6 +320,8 @@ class CameraFeedManager: NSObject {
 	}
 
 	// MARK: Notification Observers
+	/// Called when the camera session was interrupted.
+	/// - Parameter notification: Notification that is immediately called when the camera session is interrupted.
 	@objc func sessionWasInterrupted(notification: Notification) {
 
 		if let userInfoValue = notification.userInfo?[AVCaptureSessionInterruptionReasonKey] as AnyObject?,
@@ -291,12 +340,16 @@ class CameraFeedManager: NSObject {
 
 		}
 	}
-
+	
+	/// Called when the system is notified that the camera session was interupted
+	/// - Parameter notification: Notification called when the session has been interupted.
 	@objc func sessionInterruptionEnded(notification: Notification) {
 
 		self.delegate?.sessionInterruptionEnded()
 	}
-
+	
+	/// Called when the system is notified that a run time error interrupted the Camera session.
+	/// - Parameter notification: Notification called when the session has been interupted.
 	@objc func sessionRuntimeErrorOccured(notification: Notification) {
 		guard let error = notification.userInfo?[AVCaptureSessionErrorKey] as? AVError else {
 			return
@@ -326,7 +379,12 @@ AVCaptureVideoDataOutputSampleBufferDelegate
 */
 extension CameraFeedManager: AVCaptureVideoDataOutputSampleBufferDelegate {
 
-	/** This method delegates the CVPixelBuffer of the frame seen by the camera currently.
+	/**
+	This method delegates the CVPixelBuffer of the frame seen by the camera currently.
+	- Parameters:
+	- output: The capture output object.
+	- sampleBuffer: A CMSampleBuffer object containing the video frame data and additional information about the frame, such as its format and presentation time.
+	- connection: The connection from which the video was received.
 	*/
 	func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
 
@@ -344,4 +402,11 @@ extension CameraFeedManager: AVCaptureVideoDataOutputSampleBufferDelegate {
 		delegate?.didOutput(pixelBuffer: imagePixelBuffer)
 	}
 
+}
+extension CameraFeedManager{
+/// Updates the orientation of the video viewfinder.
+	public func updateVideoOrientation( ){
+		setPreviewViewOrientaion()
+		setVideoOutputOrientaion()
+	}
 }

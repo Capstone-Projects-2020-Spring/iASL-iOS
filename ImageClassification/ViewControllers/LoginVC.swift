@@ -40,10 +40,17 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 		  let vc = AWSViewController()
 		vc.configuration = self.welcomeScreenConfig
 		  self.present(vc, animated: true)
-	  }
+	}
+	/// Notifies the view controller that its view was added to a view hierarchy.
+	/// - Parameter animated: If `true`, the view was added to the window using an animation.
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(true)
 		if defaults.bool(forKey: "WelcomeVersion1.0.0") || CommandLine.arguments.contains("ui-testing") {
+        
+        #if DEBUG
+            return
+        #endif
+
 					   return
 				   } else {
 					   self.showWelcomeScreen()
@@ -331,7 +338,8 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
 
-    ///Called when the keyboard is about to change
+	/// Called when the keyboard is about to change
+	/// - Parameter notification: The system notification that calls for the Keyboard.
     @objc func keyboardWillChange(notification: Notification) {
         print("Keyboard will show \(notification.name.rawValue)")
 
@@ -492,11 +500,12 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         }
     }
 
-    /**
-     Handles the saving of the user's email and password into keychain
-     
-     - Parameters: the email and the password to be saved by the keychain
-     */
+	/**
+	Handles the saving of the user's email and password into keychain
+	- Parameters:
+	- email: The email to be saved by the keychain
+	- password: The password to be saved by the keychain
+	*/
     func handleSaveKeychain(email: String, password: String) {
         if self.keychainToggle.isOn {
             if self.keychain.set(email, forKey: "email", withAccess: .accessibleWhenUnlocked) {
@@ -506,6 +515,25 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                 print("keychained password")
             }
         }
+    }
+    
+    func getCurrentUser() -> String {
+        var variable = "failed"
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("could not get UID")
+            return ""
+        }
+
+        let ref = Database.database().reference().child("users").child(uid)
+        ref.observe(.value) { (snapshot) in
+
+            if let dictionary = snapshot.value as? [String: AnyObject] {
+                let name = dictionary["name"] as? String
+                print(name)
+                variable = name!
+            }
+        }
+        return variable
     }
 
     ///Handles what happens when the user logins in with an existing account
@@ -518,9 +546,14 @@ class LoginVC: UIViewController, UITextFieldDelegate {
 
             return
         }
+        
+        print("We are in the login")
+        print(email)
+        print(password)
 
         //sign in with username and password
         Auth.auth().signIn(withEmail: email, password: password) { (_, err) in
+            print(err)
             if err != nil {
                 print(err!)
                 let alert = UIAlertController(title: "Alert", message: err?.localizedDescription, preferredStyle: UIAlertController.Style.alert)

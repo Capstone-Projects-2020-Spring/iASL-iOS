@@ -22,27 +22,38 @@ class NotesTableViewCell: UITableViewCell {
             //need to manage the length of the noteLabel
             //let noteTextIndex = note?.text?.endIndex
             if let noteText = note?.text {
-                if noteText.count > 25 {
-                    let noteTextNewEndIndex = noteText.index((noteText.startIndex), offsetBy: 25)
-                    let shortenedNoteText = noteText[..<noteTextNewEndIndex]
-                    noteLabel.text = "\"" + shortenedNoteText + "...\""
-                } else {
-                    noteLabel.text = "\"" + noteText + "...\""
-                }
+                setNoteLabel(noteText)
             }
 
             //set the timestamp appropriately
             if let milliseconds = note?.timestamp?.doubleValue {
-                let seconds = milliseconds / 1000
-                let timestampDate = Date(timeIntervalSince1970: seconds)
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "MM-dd-yyyy"
-                //dateFormatter.dateFormat = "yyyy-MM-dd HH:mm" //Specify your format that you want
-                let strDate = dateFormatter.string(from: timestampDate)
-                timestampLabel.text = strDate
+                setTimestampLabel(milliseconds)
             }
         }
     }
+    
+    ///Sets the note label from the note variable
+    fileprivate func setNoteLabel(_ noteText: String) {
+        if noteText.count > 25 {
+            let noteTextNewEndIndex = noteText.index((noteText.startIndex), offsetBy: 25)
+            let shortenedNoteText = noteText[..<noteTextNewEndIndex]
+            noteLabel.text = "\"" + shortenedNoteText + "...\""
+        } else {
+            noteLabel.text = "\"" + noteText + "...\""
+        }
+    }
+    
+    ///Sets the timestamp label from the note variable
+    fileprivate func setTimestampLabel(_ milliseconds: Double) {
+        let seconds = milliseconds / 1000
+        let timestampDate = Date(timeIntervalSince1970: seconds)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy"
+        //dateFormatter.dateFormat = "yyyy-MM-dd HH:mm" //Specify your format that you want
+        let strDate = dateFormatter.string(from: timestampDate)
+        timestampLabel.text = strDate
+    }
+
 
     ///A closure for the note title label
     let titleLabel: UILabel = {
@@ -74,7 +85,10 @@ class NotesTableViewCell: UITableViewCell {
 
     }
 
-    ///Function called every time this table view cell is used. It is being used to call the setup function for the subviews of this table view cell.
+	/// Function called every time this table view cell is used. It is being used to call the setup function for the subviews of this table view cell.
+	/// - Parameters:
+	///   - style: A constant indicating a cell style. See UITableViewCell.CellStyle for descriptions of these constants.
+	///   - reuseIdentifier: A string used to identify the cell object if it is to be reused for drawing multiple rows of a table view. Pass nil if the cell object is not to be reused. You should use the same reuse identifier for all cells of the same form.
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         
@@ -83,7 +97,8 @@ class NotesTableViewCell: UITableViewCell {
         setupTimestampLabel()
     }
 
-    ///Required function for checking if there was a fatal error
+	/// Required function for checking if there was a fatal error
+	/// - Parameter coder: An abstract class that serves as the basis for objects that enable archiving and distribution of other objects.
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
