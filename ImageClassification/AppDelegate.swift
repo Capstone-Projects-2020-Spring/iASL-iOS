@@ -84,9 +84,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 //	if CommandLine.arguments.contains("--MonkeyPaws") {
 //		paws = MonkeyPaws(view: window!)
 //	}
+
+	
     return true
 
   }
+	
 	
 	/// Asks the user to allow your app to perform speech recognition.
     func requestTranscribePermissions() {
@@ -100,5 +103,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
     }
-
 }
+
+
