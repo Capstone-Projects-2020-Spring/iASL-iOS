@@ -19,6 +19,25 @@ class LoginVCUITests: XCTestCase {
 
     override func setUp() {
         XCUIApplication().launch()
+        
+        var count = 0
+        addUIInterruptionMonitor(withDescription: "System Dialog") { (alert) -> Bool in
+          let okButton = alert.buttons["OK"]
+          if okButton.exists {
+            okButton.tap()
+            count += 1
+          }
+
+          let allowButton = alert.buttons["Allow"]
+          if allowButton.exists {
+            allowButton.tap()
+            count += 1
+          }
+          return true
+        }
+        
+        
+
     }
     
     override func tearDown() {

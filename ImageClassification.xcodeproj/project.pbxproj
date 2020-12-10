@@ -217,7 +217,6 @@
 			isa = PBXGroup;
 			children = (
 				602A2224245529AC00800829 /* SpeechToTextVCTest.swift */,
-				6E045A8A24560A8400C4E53C /* 1FirstTest.swift */,
 				602A22222455299A00800829 /* iASLUITests.swift */,
 				67ABF91E24301C1C00881646 /* Info.plist */,
 				67ABF92524301CCE00881646 /* ASLKeyboardUITests.swift */,
@@ -596,9 +595,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E045A892455EB8C00C4E53C /* SpeechToTextVCTest.swift in Sources */,
 				606C60D2244AC7810090A4AC /* ChatVCUITests.swift in Sources */,
-				6E045A8B24560A8400C4E53C /* 1FirstTest.swift in Sources */,
 				606C60D4244ACCE80090A4AC /* LoginVCUITests.swift in Sources */,
 				6EF769D8244B75AF00462E31 /* ViewControllerUITests.swift in Sources */,
 				67ABF92624301CCE00881646 /* ASLKeyboardUITests.swift in Sources */,

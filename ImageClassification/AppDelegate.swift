@@ -121,6 +121,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     self.window?.makeKeyAndVisible()
 
+
 //	if CommandLine.arguments.contains("--MonkeyPaws") {
 //		paws = MonkeyPaws(view: window!)
 //	}

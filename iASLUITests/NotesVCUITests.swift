@@ -19,6 +19,24 @@ class NotesVCUITests: XCTestCase {
 
     override func setUp() {
         XCUIApplication().launch()
+        
+        var count = 0
+        addUIInterruptionMonitor(withDescription: "System Dialog") { (alert) -> Bool in
+          let okButton = alert.buttons["OK"]
+          if okButton.exists {
+            okButton.tap()
+            count += 1
+          }
+
+          let allowButton = alert.buttons["Allow"]
+          if allowButton.exists {
+            allowButton.tap()
+            count += 1
+          }
+          return true
+        }
+        
+        
         let app = XCUIApplication()
         app/*@START_MENU_TOKEN@*/.staticTexts["Already a user? Login"]/*[[".buttons[\"Already a user? Login\"].staticTexts[\"Already a user? Login\"]",".staticTexts[\"Already a user? Login\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
         let emailTextField = app.textFields["Email Address"]
