@@ -317,7 +317,6 @@ PODS:
   - TensorFlowLiteSwift (2.1.0):
     - TensorFlowLiteC (= 2.1.0)
   - YouTubePlayer (0.5.0)
-  - Zip (1.1.0)
 
 DEPENDENCIES:
   - AppleWelcomeScreen
@@ -337,7 +336,6 @@ DEPENDENCIES:
   - SwiftyCam
   - TensorFlowLiteSwift
   - YouTubePlayer (from `https://github.com/weakfl/Swift-YouTube-Player.git`, branch `use-wkwebview`)
-  - Zip (~> 1.1)
 
 SPEC REPOS:
   trunk:
@@ -378,7 +376,6 @@ SPEC REPOS:
     - SwiftyCam
     - TensorFlowLiteC
     - TensorFlowLiteSwift
-    - Zip
 
 EXTERNAL SOURCES:
   YouTubePlayer:
@@ -429,8 +426,7 @@ SPEC CHECKSUMS:
   TensorFlowLiteC: 215603d4426d93810eace5947e317389554a4b66
   TensorFlowLiteSwift: 9d8137f18d5ac30ca89bba4fbe118e0949ac5743
   YouTubePlayer: c9581f0405e3240d1549b194bc1134bfc018a51d
-  Zip: 8877eede3dda76bcac281225c20e71c25270774c
 
-PODFILE CHECKSUM: f26b8d126601d1ad611f2fe5743b1128abfcc388
+PODFILE CHECKSUM: 85d8db716af925ba2e4fcecd2d16556cf812c101
 
 COCOAPODS: 1.9.1

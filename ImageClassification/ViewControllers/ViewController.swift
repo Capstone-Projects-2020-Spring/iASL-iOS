@@ -78,7 +78,10 @@ class ViewController: UIViewController {
     let outputTextView2 = UITextView()
     ///Keychain reference for when we need to clear the keychain if someone logs out
     let keychain = KeychainSwift(keyPrefix: "iasl_")
-
+	
+	///variable to check whether to use internal model or server model
+	var shouldUseServerModel: Bool? = false
+	
     // MARK: Global Variables
     ///Constraint to keep track of the height of the output text view, whether it's collapsed or expanded
     var heightAnchor = NSLayoutConstraint()
@@ -90,6 +93,7 @@ class ViewController: UIViewController {
     // MARK: Instance Variables
     ///Result that's output by the model
     private var result: Result?
+	private var videoResult:Result?
     ///Time from the previous prediction
     private var previousInferenceTimeMs: TimeInterval = Date.distantPast.timeIntervalSince1970 * 1000
 
@@ -101,7 +105,39 @@ class ViewController: UIViewController {
     /// Handles all data preprocessing and makes calls to run inference through the `Interpreter`.
     private var modelDataHandler: ModelDataHandler? =
         ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo, threadCount: 2)
-	
+	private var videoModelHandler: VideoModelDataHandler?
+	fileprivate func setPreviewViewOrientaion() {
+		switch UIDevice.current.orientation {
+		case .portrait:
+			previewView.previewLayer.connection?.videoOrientation = .portrait
+		case .landscapeLeft:
+			previewView.previewLayer.connection?.videoOrientation = .landscapeRight
+		case .landscapeRight:
+			previewView.previewLayer.connection?.videoOrientation = .landscapeLeft
+		case .portraitUpsideDown:
+			previewView.previewLayer.connection?.videoOrientation = .portraitUpsideDown
+		default:
+			previewView.previewLayer.connection?.videoOrientation = .portrait
+		}
+	}
+	fileprivate func setServerModel() {
+		DispatchQueue.main.async {
+			switch UIDevice.current.orientation.isPortrait {
+			case true:
+				print("Don't use server model")
+				self.shouldUseServerModel = false
+			case false:
+				print("USE SERVER MODEL")
+				self.outputTextView2.text.removeAll()
+				self.areaBound.isHidden = true
+				self.shouldUseServerModel = true
+			
+			}
+			if UIDevice.current.orientation == .faceUp{
+				self.shouldUseServerModel = false
+			}
+		}
+	}
 	/// Notifies the container that the size of its view is about to change.
 	/// - Parameters:
 	///   - size: The new size for the container’s view.
@@ -110,6 +146,8 @@ class ViewController: UIViewController {
         override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
 		// check current view controller
 		guard let currentPresentedViewController = self.presentedViewController else {
+			setPreviewViewOrientaion()
+			
 			// if its the main view controller check if its upside down
         if UIDevice.current.orientation == UIDeviceOrientation.portraitUpsideDown {
             liveButton.isSelected = true
@@ -120,7 +158,7 @@ class ViewController: UIViewController {
             vc.modalTransitionStyle = .crossDissolve
             present(vc, animated: true, completion: {vc.view.rotate(angle: 180)})
             //
-			}
+		}
 			return
 		}
 		// if the view controller is presenting speech to text
@@ -140,8 +178,10 @@ class ViewController: UIViewController {
     ///Main function to call all the necessary GUI and backend functions
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+		//Rotation Notification
+		NotificationCenter.default.addObserver(self, selector: #selector(ViewController.rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
         previewViewSetup()
+		setPreviewViewOrientaion()
         textViewHolderSetup()
         outputTextView2Setup()
         outputTextViewSetup()
@@ -165,7 +205,7 @@ class ViewController: UIViewController {
         guideButtonSetup()
         //hideKeyboardWhenTappedAround()
         //speak()
-
+		
 
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -201,6 +241,7 @@ class ViewController: UIViewController {
                                                object: nil)
         #endif
         cameraCapture.delegate = self
+		videoModelHandler = VideoModelDataHandler(delegate: self)
     }
 
 	/// Raise the whoe View when the keybaord appears
@@ -275,6 +316,9 @@ class ViewController: UIViewController {
 	/// - Parameter animated: If true, the view is being added to the window using an animation.
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+		setPreviewViewOrientaion()
+		setServerModel()
+		
         #if !targetEnvironment(simulator)
         cameraCapture.checkCameraConfigurationAndStartSession()
         #endif
@@ -337,47 +381,67 @@ extension ViewController: CameraFeedManagerDelegate {
 	func didOutput(pixelBuffer: CVPixelBuffer) {
         
         /// Pass the pixel buffer to TensorFlow Lite to perform inference.
-        result = modelDataHandler?.runModel(onFrame: pixelBuffer)
-        if let output = result {
-            if output.inferences[0].label != "nothing" {
-                print("\(output.inferences[0].label) \(output.inferences[0].confidence)")
-            }
-            if verificationCount == 0 {
-                verificationCache = output.inferences[0].label
-            }
-            print("\(verificationCount) \(verificationCache) == \(output.inferences[0].label)")
-            DispatchQueue.main.async {
-                self.outputTextView2.text = self.outputTextView.text
-                if output.inferences[0].label != "nothing" {
-                    self.outputTextView2.text.append(output.inferences[0].label)
-                    self.areaBound.isHidden = true
-                } else {
-                    self.areaBound.isHidden = false
-                }
-            }
-            if verificationCount == 2 && verificationCache == output.inferences[0].label {
-                verificationCount = 0
+		//Check to see if the device is in portriat
+		if shouldUseServerModel ?? false{
+			//  run video model
+			videoModelHandler?.runModel(onFrame: pixelBuffer)
+			result = nil
+			DispatchQueue.main.async {
+				self.outputTextView2.text = self.outputTextView.text
+		
+				self.areaBound.isHidden = true
+			}
+			
+			
+		}else{
+			//else tflite model
+			result = modelDataHandler?.runModel(onFrame: pixelBuffer)
+			if let output = result {
+					   if output.inferences[0].label != "nothing" {
+						   print("\(output.inferences[0].label) \(output.inferences[0].confidence)")
+					   }
+					   if verificationCount == 0 {
+						   verificationCache = output.inferences[0].label
+					   }
+					   print("\(verificationCount) \(verificationCache) == \(output.inferences[0].label)")
+					   DispatchQueue.main.async {
+						   self.outputTextView2.text = self.outputTextView.text
+						   if output.inferences[0].label != "nothing" {
+							   let possibleOutput = output.inferences[0].label
+							   switch possibleOutput{
+							   case "del":
+								   self.outputTextView2.text.append("⌫")
+							   default:
+								   self.outputTextView2.text.append(possibleOutput)
+							   }
+							   self.areaBound.isHidden = true
+						   } else {
+							   self.areaBound.isHidden = false
+						   }
+					   }
+					   if verificationCount == 2 && verificationCache == output.inferences[0].label {
+						   verificationCount = 0
 
-                let currentTimeMs = Date().timeIntervalSince1970 * 1000
-                if (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs{
-                    executeASLtoText()
-                    print("pushed")
-                } else { return }
-                previousInferenceTimeMs = currentTimeMs
+						   let currentTimeMs = Date().timeIntervalSince1970 * 1000
+						   if (currentTimeMs - previousInferenceTimeMs) >= delayBetweenInferencesMs{
+							   executeASLtoText()
+							   print("pushed")
+						   } else { return }
+						   previousInferenceTimeMs = currentTimeMs
 
 
-            } else if verificationCount < 2 {
-                verificationCount += 1
-            } else if verificationCache != output.inferences[0].label {
-                verificationCache = ""
-                verificationCount = 0
-            }
-            
-            
-        }
-        DispatchQueue.main.async {
-            let resolution = CGSize(width: CVPixelBufferGetWidth(pixelBuffer), height: CVPixelBufferGetHeight(pixelBuffer))
-        }
+					   } else if verificationCount < 2 {
+						   verificationCount += 1
+					   } else if verificationCache != output.inferences[0].label {
+						   verificationCache = ""
+						   verificationCount = 0
+					   }
+					   
+					   
+				   }
+		}
+       
+		
     }
 
     // MARK: Session Handling Alerts
@@ -442,6 +506,7 @@ extension ViewController {
         previewView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         previewView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         previewView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+
     }
     
     /// Setup top bar area to host top three buttons
@@ -934,12 +999,11 @@ extension ViewController {
         slider.setValue(50, animated: false)
 
         slider.addTarget(self, action: #selector(changeValue(_:)), for: .valueChanged)
-
-    }
+	}
 
     ///Action that listens to value chage and sets the speed for the voice utterance
-    @objc func changeValue(_ sender: UISlider) {
-        print("value is", Int(sender.value))
+	@objc func changeValue(_ sender: UISlider) {
+		print("value is", Int(sender.value))
         speechSpeedDegree = sender.value
     }
     
@@ -1017,4 +1081,22 @@ extension ViewController {
 		}
 
 	}
+	/// Function to determine rotation.
+	@objc func rotated() {
+		setServerModel()
+		if UIDevice.current.orientation.isLandscape {
+        print("Landscape")
+		}
+
+		if UIDevice.current.orientation.isPortrait {
+        print("Portrait")
+		}
+		cameraCapture.updateVideoOrientation()
+	}
+}
+extension ViewController:VideoModelDelegate{
+    func insertText(_ text: String) {
+        self.outputTextView.text.append("\(text) ")
+    }
+
 }

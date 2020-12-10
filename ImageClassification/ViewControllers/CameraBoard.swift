@@ -76,12 +76,15 @@ class CameraBoard: UIView {
     private var modelDataHandler: ModelDataHandler? =
         ModelDataHandler(modelFileInfo: MobileNet.modelInfo, labelsFileInfo: MobileNet.labelsInfo)
 	
+	private var videoModelHandler: VideoModelDataHandler?
+	var shouldUseServerModel = true
 	/// A set of methods a subclass of UIResponder uses to implement simple text entry.
 	/// - Parameter target: The target text view to modify.
 	init(target: UIKeyInput) {
 		super.init(frame: .zero)
 		self.target = target
 		autoresizingMask = [.flexibleWidth, .flexibleHeight]
+		NotificationCenter.default.addObserver(self, selector: #selector(CameraBoard.rotated), name: UIDevice.orientationDidChangeNotification, object: nil)
         caboardViewSetup()
         previewViewSetup()
         buttonStackSetup()
@@ -97,6 +100,8 @@ class CameraBoard: UIView {
                                                object: nil)
         #endif
         cameraCapture.delegate = self
+		videoModelHandler = VideoModelDataHandler(delegate: self)
+//		videoModelHandler?.videoModelDelegate = self
         //collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)
     }
 	
@@ -161,7 +166,9 @@ extension CameraBoard: CameraFeedManagerDelegate {
 
 	func didOutput(pixelBuffer: CVPixelBuffer) {
         /// Pass the pixel buffer to TensorFlow Lite to perform inference.
-        
+		if shouldUseServerModel{
+			videoModelHandler?.runModel(onFrame: pixelBuffer)
+		}else{
         result = modelDataHandler?.runModel(onFrame: pixelBuffer)
         if let output = result {
             DispatchQueue.main.async {
@@ -191,7 +198,7 @@ extension CameraBoard: CameraFeedManagerDelegate {
             }
 			}
         }
-        
+		}
     }
 
 	
@@ -473,4 +480,54 @@ extension CameraBoard {
             self.didOutput(pixelBuffer: buffer)
         }
     }
+	fileprivate func setPreviewViewOrientaion() {
+		switch UIDevice.current.orientation {
+		case .portrait:
+			previewView.previewLayer.connection?.videoOrientation = .portrait
+		case .landscapeLeft:
+			previewView.previewLayer.connection?.videoOrientation = .landscapeRight
+		case .landscapeRight:
+			previewView.previewLayer.connection?.videoOrientation = .landscapeLeft
+		case .portraitUpsideDown:
+			previewView.previewLayer.connection?.videoOrientation = .portraitUpsideDown
+		default:
+			previewView.previewLayer.connection?.videoOrientation = .portrait
+		}
+	}
+	/// Function to determine rotation.
+	@objc func rotated() {
+		setServerModel()
+		setPreviewViewOrientaion()
+		if UIDevice.current.orientation.isLandscape {
+        print("Landscape")
+		}
+
+		if UIDevice.current.orientation.isPortrait {
+        print("Portrait")
+		}
+		cameraCapture.updateVideoOrientation()
+	}
+	fileprivate func setServerModel() {
+		DispatchQueue.main.async {
+			switch UIDevice.current.orientation.isPortrait {
+			case true:
+				print("Don't use server model")
+				self.shouldUseServerModel = false
+			case false:
+				print("USE SERVER MODEL")
+				self.shouldUseServerModel = true
+			
+			}
+			if UIDevice.current.orientation == .faceUp{
+				self.shouldUseServerModel = false
+			}
+		
+		}
+	}
+}
+extension CameraBoard: VideoModelDelegate{
+    func insertText(_ text: String) {
+		self.target?.insertText("\(text) ")
+    }
+
 }
