@@ -20,8 +20,6 @@
 		602A22232455299A00800829 /* iASLUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602A22222455299A00800829 /* iASLUITests.swift */; };
 		602A2225245529AC00800829 /* SpeechToTextVCTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602A2224245529AC00800829 /* SpeechToTextVCTest.swift */; };
 		602A2227245529F200800829 /* ViewControllerLogicTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602A2226245529F200800829 /* ViewControllerLogicTest.swift */; };
-		606C60D2244AC7810090A4AC /* ChatVCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60D1244AC7810090A4AC /* ChatVCUITests.swift */; };
-		606C60D4244ACCE80090A4AC /* LoginVCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60D3244ACCE80090A4AC /* LoginVCUITests.swift */; };
 		606C60D6244AD04C0090A4AC /* RemoteConversationVCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60D5244AD04C0090A4AC /* RemoteConversationVCUITests.swift */; };
 		606C60D8244AD1030090A4AC /* RemoteConversationVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60D7244AD1030090A4AC /* RemoteConversationVCTests.swift */; };
 		606C60DA244AD4A10090A4AC /* NotesVCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60D9244AD4A10090A4AC /* NotesVCUITests.swift */; };
@@ -36,7 +34,6 @@
 		67ABF92624301CCE00881646 /* ASLKeyboardUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67ABF92524301CCE00881646 /* ASLKeyboardUITests.swift */; };
 		67ABF9282430299200881646 /* ASLKeyboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67ABF9272430299200881646 /* ASLKeyboardTests.swift */; };
 		67B31A99242C038C00DC15C4 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B31A98242C038C00DC15C4 /* ChatVC.swift */; };
-		67CD6E9E242AE3380004D255 /* TranscribeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67CD6E9D242AE3370004D255 /* TranscribeVC.swift */; };
 		67D41483244AAD0D001F5A73 /* MonkeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D41482244AAD0D001F5A73 /* MonkeyTests.swift */; };
 		6E23ACD52416BE8E00495F02 /* RemoteConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E23ACD42416BE8E00495F02 /* RemoteConversationVC.swift */; };
 		6E3469932421CD64009F1E7D /* SpeechToTextVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E3469922421CD64009F1E7D /* SpeechToTextVC.swift */; };
@@ -47,7 +44,6 @@
 		6EB0FAA62453DD1300C37C81 /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB0FAA52453DD1300C37C81 /* GuideView.swift */; };
 		6EB8C85B2447A9DC0071F251 /* PredictionLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB8C85A2447A9DC0071F251 /* PredictionLayer.swift */; };
 		6EF328FB24173A430071E430 /* NotesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF328FA24173A430071E430 /* NotesVC.swift */; };
-		6EF769D8244B75AF00462E31 /* ViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF769D7244B75AF00462E31 /* ViewControllerUITests.swift */; };
 		7D0B97F0387C425D8B76491E /* libPods-iASLUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 977E4559E5913772C1A9629D /* libPods-iASLUITests.a */; };
 		AA5FEB7E21355CCC00F9BD4B /* labels.txt in Resources */ = {isa = PBXBuildFile; fileRef = AA5FEB7C21355CCC00F9BD4B /* labels.txt */; };
 		AAAB096E218981FA0015A1F2 /* CVPixelBufferExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAB096D218981FA0015A1F2 /* CVPixelBufferExtension.swift */; };
@@ -113,7 +109,6 @@
 		67ABF92524301CCE00881646 /* ASLKeyboardUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASLKeyboardUITests.swift; sourceTree = "<group>"; };
 		67ABF9272430299200881646 /* ASLKeyboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASLKeyboardTests.swift; sourceTree = "<group>"; };
 		67B31A98242C038C00DC15C4 /* ChatVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatVC.swift; sourceTree = "<group>"; };
-		67CD6E9D242AE3370004D255 /* TranscribeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TranscribeVC.swift; sourceTree = "<group>"; };
 		67D41482244AAD0D001F5A73 /* MonkeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonkeyTests.swift; sourceTree = "<group>"; };
 		6E23ACD42416BE8E00495F02 /* RemoteConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConversationVC.swift; sourceTree = "<group>"; };
 		6E23ACD62416CB4000495F02 /* iASL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iASL.entitlements; sourceTree = "<group>"; };
@@ -127,7 +122,6 @@
 		6ED11B8B2424145E000CF870 /* short_notification.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = short_notification.mp3; sourceTree = "<group>"; };
 		6ED11B8C242414A1000CF870 /* simple_notification.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = simple_notification.mp3; sourceTree = "<group>"; };
 		6EF328FA24173A430071E430 /* NotesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesVC.swift; sourceTree = "<group>"; };
-		6EF769D7244B75AF00462E31 /* ViewControllerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerUITests.swift; sourceTree = "<group>"; };
 		977E4559E5913772C1A9629D /* libPods-iASLUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-iASLUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5AF8950F90431F20DC3AD81 /* Pods_ImageClassification.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImageClassification.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA5FEB7C21355CCC00F9BD4B /* labels.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = labels.txt; sourceTree = "<group>"; };
@@ -143,6 +137,7 @@
 		AAE79E982135268800E7AC1F /* PreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		AAE79E992135268800E7AC1F /* CameraFeedManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraFeedManager.swift; sourceTree = "<group>"; };
 		BAB0B908A329CDFE6822680B /* Pods-iASLUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iASLUITests.debug.xcconfig"; path = "Target Support Files/Pods-iASLUITests/Pods-iASLUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		CD84AE44CD36A184865B3F06 /* Pods-iASLUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iASLUITests.release.xcconfig"; path = "Target Support Files/Pods-iASLUITests/Pods-iASLUITests.release.xcconfig"; sourceTree = "<group>"; };
 		F613BE5F7693CFDBDFE11CA5 /* Pods-ImageClassification.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageClassification.debug.xcconfig"; path = "Target Support Files/Pods-ImageClassification/Pods-ImageClassification.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -179,7 +174,7 @@
 				F613BE5F7693CFDBDFE11CA5 /* Pods-ImageClassification.debug.xcconfig */,
 				65F3F0ED86672027FB2A57C5 /* Pods-ImageClassification.release.xcconfig */,
 				BAB0B908A329CDFE6822680B /* Pods-iASLUITests.debug.xcconfig */,
-				695AE7454CF1B1D5F0F30F7C /* Pods-iASLUITests.release.xcconfig */,
+				CD84AE44CD36A184865B3F06 /* Pods-iASLUITests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -216,7 +211,6 @@
 			isa = PBXGroup;
 			children = (
 				602A2224245529AC00800829 /* SpeechToTextVCTest.swift */,
-				6E045A8A24560A8400C4E53C /* 1FirstTest.swift */,
 				602A22222455299A00800829 /* iASLUITests.swift */,
 				67ABF91E24301C1C00881646 /* Info.plist */,
 				67ABF92524301CCE00881646 /* ASLKeyboardUITests.swift */,
@@ -744,7 +738,7 @@
 		};
 		67ABF92324301C1C00881646 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 695AE7454CF1B1D5F0F30F7C /* Pods-iASLUITests.release.xcconfig */;
+			baseConfigurationReference = CD84AE44CD36A184865B3F06 /* Pods-iASLUITests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
