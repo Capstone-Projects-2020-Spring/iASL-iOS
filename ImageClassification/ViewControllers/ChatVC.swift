@@ -13,6 +13,8 @@ import Firebase
  This class is used to show an individual chat between two users. It shows the title bar at the top with the chat partner's name, it has alll the messages between the two users, and it demonstrates our iASL keyboard in use.
  */
 class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    var loginVC: LoginVC? = nil
 
     //MARK: Constants
     ///A constant for the "messages" node in Firebase
@@ -26,7 +28,8 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
             topLabel.text = chatPartner?.name
 
             //observe the messages
-            observeMessages()
+            observeMessages(uid: getUid())
+
         }
     }
 
@@ -136,13 +139,27 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
             self.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
         }
     }
-
-    ///Observes messages from Firebase and loads them into an array of type Message to be used by the collectionview. Has logic for determining which messages were from the sender and which were from the receiver
-    func observeMessages() {
-
+    
+    ///Gets and returns the UID of the user who is signed in
+    func getUid() -> String {
         guard let uid = Auth.auth().currentUser?.uid else {
             print("could not get the UID")
-            return
+            return ""
+        }
+        return uid
+    }
+
+    //had to change this around for mocking
+    ///Observes messages from Firebase and loads them into an array of type Message to be used by the collectionview. Has logic for determining which messages were from the sender and which were from the receiver
+    func observeMessages(uid: String) -> Bool {
+
+//        guard let uid = Auth.auth().currentUser?.uid else {
+//            print("could not get the UID")
+//            return false
+//        }
+        
+        if uid == "" {
+            return false
         }
 
         let userMessagesRef = Database.database().reference().child("user-messages").child(uid)
@@ -163,7 +180,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
                 message.text = dictionary["text"] as? String
                 message.timestamp = dictionary["timestamp"] as? NSNumber
 
-                if message.chatPartnerId() == self.chatPartner?.id {
+                if message.chatPartnerId(uid: self.getUid()) == self.chatPartner?.id {
                     //add the messages we received to the messages array
                     self.messages.append(message)
 
@@ -173,6 +190,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
                         
                         let indexPath = IndexPath(row: self.messages.count-1, section: 0)
                         self.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: false)
+
                     }
 
                 }
@@ -180,6 +198,8 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
             }, withCancel: nil)
 
         }, withCancel: nil)
+        
+        return true
     }
     
     //MARK: CollectionView stuff
@@ -216,9 +236,7 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
         let message = messages[indexPath.row]
         cell.textView.text = message.text
 
-        print(message.timestamp!)
-
-        setupCell(cell: cell, message: message)
+        setupCell(cell: cell, message: message, uid: getUid())
 
         //modify the bubbleView width?
         cell.bubbleViewWidthAnchor?.constant = estimateFrameForText(text: message.text!).width + 32 //32 is just a guess
@@ -227,8 +245,8 @@ class ChatVC: UIViewController, UITextViewDelegate, UICollectionViewDataSource, 
     }
 
     ///This function determines what the chat bubble is going to look like. If it is a sender message, it will be pink and on the right side of the collection view. If it is an incoming message, it will be gray and on the left side of the collection view.
-    func setupCell(cell: ChatMessageCell, message: Message) {
-        if message.senderId == Auth.auth().currentUser?.uid {
+    func setupCell(cell: ChatMessageCell, message: Message, uid: String) {
+        if message.senderId == uid {
             //outgoing blue
             cell.bubbleView.backgroundColor = .systemPink
             cell.textView.textColor = .white
@@ -462,6 +480,59 @@ extension ChatVC {
 
     }
     
+    ///Handles what happens when the user logins in with an existing account. For signing in during testing
+    func handleLoginForTesting(email: String, password: String) {
+
+        //sign in with username and password
+        Auth.auth().signIn(withEmail: email, password: password) { (_, err) in
+            if err != nil {
+                print("error", err!)
+//                let alert = UIAlertController(title: "Alert", message: err?.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+//                alert.addAction(UIAlertAction(title: "Continue", style: UIAlertAction.Style.default, handler: nil))
+//                self.present(alert, animated: true, completion: nil)
+                return
+            } else {
+                //add email and password into keychain if they want
+                //self.handleSaveKeychain(email: email, password: password)
+                //successfully signed in
+                print("you signed in successfully")
+                //self.handleLeaveLogin()
+            }
+        }
+    }
+    
+    func handleLogoutForTesting() {
+
+        print("handle logout tapped")
+
+        //log the user out of firebase
+        do {
+            try Auth.auth().signOut()
+        } catch let logoutError {
+            print(logoutError)
+        }
+
+    }
+    
+    func getCurrentUser() -> String {
+        var variable = "failed"
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("could not get UID")
+            return ""
+        }
+
+        let ref = Database.database().reference().child("users").child(uid)
+        ref.observe(.value) { (snapshot) in
+
+            if let dictionary = snapshot.value as? [String: AnyObject] {
+                let name = dictionary["name"] as? String
+                print(name!)
+                variable = name!
+            }
+        }
+        return variable
+    }
+    
     //MARK: Junky Functions
 	/// Change the color of the status bar
 	/// - Parameter animated: If true, the view is being added to the window using an animation.
@@ -476,34 +547,4 @@ extension ChatVC {
     }
     
     
-}
-
-///Extension of NSDate that helps with getting some different units of time
-extension NSDate {
-    /**
-     Turns a date into milliseconds
-     
-     - Returns: A number in milliseconds
-     */
-    func toMillis() -> NSNumber {
-        return NSNumber(value: Int64(timeIntervalSince1970 * 1000))
-    }
-    /**
-     Turns a time in milliseconds into a date
-     
-     - Parameters: A number in milliseconds
-     - Returns: A date
-     */
-    static func fromMillis(millis: NSNumber?) -> NSDate? {
-        return millis.map { number in NSDate(timeIntervalSince1970: Double(truncating: number) / 1000)}
-    }
-
-    /**
-     Gets the current time in milliseconds from date.
-     
-     - Returns: Number in milliseconds
-     */
-    static func currentTimeInMillis() -> NSNumber {
-        return NSDate().toMillis()
-    }
 }

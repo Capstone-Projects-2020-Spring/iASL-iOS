@@ -119,15 +119,19 @@ class CreateNoteVC: UIViewController {
     }
 
     ///Handles what happens when a new note is made
-    func handleNewNote() {
+    func handleNewNote(noteText: String, title: String, owner: String) -> Bool {
 
         print("handle new note")
         toggleSaveButtonDisabled()
 
         //need to save a message here, just like with messaging
-        guard let noteText = textView.text, let title = noteTitle.text else {
-            print("could not get message")
-            return
+//        guard let noteText = textView.text, let title = noteTitle.text else {
+//            print("could not get message")
+//            return false
+//        }
+        
+        if owner == "" {
+            return false
         }
 
         //get a reference ot the database at the "notes" node
@@ -136,10 +140,10 @@ class CreateNoteVC: UIViewController {
         let childRef = ref.childByAutoId()
 
         //owner is the owner id of the note
-        guard let owner = Auth.auth().currentUser?.uid else {
-            print("could not get necessary message information")
-            return
-        }
+//        guard let owner = Auth.auth().currentUser?.uid else {
+//            print("could not get necessary message information")
+//            return false
+//        }
 
         //gets it in milliseconds
         let timestamp: NSNumber = NSNumber(value: NSDate().timeIntervalSince1970 * 1000)
@@ -173,28 +177,34 @@ class CreateNoteVC: UIViewController {
             }
 
         }
+        
+        return true
     }
 
     ///Need to be able to overwrite an existing note
-    func handleUpdateNote() {
+    func handleUpdateNote(noteText: String, title: String, owner: String) -> Bool {
         print("handle update note")
         toggleSaveButtonDisabled()
 
         //need to save a message here, just like with messaging
-        guard let noteText = textView.text, let title = noteTitle.text else {
-            print("could not get message")
-            return
-        }
+//        guard let noteText = textView.text, let title = noteTitle.text else {
+//            print("could not get message")
+//            return
+//        }
 
         //owner is the owner id of the note
-        guard let owner = Auth.auth().currentUser?.uid else {
-            print("could not get necessary message information")
-            return
+//        guard let owner = Auth.auth().currentUser?.uid else {
+//            print("could not get necessary message information")
+//            return
+//        }
+        
+        if owner == "" {
+            return false
         }
 
         //key is the node at which we are updating the note
         guard let key = self.noteToUpdateKey else {
-            return
+            return false
         }
 
         //gets a reference to the database at the "notes" node
@@ -219,6 +229,7 @@ class CreateNoteVC: UIViewController {
             print("successfully updated the note in the notes node")
         }
 
+        return true
     }
 
 }
@@ -238,17 +249,34 @@ extension CreateNoteVC: UITextViewDelegate, UITextFieldDelegate {
         toggleSaveButtonEnabled()
     }
     
+    ///Gets and returns the UID of the user who is signed in
+    func getUid() -> String{
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("could not get the UID")
+            return ""
+        }
+        return uid
+    }
+    
     ///Handles what happens when a note is saved
     @objc func handleSaveNote() {
         print("save note button pressed")
         //print("Here is the note: ", textView.text!)
+        
+        guard let noteText = textView.text, let title = noteTitle.text else {
+            return
+        }
+        
+        let uid = getUid()
+
         
         //two cases: new note created and old note needs to be updated
         if note == nil {
             let newNote = Note()
             newNote.title = "Title"
             note = newNote
-            handleNewNote()
+            
+            handleNewNote(noteText: noteText, title: title, owner: uid)
             
             dismiss(animated: true, completion: { () in
                 print("completion handler new note")
@@ -258,7 +286,7 @@ extension CreateNoteVC: UITextViewDelegate, UITextFieldDelegate {
                 
             })
         } else {
-            handleUpdateNote()
+            handleUpdateNote(noteText: noteText, title: title, owner: uid)
             //            self.NotesVC?.notes.removeAll()
             //            self.NotesVC?.tableView.reloadData()
             //            self.NotesVC?.observeUserNotes()

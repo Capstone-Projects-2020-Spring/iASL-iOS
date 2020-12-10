@@ -1069,8 +1069,14 @@ extension ViewController {
 			DispatchQueue.main.async {
 				let confidence = self.result!.inferences[0].confidence
 				let prediction: String = self.result!.inferences[0].label.description
-                print("actual \(prediction) output \(self.predictionLayer.letterProximitySwap(inputChar: prediction))")
-                self.outputTextView.text.append(self.predictionLayer.letterProximitySwap(inputChar: prediction))
+                if !self.predictionAssistButton.isSelected {
+                    self.outputTextView.text.append(prediction)
+                } else {
+                    let swappedAlphabet = self.predictionLayer.letterProximitySwap(inputWord: self.outputTextView.text!, inputChar: prediction)
+                    print("actual \(prediction) output \(swappedAlphabet)")
+                    self.outputTextView.text.append(swappedAlphabet)
+                }
+                
 			}
 		}
 
