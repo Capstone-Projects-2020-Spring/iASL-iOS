@@ -26,7 +26,7 @@ target 'ImageClassification' do
     pod "SwiftyCam"
     pod 'KeychainSwift'
     pod 'KMPlaceholderTextView', '~> 1.4.0'
-
+    pod 'Zip', '~> 1.1'
 end
 target 'iASLUITests' do
   pod 'SwiftMonkey', '~> 2.1.0'

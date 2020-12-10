@@ -49,7 +49,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         #if DEBUG
             return
         #endif
-        
+
 		if defaults.bool(forKey: "WelcomeVersion1.0.0") {
 					   return
 				   } else {

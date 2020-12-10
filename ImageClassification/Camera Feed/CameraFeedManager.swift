@@ -104,7 +104,7 @@ class CameraFeedManager: NSObject {
 		// Initializes the session
 		session.sessionPreset = .high
 		self.previewView.session = session
-		self.previewView.previewLayer.connection?.videoOrientation = .portrait
+		setPreviewViewOrientaion()
 		self.previewView.previewLayer.videoGravity = .resizeAspectFill
 		self.attemptToConfigureSession()
 	}
@@ -257,7 +257,34 @@ class CameraFeedManager: NSObject {
 			fatalError("Cannot create video device input")
 		}
 	}
-
+	fileprivate func setPreviewViewOrientaion() {
+		switch UIDevice.current.orientation {
+		case .portrait:
+			self.previewView.previewLayer.connection?.videoOrientation = .portrait
+		case .landscapeLeft:
+			self.previewView.previewLayer.connection?.videoOrientation = .landscapeRight
+		case .landscapeRight:
+			self.previewView.previewLayer.connection?.videoOrientation = .landscapeLeft
+		case .portraitUpsideDown:
+			self.previewView.previewLayer.connection?.videoOrientation = .portraitUpsideDown
+		default:
+			self.previewView.previewLayer.connection?.videoOrientation = .portrait
+		}
+	}
+	fileprivate func setVideoOutputOrientaion() {
+		switch UIDevice.current.orientation {
+		case .portrait:
+			videoDataOutput.connection(with: .video)?.videoOrientation = .portrait
+		case .landscapeLeft:
+			videoDataOutput.connection(with: .video)?.videoOrientation = .landscapeRight
+		case .landscapeRight:
+			videoDataOutput.connection(with: .video)?.videoOrientation = .landscapeLeft
+		case .portraitUpsideDown:
+			videoDataOutput.connection(with: .video)?.videoOrientation = .portraitUpsideDown
+		default:
+			videoDataOutput.connection(with: .video)?.videoOrientation = .portrait
+		}
+	}
 	/**
 	This method tries to an AVCaptureVideoDataOutput to the current AVCaptureSession.
 	- Returns: returns `true` if the session can output video.
@@ -271,7 +298,8 @@ class CameraFeedManager: NSObject {
 
 		if session.canAddOutput(videoDataOutput) {
 			session.addOutput(videoDataOutput)
-			videoDataOutput.connection(with: .video)?.videoOrientation = .portrait
+//			videoDataOutput.connection(with: .video)?.videoOrientation = .landscapeLeft
+			setVideoOutputOrientaion()
 			return true
 		}
 		return false
@@ -374,4 +402,11 @@ extension CameraFeedManager: AVCaptureVideoDataOutputSampleBufferDelegate {
 		delegate?.didOutput(pixelBuffer: imagePixelBuffer)
 	}
 
+}
+extension CameraFeedManager{
+/// Updates the orientation of the video viewfinder.
+	public func updateVideoOrientation( ){
+		setPreviewViewOrientaion()
+		setVideoOutputOrientaion()
+	}
 }

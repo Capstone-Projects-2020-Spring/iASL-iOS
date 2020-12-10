@@ -22,6 +22,8 @@ import KeychainSwift
 
 /// Global variable to access user defaults.
 let defaults = UserDefaults.standard
+var ranBefore:Bool?
+
 @UIApplicationMain
 /** Manages your app’s shared behaviors. The app delegate is effectively the root object of your app, and it works in conjunction with UIApplication to manage some interactions with the system. Like the UIApplication object, UIKit creates your app delegate object early in your app’s launch cycle so it is always present.
 */
@@ -41,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     requestTranscribePermissions()
 
     FirebaseApp.configure()
-
+    
     let keychain = KeychainSwift(keyPrefix: "iasl_")
     
     print("called app delegate")
@@ -118,10 +120,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     self.window?.makeKeyAndVisible()
-    
+
+
+//	if CommandLine.arguments.contains("--MonkeyPaws") {
+//		paws = MonkeyPaws(view: window!)
+//	}
+
+	
     return true
 
   }
+	
 	
 	/// Asks the user to allow your app to perform speech recognition.
     func requestTranscribePermissions() {
@@ -135,5 +144,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
     }
-
 }
+
+
