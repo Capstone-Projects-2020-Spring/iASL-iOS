@@ -19,7 +19,7 @@ target 'ImageClassification' do
     # Add the pod for Firebase Cloud Messaging
     pod 'Firebase/Messaging'
     pod 'SwiftLint'
-    pod 'SwiftMonkeyPaws', '~> 2.1.0'
+    pod 'SwiftMonkeyPaws', '~> 2.2.0'
     pod 'AppleWelcomeScreen'
     pod 'YouTubePlayer', :git => 'https://github.com/weakfl/Swift-YouTube-Player.git', :branch => 'use-wkwebview' # replace with original pod after the pull request got merged
     # pod 'SwiftVideoRecorder',:git => 'https://github.com/ApplebaumIan/swift-video-recorder.git', :branch => 'master'
@@ -29,7 +29,7 @@ target 'ImageClassification' do
     pod 'Zip', '~> 1.1'
 end
 target 'iASLUITests' do
-  pod 'SwiftMonkey', '~> 2.1.0'
+  pod 'SwiftMonkey', '~> 2.2.0'
 end
 #   Disable Code Coverage for Pods projects
 post_install do |installer_representation|
