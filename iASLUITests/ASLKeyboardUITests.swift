@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import SwiftMonkey
+
 class ASLKeyboardUITests: XCTestCase {
 	// FIXME: Fix UI Testing for Github CI/CD
 	let application = XCUIApplication(bundleIdentifier: "org.iASL.LanguageTranslator")
@@ -68,7 +68,8 @@ class ASLKeyboardUITests: XCTestCase {
 	/// Checks if the keyboard types random things with no camera data.
     func testASLKeyboardLaunchesNoErroneousInput() {
 		
-		
+		executionTimeAllowance = 30
+
 		
 		
 		let notes = application.buttons["notesIcon"]
@@ -84,7 +85,7 @@ class ASLKeyboardUITests: XCTestCase {
 
 	
 	func testKeyboardDelete() {
-		
+		executionTimeAllowance = 30
 		let app = XCUIApplication()
 		let notes = app.buttons["notesIcon"]
 		notes.waitForExistence(timeout: 1)

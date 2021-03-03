@@ -16,10 +16,11 @@ class NotesVCUITests: XCTestCase {
     let email = "Test1@gmail.com"
     let password = "password"
     let uid = "ppmK3FXm7gPc6HwhS5wOvBtfLFP2"
-
+	let app = XCUIApplication(bundleIdentifier: "org.iASL.LanguageTranslator")
     override func setUp() {
-        XCUIApplication().launch()
-        let app = XCUIApplication()
+		app.launchArguments.append("ui-testing")
+        app.launch()
+
         app/*@START_MENU_TOKEN@*/.staticTexts["Already a user? Login"]/*[[".buttons[\"Already a user? Login\"].staticTexts[\"Already a user? Login\"]",".staticTexts[\"Already a user? Login\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
         let emailTextField = app.textFields["Email Address"]
         emailTextField.tap()
@@ -40,7 +41,6 @@ class NotesVCUITests: XCTestCase {
     ///Test if the user is prompted for a deletion note reassurance by checking for an alert
     func testHandleDeleteNoteAreYouSure() {
         
-        let app = XCUIApplication()
         
         let table = app.tables.matching(identifier: "testingNotesVCTableView")
         let cell = table.cells.element(matching: .cell, identifier: "notesTableViewCell_0")

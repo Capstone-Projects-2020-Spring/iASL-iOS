@@ -46,6 +46,15 @@
             ReferencedContainer = "container:ImageClassification.xcodeproj">
          </BuildableReference>
       </CodeCoverageTargets>
+      <TestPlans>
+         <TestPlanReference
+            reference = "container:iASLUITests/iASLTestPlan.xctestplan"
+            default = "YES">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:MonkeyTesting/MonkeyTesting.xctestplan">
+         </TestPlanReference>
+      </TestPlans>
       <Testables>
          <TestableReference
             skipped = "NO">
@@ -56,6 +65,11 @@
                BlueprintName = "ImageClassificationTests"
                ReferencedContainer = "container:ImageClassification.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "ViewControllerLogicTest/testPerformanceExample()">
+               </Test>
+            </SkippedTests>
             <LocationScenarioReference
                identifier = "com.apple.dt.IDEFoundation.CurrentLocationScenarioIdentifier"
                referenceType = "1">
@@ -68,6 +82,21 @@
                BlueprintIdentifier = "67ABF91924301C1C00881646"
                BuildableName = "iASLUITests.xctest"
                BlueprintName = "iASLUITests"
+               ReferencedContainer = "container:ImageClassification.xcodeproj">
+            </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "MonkeyTests">
+               </Test>
+            </SkippedTests>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "678AECE625EFFDF400EF8DE8"
+               BuildableName = "MonkeyTesting.xctest"
+               BlueprintName = "MonkeyTesting"
                ReferencedContainer = "container:ImageClassification.xcodeproj">
             </BuildableReference>
          </TestableReference>

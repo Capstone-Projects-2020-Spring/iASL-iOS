@@ -1,0 +1,55 @@
+{
+  "configurations" : [
+    {
+      "id" : "A0163E2F-A9E6-4778-BE57-E81A277264B6",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:ImageClassification.xcodeproj",
+          "identifier" : "AAE79E55213521DA00E7AC1F",
+          "name" : "ImageClassification"
+        }
+      ]
+    },
+    "nsZombieEnabled" : true,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:ImageClassification.xcodeproj",
+      "identifier" : "AAE79E55213521DA00E7AC1F",
+      "name" : "ImageClassification"
+    },
+    "testTimeoutsEnabled" : true,
+    "threadSanitizerEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "skippedTests" : [
+        "ViewControllerLogicTest\/testPerformanceExample()"
+      ],
+      "target" : {
+        "containerPath" : "container:ImageClassification.xcodeproj",
+        "identifier" : "6765C7E223FB35F60083A5C5",
+        "name" : "ImageClassificationTests"
+      }
+    },
+    {
+      "skippedTests" : [
+        "MonkeyTests",
+        "NotesVCUITests\/testHandleDeleteNoteAreYouSure()",
+        "RemoteConversationVCUITests\/testHandleDeleteNoteAreYouSure()"
+      ],
+      "target" : {
+        "containerPath" : "container:ImageClassification.xcodeproj",
+        "identifier" : "67ABF91924301C1C00881646",
+        "name" : "iASLUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

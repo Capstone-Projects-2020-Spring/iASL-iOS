@@ -29,11 +29,9 @@ target 'ImageClassification' do
     pod 'Zip', '~> 1.1'
 end
 target 'iASLUITests' do
-#  pod 'SwiftMonkey', '~> 2.2.0'
+
 end
-target 'MonkeyTesting' do
-  pod 'SwiftMonkey', '~> 2.2.0'
-end
+target 'MonkeyTestin'
 #   Disable Code Coverage for Pods projects
 post_install do |installer_representation|
    installer_representation.pods_project.targets.each do |target|
