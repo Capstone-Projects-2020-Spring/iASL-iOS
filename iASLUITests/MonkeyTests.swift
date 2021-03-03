@@ -67,15 +67,11 @@ class MonkeyTests: XCTestCase {
 				// monkey.addDefaultXCTestPrivateActions()
 
 				// after Xcode 10.1 We can only use public API
-			monkey.addDefaultUIAutomationActions()
+//			monkey.addDefaultUIAutomationActions()
 
-				// UIAutomation actions seem to work only on the simulator.
-				//monkey.addDefaultUIAutomationActions()
+		monkey.addDefaultXCTestPublicActions(app: application)
+		monkey.addXCTestTapAlertAction(interval: 100, application: XCUIApplication())
 
-				// Occasionally, use the regular XCTest functionality
-				// to check if an alert is shown, and click a random
-				// button on it.
-	//			monkey.addXCTestTapAlertAction(interval: 100, application: XCUIApplication())
 
 				// Run the monkey test indefinitely.
 			monkey.monkeyAround(forDuration: 100)
@@ -131,27 +127,23 @@ class MonkeyTests: XCTestCase {
 					// before Xcode 10.1, you can use
 					// monkey.addDefaultXCTestPrivateActions()
 
-					// after Xcode 10.1 We can only use public API
-				monkey.addDefaultUIAutomationActions()
-
-					// UIAutomation actions seem to work only on the simulator.
-					//monkey.addDefaultUIAutomationActions()
-
+		monkey.addDefaultXCTestPublicActions(app: application)
+		
 					// Occasionally, use the regular XCTest functionality
 					// to check if an alert is shown, and click a random
 					// button on it.
-		//			monkey.addXCTestTapAlertAction(interval: 100, application: XCUIApplication())
+					monkey.addXCTestTapAlertAction(interval: 100, application: XCUIApplication())
 
 					// Run the monkey test indefinitely.
 				monkey.monkeyAround(forDuration: 100)
 		
 	}
-	///Monkey test from notes.
-	func testMonkeyNotes() {
-		
-	}
-	///Monkey test from the main view controller.
-	func testMonkeyMainView() {
-		
-	}
+//	///Monkey test from notes.
+//	func testMonkeyNotes() {
+//
+//	}
+//	///Monkey test from the main view controller.
+//	func testMonkeyMainView() {
+//
+//	}
 }

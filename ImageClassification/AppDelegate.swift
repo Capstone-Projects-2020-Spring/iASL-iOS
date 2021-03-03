@@ -18,7 +18,7 @@ import Firebase
 import FirebaseMessaging
 import FirebaseFirestore
 import KeychainSwift
-//import SwiftMonkeyPaws
+import SwiftMonkeyPaws
 
 /// Global variable to access user defaults.
 let defaults = UserDefaults.standard
@@ -36,6 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 	///   - application: The singleton app object.
 	///   - launchOptions: A dictionary indicating the reason the app was launched (if any). The contents of this dictionary may be empty in situations where the user launched the app directly. For information about the possible keys in this dictionary and how to handle them, see Launch Options Keys.
 	/// - Returns: `false` if the app cannot handle the URL resource or continue a user activity, otherwise return true. The return value is ignored if the app is launched as a result of a remote notification.
+	var paws: MonkeyPaws?
   func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
@@ -59,11 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     Messaging.messaging().delegate = self
 
-    
-//	if CommandLine.arguments.contains("--MonkeyPaws") {
-//		paws = MonkeyPaws(view: window!)
-//	}
-    
+
     
     
     #if DEBUG
@@ -121,9 +118,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     self.window?.makeKeyAndVisible()
 
-//	if CommandLine.arguments.contains("--MonkeyPaws") {
-//		paws = MonkeyPaws(view: window!)
-//	}
+	if CommandLine.arguments.contains("monkeyTesting") {
+		paws = MonkeyPaws(view: window!)
+	}
 
 	
     return true
