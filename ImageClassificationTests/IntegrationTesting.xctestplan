@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "E72271AC-6857-48BB-931A-941B56736965",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:ImageClassification.xcodeproj",
+        "identifier" : "6765C7E223FB35F60083A5C5",
+        "name" : "ImageClassificationTests"
+      }
+    }
+  ],
+  "version" : 1
+}

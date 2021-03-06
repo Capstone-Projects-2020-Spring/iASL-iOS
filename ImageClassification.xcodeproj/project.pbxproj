@@ -112,10 +112,12 @@
 		6765C7E323FB35F60083A5C5 /* ImageClassificationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageClassificationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6765C7E523FB35F60083A5C5 /* ImageClassificationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageClassificationTests.swift; sourceTree = "<group>"; };
 		6765C7E723FB35F60083A5C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6782D14E25F423AE00057BC3 /* IntegrationTesting.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = IntegrationTesting.xctestplan; sourceTree = "<group>"; };
 		678AECDF25EFFDB400EF8DE8 /* iASLTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = iASLTestPlan.xctestplan; sourceTree = "<group>"; };
 		678AECE725EFFDF400EF8DE8 /* MonkeyTesting.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MonkeyTesting.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		678AECEB25EFFDF400EF8DE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		678AECFE25EFFE2600EF8DE8 /* MonkeyTesting.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = MonkeyTesting.xctestplan; sourceTree = "<group>"; };
+		678AED4925F087B600EF8DE8 /* iASLDebug.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = iASLDebug.entitlements; sourceTree = "<group>"; };
 		67ABF91A24301C1C00881646 /* iASLUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iASLUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		67ABF91E24301C1C00881646 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		67ABF92424301CCE00881646 /* iASLUITests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iASLUITests-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 		6765C7E423FB35F60083A5C5 /* ImageClassificationTests */ = {
 			isa = PBXGroup;
 			children = (
+				6782D14E25F423AE00057BC3 /* IntegrationTesting.xctestplan */,
 				602A2226245529F200800829 /* ViewControllerLogicTest.swift */,
 				6765C7E523FB35F60083A5C5 /* ImageClassificationTests.swift */,
 				6E3BDDB4244AD224005170F9 /* PredictionLayerTests.swift */,
@@ -332,6 +335,7 @@
 		AAE79E58213521DA00E7AC1F /* ImageClassification */ = {
 			isa = PBXGroup;
 			children = (
+				678AED4925F087B600EF8DE8 /* iASLDebug.entitlements */,
 				6ED11B8B2424145E000CF870 /* short_notification.mp3 */,
 				6ED11B8C242414A1000CF870 /* simple_notification.mp3 */,
 				6E23ACD62416CB4000495F02 /* iASL.entitlements */,
@@ -1037,7 +1041,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = ImageClassification/iASL.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ImageClassification/iASLDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = N6ESLEE34B;

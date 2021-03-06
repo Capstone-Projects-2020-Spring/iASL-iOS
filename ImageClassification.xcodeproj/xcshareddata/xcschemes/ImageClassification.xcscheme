@@ -48,11 +48,14 @@
       </CodeCoverageTargets>
       <TestPlans>
          <TestPlanReference
-            reference = "container:iASLUITests/iASLTestPlan.xctestplan"
-            default = "YES">
+            reference = "container:iASLUITests/iASLTestPlan.xctestplan">
          </TestPlanReference>
          <TestPlanReference
             reference = "container:MonkeyTesting/MonkeyTesting.xctestplan">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:ImageClassificationTests/IntegrationTesting.xctestplan"
+            default = "YES">
          </TestPlanReference>
       </TestPlans>
       <Testables>
