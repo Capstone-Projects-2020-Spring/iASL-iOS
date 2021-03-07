@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		266F5D84B59FCB8A45F1CDE1 /* Pods_ImageClassification.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5AF8950F90431F20DC3AD81 /* Pods_ImageClassification.framework */; };
+		451A19EB26868B726DD51E7E /* libPods-MonkeyTesting.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B9DDF4E563E0A33E56C75517 /* libPods-MonkeyTesting.a */; };
 		60075D67242C00B500D84544 /* AddChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60075D66242C00B500D84544 /* AddChatVC.swift */; };
 		6013906A2437E1B100BFD61E /* ChatUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60075D68242C29F700D84544 /* ChatUserCell.swift */; };
 		6013906C2438F07200BFD61E /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6013906B2438F07200BFD61E /* Note.swift */; };
@@ -20,8 +21,6 @@
 		602A22232455299A00800829 /* iASLUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602A22222455299A00800829 /* iASLUITests.swift */; };
 		602A2225245529AC00800829 /* SpeechToTextVCTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602A2224245529AC00800829 /* SpeechToTextVCTest.swift */; };
 		602A2227245529F200800829 /* ViewControllerLogicTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602A2226245529F200800829 /* ViewControllerLogicTest.swift */; };
-		606C60D2244AC7810090A4AC /* ChatVCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60D1244AC7810090A4AC /* ChatVCUITests.swift */; };
-		606C60D4244ACCE80090A4AC /* LoginVCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60D3244ACCE80090A4AC /* LoginVCUITests.swift */; };
 		606C60D6244AD04C0090A4AC /* RemoteConversationVCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60D5244AD04C0090A4AC /* RemoteConversationVCUITests.swift */; };
 		606C60D8244AD1030090A4AC /* RemoteConversationVCTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60D7244AD1030090A4AC /* RemoteConversationVCTests.swift */; };
 		606C60DA244AD4A10090A4AC /* NotesVCUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606C60D9244AD4A10090A4AC /* NotesVCUITests.swift */; };
@@ -33,11 +32,10 @@
 		670E273C2424904A003E129E /* model.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 670E273B2424904A003E129E /* model.tflite */; };
 		6753514A245264B600691EFD /* ModelDataHandlerVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67535149245264B600691EFD /* ModelDataHandlerVideo.swift */; };
 		6765C7E623FB35F60083A5C5 /* ImageClassificationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6765C7E523FB35F60083A5C5 /* ImageClassificationTests.swift */; };
-		67ABF92624301CCE00881646 /* ASLKeyboardUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67ABF92524301CCE00881646 /* ASLKeyboardUITests.swift */; };
+		678AECF525EFFDFF00EF8DE8 /* MonkeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D41482244AAD0D001F5A73 /* MonkeyTests.swift */; };
+		678AED3B25F0032200EF8DE8 /* ASLKeyboardUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67ABF92524301CCE00881646 /* ASLKeyboardUITests.swift */; };
 		67ABF9282430299200881646 /* ASLKeyboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67ABF9272430299200881646 /* ASLKeyboardTests.swift */; };
 		67B31A99242C038C00DC15C4 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67B31A98242C038C00DC15C4 /* ChatVC.swift */; };
-		6E045A892455EB8C00C4E53C /* SpeechToTextVCTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E045A882455EB8C00C4E53C /* SpeechToTextVCTest.swift */; };
-		6E045A8B24560A8400C4E53C /* 1FirstTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E045A8A24560A8400C4E53C /* 1FirstTest.swift */; };
 		6E23ACD52416BE8E00495F02 /* RemoteConversationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E23ACD42416BE8E00495F02 /* RemoteConversationVC.swift */; };
 		6E3469932421CD64009F1E7D /* SpeechToTextVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E3469922421CD64009F1E7D /* SpeechToTextVC.swift */; };
 		6E3BDDB5244AD224005170F9 /* PredictionLayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E3BDDB4244AD224005170F9 /* PredictionLayerTests.swift */; };
@@ -47,7 +45,6 @@
 		6EB0FAA62453DD1300C37C81 /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB0FAA52453DD1300C37C81 /* GuideView.swift */; };
 		6EB8C85B2447A9DC0071F251 /* PredictionLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB8C85A2447A9DC0071F251 /* PredictionLayer.swift */; };
 		6EF328FB24173A430071E430 /* NotesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF328FA24173A430071E430 /* NotesVC.swift */; };
-		6EF769D8244B75AF00462E31 /* ViewControllerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF769D7244B75AF00462E31 /* ViewControllerUITests.swift */; };
 		7D0B97F0387C425D8B76491E /* libPods-iASLUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 977E4559E5913772C1A9629D /* libPods-iASLUITests.a */; };
 		AA5FEB7E21355CCC00F9BD4B /* labels.txt in Resources */ = {isa = PBXBuildFile; fileRef = AA5FEB7C21355CCC00F9BD4B /* labels.txt */; };
 		AAAB096E218981FA0015A1F2 /* CVPixelBufferExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAB096D218981FA0015A1F2 /* CVPixelBufferExtension.swift */; };
@@ -69,6 +66,13 @@
 			remoteGlobalIDString = AAE79E55213521DA00E7AC1F;
 			remoteInfo = ImageClassification;
 		};
+		678AECEC25EFFDF400EF8DE8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AAE79E4E213521DA00E7AC1F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AAE79E55213521DA00E7AC1F;
+			remoteInfo = ImageClassification;
+		};
 		67ABF91F24301C1C00881646 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AAE79E4E213521DA00E7AC1F /* Project object */;
@@ -79,6 +83,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		004237FB8B357147171C94CA /* Pods-MonkeyTesting.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MonkeyTesting.release.xcconfig"; path = "Target Support Files/Pods-MonkeyTesting/Pods-MonkeyTesting.release.xcconfig"; sourceTree = "<group>"; };
 		60075D66242C00B500D84544 /* AddChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddChatVC.swift; sourceTree = "<group>"; };
 		60075D68242C29F700D84544 /* ChatUserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUserCell.swift; sourceTree = "<group>"; };
 		6013906B2438F07200BFD61E /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
@@ -107,15 +112,19 @@
 		6765C7E323FB35F60083A5C5 /* ImageClassificationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ImageClassificationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6765C7E523FB35F60083A5C5 /* ImageClassificationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageClassificationTests.swift; sourceTree = "<group>"; };
 		6765C7E723FB35F60083A5C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6782D14E25F423AE00057BC3 /* IntegrationTesting.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = IntegrationTesting.xctestplan; sourceTree = "<group>"; };
+		678AECDF25EFFDB400EF8DE8 /* iASLTestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = iASLTestPlan.xctestplan; sourceTree = "<group>"; };
+		678AECE725EFFDF400EF8DE8 /* MonkeyTesting.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MonkeyTesting.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		678AECEB25EFFDF400EF8DE8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		678AECFE25EFFE2600EF8DE8 /* MonkeyTesting.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = MonkeyTesting.xctestplan; sourceTree = "<group>"; };
+		678AED4925F087B600EF8DE8 /* iASLDebug.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = iASLDebug.entitlements; sourceTree = "<group>"; };
 		67ABF91A24301C1C00881646 /* iASLUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iASLUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		67ABF91E24301C1C00881646 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		67ABF92424301CCE00881646 /* iASLUITests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iASLUITests-Bridging-Header.h"; sourceTree = "<group>"; };
 		67ABF92524301CCE00881646 /* ASLKeyboardUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASLKeyboardUITests.swift; sourceTree = "<group>"; };
 		67ABF9272430299200881646 /* ASLKeyboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASLKeyboardTests.swift; sourceTree = "<group>"; };
 		67B31A98242C038C00DC15C4 /* ChatVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatVC.swift; sourceTree = "<group>"; };
-		695AE7454CF1B1D5F0F30F7C /* Pods-iASLUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iASLUITests.release.xcconfig"; path = "Target Support Files/Pods-iASLUITests/Pods-iASLUITests.release.xcconfig"; sourceTree = "<group>"; };
-		6E045A882455EB8C00C4E53C /* SpeechToTextVCTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechToTextVCTest.swift; sourceTree = "<group>"; };
-		6E045A8A24560A8400C4E53C /* 1FirstTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 1FirstTest.swift; sourceTree = "<group>"; };
+		67D41482244AAD0D001F5A73 /* MonkeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonkeyTests.swift; sourceTree = "<group>"; };
 		6E23ACD42416BE8E00495F02 /* RemoteConversationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConversationVC.swift; sourceTree = "<group>"; };
 		6E23ACD62416CB4000495F02 /* iASL.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = iASL.entitlements; sourceTree = "<group>"; };
 		6E3469922421CD64009F1E7D /* SpeechToTextVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechToTextVC.swift; sourceTree = "<group>"; };
@@ -128,7 +137,6 @@
 		6ED11B8B2424145E000CF870 /* short_notification.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = short_notification.mp3; sourceTree = "<group>"; };
 		6ED11B8C242414A1000CF870 /* simple_notification.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = simple_notification.mp3; sourceTree = "<group>"; };
 		6EF328FA24173A430071E430 /* NotesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesVC.swift; sourceTree = "<group>"; };
-		6EF769D7244B75AF00462E31 /* ViewControllerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerUITests.swift; sourceTree = "<group>"; };
 		977E4559E5913772C1A9629D /* libPods-iASLUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-iASLUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A5AF8950F90431F20DC3AD81 /* Pods_ImageClassification.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImageClassification.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA5FEB7C21355CCC00F9BD4B /* labels.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = labels.txt; sourceTree = "<group>"; };
@@ -143,7 +151,10 @@
 		AAE79E942135237A00E7AC1F /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		AAE79E982135268800E7AC1F /* PreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
 		AAE79E992135268800E7AC1F /* CameraFeedManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraFeedManager.swift; sourceTree = "<group>"; };
+		B9DDF4E563E0A33E56C75517 /* libPods-MonkeyTesting.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MonkeyTesting.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAB0B908A329CDFE6822680B /* Pods-iASLUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iASLUITests.debug.xcconfig"; path = "Target Support Files/Pods-iASLUITests/Pods-iASLUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		CD84AE44CD36A184865B3F06 /* Pods-iASLUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iASLUITests.release.xcconfig"; path = "Target Support Files/Pods-iASLUITests/Pods-iASLUITests.release.xcconfig"; sourceTree = "<group>"; };
+		CF20D5AFC2BC207502919A6A /* Pods-MonkeyTesting.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MonkeyTesting.debug.xcconfig"; path = "Target Support Files/Pods-MonkeyTesting/Pods-MonkeyTesting.debug.xcconfig"; sourceTree = "<group>"; };
 		F613BE5F7693CFDBDFE11CA5 /* Pods-ImageClassification.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageClassification.debug.xcconfig"; path = "Target Support Files/Pods-ImageClassification/Pods-ImageClassification.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -152,6 +163,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		678AECE425EFFDF400EF8DE8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				451A19EB26868B726DD51E7E /* libPods-MonkeyTesting.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,7 +199,9 @@
 				F613BE5F7693CFDBDFE11CA5 /* Pods-ImageClassification.debug.xcconfig */,
 				65F3F0ED86672027FB2A57C5 /* Pods-ImageClassification.release.xcconfig */,
 				BAB0B908A329CDFE6822680B /* Pods-iASLUITests.debug.xcconfig */,
-				695AE7454CF1B1D5F0F30F7C /* Pods-iASLUITests.release.xcconfig */,
+				CD84AE44CD36A184865B3F06 /* Pods-iASLUITests.release.xcconfig */,
+				CF20D5AFC2BC207502919A6A /* Pods-MonkeyTesting.debug.xcconfig */,
+				004237FB8B357147171C94CA /* Pods-MonkeyTesting.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -198,6 +219,7 @@
 		6765C7E423FB35F60083A5C5 /* ImageClassificationTests */ = {
 			isa = PBXGroup;
 			children = (
+				6782D14E25F423AE00057BC3 /* IntegrationTesting.xctestplan */,
 				602A2226245529F200800829 /* ViewControllerLogicTest.swift */,
 				6765C7E523FB35F60083A5C5 /* ImageClassificationTests.swift */,
 				6E3BDDB4244AD224005170F9 /* PredictionLayerTests.swift */,
@@ -213,6 +235,16 @@
 			path = ImageClassificationTests;
 			sourceTree = "<group>";
 		};
+		678AECE825EFFDF400EF8DE8 /* MonkeyTesting */ = {
+			isa = PBXGroup;
+			children = (
+				67D41482244AAD0D001F5A73 /* MonkeyTests.swift */,
+				678AECEB25EFFDF400EF8DE8 /* Info.plist */,
+				678AECFE25EFFE2600EF8DE8 /* MonkeyTesting.xctestplan */,
+			);
+			path = MonkeyTesting;
+			sourceTree = "<group>";
+		};
 		67ABF91B24301C1C00881646 /* iASLUITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -220,8 +252,7 @@
 				602A22222455299A00800829 /* iASLUITests.swift */,
 				67ABF91E24301C1C00881646 /* Info.plist */,
 				67ABF92524301CCE00881646 /* ASLKeyboardUITests.swift */,
-				6E045A882455EB8C00C4E53C /* SpeechToTextVCTest.swift */,
-				6EF769D7244B75AF00462E31 /* ViewControllerUITests.swift */,
+				678AECDF25EFFDB400EF8DE8 /* iASLTestPlan.xctestplan */,
 				67ABF92424301CCE00881646 /* iASLUITests-Bridging-Header.h */,
 				606C60D1244AC7810090A4AC /* ChatVCUITests.swift */,
 				606C60D3244ACCE80090A4AC /* LoginVCUITests.swift */,
@@ -283,6 +314,7 @@
 				AAE79E58213521DA00E7AC1F /* ImageClassification */,
 				6765C7E423FB35F60083A5C5 /* ImageClassificationTests */,
 				67ABF91B24301C1C00881646 /* iASLUITests */,
+				678AECE825EFFDF400EF8DE8 /* MonkeyTesting */,
 				AAE79E57213521DA00E7AC1F /* Products */,
 				2A93ED2EC57590DCEFC6C694 /* Pods */,
 				F9D748E4AD56587DB4D5851D /* Frameworks */,
@@ -295,6 +327,7 @@
 				AAE79E56213521DA00E7AC1F /* iASL.app */,
 				6765C7E323FB35F60083A5C5 /* ImageClassificationTests.xctest */,
 				67ABF91A24301C1C00881646 /* iASLUITests.xctest */,
+				678AECE725EFFDF400EF8DE8 /* MonkeyTesting.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -302,6 +335,7 @@
 		AAE79E58213521DA00E7AC1F /* ImageClassification */ = {
 			isa = PBXGroup;
 			children = (
+				678AED4925F087B600EF8DE8 /* iASLDebug.entitlements */,
 				6ED11B8B2424145E000CF870 /* short_notification.mp3 */,
 				6ED11B8C242414A1000CF870 /* simple_notification.mp3 */,
 				6E23ACD62416CB4000495F02 /* iASL.entitlements */,
@@ -353,6 +387,7 @@
 			children = (
 				A5AF8950F90431F20DC3AD81 /* Pods_ImageClassification.framework */,
 				977E4559E5913772C1A9629D /* libPods-iASLUITests.a */,
+				B9DDF4E563E0A33E56C75517 /* libPods-MonkeyTesting.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -377,6 +412,25 @@
 			productName = ImageClassificationTests;
 			productReference = 6765C7E323FB35F60083A5C5 /* ImageClassificationTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		678AECE625EFFDF400EF8DE8 /* MonkeyTesting */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 678AECEE25EFFDF400EF8DE8 /* Build configuration list for PBXNativeTarget "MonkeyTesting" */;
+			buildPhases = (
+				DCB5EB4CC1B80A0894593A42 /* [CP] Check Pods Manifest.lock */,
+				678AECE325EFFDF400EF8DE8 /* Sources */,
+				678AECE425EFFDF400EF8DE8 /* Frameworks */,
+				678AECE525EFFDF400EF8DE8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				678AECED25EFFDF400EF8DE8 /* PBXTargetDependency */,
+			);
+			name = MonkeyTesting;
+			productName = MonkeyTesting;
+			productReference = 678AECE725EFFDF400EF8DE8 /* MonkeyTesting.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 		67ABF91924301C1C00881646 /* iASLUITests */ = {
 			isa = PBXNativeTarget;
@@ -423,12 +477,16 @@
 		AAE79E4E213521DA00E7AC1F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1140;
+				LastSwiftUpdateCheck = 1240;
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = "Y Media Labs";
 				TargetAttributes = {
 					6765C7E223FB35F60083A5C5 = {
 						CreatedOnToolsVersion = 11.3;
+						TestTargetID = AAE79E55213521DA00E7AC1F;
+					};
+					678AECE625EFFDF400EF8DE8 = {
+						CreatedOnToolsVersion = 12.4;
 						TestTargetID = AAE79E55213521DA00E7AC1F;
 					};
 					67ABF91924301C1C00881646 = {
@@ -458,12 +516,20 @@
 				AAE79E55213521DA00E7AC1F /* ImageClassification */,
 				6765C7E223FB35F60083A5C5 /* ImageClassificationTests */,
 				67ABF91924301C1C00881646 /* iASLUITests */,
+				678AECE625EFFDF400EF8DE8 /* MonkeyTesting */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		6765C7E123FB35F60083A5C5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		678AECE525EFFDF400EF8DE8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -571,6 +637,28 @@
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n$SRCROOT/RunScripts/download_models.sh\n\n";
 		};
+		DCB5EB4CC1B80A0894593A42 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MonkeyTesting-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -591,6 +679,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		678AECE325EFFDF400EF8DE8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				678AECF525EFFDFF00EF8DE8 /* MonkeyTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		67ABF91624301C1C00881646 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -600,6 +696,7 @@
 				6EF769D8244B75AF00462E31 /* ViewControllerUITests.swift in Sources */,
 				67ABF92624301CCE00881646 /* ASLKeyboardUITests.swift in Sources */,
 				602A2225245529AC00800829 /* SpeechToTextVCTest.swift in Sources */,
+				678AED3B25F0032200EF8DE8 /* ASLKeyboardUITests.swift in Sources */,
 				606C60DA244AD4A10090A4AC /* NotesVCUITests.swift in Sources */,
 				602A22232455299A00800829 /* iASLUITests.swift in Sources */,
 				606C60D6244AD04C0090A4AC /* RemoteConversationVCUITests.swift in Sources */,
@@ -644,6 +741,11 @@
 			isa = PBXTargetDependency;
 			target = AAE79E55213521DA00E7AC1F /* ImageClassification */;
 			targetProxy = 6765C7E823FB35F60083A5C5 /* PBXContainerItemProxy */;
+		};
+		678AECED25EFFDF400EF8DE8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AAE79E55213521DA00E7AC1F /* ImageClassification */;
+			targetProxy = 678AECEC25EFFDF400EF8DE8 /* PBXContainerItemProxy */;
 		};
 		67ABF92024301C1C00881646 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -719,6 +821,53 @@
 			};
 			name = Release;
 		};
+		678AECEF25EFFDF400EF8DE8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CF20D5AFC2BC207502919A6A /* Pods-MonkeyTesting.debug.xcconfig */;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = N6ESLEE34B;
+				INFOPLIST_FILE = MonkeyTesting/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = electricbluefish.MonkeyTesting;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = ImageClassification;
+			};
+			name = Debug;
+		};
+		678AECF025EFFDF400EF8DE8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 004237FB8B357147171C94CA /* Pods-MonkeyTesting.release.xcconfig */;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = N6ESLEE34B;
+				INFOPLIST_FILE = MonkeyTesting/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = electricbluefish.MonkeyTesting;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = ImageClassification;
+			};
+			name = Release;
+		};
 		67ABF92224301C1C00881646 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BAB0B908A329CDFE6822680B /* Pods-iASLUITests.debug.xcconfig */;
@@ -747,7 +896,7 @@
 		};
 		67ABF92324301C1C00881646 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 695AE7454CF1B1D5F0F30F7C /* Pods-iASLUITests.release.xcconfig */;
+			baseConfigurationReference = CD84AE44CD36A184865B3F06 /* Pods-iASLUITests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -896,7 +1045,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = ImageClassification/iASL.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ImageClassification/iASLDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = N6ESLEE34B;
@@ -960,6 +1109,15 @@
 			buildConfigurations = (
 				6765C7EA23FB35F70083A5C5 /* Debug */,
 				6765C7EB23FB35F70083A5C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		678AECEE25EFFDF400EF8DE8 /* Build configuration list for PBXNativeTarget "MonkeyTesting" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				678AECEF25EFFDF400EF8DE8 /* Debug */,
+				678AECF025EFFDF400EF8DE8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

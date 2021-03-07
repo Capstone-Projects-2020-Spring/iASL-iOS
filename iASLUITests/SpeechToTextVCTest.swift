@@ -18,10 +18,13 @@ class SpeechToTextVCTest: XCTestCase {
     let uid = "ppmK3FXm7gPc6HwhS5wOvBtfLFP2"
 
     
-    
+	let app = XCUIApplication(bundleIdentifier: "org.iASL.LanguageTranslator")
+
     override func setUpWithError() throws {
-        XCUIApplication().launch()
-        let app = XCUIApplication()
+        
+		app.launchArguments.append("ui-testing")
+		app.launch()
+
         app/*@START_MENU_TOKEN@*/.staticTexts["Already a user? Login"]/*[[".buttons[\"Already a user? Login\"].staticTexts[\"Already a user? Login\"]",".staticTexts[\"Already a user? Login\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
         let emailTextField = app.textFields["Email Address"]
         emailTextField.tap()

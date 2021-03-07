@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "FA502E14-0CFB-469A-8872-7806736E60BD",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:ImageClassification.xcodeproj",
+        "identifier" : "678AECE625EFFDF400EF8DE8",
+        "name" : "MonkeyTesting"
+      }
+    }
+  ],
+  "version" : 1
+}

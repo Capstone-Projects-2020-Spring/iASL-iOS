@@ -27,8 +27,16 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
+      enableThreadSanitizer = "YES"
       codeCoverageEnabled = "YES"
       onlyGenerateCoverageForSpecifiedTargets = "YES">
+      <AdditionalOptions>
+         <AdditionalOption
+            key = "NSZombieEnabled"
+            value = "YES"
+            isEnabled = "YES">
+         </AdditionalOption>
+      </AdditionalOptions>
       <CodeCoverageTargets>
          <BuildableReference
             BuildableIdentifier = "primary"
@@ -38,6 +46,18 @@
             ReferencedContainer = "container:ImageClassification.xcodeproj">
          </BuildableReference>
       </CodeCoverageTargets>
+      <TestPlans>
+         <TestPlanReference
+            reference = "container:iASLUITests/iASLTestPlan.xctestplan">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:MonkeyTesting/MonkeyTesting.xctestplan">
+         </TestPlanReference>
+         <TestPlanReference
+            reference = "container:ImageClassificationTests/IntegrationTesting.xctestplan"
+            default = "YES">
+         </TestPlanReference>
+      </TestPlans>
       <Testables>
          <TestableReference
             skipped = "NO">
@@ -48,6 +68,11 @@
                BlueprintName = "ImageClassificationTests"
                ReferencedContainer = "container:ImageClassification.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "ViewControllerLogicTest/testPerformanceExample()">
+               </Test>
+            </SkippedTests>
             <LocationScenarioReference
                identifier = "com.apple.dt.IDEFoundation.CurrentLocationScenarioIdentifier"
                referenceType = "1">
@@ -60,6 +85,21 @@
                BlueprintIdentifier = "67ABF91924301C1C00881646"
                BuildableName = "iASLUITests.xctest"
                BlueprintName = "iASLUITests"
+               ReferencedContainer = "container:ImageClassification.xcodeproj">
+            </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "MonkeyTests">
+               </Test>
+            </SkippedTests>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "678AECE625EFFDF400EF8DE8"
+               BuildableName = "MonkeyTesting.xctest"
+               BlueprintName = "MonkeyTesting"
                ReferencedContainer = "container:ImageClassification.xcodeproj">
             </BuildableReference>
          </TestableReference>

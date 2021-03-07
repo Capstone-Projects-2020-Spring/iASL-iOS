@@ -478,7 +478,8 @@ extension CameraBoard {
 
         DispatchQueue.global().async {
             self.didOutput(pixelBuffer: buffer)
-        }
+		}
+		
     }
 	fileprivate func setPreviewViewOrientaion() {
 		switch UIDevice.current.orientation {

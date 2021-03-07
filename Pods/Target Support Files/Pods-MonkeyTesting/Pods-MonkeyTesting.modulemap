@@ -1,0 +1,6 @@
+module Pods_MonkeyTesting {
+  umbrella header "Pods-MonkeyTesting-umbrella.h"
+
+  export *
+  module * { export * }
+}

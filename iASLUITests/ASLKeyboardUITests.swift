@@ -7,113 +7,120 @@
 //
 
 import XCTest
-import SwiftMonkey
+
 class ASLKeyboardUITests: XCTestCase {
 	// FIXME: Fix UI Testing for Github CI/CD
-//	let application = XCUIApplication()
-//	override func setUp() {
-//        // Put setup code here. This method is called before the invocation of each test method in the class.
-//
-//        // In UI tests it is usually best to stop immediately when a failure occurs.
-//        continueAfterFailure = false
-//
-//        // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
-//		XCUIApplication().launch()
-//		var count = 0
-//		addUIInterruptionMonitor(withDescription: "System Dialog") { (alert) -> Bool in
-//		  let okButton = alert.buttons["OK"]
-//		  if okButton.exists {
-//			okButton.tap()
-//			count += 1
-//		  }
-//
-//		  let allowButton = alert.buttons["Allow"]
-//		  if allowButton.exists {
-//			allowButton.tap()
-//			count += 1
-//		  }
-//		  return true
-//		}
-//		print(count)
-//        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
-//    }
-//
-//	override func tearDown() {
-//        // Put teardown code here. This method is called after the invocation of each test method in the class.
-//    }
-//	func testMonkey() {
-//
-////		application.launchArguments = ["--MonkeyPaws"]
-//		XCUIApplication().launch()
-//		addUIInterruptionMonitor(withDescription: "System Dialog") { (alert) -> Bool in
-//			  let okButton = alert.buttons["OK"]
-//			  if okButton.exists {
-//				okButton.tap()
-//			  }
-//
-//			  let allowButton = alert.buttons["Allow"]
-//			  if allowButton.exists {
-//				allowButton.tap()
-//			  }
-//
-//			  return true
-//			}
-//			// Initialise the monkey tester with the current device
-//			// frame. Giving an explicit seed will make it generate
-//			// the same sequence of events on each run, and leaving it
-//			// out will generate a new sequence on each run.
-//			let monkey = Monkey(frame: XCUIApplication().frame)
-//			//let monkey = Monkey(seed: 123, frame: application.frame)
-//
-//			// Add actions for the monkey to perform. We just use a
-//			// default set of actions for this, which is usually enough.
-//			// Use either one of these but maybe not both.
-//
-//			// XCTest private actions seem to work better at the moment.
-//			// before Xcode 10.1, you can use
-//			// monkey.addDefaultXCTestPrivateActions()
-//
-//			// after Xcode 10.1 We can only use public API
-//		monkey.addDefaultUIAutomationActions()
-//
-//			// UIAutomation actions seem to work only on the simulator.
-//			//monkey.addDefaultUIAutomationActions()
-//
-//			// Occasionally, use the regular XCTest functionality
-//			// to check if an alert is shown, and click a random
-//			// button on it.
-//			monkey.addXCTestTapAlertAction(interval: 100, application: XCUIApplication())
-//
-//			// Run the monkey test indefinitely.
-//		monkey.monkeyAround(forDuration: 100)
-//	}
-	/*
-    func testASLKeyboardLaunchesNoErroneousInput() {
-        // Use recording to get started writing UI tests.
-
+	let application = XCUIApplication(bundleIdentifier: "org.iASL.LanguageTranslator")
+	override func setUp() {
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+		application.launchArguments.append("ui-testing")
+        // In UI tests it is usually best to stop immediately when a failure occurs.
+        continueAfterFailure = false
+        // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
+		application.launch()
+		
+		var count = 0
 		addUIInterruptionMonitor(withDescription: "System Dialog") { (alert) -> Bool in
 		  let okButton = alert.buttons["OK"]
 		  if okButton.exists {
 			okButton.tap()
+			count += 1
 		  }
 
 		  let allowButton = alert.buttons["Allow"]
 		  if allowButton.exists {
 			allowButton.tap()
+			count += 1
 		  }
-//			self.testASLKeyboardLaunchesNoErroneousInput()
 		  return true
 		}
-//		XCUIApplication().buttons["notesIcon"].tap()
-//		XCUIApplication().buttons["New Note"].tap()
-//		XCUIApplication().textViews.element.tap()
-//		let text = XCUIApplication().textViews.element.value as? String
-//		sleep(5)
-//		XCTAssert(text == "", "Should be blank")
+		application.activate()
+//		let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
 //
-//		//Test delete key
-//		XCUIApplication().keys["Delete"].tap()
+//		let alertAllowButton = springboard.buttons.element(boundBy: 1)
+//		if alertAllowButton.waitForExistence(timeout: 5) {
+//		   alertAllowButton.tap()
+//		}
+		print(count)
+		let validTestUser = "test1@gmail.com"
+		let password = "password" //super secret am I right?
+	
+		let alreadyButton = application/*@START_MENU_TOKEN@*/.staticTexts["Already a user? Login"]/*[[".buttons[\"Already a user? Login\"].staticTexts[\"Already a user? Login\"]",".staticTexts[\"Already a user? Login\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+		alreadyButton.waitForExistence(timeout: 5)
+		alreadyButton.tap()
+		let emailField = application.textFields["Email Address"]
+		emailField.tap()
+		emailField.typeText(validTestUser)
+		
+		let passwordSecureTextField = application.secureTextFields["Password"]
+		passwordSecureTextField.tap()
+		passwordSecureTextField.typeText(password)
+
+		application.buttons["Login"].tap()
+        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+    }
+
+	override func tearDown() {
+        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    }
+	
+	
+	/// Checks if the keyboard types random things with no camera data.
+    func testASLKeyboardLaunchesNoErroneousInput() {
+		
+		executionTimeAllowance = 30
+
+		
+		
+		let notes = application.buttons["notesIcon"]
+		notes.waitForExistence(timeout: 1)
+		notes.tap()
+		
+		application.buttons["New Note"].tap()
+		application.textViews.containing(.staticText, identifier:"Type note here...").element.tap()
+		application.buttons["back"].tap()
+		
 
     }
-*/
+
+	
+	func testKeyboardDelete() {
+		executionTimeAllowance = 30
+		let app = XCUIApplication()
+		let notes = app.buttons["notesIcon"]
+		notes.waitForExistence(timeout: 1)
+		notes.tap()
+		app.buttons["New Note"].tap()
+		let typeNoteHereTextView = app.textViews.containing(.staticText, identifier:"Type note here...").element
+		typeNoteHereTextView.waitForExistence(timeout: 1)
+		typeNoteHereTextView.tap()
+		
+		let staticText = app/*@START_MENU_TOKEN@*/.staticTexts["⌫"]/*[[".keys[\"Delete\"].staticTexts[\"⌫\"]",".staticTexts[\"⌫\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+		for i in 0..<100{
+			print(i)
+			staticText.tap()
+		}
+	
+		
+	}
+
+//	func testLogin() {
+//		
+//		let app = XCUIApplication()
+//		app.alerts["“iASL” Would Like to Access Speech Recognition"].scrollViews.otherElements.buttons["OK"].tap()
+//		
+//		let app2 = app
+//		app2/*@START_MENU_TOKEN@*/.staticTexts["Continue"]/*[[".buttons[\"Continue\"].staticTexts[\"Continue\"]",".staticTexts[\"Continue\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+//		app2/*@START_MENU_TOKEN@*/.staticTexts["Already a user? Login"]/*[[".buttons[\"Already a user? Login\"].staticTexts[\"Already a user? Login\"]",".staticTexts[\"Already a user? Login\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+//		app.textFields["Email Address"].tap()
+//		
+//		let passwordSecureTextField = app.secureTextFields["Password"]
+//		passwordSecureTextField.tap()
+//		passwordSecureTextField.tap()
+//		app.buttons["Login"].tap()
+//		app.alerts["“iASL” Would Like to Access the Camera"].scrollViews.otherElements.buttons["OK"].tap()
+//		app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 2).children(matching: .textView).element.tap()
+//		app/*@START_MENU_TOKEN@*/.staticTexts["Login"]/*[[".buttons[\"Login\"].staticTexts[\"Login\"]",".staticTexts[\"Login\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+//	
+//	}
 }
