@@ -18,19 +18,8 @@ class ViewControllerUITests: XCTestCase {
     let uid = "ppmK3FXm7gPc6HwhS5wOvBtfLFP2"
 
     override func setUp() {
+        // Put setup code here. This method is called before the invocation of each test method in the class.
         XCUIApplication().launch()
-        let app = XCUIApplication()
-        app/*@START_MENU_TOKEN@*/.staticTexts["Already a user? Login"]/*[[".buttons[\"Already a user? Login\"].staticTexts[\"Already a user? Login\"]",".staticTexts[\"Already a user? Login\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-        let emailTextField = app.textFields["Email Address"]
-        emailTextField.tap()
-        emailTextField.typeText(email)
-        
-        let passwordTextField = app.secureTextFields["Password"]
-        passwordTextField.tap()
-        passwordTextField.typeText(password)
-        
-        app.buttons["Login"].tap()
-        sleep(5)
 
     }
 
@@ -153,6 +142,7 @@ class ViewControllerUITests: XCTestCase {
         
         XCTAssertTrue(nameTextField.exists)
         
+
 //        XCTAssertTrue(emailTextField.exists)
 //
 //        XCTAssertTrue(passwordTextField.exists)

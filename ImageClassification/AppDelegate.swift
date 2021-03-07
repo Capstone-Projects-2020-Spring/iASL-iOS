@@ -30,7 +30,7 @@ var ranBefore:Bool?
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
 	///The backdrop for your app’s user interface and the object that dispatches events to your views.
   var window: UIWindow?
-	
+
 	/// Tells the delegate that the launch process is almost done and the app is almost ready to run.
 	/// - Parameters:
 	///   - application: The singleton app object.
@@ -44,11 +44,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     requestTranscribePermissions()
 
     FirebaseApp.configure()
-    
+
     let keychain = KeychainSwift(keyPrefix: "iasl_")
-    
+
     print("called app delegate")
-    
+
 
 
     //just for editing the chatVC
@@ -61,8 +61,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     Messaging.messaging().delegate = self
 
 
-    
-    
+
+
     #if DEBUG
         if ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil {
             // Code only executes when tests are running
@@ -88,46 +88,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
 
     #endif
-    
+
     //need a local scope so code can continue afterwards
-    
+
     //if we can get email and password from keychain, skip sign in screen
     if let email = keychain.get("email"), let password = keychain.get("password") {
         print("Did not get email and password")
-        
+
         //sign in with username and password
         Auth.auth().signIn(withEmail: email, password: password) { (_, err) in
             if err != nil {
                 print(err!)
                 return
             }
-            
+
             //successfully signed in
             print("you signed in successfully")
         }
-        
+
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = ViewController()
         window?.makeKeyAndVisible()
-        
+
     } else {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = LoginVC()
         window?.makeKeyAndVisible()
     }
-    
+
     self.window?.makeKeyAndVisible()
 
 	if CommandLine.arguments.contains("monkeyTesting") {
 		paws = MonkeyPaws(view: window!)
 	}
 
-	
+
     return true
 
   }
-	
-	
+
+
 	/// Asks the user to allow your app to perform speech recognition.
     func requestTranscribePermissions() {
         SFSpeechRecognizer.requestAuthorization { [unowned self] authStatus in
@@ -141,5 +141,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
 }
-
-

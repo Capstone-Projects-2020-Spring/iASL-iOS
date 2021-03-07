@@ -691,6 +691,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				606C60D2244AC7810090A4AC /* ChatVCUITests.swift in Sources */,
+				606C60D4244ACCE80090A4AC /* LoginVCUITests.swift in Sources */,
+				6EF769D8244B75AF00462E31 /* ViewControllerUITests.swift in Sources */,
+				67ABF92624301CCE00881646 /* ASLKeyboardUITests.swift in Sources */,
 				602A2225245529AC00800829 /* SpeechToTextVCTest.swift in Sources */,
 				678AED3B25F0032200EF8DE8 /* ASLKeyboardUITests.swift in Sources */,
 				606C60DA244AD4A10090A4AC /* NotesVCUITests.swift in Sources */,
